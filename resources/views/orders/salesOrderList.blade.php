@@ -38,7 +38,7 @@
 
 <div class="container-fluid containerDiv">
     <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-3 sideBar">
+        <div class="col-lg-2 col-md-2 col-sm-2 sideBar">
             <fieldset class="border rounded mt-4 sidefieldSet">
                 <legend  class="float-none w-auto legendLabel mb-0">انتخاب</legend>
                     @if(hasPermission(Session::get("adminId"),"orderSalesN") > 1)
@@ -93,7 +93,7 @@
                     <button type="button" class="btn btn-success btn-sm topButton"  onclick="filterAllSefarishat()" > بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
             </fieldset>
         </div>
-        <div class="col-sm-9 col-md-9 col-sm-9 contentDiv">
+        <div class="col-sm-10 col-md-10 col-sm-10 contentDiv">
             <div class="row contentHeader"> 
                 <div class="col-lg-12 text-end mt-1 actionButton">
                     <button type="button" class="btn btn-success btn-sm" id="newOrderBtn" onclick="openNewOrderModal()">سفارش جدید &nbsp; <i class="fa fa-list"></i></button>
@@ -116,7 +116,7 @@
             </div>
             <div class="row mainContent">
                 <table class="table table-hover table-bordered table-sm">
-                    <thead class="tableHeader">
+                    <thead class="tableHeader" style="font-size:11px;">
                         <tr class="bg-success">
                             <th> ردیف </th>
                             <th class="forMobile" style="width:70px;"> شماره  </th>
@@ -127,7 +127,7 @@
                             <th class="forMobile" > مبلغ مانده </th>
                             <th class="forMobile" > پرداختی </th>
                             <th class="forMobile" > شرح </th>
-                            <th style="width:45px;">روز ارسال</th>
+                            <th style="width:55px;">روز ارسال</th>
                             <th class="forMobile" > ارسال </th>
                         </tr>
                     </thead>
@@ -143,7 +143,7 @@
                                 <td class="forMobile" style="color:red">{{number_format(($order->allPrice - $order->payedMoney)/10)}} ت</td>
                                 <td class="forMobile" >{{number_format(($order->payedMoney)/10)}}</td>
                                 <td class="forMobile" >{{$order->OrderDesc}}</td>
-                                <td style="width:35px;">{{substr($order->OrderDate,5)}}</td>
+                                <td style="width:55px;">{{substr($order->OrderDate,5)}}</td>
                                 <td class="forMobile" @if($order->OrderErsalTime==3) style="background-color:blue;color:white;" @endif>
                                     @if($order->OrderErsalTime==1) صبح 
                                     @elseif($order->OrderErsalTime==2) بعد از ظهر @else  فوری @endif
@@ -161,7 +161,7 @@
                 </table> <hr>
             
                 <table class="table table-hover table-bordered table-sm">
-                    <thead class="tableHeader">
+                    <thead class="tableHeader" style="font-size:11px;">
                         <tr>
                             <th> ردیف </th>
                             <th style="width:160px;"> نام کالا </th>
@@ -181,7 +181,7 @@
                 </table>
             </div>
             <div class="row contentFooter">
-                <div class="col-sm-12"> 
+                <div class="col-sm-12 mt-2 text-center"> 
                     <button class="sefOrderBtn btn btn-sm btn-success" value="TODAY">امروز</button> 
                     <button class="sefOrderBtn btn btn-sm btn-success" value="YESTERDAY">دیروز</button> 
                     <button class="sefOrderBtn btn btn-sm btn-success" value="HUNDRED">صد تای آخر</button>

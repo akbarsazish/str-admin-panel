@@ -6765,23 +6765,22 @@ $(document).on("keyup", '#pishKharidFirst', () => {
             searchTerm: $('#pishKharidFirst').val()
         },
         success: function (arrayed_result) {
-
             $('#kalaList').empty();
             for (var i = 0; i <= arrayed_result.length - 1; i++) {
                 $('#kalaList').append(`
-<tr onclick="checkCheckBox(this,event)">
-    <td>` + (i + 1) + `</td>
-    <td>` + arrayed_result[i].GoodName + `</td>
-    <td>
-        <input class="mainGroupId" type="checkBox"
-            name="kalaListIds" value="` + arrayed_result[i].GoodSn + `_` + arrayed_result[i].GoodName + `"
-            id="flexCheckChecked">
-    </td>
-</tr>`);
-            }
+                    <tr onclick="checkCheckBox(this,event)">
+                        <td>` + (i + 1) + `</td>
+                        <td>` + arrayed_result[i].GoodName + `</td>
+                        <td>
+                            <input class="mainGroupId" type="checkBox"
+                                name="kalaListIds" value="` + arrayed_result[i].GoodSn + `_` + arrayed_result[i].GoodName + `"
+                                id="flexCheckChecked">
+                        </td>
+                    </tr>`);
+              }
         },
         error: function (data) {
-            alert("پیدا نشد");
+            console.log("پیدا نشد");
         }
 
     });
@@ -8835,7 +8834,7 @@ $.ajax({
             }
         },
         error: function(data) {
-            alert("پیدا نشد");
+            console.log("پیدا نشد");
         }
 
     });
@@ -8870,7 +8869,7 @@ $.ajax({
             }
         },
         error: function(data) {
-            alert("پیدا نشد");
+            console.log("پیدا نشد");
         }
 
     }); }));
@@ -8902,7 +8901,7 @@ $.ajax({
             }
         },
         error: function(data) {
-            alert("پیدا نشد");
+            console.log("پیدا نشد");
         }
 
     });
@@ -8935,7 +8934,7 @@ $.ajax({
             }
         },
         error: function(data) {
-            alert("پیدا نشد");
+            console.log("پیدا نشد");
         }
     }); }));
 

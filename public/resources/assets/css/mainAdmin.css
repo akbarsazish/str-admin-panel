@@ -6568,6 +6568,12 @@ span.footerbasket {
     font-size: 14px;
 }
 
+.tableBodyTwo {
+    height: calc((100vh - 292px) / 2) !important;
+    overflow-y: scroll !important;
+    display: block !important;
+}
+
 .tableBodyNewOrder{
     height: calc(100vh - 548px);
     overflow-y: scroll !important;

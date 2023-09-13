@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('content')
 <style>
-    .gamerListsTable, #aksIdeaTable, #usedTakhfifCaseTable {
+    .gamerListsTable, #aksIdeaTable, #usedTakhfifCaseTable .usedTakhfifCodeTable{
         display:none;
     }
 </style>
@@ -13,23 +13,23 @@
                    
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="lotteryResultRadioBtn" checked>
-                        <label class="form-check-label me-4" for="assesPast"><span @if(wonLottery(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(wonLottery(Session::get("adminId"))>0){{wonLottery(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; نتیجه لاتری </label>
+                        <label class="form-check-label me-4" for="assesPast"> نتیجه لاتری  <span @if(wonLottery(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(wonLottery(Session::get("adminId"))>0){{wonLottery(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="usedTakhfifCaseRadioBtn">
-                        <label class="form-check-label me-4" for="assesPast"><span @if(usedTakhfifCase(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(usedTakhfifCase(Session::get("adminId"))>0){{usedTakhfifCase(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  استفاده از کیف پول </label>
+                        <label class="form-check-label me-4" for="assesPast"> استفاده از کیف پول  <span @if(usedTakhfifCase(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCase(Session::get("adminId"))>0){{usedTakhfifCase(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
 					<div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="usedTakhfifCodeRadioBtn">
-                        <label class="form-check-label me-4" for="usedTakhfifCodeRadioBtn"><span @if(usedTakhfifCode(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(usedTakhfifCode(Session::get("adminId"))>0){{usedTakhfifCode(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  استفاده از کد تخفیف </label>
+                        <label class="form-check-label me-4" for="usedTakhfifCodeRadioBtn">  استفاده از کد تخفیف  <span @if(usedTakhfifCode(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCode(Session::get("adminId"))>0){{usedTakhfifCode(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="gamerListRadioBtn">
-                        <label class="form-check-label me-4" for="assesPast"><span @if(playedGame(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(playedGame(Session::get("adminId"))>0){{playedGame(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  گیمر لیست  </label>
+                        <label class="form-check-label me-4" for="assesPast"> گیمر لیست  <span @if(playedGame(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(playedGame(Session::get("adminId"))>0){{playedGame(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="askIdeaResponse">
-                        <label class="form-check-label me-4" for="assesPast"> <span @if(hasNewNazar(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(hasNewNazar(Session::get("adminId"))>0){{hasNewNazar(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; نتایج نظر خواهی </label>
+                        <label class="form-check-label me-4" for="assesPast"> نتایج نظر خواهی  <span @if(hasNewNazar(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(hasNewNazar(Session::get("adminId"))>0){{hasNewNazar(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
                 </fieldset>
                 </div>
@@ -57,7 +57,7 @@
                                 <th>  حذف  </th>
                             </tr>
                         </thead>
-                        <tbody class="tableBody">
+                        <tbody class="tableBody" style="height:222px !important;">
                             @foreach ($lotteryTryResult as $lottery)
                                 <tr>
                                     <td style="width:60px">{{$loop->iteration}}</td>
@@ -91,102 +91,101 @@
                             @endforeach
                         </tbody>
                     </table>
-                                <!-- کیف تخفیفی   -->
-                                <table class="table table-bordered table-sm usedTakhfifCaseTable">
-                                    <thead class="tableHeader">
-                                    <tr>
-                                        <th> ردیف </th>
-                                        <th> کد </th>
-                                        <th> نام مشتری </th>
-                                        <th> شماره تماس </th>
-                                        <th> مبلغ (تومان) </th>
-                                        <th> تاریخ </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="tableBody">
-                                        @foreach($takhfifCaseResult as $takhfifResult)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$takhfifResult->PCode}}</td>
-                                                <td>{{$takhfifResult->Name}}</td>
-                                                <td>{{$takhfifResult->PhoneStr}}</td>
-                                                <td>{{number_format($takhfifResult->money/10)}}</td>
-                                                <td>{{$takhfifResult->usedDate}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <!-- کد تخفیفی   -->
-                                <table class="table table-bordered table-sm usedTakhfifCodeTable" id="usedTakhfifCodeTable">
-                                    <thead class="tableHeader">
-                                    <tr>
-                                        <th> ردیف </th>
-                                        <th> کد </th>
-                                        <th> نام مشتری </th>
-                                        <th> شماره تماس </th>
-                                        <th> مبلغ (تومان) </th>
-                                        <th> تاریخ </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="tableBody">
-                                        @foreach($usedTakhfifCodes as $code)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$code->PCode}}</td>
-                                                <td>{{$code->Name}}</td>
-                                                <td>{{$code->PhoneStr}}</td>
-                                                <td>{{number_format($code->UsedMoney/10)}}</td>
-                                                <td>{{$code->UsedDate}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            <!-- گیمر لیست  -->
-                            <table class="table table-bordered table-sm playedGame">
-                                <thead class="tableHeader">
+                    <!-- کیف تخفیفی   -->
+                    <table class="table table-bordered table-sm usedTakhfifCaseTable" id="usedTakhfifCaseTable" style="display:none;">
+                        <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد </th>
+                            <th> نام مشتری </th>
+                            <th> شماره تماس </th>
+                            <th> مبلغ (تومان) </th>
+                            <th> تاریخ </th>
+                        </tr>
+                        </thead>
+                        <tbody class="tableBody">
+                            @foreach($takhfifCaseResult as $takhfifResult)
                                 <tr>
-                                    <th>ردیف</th>
-                                    <th>بازی</th>
-                                    <th> نام مشتری </th>
-                                    <th>شماره تماس</th>
-                                    <th>جایزه (تومان)</th>
-                                    <th>حذف</th>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$takhfifResult->PCode}}</td>
+                                    <td>{{$takhfifResult->Name}}</td>
+                                    <td>{{$takhfifResult->PhoneStr}}</td>
+                                    <td>{{number_format($takhfifResult->money/10)}}</td>
+                                    <td>{{$takhfifResult->usedDate}}</td>
                                 </tr>
-                                </thead>
-                                <tbody class="tableBody">
-                                    @foreach ($players as $player)
-                                        <tr>
-                                            <td>{{number_format($loop->index+1)}}</td>
-                                            <td>{{$player->GameName}}</td>
-                                            <td>{{$player->Name}}</td>
-                                            <td>{{$player->PhoneStr}}</td>
-                                            <td>{{number_format($player->prize)}}</td>
-                                            <td> <i class="fa fa-trash" style="color:red; cursor:pointer"></i> </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- کد تخفیفی   -->
+                    <table class="table table-bordered table-sm usedTakhfifCodeTable" id="usedTakhfifCodeTable">
+                        <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد </th>
+                            <th> نام مشتری </th>
+                            <th> شماره تماس </th>
+                            <th> مبلغ (تومان) </th>
+                            <th> تاریخ </th>
+                        </tr>
+                        </thead>
+                        <tbody class="tableBody">
+                            @foreach($usedTakhfifCodes as $code)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$code->PCode}}</td>
+                                    <td>{{$code->Name}}</td>
+                                    <td>{{$code->PhoneStr}}</td>
+                                    <td>{{number_format($code->UsedMoney/10)}}</td>
+                                    <td>{{$code->UsedDate}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- گیمر لیست  -->
+                    <table class="table table-bordered table-sm playedGame">
+                        <thead class="tableHeader">
+                        <tr>
+                            <th>ردیف</th>
+                            <th>بازی</th>
+                            <th> نام مشتری </th>
+                            <th>شماره تماس</th>
+                            <th>جایزه (تومان)</th>
+                            <th>حذف</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tableBody">
+                            @foreach ($players as $player)
+                                <tr>
+                                    <td>{{number_format($loop->index+1)}}</td>
+                                    <td>{{$player->GameName}}</td>
+                                    <td>{{$player->Name}}</td>
+                                    <td>{{$player->PhoneStr}}</td>
+                                    <td>{{number_format($player->prize)}}</td>
+                                    <td> <i class="fa fa-trash" style="color:red; cursor:pointer"></i> </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-                          <!-- نتایج نظر خواهی  -->
-					     <div class="row rounded-2 tab-pane" id="aksIdeaTable">
-                            <div class="col-lg-12" id="nazaranjicontainer">
-                              @foreach($nazars as $nazar)
-                                <fieldset class="fieldsetBorder rounded mb-2">
-                                  <legend  class="float-none w-auto forLegend" style="font-size:14px; margin-bottom:2px;"> {{$nazar->Name}} </legend>	
-                                      <div class="idea-container">
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},1)"> 1- {{trim($nazar->question1)}} </button>
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},2)"> 2- {{trim($nazar->question2)}} </button>
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},3)"> 3- {{trim($nazar->question3)}} </button>
-                                              <div class="form-check mt-1">
-                                                <input class="form-check-input nazarIdRadio p-2" onclick="editNazar(this)" type="radio" name="nazarNameRadio" value="{{$nazar->nazarId}}" id="">
-                                              </div>
-                                      </div>
-                                </fieldset>
-                              @endforeach
-                            <hr>              
-                     </div>
+                    <!-- نتایج نظر خواهی  -->
+                    <div class="row rounded-2 tab-pane" id="aksIdeaTable">
+                    <div class="col-lg-12" id="nazaranjicontainer">
+                        @foreach($nazars as $nazar)
+                        <fieldset class="fieldsetBorder rounded mb-2">
+                            <legend  class="float-none w-auto forLegend" style="font-size:14px; margin-bottom:2px;"> {{$nazar->Name}} </legend>	
+                            <div class="idea-container">
+                                <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},1)"> 1- {{trim($nazar->question1)}} </button>
+                                <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},2)"> 2- {{trim($nazar->question2)}} </button>
+                                <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},3)"> 3- {{trim($nazar->question3)}} </button>
+                                <div class="form-check mt-1">
+                                    <input class="form-check-input nazarIdRadio p-2" onclick="editNazar(this)" type="radio" name="nazarNameRadio" value="{{$nazar->nazarId}}" id="">
+                                </div>
+                            </div>
+                        </fieldset>
+                        @endforeach
+                        <hr>              
+                    </div>
                 </div>
-
                 <div class="row contentFooter"> </div>
             </div>
         </div>

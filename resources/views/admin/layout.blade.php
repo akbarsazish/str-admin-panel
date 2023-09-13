@@ -62,10 +62,12 @@
                                                 <li><a class="mySidenav__item" href="{{url('/listKala')}}" > &nbsp;&nbsp; <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp;  کالا ها </a></li>
                                             @endif
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; <i class="fa fa-shopping-cart fa-lg" style="margin-right: 5%; color:#597c9d"></i> <span @if($imediatOrderCount < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif</span> &nbsp;&nbsp; سفارشات فروش </a>
+                                                <li><a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; <i class="fa fa-shopping-cart fa-lg" style="margin-right: 5%; color:#597c9d"></i> 
+                                                <span @if($imediatOrderCount < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif</span> &nbsp;&nbsp; </a>
                                             @endif
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; <i class="far fa-envelope" style="margin-right: 5%; color:#597c9d"></i><span @if(hasNewMessage(Session::get('adminId'))<1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewMessage(Session::get('adminId'))>0) {{hasNewMessage(Session::get('adminId'))}} @else 0 @endif</span></a></li>
+                                                <li><a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; <i class="far fa-envelope" style="margin-right: 5%; color:#597c9d"></i> پیامها
+                                                <span @if(hasNewMessage(Session::get('adminId'))<1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewMessage(Session::get('adminId'))>0) {{hasNewMessage(Session::get('adminId'))}} @else 0 @endif</span> </a></li>
                                             @endif
                                                 <li><a class="mySidenav__item" href="{{url('/notification')}}"> &nbsp;&nbsp; <i class="fa fa-bell fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp; نوتفیکیشن </a>
                                                 <li><a class="mySidenav__item" href="{{url('/discountCode')}}"> &nbsp;&nbsp; <i class="fa fa-code fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp; کد تخفیف </a>
@@ -82,7 +84,14 @@
                                             <li><a class="mySidenav__item" href="{{url('/payedOnline')}}"><i class="fa-light fa-credit-card fa-lg" style="margin-right: 5%"></i>&nbsp;&nbsp; پرداخت آنلاین </a></li>
                                         @endif
                                         @if(hasPermission(Session::get("adminId"),"gameAndLotteryN") > -1)
-                                            <li><a class="mySidenav__item" href="{{url('/lotteryResult')}}"><i class="fa-light fa-briefcase fa-lg" style="margin-right: 5%"></i> <span @if((hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))) < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))>0){{hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))}} @else 0 @endif</span> &nbsp;&nbsp; تخفیفات و امتیازات  </a></li>
+                                          <li>
+                                              <a class="mySidenav__item" href="{{url('/lotteryResult')}}">
+                                                <i class="fa-light fa-briefcase fa-lg" style="margin-right: 5%"></i>
+                                                  تخفیفات و امتیازات
+                                                  <span @if((hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))) < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))>0){{hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))}} @else 0 @endif</span>
+                                                &nbsp;&nbsp;
+                                             </a>
+                                          </li>
                                         @endif
                                         </ul>
                                     </li>

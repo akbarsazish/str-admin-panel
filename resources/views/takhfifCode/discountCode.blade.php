@@ -51,7 +51,7 @@
                                         <th>انتخاب</th>
                                     </tr>
                             </thead>
-                            <tbody class="tableBodyTwo" style="height:233px !important;" id="sendDiscountCodeList">
+                            <tbody class="tableBodyTwo" id="sendDiscountCodeList">
 								@foreach($smsHistory as $sms)
 									 <tr onclick="getSMSCustomers(this,{{$sms->ModelSn.",'".$sms->sabtDate."'"}})">
 										<td> {{$loop->iteration}} </td>
@@ -87,19 +87,19 @@
                    </div>
                 </div>
                 <div class="row contentFooter"> 
-                    <div class="button-container">
-                            <div class="button-item">
-                                <button type="button" class="btn btn-sm btn-success"> امروز  </button>
-                            </div>
-                            <div class="button-item">
-                                <button type="button" class="btn btn-sm btn-success">  دیروز  </button>
-                            </div>
-                            <div class="button-item">
-                                <button type="button" class="btn btn-sm btn-success">  صدتای آخر  </button>
-                            </div>
-                            <div class="button-item">
-                                 <button type="button" class="btn btn-sm btn-success"> همه   </button>
-                            </div>
+                    <div class="button-container text-center">
+						<div class="button-item">
+							<button type="button" class="btn btn-sm btn-success"> امروز  </button>
+						</div>
+						<div class="button-item">
+							<button type="button" class="btn btn-sm btn-success">  دیروز  </button>
+						</div>
+						<div class="button-item">
+							<button type="button" class="btn btn-sm btn-success">  صدتای آخر  </button>
+						</div>
+						<div class="button-item">
+							<button type="button" class="btn btn-sm btn-success"> همه   </button>
+						</div>
                     </div>
                 </div>
             </div>

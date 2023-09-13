@@ -332,7 +332,7 @@
                                                 <th>فعال</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="tableBody"id="mainGroupListfast">
+                                        <tbody class="tableBody"id="mainGroupListfast" style="height:calc(100vh - 255px) ! important">
                                             @foreach ($mainGroups as $group)
                                                 <tr onclick="changePicture(this)">
                                                     <td>{{ $loop->index+1 }}</td>
@@ -368,7 +368,7 @@
                                                 <th>تصویر</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="tableBody" id="subGroup2"></tbody>
+                                        <tbody class="tableBody" id="subGroup2" style="height:calc(100vh - 255px) !important"></tbody>
                                     </table>
                          </div>
 
