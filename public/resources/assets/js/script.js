@@ -13021,13 +13021,11 @@ $("#viewQuestion").on("click", () => {
     $('.modal-dialog').draggable({
         handle: ".modal-header"
     });
-
     $("#viewQuestionModal").modal("show");
 })
 
 
 $("#checkToStartAgainNazar").on("change", () => {
-
     $("#startAgainNazarBtn").prop('disabled', false);
 })
 
@@ -13040,7 +13038,7 @@ $("#mainPageSettings").on("change", () => {
     $(".specialSettings").fadeOut("slow");
     $(".emteyazSettingsPart").fadeOut("slow");
 	$("#askIdea").fadeOut("slow");
-	$("#takhfifCodeStuff").fadeOut("slow");
+	$("#takhfifCodeStuff").css("display", "none");
 })
 $("#specialSettings").on("change", () => {
     $(".specialSettings").fadeIn("slow");
@@ -13070,10 +13068,13 @@ $("#takhfifCodeSettings").on("change", () => {
     $(".mainPageStuff").fadeOut("slow");
     $(".specialSettingsBtn").fadeOut("slow");
 	$("#takhfifCodeStuff").fadeIn("slow");
+	$("#nazarSanjiBtn").css("display", "none");
 });
 
 $("#nazarSanjiSettings").on("change", () => {
     $(".emteyazSettingsPart").fadeOut("slow");
+    $("#nazarSanjiSettingBtn").css("display", "block");
+	$("#nazarSanjiBtn").fadeIn("slow");
     $("#myTable").fadeOut("slow");
     $(".specialSettings").fadeOut("slow");
     $(".mainPageStuff").fadeOut("slow");

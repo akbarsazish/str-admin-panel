@@ -12,7 +12,12 @@
 }
 .selectBg {
 	background-color:red;
-	}
+}
+
+#takhfifCodeStuff, #askIdea, #nazarSanjiSettingBtn {
+  display:none;
+}
+
 </style>
 
 <div class="container-fluid containerDiv">
@@ -21,7 +26,8 @@
                 <fieldset class="border rounded sidefieldSet">
                     <legend  class="float-none w-auto legendLabel mb-0"> تنظیمات </legend>
                     <div class="form-check">
-                        <input class="form-check-input p-2 float-start" type="radio" name="settings" id="mainPageSettings" checked>				   <label class="form-check-label me-4" for="assesPast"> تنظیمات صفحه اصلی  </label>
+                        <input class="form-check-input p-2 float-start" type="radio" name="settings" id="mainPageSettings" checked>
+                        <label class="form-check-label me-4" for="assesPast"> تنظیمات صفحه اصلی  </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="specialSettings">
@@ -76,6 +82,13 @@
                           <input type="hidden" id="partIdForPriorityUp" name="partId">
                         </form>
                         @endif
+                        <span id="nazarSanjiSettingBtn">
+                          @if(hasPermission(Session::get("adminId"),"emptyazSettingN") > 1)
+                            <button type="button" class="btn btn-sm btn-success" id="insetQuestionBtn"> افزودن  <i class="fa fa-plus"></i> </button>
+                            <button type="button" class="btn btn-sm btn-success" id="editQuestionBtn" disabled> ویرایش  <i class="fa fa-edit" style="color:yellow"></i> </button>
+                            <button type="button" class="btn btn-sm btn-success" onclick="startAgainNazar()" id="startAgainNazarBtn" disabled> از سرگیری نظر خواهی <i class="fa fa-history" style="color:white"></i> </button>
+                            @endif
+                        </span>
                     </div>
                 </div>
 
@@ -90,7 +103,7 @@
                         <th>انتخاب</th>
                       </tr>
                     </thead>
-                    <tbody class="tableBody" id="ctlMainPBody">
+                    <tbody class="tableBody" id="ctlMainPBody" style="height: calc(100vh - 200px);">
                       @foreach ($parts as $part)
                         <tr onclick="setMainPartStuff(this,{{$part->id}})" class="selected">
                           <td  style="">{{ $loop->index+1 }}</td>
@@ -105,7 +118,7 @@
                   
                 <!-- تنظیمات اختصاصی  -->
             <div class='mb-2 specialSettings tab-design'>
-               <div class="container-fluid px-2">
+               <div class="container-fluid px-1">
                     <ul class="header-list nav nav-tabs" data-tabs="tabs">
                         <li><a class="active" data-toggle="tab" style="color:black;" href="#webSettings"> تنظیمات عمومی</a></li>
                         <li><a data-toggle="tab" style="color:black;"  href="#cost">تنظیمات ارسال</a></li>
@@ -117,29 +130,27 @@
                     </ul>
                    <form action="{{url('/doUpdatewebSpecialSettings')}}" method="post" enctype="multipart/form-data" id="webSpecialSettingForm">
                      @csrf
-                  <div class="c-checkout tab-content tableBody p-2" style="overflow-x:hidden">
+                  <div class="c-checkout tab-content p-1" style="overflow-x:hidden; height: calc(100vh - 211px);">
                      <div class="tab-pane active" id="webSettings">
-                        <fieldset class="border rounded ئ-1">
+                        <fieldset class="border rounded">
                             <legend  class="float-none w-auto legendLabel m-0">  تنظیمات نمایش   </legend>
                          <div class="row bg-white m-1">
                             <div class="col-sm-3">
-                                <input type="checkbox" @if($settings->buyFromHome==1) checked @endif value="" name="buyFromHome[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"/>
+                               <input type="checkbox" @if($settings->buyFromHome==1) checked @endif value="" name="buyFromHome[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"/>
                                 <label class="form-check-label ms-2" for="flexCheckDefault">
                                     امکان خرید از صفحه اصلی 
                                 </label>
                             </div>
                             <div class="col-sm-2">
-								
-                                    <input type="checkbox" @if($settings->enamad==1) checked @endif value="" name="enamad[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"> 
-                                    <label class="form-check-label ms-2" for="flexCheckDefault">
+                               <input type="checkbox" @if($settings->enamad==1) checked @endif value="" name="enamad[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"> 
+                                  <label class="form-check-label ms-2" for="flexCheckDefault">
                                     نمایش E-Namad در Home
-                                    </label>
-								<br/>
-								                                    <input type="checkbox" @if($settings->enamadOther==1) checked @endif value="" name="enamadOther[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"> 
-                                    <label class="form-check-label ms-2" for="flexCheckDefault">
-                                    نمایش E-Namad در بقیه صفحات
-                                    </label>
-								
+                                </label>
+								              <br/>
+								              <input type="checkbox" @if($settings->enamadOther==1) checked @endif value="" name="enamadOther[]" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  class="form-check-input float-start"> 
+                                <label class="form-check-label ms-2" for="flexCheckDefault">
+                                   نمایش E-Namad در بقیه صفحات
+                                </label>
                             </div>
                             <div class="col-sm-3">
                                 <label class="form-check-label ms-2" for="flexCheckDefault">
@@ -160,7 +171,7 @@
                             </div>
                             <div class="col-sm-2 float-start">نمایش لوگو 
                                 <div class="form-check">
-                                    <input type="radio" @if($settings->logoPosition==0)
+                                  <input type="radio" @if($settings->logoPosition==0)
 									checked @endif value="0"
 									@if(hasPermission(Session::get("adminId"),"specialSettingN") < 1)
 									disabled @endif  class="form-check-input float-start" name="logoPosition">
@@ -219,33 +230,33 @@
 							 <option @if($settings->currency==10) selected @endif value="10"> تومان </option>
 							</select>
 						</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  id="serachKalaForSubGroup"  placeholder="جستجو">
-                                <table class="table table-bordered table table-hover table-sm">
-                                    <thead class="tableHeader">
-                                        <tr>
-                                            <th>ردیف</th>
-                                            <th>اسم </th>
-                                            <th>
-                                             <input type="checkbox" name="" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif   class="selectAllFromTop form-check-input"  >
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="tableBody"  id="allstocks">
-                                        @foreach ($stocks as $stock)
-                                        <tr onclick="checkCheckBox(this,event)">
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$stock->NameStock}} </td>
-                                            <td>
-                                             <input type="checkbox" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  value="{{$stock->SnStock.'_'.$stock->NameStock}}" name="allStocks[]" class="form-check-input" >
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                        </div>
+          </div>
+            <div class="row">
+              <div class="col-sm-5">
+                  <input type="text" class="form-control form-control-sm" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif  id="serachKalaForSubGroup"  placeholder="جستجو">
+                  <table class="table table-bordered table table-hover table-sm">
+                      <thead class="tableHeader">
+                          <tr>
+                              <th>ردیف</th>
+                              <th>اسم </th>
+                              <th>
+                                <input type="checkbox" name="" @if(hasPermission(Session::get("adminId"),"specialSettingN") < 1) disabled @endif   class="selectAllFromTop form-check-input"  >
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody class="tableBody"  id="allstocks">
+                          @foreach ($stocks as $stock)
+                          <tr onclick="checkCheckBox(this,event)">
+                              <td>{{$loop->iteration}}</td>
+                              <td>{{$stock->NameStock}} </td>
+                              <td>
+                                <input type="checkbox" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  value="{{$stock->SnStock.'_'.$stock->NameStock}}" name="allStocks[]" class="form-check-input" >
+                              </td>
+                          </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+                </div>
 
                         <div class="col-sm-2">
                             <div class='modal-body' style="position:relative; right: 15%; top: 30%;">
@@ -289,14 +300,14 @@
                        </div>
                      </div>
                 </div>
-                <div class="tab-pane" id="cost">
-                        <div class="c-checkout" style="border-radius:10px 10px 2px 2px;">
-                                <div class="row" style="padding:1% 2% 0% 1%;">
-                                  <div class="col-sm-4"> 
-                                    <div class="input-group input-group-sm mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">متن قبل از ظهر </span>
-                                        <input type="text" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  class="form-control form-control-sm" @if ($settings) value="{{$settings->moorningTimeContent}}" @endif name="moorningTimeContent">
-                                    </div>
+                        <div class="tab-pane" id="cost">
+                           <div class="c-checkout" style="border-radius:10px 10px 2px 2px;">
+                              <div class="row" style="padding:1% 2% 0% 1%;">
+                                <div class="col-sm-4"> 
+                                  <div class="input-group input-group-sm mb-3">
+                                      <span class="input-group-text" id="inputGroup-sizing-default">متن قبل از ظهر </span>
+                                      <input type="text" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  class="form-control form-control-sm" @if ($settings) value="{{$settings->moorningTimeContent}}" @endif name="moorningTimeContent">
+                                  </div>
                                   </div>
                                   <div class="col-sm-4"> 
                                     <div class="input-group input-group-sm mb-3">
@@ -307,7 +318,7 @@
                                 </div>
                                 
                                 <div class="row py-3">
-                                    <div class="col-md-4 ">
+                                  <div class="col-md-4 ">
 										&nbsp; <input class="form-check-input" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  type="checkbox"  name="firstDayMoorningActive" @if($settings) @if($settings->firstDayMoorningActive==1) checked @else  @endif @endif id="third-price">
                                         <label for="userName">قبل از ظهر روز اول</label> &nbsp;
                                         <input class="form-check-input" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  type="checkbox"  name="firstDayAfternoonActive" @if($settings) @if($settings->firstDayAfternoonActive==1) checked @else  @endif @endif   id="third-price">
@@ -413,7 +424,7 @@
                     <div class="tab-pane" id="social">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <i class="fab fa-instagram 4x" style="color:#e94a66; font-size:22px;"></i>
+                                    <i class="fab fa-instagram" style="color:#e94a66; font-size:22px;"></i>
                                     <label for="userName"> انستاگرام</label>
                                     <input type="text" class="form-control form-control-sm" @if(hasPermission(Session::get( 'adminId'),'specialSettingN' ) < 1) disabled @endif  @if ($settings) value="{{$settings->telegramId}}" @endif name="telegramId">
                                 </div>
@@ -665,15 +676,8 @@
                    </div>
                 </div>
 		<!--- شروع کد تخفیف -->
-                          <div class="row rounded-2 tab-pane" id="takhfifCodeStuff">
+                      <div class="row px-0 tab-pane" id="takhfifCodeStuff">
                             <div class="col-lg-12" >
-                            <div class="col-lg-12 text-end py-1">
-                              @if(hasPermission(Session::get("adminId"),"emptyazSettingN") > 1)
-                                <button type="button" class="btn btn-sm btn-success" id="addTakhfifCodeBtn"> افزودن  <i class="fa fa-plus"></i> </button>
-                            
-                                <button type="button" class="btn btn-sm btn-success" id="editTakhfifCodeBtn" disabled> ویرایش  <i class="fa fa-edit" style="color:yellow"></i> </button>
-                                @endif
-                            </div>
                               <table class="table table-striped table-bordered table-sm">
                                   <thead class="tableHeader">
                                         <tr>
@@ -685,7 +689,7 @@
                                            
                                         </tr>
                                   </thead>
-                                  <tbody class="tableBody" id="smsModelBody" style="height:222px !important;">
+                                  <tbody class="tableBody" id="smsModelBody" style="height:calc(100vh - 222px)">
                                      @foreach($smsModels as $model)
 									  	                  <tr onclick="setModelStuff(this,{{$model->Id}})">
                                             <td> {{$loop->iteration}} </td>
@@ -702,26 +706,17 @@
 			                    </div>
 <!--- شروع نظر سنجی -->
 	                     <div class="row" id="askIdea">
-                            <div class="col-lg-12 text-end py-1">
-                              @if(hasPermission(Session::get("adminId"),"emptyazSettingN") > 1)
-                                <button type="button" class="btn btn-sm btn-success" id="insetQuestionBtn"> افزودن  <i class="fa fa-plus"></i> </button>
-                            
-                                <button type="button" class="btn btn-sm btn-success" id="editQuestionBtn" disabled> ویرایش  <i class="fa fa-edit" style="color:yellow"></i> </button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="startAgainNazar()" id="startAgainNazarBtn" disabled> از سرگیری نظر خواهی <i class="fa fa-history" style="color:white"></i> </button>
-                                @endif
-                            </div>
-
                             <div class="col-lg-12" id="nazaranjicontainer">
                               @foreach($nazars as $nazar)
                                 <fieldset class="fieldsetBorder rounded mb-2">
                                   <legend  class="float-none w-auto forLegend" style="font-size:14px; margin-bottom:2px;"> {{$nazar->Name}} </legend>	
                                       <div class="idea-container">
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},1)"> 1- {{trim($nazar->question1)}} </button>
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},2)"> 2- {{trim($nazar->question2)}} </button>
-                                              <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},3)"> 3- {{trim($nazar->question3)}} </button>
-                                              <div class="form-check mt-1">
-                                                <input class="form-check-input nazarIdRadio p-2" onclick="editNazar(this)" type="radio" name="nazarNameRadio" value="{{$nazar->nazarId}}" id="">
-                                              </div>
+                                          <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},1)"> 1- {{trim($nazar->question1)}} </button>
+                                          <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},2)"> 2- {{trim($nazar->question2)}} </button>
+                                          <button class="idea-item listQuestionBtn" onclick="showAnswers({{$nazar->nazarId}},3)"> 3- {{trim($nazar->question3)}} </button>
+                                          <div class="form-check mt-1">
+                                             <input class="form-check-input nazarIdRadio p-2" onclick="editNazar(this)" type="radio" name="nazarNameRadio" value="{{$nazar->nazarId}}" id="">
+                                          </div>
                                       </div>
                                 </fieldset>
                               @endforeach
@@ -737,7 +732,7 @@
                                           <th> <input type="checkbox"  name="" class="selectAllFromTop form-check-input"/>  </th>
                                       </tr>
                                 </thead>
-                                <tbody class="tableBody" style="height:222px !important;">
+                                <tbody class="tableBody" style="height:calc(100vh - 433px) !important;">
                                     <tr>
                                         <th scope="row">1</th>
                                         <td> محمود الیاسی  </td>
@@ -1731,8 +1726,8 @@
         </div>
       </div>
       <div class="modal-footer">
-           <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> بستن <i class="fa fa-xmark"> </i> </button>
-		  <button type="submit" class="btn btn-success"> ذخیره <i class="fa fa-save"> </i> </button>
+           <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal"> بستن <i class="fa fa-xmark"> </i> </button>
+		  <button type="submit" class="btn btn-sm btn-success"> ذخیره <i class="fa fa-save"> </i> </button>
       </div>
 	 </form>
     </div>
