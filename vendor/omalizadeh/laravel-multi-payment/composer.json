@@ -1,0 +1,82 @@
+{
+    "name": "omalizadeh/laravel-multi-payment",
+    "description": "A driver-based laravel package for online payments via multiple gateways",
+    "homepage": "https://github.com/omalizadeh/laravel-multi-payment",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "php",
+        "payment",
+        "bank",
+        "shetab",
+        "gateway",
+        "invoice",
+        "behpardakht",
+        "mellat",
+        "saman",
+        "sep",
+        "parsian",
+        "top",
+        "pec",
+        "pasargad",
+        "pep",
+        "eghtesad novin",
+        "zarinpal",
+        "zibal",
+        "idpay",
+        "payir"
+    ],
+    "authors": [
+        {
+            "name": "Omid Alizadeh",
+            "email": "om.alizadeh1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.5.5 || ^7.5",
+        "illuminate/contracts": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "illuminate/http": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "ramsey/uuid": "^4.0"
+    },
+    "suggest": {
+        "ext-bcmath": "Needed to use pasargad gateway",
+        "ext-openssl": "Needed to use eghtesad novin gateway",
+        "ext-simplexml": "Needed to use pasargad gateway",
+        "ext-soap": "Needed to use SOAP drivers: mellat, saman"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.27 || ^7.24 || ^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omalizadeh\\MultiPayment\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Omalizadeh\\MultiPayment\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Omalizadeh\\MultiPayment\\Providers\\MultiPaymentServiceProvider"
+            ],
+            "aliases": {
+                "PaymentGateway": "Omalizadeh\\MultiPayment\\Facades\\PaymentGateway"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit --color=always"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

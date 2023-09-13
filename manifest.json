@@ -1,0 +1,15 @@
+{
+    "name": "استار فود",
+    "short_name": "استارفود",
+    "start_url": "/",
+    "background_color": "#6777ef",
+    "description": "استارفود را نصب کنید تا دسترسی آسان داشته باشید!",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [{
+        "src": "logo.PNG",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+    }]
+}

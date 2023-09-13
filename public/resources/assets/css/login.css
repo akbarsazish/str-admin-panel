@@ -1,0 +1,203 @@
+﻿@import url(normalize.css);
+@import url(fontsans.css);
+*, :after,:before {
+    box-sizing: border-box;
+    margin: 0;
+    outline: none;
+}
+
+body {
+    direction: rtl;
+    font-size: 62.5%;
+    font-family: IRANSans;
+    font-weight: 300;
+    color: #515151;
+}
+
+a {
+    font-size: 1.4em;
+    text-decoration: none;
+    color: #fff;
+}
+
+li {
+    list-style: none;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+p {
+    font-size: 1.6em;
+}
+
+span {
+    font-size: 1.4em;
+}
+
+button {
+    cursor: pointer;
+    font-size: 1.4em;
+    user-select: none;
+}
+
+input,
+button {
+    border: none;
+}
+
+i,
+img,
+input {
+    vertical-align: middle;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.social .fa:before {
+    font-family: fontawesome;
+}
+
+textarea {
+    overflow: auto;
+}
+
+.fa-comment-dots:hover {
+    color: red;
+}
+    label{
+        font-size: 14px;
+        font-weight: bold;
+    }
+button{
+    margin:5px;
+}
+.rounded{
+    border:2px solid blue;
+}
+.container {
+    width: 1380px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
+.account-box {
+    margin: 15px auto
+}
+.register-logo {
+    margin-bottom: 18px
+}
+.register-logo img {
+    height: 49px;
+    width: 140px
+}
+.account-box .register {
+    width: 389px;
+    position: relative;
+    margin: 0 auto;
+}
+.account-box .headline {
+    border-bottom: 1px solid #ececec;
+    color: #656565;
+    padding: 17px 40px;
+    font-size: 1.8em;
+    line-height: 1.222;
+    font-weight: 700
+}
+.account-box .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px
+}
+.account-box form {
+    display: flex;
+    flex-direction: column
+}
+.account-box form>label {
+    color: #656565;
+    margin: 5px 0;
+    letter-spacing: -.6px;
+    font-size: 1.071rem;
+    line-height: 1.467;
+    font-weight: 400
+}
+.account-box form>input {
+    padding: 11px 8px;
+    color: #777;
+    font-size: 1.2em;
+    line-height: 21px;
+    width: 100%;
+    letter-spacing: -.8px;
+    border-radius: 5px;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    position: relative
+}
+.account-box input[type=checkbox] {
+    transform: scale(1.4);
+    margin: 0 5px
+}
+.account-box button {
+    padding: 13px 50px 13px 13px;
+    width: 100%;
+    font-size: 1.8em;
+    line-height: 1.222;
+    border-radius: 8px;
+    background-color: #00bfd6;
+    border: 1px solid #41a7b4;
+    color: #fff;
+    overflow: hidden;
+    letter-spacing: -.6px;
+    position: relative;
+    margin-bottom: 12px
+}
+.account-box button:before {
+    width: 95px;
+    height: 95px;
+    position: absolute;
+    right: -15px;
+    top: -20px;
+    background: hsla(0, 0%, 100%, .21);
+    content: "";
+    border-radius: 50%;
+    transition: .3s all ease-out
+}
+.account-box button:after {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    font-size: 30px
+}
+.account-box button i {
+    position: absolute;
+    right: 24px;
+    font-size: 1.2em
+}
+.account-box .foot {
+    padding: 23px 40px;
+    border-top: 1px solid rgba(96, 189, 201, .4);
+    background-color: rgba(96, 189, 201, .1)
+}
+.account-box .foot a {
+    color: #1ca2bd;
+    border-bottom: 1px dashed #1ca2bd
+}
+.account-box .login-foot {
+    background: rgba(93, 214, 0, .06);
+    border-top: 1px solid #d7e6bb
+}
+.account-box .login form {
+    display: block
+}
+.account-box .login form>input {
+    margin: 5px 0
+}
+.account-box .login form>label {
+    display: inline-block
+}

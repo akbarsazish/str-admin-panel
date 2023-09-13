@@ -1,0 +1,71 @@
+.starfood-loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: block;
+    background-color:transparent;
+}
+
+#loader {
+  display: none;
+}
+
+h6.loader1 {
+    text-align: center;
+    font-size: 2em;
+    color: transparent;
+    letter-spacing: 0.01em;
+    margin-top: 1rem;
+  }
+  
+.loader1 span {
+  text-shadow:
+    0 0 2px rgba(245, 88, 88, 0.9),
+    0 15px 25px rgba(0, 0, 0, 0.3),
+    0 -2px 3px rgba(0, 0, 0, 0.1),
+    0 -5px 10px rgba(255, 255, 255, 0.5),
+    0 5px 10px rgba(0, 0, 0, 0.3),
+    0 3px 4px rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(255, 255, 255, 0.45);
+    animation: loading 0.85s ease-in-out infinite alternate;
+}
+  
+  @keyframes loading {
+      to {text-shadow:
+      0 0 2px rgba(204, 208, 212,0.2),
+      0 0 3px rgba(0, 0, 0, 0.02),
+      0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 rgba(255, 255, 255, 0),
+      0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 rgba(255, 255, 255, 0),
+      0 0 0 rgba(255, 255, 255, 0);}
+  }
+  
+  .loader1 span:nth-child(2) {
+    animation-delay:0.20s;
+  }
+  
+  .loader1 span:nth-child(3) {
+    animation-delay:0.40s;
+  }
+  
+  .loader1 span:nth-child(4) {
+    animation-delay:0.60s;
+  }
+  
+  .loader1 span:nth-child(5) {
+    animation-delay:0.80s;
+  }
+
+.preload1 {
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto;
+}
+
+.img-load {
+  width: 5rem;
+  height: 5rem;
+}
