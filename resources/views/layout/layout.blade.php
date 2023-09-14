@@ -88,10 +88,12 @@
                         <button onclick="closeNav()" class="closeMenuButton"> <i class="fal fa-times fa-lg"></i> </button>
                         <a href="{{url('/profile')}}"> <i class="fal fa-user fa-lg"></i> {{Session::get('username')}} </a>
                         <a href="{{url('/allGroups')}}"> <i class="fal fa-th-large fa-lg"></i> دسته بندی کالا </a>
-                        <a href="{{url('/listFavorits')}}"><i class="fal fa-heart-square fa-lg"></i> مورد علاقه ها  </a>
+                        <a href="{{url('/listFavorits')}}">
+                            <i class="fal fa-heart-square fa-lg"></i> مورد علاقه ها  </a>
                        
-                        <a href="{{url('/messageList')}}"> <i class="far fa-envelope fa-lg"></i>   پیام ها 
-                        <span id="replayCountWeb" @if($countNewReplayMessage < 1) class="headerNotifications0 translate-middle badge rounded-pill bg-dark" @else class="headerNotifications1 position-absolute start-200 translate-middle badge rounded-pill bg-dark" @endif>@if($countNewReplayMessage>0){{$countNewReplayMessage}}@else 0 @endif</span>
+                        <a href="{{url('/messageList')}}"> 
+                            <i class="far fa-envelope fa-lg"></i>   پیام ها 
+                            <span id="replayCountWeb" @if($countNewReplayMessage < 1) class="headerNotifications0 translate-middle badge rounded-pill bg-dark" @else class="headerNotifications1 position-absolute start-200 translate-middle badge rounded-pill bg-dark" @endif>@if($countNewReplayMessage>0){{$countNewReplayMessage}}@else 0 @endif</span>
                         </a>
                         <a href="{{url('/bagCash')}}"> <i class="fal fa-star fa-lg"> </i> ستاره استارفود </a>
                         <a href="{{url('/requestCheck')}}"> <i class="fas fa-money-check fa-lg"> </i> خرید چکی  </a>

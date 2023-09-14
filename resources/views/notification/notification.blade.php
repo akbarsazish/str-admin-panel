@@ -52,24 +52,24 @@
                             <thead class="tableHeader">
                                     <tr>
                                         <th>ردیف</th>
-                                        <th> کد  </th>
-                                        <th>  تاریخ   </th>
-                                        <th> اسم  </th>
-                                        <th> عنوان </th>
+                                        <th style="width:55px"> کد  </th>
+                                        <th style="width:122px">  تاریخ   </th>
+                                        <th style="width:199px"> اسم  </th>
+                                        <th style="width:199px"> عنوان </th>
                                         <th>  متن  </th>
-                                        <th>انتخاب</th>
+                                        <th style="width:66px">انتخاب</th>
                                     </tr>
                             </thead>
                             <tbody class="tableBody" id="sentNotifList">
                                 @foreach($notifications as $notify)
                                     <tr>
                                         <td> {{$loop->iteration}} </td>
-                                        <td> {{$notify->PCode}} </td>
-                                        <td> {{$notify->sendPersianDate}} </td>
-                                        <td> {{$notify->Name}} </td>
-                                        <td> {{$notify->title}} </td>
+                                        <td style="width:55px"> {{$notify->PCode}} </td>
+                                        <td style="width:122px"> {{$notify->sendPersianDate}} </td>
+                                        <td style="width:199px"> {{$notify->Name}} </td>
+                                        <td  style="width:199px"> {{$notify->title}} </td>
                                         <td> {{$notify->body}} </td>
-                                        <td> <input class="form-check-input" type="radio" value="" id="" name="notificationRadio"> </td>
+                                        <td style="width:60px"> <input class="form-check-input" type="radio" value="" id="" name="notificationRadio"> </td>
                                     </tr>
                                 @endforeach
                             </tbody>
