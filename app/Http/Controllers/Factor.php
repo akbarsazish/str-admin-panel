@@ -15,6 +15,9 @@ class Factor extends Controller{
         $orderHDS=$request->post("orderHDS");
         $factorWasRemained=0;
         $lastFactSN=0;
+        $factDate=$request->post("sendOrderDate");
+        $fiscallYear=Session::get('FiscallYear');
+        $stockId=$request->post("stockId");
 //         DB::beginTransaction();
 
 // try {
@@ -25,7 +28,7 @@ class Factor extends Controller{
             $orderbys=DB::table("NewStarfood.dbo.orderBYSS")->where("SnHDS",$orderHDS)->get();
             $netPriceOrder=0;
             foreach($orderbys as $order){
-                $amount=DB::select("SELECT Amount,NewStarfood.dbo.getAmountUnit(SnGood) as AmountUnit FROM Shop.dbo.ViewGoodExistsInStock WHERE SnGood=$order->SnGood AND CompanyNo=5 AND FiscalYear=".Session::get("FiscallYear")." AND SnStock=23");
+                $amount=DB::select("SELECT Amount,NewStarfood.dbo.getAmountUnit(SnGood) as AmountUnit FROM Shop.dbo.ViewGoodExistsInStock WHERE SnGood=$order->SnGood AND CompanyNo=5 AND FiscalYear=".$fiscallYear." AND SnStock=$stockId");
                 if($amount[0]->Amount < $order->Amount){
                     $amountUnit=$amount[0]->AmountUnit;
                     $newPackAmount=(int)(($amount[0]->Amount)/$amountUnit);
@@ -43,57 +46,56 @@ class Factor extends Controller{
 
             // return $factorWasRemained;
             $order=$orders[0];
-            $factDate=$request->post("sendOrderDate");
-        
+            
             $customerSn=$order->CustomerSn;
             
             $takhfif=$order->Takhfif;//
             $inVoiceNumber=$order->InVoiceNumber;//
             
             $factDesc=$order->OrderDesc;
-        
-            $fiscallYear=Session::get('FiscallYear');
-        
             $SnGetAndPay=0;
         
-            $netPriceHDS=$netPriceOrder;//از سفارش گرفته شود
-            $payedPriceHDS=$order->payedMoney;//از سفارش گرفته شود
+            $netPriceHDS=$netPriceOrder;
+            $payedPriceHDS=$order->payedMoney;
             $isOnline=$order->isPayed;
-        
-            $inforPriceHDS=0;//از سفارش گرفته شود
-        
-            $stockId=$request->post("stockId");
-        
+            $inforPriceHDS=0;
             $factTime=Carbon::now()->format("H:i:s");
-        
-            $otherAddress=$order->OrderAddress;//از سفارش گرفته شود
-        
-            $ersalTime=$order->OrderErsalTime;//از سفارش گرفته شود
-        
-            $snAddress=$order->OrderSnAddress;//از سفارش گرفته شود
+            $otherAddress=$order->OrderAddress;
+            $ersalTime=$order->OrderErsalTime;
+            $snAddress=$order->OrderSnAddress;
 
             $factNo=1;
             $factNo=DB::table("Shop.dbo.FactorHDS")->where("FactType",3)->where("CompanyNo",5)->max("FactNo");
+            $sendedFactorInfo=[];
+            if($lastFactId>0){
+                $sendedFactorInfo=DB::select("SELECT * FROM Shop.dbo.FactorHDS WHERE FactDate='$factDate' AND OtherAddress='$otherAddress' AND CustomerSn=$customerSn");
+            }
+            if(count($sendedFactorInfo)<1){
+                DB::table("Shop.dbo.FactorHDS")->insert([
+                "CompanyNo"=>5
+                ,"FactType"=>3
+                ,"FactNo"=>$factNo+1
+                ,"FactDate"=>"$factDate"
+                ,"CustomerSn"=>$customerSn
+                ,"takhfif"=>$takhfif
+                ,"FactDesc"=>"$factDesc"
+                ,"FiscalYear"=>"$fiscallYear"
+                ,"SnGetAndPay"=>$SnGetAndPay
+                ,"NetPriceHDS"=>$netPriceHDS
+                ,"InforPriceHDS"=>$inforPriceHDS
+                ,"SnStockIn"=>$stockId
+                ,"SnUser1"=>21
+                ,"FactTime"=>"$factTime"
+                ,"OtherAddress"=>"$otherAddress"
+                ,"ErsalTime"=>$ersalTime
+                ,"SnAddress"=>$snAddress
+                ]);
 
-            DB::table("Shop.dbo.FactorHDS")->insert([
-            "CompanyNo"=>5
-            ,"FactType"=>3
-            ,"FactNo"=>$factNo+1
-            ,"FactDate"=>"$factDate"
-            ,"CustomerSn"=>$customerSn
-            ,"takhfif"=>$takhfif
-            ,"FactDesc"=>"$factDesc"
-            ,"FiscalYear"=>"$fiscallYear"
-            ,"SnGetAndPay"=>$SnGetAndPay
-            ,"NetPriceHDS"=>$netPriceHDS
-            ,"InforPriceHDS"=>$inforPriceHDS
-            ,"SnStockIn"=>$stockId
-            ,"SnUser1"=>21
-            ,"FactTime"=>"$factTime"
-            ,"OtherAddress"=>"$otherAddress"
-            ,"ErsalTime"=>$ersalTime
-            ,"SnAddress"=>$snAddress
-            ]);
+                $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
+            }else{
+                $lastFactSN=$sendedFactorInfo[0]->SerialNoHDS;
+                //DB::table("Shop.dbo.FactorHDS")->where("CustomerSn",$customerSn)->max("SerialNoHDS");
+            }
             //ثبت سفارش باقی مانده فاکتور
             $factorNumber=DB::select("SELECT MAX(OrderNo) as maxFact from NewStarfood.dbo.OrderHDSS WHERE CompanyNo=5");
             $factorNo=0;
@@ -103,14 +105,12 @@ class Factor extends Controller{
             $factorNo=$factorNo+1;
             if($factorWasRemained==1){
                 DB::insert("INSERT INTO NewStarfood.dbo.OrderHDSS (CompanyNo,OrderNo,OrderDate,CustomerSn,OrderDesc,OrderStatus,LastDatePay,LastDateTrue,FiscalYear,BazarYab,CountPrintOrder,SnUser,OrderAddress,OtherCustName,TahvilType,TahvilDesc,RanandehName,MashinNo,BarNameNo,IsExport,SnOrderHDSRecived,OrderOrPishFactor,OtherMobile,OtherTel,DateNovbat,TimeNovbat,Takhfif,OrderNo2,SnOrder2,NextOrderDate,LastOrderCust,SaveTimeOrder,LatOrder,LonOrder,Sal_SnCust,Sal_SnBazaryab,IsFax,FaxUser,FaxDate,FaxTime,PayTypeOrder,SnHDSTablet_O,SnSellerTablet_O,EzafatOrder,KosoratOrder,NameEzafatOrder,NameKosoratOrder,OrderErsalTime,OrderSnAddress,isSent,isPayed,payedMoney,InVoiceNumber)
-                VALUES(5,$factorNo,'$factDate',$customerSn,'باقی مانده است',0,'','','".Session::get('FiscallYear')."',0,0,3,'$otherAddress','',0,'','',0,0,0,0,0,'','','','',0,0,0,'',0,'$factTime',0,0,0,0,0,0,'','',0,0,0,0,0,'','',1,$snAddress,0,0,0,0)");
+                VALUES(5,$factorNo,'$factDate',$customerSn,'باقی مانده است',0,'','','".$fiscallYear."',0,0,3,'$otherAddress','',0,'','',0,0,0,0,0,'','','','',0,0,0,'',0,'$factTime',0,0,0,0,0,0,'','',0,0,0,0,0,'','',1,$snAddress,0,0,0,0)");
             }
 
             if($isOnline==1){
                 //آخرین شماره سند
                  $lastDocNoHds=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
-                // //آخرین شماره فاکتور مربوط  واریز کننده
-                 $lastFactorHDSSn=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
                 //وارد جدول سطح بالای داد و گرفت
                 DB::table("Shop.dbo.GetAndPayHDS")->insert(
                 ["CompanyNo"=>5
@@ -120,7 +120,7 @@ class Factor extends Controller{
                 ,"DocDescHDS"=>".آنلاین پرداخت شد"
                 ,"StatusHDS"=>0
                 ,"PeopelHDS"=>$customerSn
-                ,"FiscalYear"=>"".Session::get("FiscallYear").""
+                ,"FiscalYear"=>"".$fiscallYear.""
                 ,"SnFactor"=>0
                 ,"InForHDS"=>0
                 ,"NetPriceHDS"=>$payedPriceHDS//مبلغ به ریال
@@ -148,7 +148,7 @@ class Factor extends Controller{
                 ,"GAPSnTaf2"=>0
                 ,"GAPTafType2"=>0
                 ,"ExportSanadGAP"=>0
-                ,"SnFactForTasviyeh"=>$lastFactorHDSSn//آخرین فاکتور
+                ,"SnFactForTasviyeh"=>$lastFactSN//آخرین فاکتور
                 ,"MazanehPrice"=>0
                 ,"Fi_1_GramTala"=>0
                 ,"VaznTala"=>0
@@ -170,7 +170,7 @@ class Factor extends Controller{
                 ,"SnBank"=>0
                 ,"Branch"=>""
                 ,"SnChequeBook"=>0
-                ,"FiscalYear"=>"".Session::get("FiscallYear").""
+                ,"FiscalYear"=>"".$fiscallYear.""
                 ,"SnHDS"=>$lastSnPayHDS
                 ,"DocDescBYS"=>"پرداخت آنلاین"
                 ,"StatusBYS"=>0
@@ -195,20 +195,20 @@ class Factor extends Controller{
                 ,"SnOldHDSGAP"=>0
                 ,"SnSellerGap"=>0]);
                 DB::table("NewStarfood.dbo.payedOnline")->insert([
-                    'factorSn'=>$lastFactorHDSSn,
+                    'factorSn'=>$lastFactSN,
                     'payedMoney'=>$payedPriceHDS,
                     'invoiceNumber'=>"$inVoiceNumber"
                 ]);    
             }
             //وارد کردن داده های جدول زیر شاخه فاکتور
             
-            $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
+            
             $orders=DB::table("NewStarfood.dbo.orderBYSS")->where("SnHDS",$orderHDS)->get();
             $lastSnOrder=DB::select("SELECT MAX(SnOrder) as maxFact from NewStarfood.dbo.OrderHDSS")[0]->maxFact;
             $i=0;
             foreach($orders as $order){
                 $i+=1;
-                $amount=DB::select("SELECT Amount,NewStarfood.dbo.getAmountUnit(SnGood) as AmountUnit FROM Shop.dbo.ViewGoodExistsInStock WHERE SnGood=$order->SnGood AND CompanyNo=5 AND FiscalYear=".Session::get("FiscallYear")." AND SnStock=23");
+                $amount=DB::select("SELECT Amount,NewStarfood.dbo.getAmountUnit(SnGood) as AmountUnit FROM Shop.dbo.ViewGoodExistsInStock WHERE SnGood=$order->SnGood AND CompanyNo=5 AND FiscalYear=$fiscallYear AND SnStock=23");
                 if($amount[0]->Amount < $order->Amount){
                     $amountUnit=$amount[0]->AmountUnit;
                     $newPackAmount=(int)(($amount[0]->Amount)/$amountUnit);
@@ -295,7 +295,7 @@ class Factor extends Controller{
                 ,"SnFact"=>$lastFactSN
                 ,"SnAmel"=>$amel->SnAmel
                 ,"Price"=>$amel->Price
-                ,"FiscalYear"=>1402
+                ,"FiscalYear"=>$fiscallYear
                 ,"DescItem"=>$amel->DescItem]);
             }
         }

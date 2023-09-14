@@ -61,3 +61,5 @@ Route::post("/addRequestCheck",[Cheque::class,"addRequestCheck"]);
 Route::get("/getChequeReqState",[Cheque::class,"getChequeReqState"]);
 Route::get('/successPayApi',[Order::class,'finalizePayAndOrderApi']);
 Route::get("/publicSearchKalaApi",[Kala::class,"publicSearch"]);
+Route::get("/getFactorPaymentFormApi",[Order::class,"getFactorPaymentFormApi"]);
+Route::get("/finalizeFactorPayApi",[Order::class,"finalizeFactorPayApi"]);

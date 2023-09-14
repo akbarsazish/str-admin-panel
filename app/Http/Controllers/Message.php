@@ -216,8 +216,14 @@ class Message extends Controller
         $messageContent=$request->get('pmContent');
         $customerId=$request->get("psn");
         DB::insert("INSERT INTO NewStarfood.dbo.star_message (messageContent,readState,customerId)
-        VALUES('N".$messageContent."',0,".$customerId.")");
-            return Response::json("good");
+        VALUES('".$messageContent."',0,".$customerId.")");
+
+        $messages=DB::select("SELECT *,FORMAT(messageDate,'yyyy/MM/dd hh:mm:ss','fa-ir') as messageHijriDate FROM NewStarfood.dbo.star_message join Shop.dbo.Peopels on star_message.customerId=Peopels.PSN  WHERE customerId=".$customerId." order by id asc");
+        foreach ($messages as $message) {
+            $replays=DB::select("SELECT *,FORMAT(replayDate,'yyyy/MM/dd hh:mm:ss','fa-ir') as replayHijriDate FROM NewStarfood.dbo.star_replayMessage WHERE messageId=".$message->id);
+            $message->replay=$replays;
+        } 
+        return Response::json(['messages'=>$messages]);
     }
 
 }

@@ -980,6 +980,177 @@ public function addOrder(Request $request){
             }
     }
 
+    public function getFactorPaymentFormApi(Request $request)
+    {
+        $allMoney=$request->input("allMoney");
+		try {
+			$pasargad = new Pasargad(
+			  "5015060",
+			  "2263969",
+			  "https://star.starfoods.ir/successFactorPayApi",
+			  "C:/inetpub/vhosts/starfoods.ir/httpdocs/key.xml");
+			$pasargad->setAmount($allMoney); 
+			$lastInvoiceNumber=DB::table("NewStarfood.dbo.star_paymentResponds")->max("InvoiceNumber");
+			if($lastInvoiceNumber){
+				$lastInvoiceNumber+=1;
+				$this->invoiceNumber=$lastInvoiceNumber;
+			}else{
+				$this->invoiceNumber=111111;
+			}
+			$pasargad->setInvoiceNumber($this->invoiceNumber);
+			$pasargad->setInvoiceDate("".Carbon::now()->format('Y/m/d H:i:s')."");
+			$redirectUrl = $pasargad->redirect();
+			return Response::json($redirectUrl);
+		} catch (\Exception $ex) {
+			return Response::json("اتصال با درگاه بانک بر قرار نشد");
+		}
+    }
+
+    public function finalizeFactorPayApi(Request $request)
+    {
+        $psn=$request->input("psn");
+        $allMoney=$request->input("allMoney");
+        $tref=$request->input("tref");
+        $iN=$request->input("iN");
+        $iD=$request->input("iD");
+        $lastFactSN=$request->input("factorSn");
+        $fiscallYear="1402";
+		try {
+            $pasargad = new Pasargad(
+                          "5015060",
+                          "2263969",
+                          "https://starfoods.ir/successFactorPayApi",
+                          "C:/inetpub/vhosts/starfoods.ir/httpdocs/key.xml");
+            $pasargad->setTransactionReferenceId($tref); 
+            $pasargad->setInvoiceNumber($iN);
+            $pasargad->setInvoiceDate($iD);
+            $payResults=$pasargad->checkTransaction();
+            
+            if($payResults['IsSuccess']=="true"){
+                
+                $pasargad->setAmount($allMoney); 
+                
+                $pasargad->setInvoiceNumber($iN);
+                
+                $pasargad->setInvoiceDate($iD);
+          		if($pasargad->verifyPayment()["IsSuccess"]=='true'){
+                    // ثبت اطلاعات واریزی در سمت خودما
+                    DB::table("NewStarfood.dbo.star_paymentResponds")->insert([
+                                                                            "customerId"=>$psn
+                                                                            ,"TraceNumber"=>"".$payResults["TraceNumber"].""
+                                                                            ,"ReferenceNumber"=>"".$payResults["ReferenceNumber"].""
+                                                                            ,"TransactionDate"=>"".$payResults["TransactionDate"].""
+                                                                            ,"TransactionReferenceID"=>"".$payResults["TransactionReferenceID"].""
+                                                                            ,"InvoiceNumber"=>"".$payResults["InvoiceNumber"].""
+                                                                            ,"InvoiceDate"=>"".$payResults["InvoiceDate"].""
+                                                                            ,"Amount"=>"".$payResults["Amount"].""
+                                                                            ,"TrxMaskedCardNumber"=>"".$payResults["TrxMaskedCardNumber"].""
+                                                                            ,"IsSuccess"=>$payResults["IsSuccess"]
+                                                                            ,"Message"=>"".$payResults["Message"].""
+                                                                            ]);
+
+                
+                    $lastDocNoHds=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
+                    //وارد جدول سطح بالای داد و گرفت
+                    DB::table("Shop.dbo.GetAndPayHDS")->insert(
+                                                                ["CompanyNo"=>5
+                                                                ,"GetOrPayHDS"=>1
+                                                                ,"DocNoHDS"=>$lastDocNoHds+1//auto increment according to HDS 
+                                                                ,"DocDate"=>"".Jalalian::fromCarbon(Carbon::today())->format('Y/m/d').""//فارسی تاریخ
+                                                                ,"DocDescHDS"=>".آنلاین پرداخت شد"
+                                                                ,"StatusHDS"=>0
+                                                                ,"PeopelHDS"=>$psn
+                                                                ,"FiscalYear"=>"".$fiscallYear.""
+                                                                ,"SnFactor"=>0
+                                                                ,"InForHDS"=>0
+                                                                ,"NetPriceHDS"=>$allMoney//مبلغ به ریال
+                                                                ,"DocTypeHDS"=>0
+                                                                ,"SnCashMaster"=>851
+                                                                ,"BuyFactNo"=>0
+                                                                ,"SaveTime"=>"".Jalalian::fromCarbon(Carbon::now())->format('H:i:s').""//ساعت دقیقه و ثانیه فعلی
+                                                                ,"IsExport"=>0
+                                                                ,"AmanatiOrZemanati"=>0
+                                                                ,"PriceMaliat"=>0
+                                                                ,"SnUser"=>0
+                                                                ,"SnFactBuy"=>0
+                                                                ,"SnTafHazineh"=>0
+                                                                ,"SnNamayeshgah2"=>0
+                                                                ,"SnBuyEX"=>0
+                                                                ,"SnToCash"=>0
+                                                                ,"NaghdiPrice"=>0
+                                                                ,"SnKoodak"=>0
+                                                                ,"SnSeller"=>0
+                                                                ,"SnSerialNoFromPablet"=>0
+                                                                ,"SnChequeTransBargashti"=>0
+                                                                ,"PayIsBabatChequeBargashti"=>0
+                                                                ,"GAPSnTaf1"=>0
+                                                                ,"GAPTafType1"=>0
+                                                                ,"GAPSnTaf2"=>0
+                                                                ,"GAPTafType2"=>0
+                                                                ,"ExportSanadGAP"=>0
+                                                                ,"SnFactForTasviyeh"=>$lastFactSN//آخرین فاکتور
+                                                                ,"MazanehPrice"=>0
+                                                                ,"Fi_1_GramTala"=>0
+                                                                ,"VaznTala"=>0
+                                                                ,"SnGapHDSTablet"=>0
+                                                                ,"SnGapSellerTablet"=>0
+                                                                ,"SnOldFactForTasviyeh"=>0]);
+    
+                    //آخرین شماره ورود جدول سطح بالای داد و گرفت
+                    $lastSnPayHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
+                    //جدول سطح دوم داد و گرفت
+                    DB::table("Shop.dbo.GetAndPayBYS")->insert(["CompanyNo"=>5
+                                                                ,"DocTypeBYS"=>3
+                                                                ,"Price"=>$allMoney
+                                                                ,"ChequeDate"=>"".Jalalian::fromCarbon(Carbon::today())->format('Y/m/d').""
+                                                                ,"ChequeNo"=>0
+                                                                ,"AccBankno"=>""
+                                                                ,"Owner"=>""
+                                                                ,"SnBank"=>0
+                                                                ,"Branch"=>""
+                                                                ,"SnChequeBook"=>0
+                                                                ,"FiscalYear"=>"".$fiscallYear.""
+                                                                ,"SnHDS"=>$lastSnPayHDS
+                                                                ,"DocDescBYS"=>"پرداخت آنلاین"
+                                                                ,"StatusBYS"=>0
+                                                                ,"ChequeRecNo"=>0
+                                                                ,"CuType"=>0
+                                                                ,"CuPrice"=>0
+                                                                ,"SnAccBank"=>46
+                                                                ,"LastSnTrans"=>0
+                                                                ,"CashNo"=>0
+                                                                ,"SnPriorDetail"=>0
+                                                                ,"SnMainPeopel"=>0
+                                                                ,"SnTransChequeRefrence"=>0
+                                                                ,"IsExport"=>0
+                                                                ,"RadifInDaftarCheque"=>0
+                                                                ,"CuUnitPrice"=>0
+                                                                ,"SnBigIntHDSFact_GapBYS"=>0
+                                                                ,"NoPayaneh_KartKhanBys"=>""
+                                                                ,"KarMozdPriceBys"=>0
+                                                                ,"NoSayyadi"=>""
+                                                                ,"NameSabtShode"=>""
+                                                                ,"SnOldBysGAP"=>0
+                                                                ,"SnOldHDSGAP"=>0
+                                                                ,"SnSellerGap"=>0]);
+                    DB::table("NewStarfood.dbo.payedOnline")->insert([
+                                                                    'factorSn'=>$lastFactSN,
+                                                                    'payedMoney'=>$allMoney,
+                                                                    'invoiceNumber'=>"$iN"
+                                                                    ]);
+                return Response::json(['payResult'=>$payResults,'result'=>"OK"]);    
+                }else{
+                    return Response::json(["result"=>"Not Varified"]);
+                }
+            }else{
+                return Response::json(["result"=>"Not Payed"]);
+            }
+        } catch (\Exception $ex) {
+            return Response::json(["result"=>"Not Connected"]);
+        }
+    }
+
+
     public function getPaymentFormApi(Request $request)
     {
         $psn=$request->input("psn");

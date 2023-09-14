@@ -126,7 +126,7 @@
                                                             font-weight: bold;'
                                                             class='updateData btn-add-to-cart'>{{(int)$item->PackAmount .' '. $item->secondUnit }}
                                                             معادل
-                                                            {{ ($item->Amount / 1)  .' '. $item->UName}}  </a>
+                                                            {{ ($item->BoughtAmount / 1)  .' '. $item->UName}}  </a>
                                                     @endif
                                                     @if($item->bought=='No')
                                                         <button id="noBought{{$item->GoodSn}}" style="padding-right:10px; font-weight: bold; @if($item->bought=='No') display: inline; @else display: none; @endif "

@@ -32,7 +32,7 @@
                         <label class="form-check-label me-4" for="assesPast"> <span @if(hasNewNazar(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%">@if(hasNewNazar(Session::get("adminId"))>0){{hasNewNazar(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; نتایج نظر خواهی </label>
                     </div>
                 </fieldset>
-                </div>
+            </div>
             <div class="col-sm-10 col-md-10 col-sm-12 contentDiv">
                 <div class="row contentHeader">
                      <div class="col-sm-4">
@@ -186,7 +186,6 @@
                             <hr>              
                      </div>
                 </div>
-
                 <div class="row contentFooter"> </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-var baseUrl = "https://starfoods.ir";
+var baseUrl = "http://192.168.10.24:8080";
 function openNewOrderModal(){
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({
@@ -36,7 +36,7 @@ $("#editPCode").on("keyup",()=>{
         $("#editAddress").empty();
         let addressOptions=data.map(element=>{
             if(element.AddressPeopel){
-                return `<option value="`+element.peopeladdress+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
+                return `<option value="`+element.AddressPeopel+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
             }else{
                 return `<option value="`+element.peopeladdress+`_0">`+element.peopeladdress+`</option>`   
             }
@@ -53,7 +53,7 @@ $("#editName").on("change",()=>{
         $("#editAddress").empty();
         let addressOptions=data.map(element=>{
             if(element.AddressPeopel){
-                return `<option value="`+element.peopeladdress+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
+                return `<option value="`+element.AddressPeopel+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
                 }else{
                     return `<option value="`+element.peopeladdress+`_0">`+element.peopeladdress+`</option>`   
                 }
@@ -88,7 +88,7 @@ function getCustomerByCode(code) {
             $("#customerAddressForSefarish").empty();
             let addressOptions=data.map(element=>{
                 if(element.AddressPeopel){
-                    return `<option value="`+element.peopeladdress+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
+                    return `<option value="`+element.AddressPeopel+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
                 }else{
                     return `<option value="`+element.peopeladdress+`_0">`+element.peopeladdress+`</option>`   
                 }
@@ -107,15 +107,15 @@ function getCustomerByCode(code) {
 
 function addAmelToSefarish(){
     $("#addAmelModal").modal("hide");
-    $("#hamlMoney").val($("#hamlMoneyModal").val());
+    $("#hamlMoney").val($("#hamlMoneyModal").val().replace(/,/g, ''));
     $("#hamlDesc").val($("#hamlDescModal").val());
-    $("#nasbMoney").val($("#nasbMoneyModal").val());
+    $("#nasbMoney").val($("#nasbMoneyModal").val().replace(/,/g, ''));
     $("#nasbDesc").val($("#nasbDescModal").val());
-    $("#motafariqaMoney").val($("#motafariqaMoneyModal").val());
+    $("#motafariqaMoney").val($("#motafariqaMoneyModal").val().replace(/,/g, ''));
     $("#motafariqaDesc").val($("#motafariqaDescModal").val());
-    $("#bargiriMoney").val($("#bargiriMoneyModal").val());
+    $("#bargiriMoney").val($("#bargiriMoneyModal").val().replace(/,/g, ''));
     $("#bargiriDesc").val($("#bargiriDescModal").val());
-    $("#tarabariMoney").val($("#tarabariMoneyModal").val());
+    $("#tarabariMoney").val($("#tarabariMoneyModal").val().replace(/,/g, ''));
     $("#tarabariDesc").val($("#tarabariDescModal").val());
     let hamlMoney=0;
     let nasbMoney=0;
@@ -142,26 +142,31 @@ function addAmelToSefarish(){
     $("#allAmelMoney").text(parseInt(allAmel).toLocaleString("en-us"));
 }
 $("#hamlMoneyModal").on("keyup",(e)=>{
+    checkNumberInput(e);
     if(e.keyCode==13 || e.keyCode==9){
         $("#hamlDescModal").focus();
     }
 })
 $("#nasbMoneyModal").on("keyup",(e)=>{
+    checkNumberInput(e);
     if(e.keyCode==13 || e.keyCode==9){
         $("#nasbDescModal").focus();
     }
 })
 $("#motafariqaMoneyModal").on("keyup",(e)=>{
+    checkNumberInput(e);
     if(e.keyCode==13 || e.keyCode==9){
         $("#motafariqaDescModal").focus();
     } 
 })
 $("#bargiriMoneyModal").on("keyup",(e)=>{
+    checkNumberInput(e);
     if(e.keyCode==13 || e.keyCode==9){
         $("#bargiriDescModal").focus();
     }
 })
 $("#tarabariMoneyModal").on("keyup",(e)=>{
+    checkNumberInput(e);
     if(e.keyCode==13 || e.keyCode==9){
         $("#tarabariDescModal").focus();
     }
@@ -186,6 +191,17 @@ $("#bargiriDescModal").on("keyup",(e)=>{
         $("#tarabariMoneyModal").focus();
     }
 });
+
+function checkNumberInput(e){
+    if(((e.keyCode>=48 && e.keyCode<=57 || (e.keyCode==13 || e.keyCode==9)) || ((e.keyCode>=96 && e.keyCode<=105)|| e.keyCode==8))){
+        if(e.target.value.length>0){
+            e.target.value=parseInt(e.target.value.replace(/,/g, '')).toLocaleString("en-us")
+        }
+    }else{
+        e.target.focus();
+        e.target.value="";
+    }
+}
 $("#tarabariDescModal").on("keyup",(e)=>{
     if(e.keyCode==13 || e.keyCode==9){
         let allAmel=checkWantToaddedAmel();
@@ -198,7 +214,7 @@ $("#tarabariDescModal").on("keyup",(e)=>{
                 }).then((willAdd) => {
                     if(willAdd){
                         $("#sabtAmelButton").trigger("click");
-                    }
+                }
             });
         }
     }
@@ -340,7 +356,7 @@ $("#customerForSefarishId").on("change",function(){
         $("#customerAddressForSefarish").empty();
         let addressOptions=data.map(element=>{
             if(element.AddressPeopel){
-                return `<option value="`+element.peopeladdress+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
+                return `<option value="`+element.AddressPeopel+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
                 }else{
                     return `<option value="`+element.peopeladdress+`_0">`+element.peopeladdress+`</option>`   
                 }
