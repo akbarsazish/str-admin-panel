@@ -1,10 +1,16 @@
 @extends('admin.layout')
 @section('content')
 <style>
-    .gamerListsTable, #aksIdeaTable, #usedTakhfifCaseTable .usedTakhfifCodeTable{
+    .gamerListsTable, #aksIdeaTable, #gameListTable{
         display:none;
     }
+
+    .usedTakhfifCaseTable, .playedGame, .usedTakhfifCodeTable{
+        display: none;
+    }
+
 </style>
+
 <div class="container-fluid containerDiv">
     <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 sideBar">
@@ -13,26 +19,31 @@
                    
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="lotteryResultRadioBtn" checked>
-                        <label class="form-check-label me-4" for="assesPast"> نتیجه لاتری  <span @if(wonLottery(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(wonLottery(Session::get("adminId"))>0){{wonLottery(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
+                        <label class="form-check-label me-3" for="assesPast"> نتیجه لاتری  <span @if(wonLottery(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(wonLottery(Session::get("adminId"))>0){{wonLottery(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
+
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="usedTakhfifCaseRadioBtn">
-                        <label class="form-check-label me-4" for="assesPast"> استفاده از کیف پول  <span @if(usedTakhfifCase(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCase(Session::get("adminId"))>0){{usedTakhfifCase(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
+                        <label class="form-check-label me-3" for="assesPast"> استفاده از کیف پول  <span @if(usedTakhfifCase(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCase(Session::get("adminId"))>0){{usedTakhfifCase(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
+
 					<div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="usedTakhfifCodeRadioBtn">
-                        <label class="form-check-label me-4" for="usedTakhfifCodeRadioBtn">  استفاده از کد تخفیف  <span @if(usedTakhfifCode(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCode(Session::get("adminId"))>0){{usedTakhfifCode(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
+                        <label class="form-check-label me-3" for="usedTakhfifCodeRadioBtn">  استفاده از کد تخفیف  <span @if(usedTakhfifCode(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(usedTakhfifCode(Session::get("adminId"))>0){{usedTakhfifCode(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
+
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="gamerListRadioBtn">
-                        <label class="form-check-label me-4" for="assesPast"> گیمر لیست  <span @if(playedGame(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(playedGame(Session::get("adminId"))>0){{playedGame(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  </label>
+                        <label class="form-check-label me-3" for="assesPast"> گیمر لیست  <span @if(playedGame(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(playedGame(Session::get("adminId"))>0){{playedGame(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp;  </label>
                     </div>
+
                     <div class="form-check">
                         <input class="form-check-input p-2 float-start" type="radio" name="settings" id="askIdeaResponse">
-                        <label class="form-check-label me-4" for="assesPast"> نتایج نظر خواهی  <span @if(hasNewNazar(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(hasNewNazar(Session::get("adminId"))>0){{hasNewNazar(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
+                        <label class="form-check-label me-3" for="assesPast"> نتایج نظر خواهی  <span @if(hasNewNazar(Session::get('adminId')) < 1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif style="border-radius: 50%; font-size:11px; padding:2px">@if(hasNewNazar(Session::get("adminId"))>0){{hasNewNazar(Session::get("adminId"))}} @else 0 @endif</span> &nbsp;&nbsp; </label>
                     </div>
+
                 </fieldset>
-                </div>
+             </div>
             <div class="col-sm-10 col-md-10 col-sm-12 contentDiv">
                 <div class="row contentHeader">
                      <div class="col-sm-4">
@@ -43,7 +54,7 @@
                         </div>
                      </div>
                  </div>
-                <div class="row mainContent">
+                <div class="row mainContent px-0">
                     <table class="table table-bordered table-sm" id="lotteryResultTable">
                          <thead class="tableHeader">
                             <tr>
@@ -57,7 +68,7 @@
                                 <th>  حذف  </th>
                             </tr>
                         </thead>
-                        <tbody class="tableBody" style="height:222px !important;">
+                        <tbody class="tableBody" style="height:calc(100vh - 222px) !important;">
                             @foreach ($lotteryTryResult as $lottery)
                                 <tr>
                                     <td style="width:60px">{{$loop->iteration}}</td>
@@ -92,7 +103,7 @@
                         </tbody>
                     </table>
                     <!-- کیف تخفیفی   -->
-                    <table class="table table-bordered table-sm usedTakhfifCaseTable" id="usedTakhfifCaseTable" style="display:none;">
+                    <table class="table table-bordered table-sm usedTakhfifCaseTable">
                         <thead class="tableHeader">
                         <tr>
                             <th> ردیف </th>
@@ -116,8 +127,9 @@
                             @endforeach
                         </tbody>
                     </table>
+
                     <!-- کد تخفیفی   -->
-                    <table class="table table-bordered table-sm usedTakhfifCodeTable" id="usedTakhfifCodeTable">
+                    <table class="table table-bordered table-sm usedTakhfifCodeTable">
                         <thead class="tableHeader">
                         <tr>
                             <th> ردیف </th>
@@ -169,7 +181,7 @@
 
                     <!-- نتایج نظر خواهی  -->
                     <div class="row rounded-2 tab-pane" id="aksIdeaTable">
-                    <div class="col-lg-12" id="nazaranjicontainer">
+                      <div class="col-lg-12" id="nazaranjicontainer">
                         @foreach($nazars as $nazar)
                         <fieldset class="fieldsetBorder rounded mb-2">
                             <legend  class="float-none w-auto forLegend" style="font-size:14px; margin-bottom:2px;"> {{$nazar->Name}} </legend>	
