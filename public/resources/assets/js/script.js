@@ -139,7 +139,7 @@ var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('conte
 // window.addEventListener('DOMContentLoaded', () => document.querySelector('.loading').classList.remove('show'));
 ///JAVAD JAVASCRIPT CODES
 
-var baseUrl = "https://starfoods.ir";
+var baseUrl = "http://192.168.10.24:8080";
 
 const loader = document.getElementById("loader");
 function hideLoader() {
@@ -11597,13 +11597,13 @@ function filterAllSefarishat() {
             name: $("#sefTarafHisabName").val()
         },
         success: function (response) {
-            var sumAllMoneyToPay = response[0].reduce(function (accumulator, curValue) {
-                return (accumulator + parseInt(curValue.allPrice))
-            },0);
+            var sumAllMoneyToPay = BigInt(response[0].reduce(function (accumulator, curValue) {
+                return BigInt((accumulator + parseInt(curValue.allPrice)))
+            },0));
 
-            var sumAllPayedMoney = response[0].reduce(function (accumulator, curValue) {
-                return (accumulator + parseInt(curValue.payedMoney))
-            },0);
+            var sumAllPayedMoney = BigInt(response[0].reduce(function (accumulator, curValue) {
+                return BigInt((accumulator + parseInt(curValue.payedMoney)))
+            },0));
             $("#orderListBody").empty();
             response[0].forEach((element, index) => {
                 let bgColor="";
@@ -11643,9 +11643,9 @@ function filterAllSefarishat() {
                     <td class="forMobile">`+ amOrPm + `</td></tr>`);
             });
 
-            $("#sendTotalMoney").text(parseInt(sumAllMoneyToPay / 10).toLocaleString("en-us") + ' ت');
-            $("#sendRemainedTotalMoney").text(parseInt((sumAllMoneyToPay - sumAllPayedMoney) / 10).toLocaleString("en-us") + ' ت');
-            $("#sendAllPayedMoney").text(parseInt((sumAllPayedMoney) / 10).toLocaleString("en-us") + ' ت');
+            $("#sendTotalMoney").text((sumAllMoneyToPay / 10).toLocaleString("en-us") + ' ت');
+            $("#sendRemainedTotalMoney").text(((sumAllMoneyToPay - sumAllPayedMoney) / 10).toLocaleString("en-us") + ' ت');
+            $("#sendAllPayedMoney").text(((sumAllPayedMoney) / 10).toLocaleString("en-us") + ' ت');
         },
         error: function (error) {
         }

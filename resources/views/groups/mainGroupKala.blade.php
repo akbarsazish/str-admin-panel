@@ -193,7 +193,7 @@
                                             <div class='c-product__add'  id="bought{{$item->GoodSn}}">
                                                 @if($item->activePishKharid<1)
                                                     @if($item->bought=='Yes')
-                                                        <a class='btn-add-to-cart' id="updatedBought{{$item->GoodSn}}" onclick='UpdateQty({{ $item->GoodSn }},this,{{ $item->SnOrderBYS }})' style='width:auto;text-align: center; padding-right: 10px; background-color: #39ae00; font-weight: bold;' class='updateData btn-add-to-cart'>{{ (int)$item->PackAmount }}{{ $item->secondUnit }} معادل{{ $item->Amount / 1  }}{{ $item->UName}}  </a>
+                                                        <a class='btn-add-to-cart' id="updatedBought{{$item->GoodSn}}" onclick='UpdateQty({{ $item->GoodSn }},this,{{ $item->SnOrderBYS }})' style='width:auto;text-align: center; padding-right: 10px; background-color: #39ae00; font-weight: bold;' class='updateData btn-add-to-cart'>{{ (int)$item->PackAmount }}{{ $item->secondUnit }} معادل{{ $item->BoughtAmount / 1  }}{{ $item->UName}}  </a>
                                                     @endif
                                                     @if($item->callOnSale==1)
                                                     <button style="padding-right:8px; background-color:#e40707; font-weight: bold; display: inline;" class="btn-add-to-cart">برای خرید تماس بگیرید <i class="far fa-shopping-cart text-white ps-2"></i></button>

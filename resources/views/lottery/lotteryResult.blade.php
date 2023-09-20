@@ -43,7 +43,7 @@
                     </div>
 
                 </fieldset>
-             </div>
+            </div>
             <div class="col-sm-10 col-md-10 col-sm-12 contentDiv">
                 <div class="row contentHeader">
                      <div class="col-sm-4">

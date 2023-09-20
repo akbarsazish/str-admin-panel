@@ -146,7 +146,7 @@
                                 <td style="width:55px;">{{substr($order->OrderDate,5)}}</td>
                                 <td class="forMobile" @if($order->OrderErsalTime==3) style="background-color:blue;color:white;" @endif>
                                     @if($order->OrderErsalTime==1) صبح 
-                                    @elseif($order->OrderErsalTime==2) بعد از ظهر @else  فوری @endif
+                                    @elseif($order->OrderErsalTime==2) بعد از ظهر @elseif($order->OrderErsalTime==3) فوری @endif
                                 </td>
                             </tr>
                         @endforeach

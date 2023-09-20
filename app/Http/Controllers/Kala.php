@@ -930,7 +930,7 @@ public function getFavorite(Request $request)
         $zeroExistance=0;
         $secondGroups=DB::select("Select id from NewStarfood.dbo.star_group where selfGroupId=$groupId");
         $secondGroupId=$secondGroups[0]->id;
-       $listKala= DB::select("SELECT SnOrderBYSPishKharid,pishKharidPackAmount,PishKharidAmount,IIF(ISNULL(SnOrderBYSPishKharid,0)=0,'No','Yes') pishKharid,firstGroupId,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot(".Session::get('psn').",GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot(".Session::get('psn').",GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine, iif(NewStarfood.dbo.getSecondUnit(GoodSn) is null,NewStarfood.dbo.getFirstUnit(GoodSn),NewStarfood.dbo.getSecondUnit(GoodSn)) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid,IsActive FROM(
+       $listKala= DB::select("SELECT SnOrderBYSPishKharid,pishKharidPackAmount,PishKharidAmount,IIF(ISNULL(SnOrderBYSPishKharid,0)=0,'No','Yes') pishKharid,firstGroupId,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot(".Session::get('psn').",GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot(".Session::get('psn').",GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine, iif(NewStarfood.dbo.getSecondUnit(GoodSn) is null,NewStarfood.dbo.getFirstUnit(GoodSn),NewStarfood.dbo.getSecondUnit(GoodSn)) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid,IsActive FROM(
         SELECT SnOrderBYSPishKharid,pishKharidPackAmount,PishKharidAmount,firstGroupId,secondGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
                             ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,IsActive FROM Shop.dbo.PubGoods
                                     INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
@@ -1685,7 +1685,7 @@ public function getFavorite(Request $request)
         $kalaList=DB::select("SELECT  GoodSn,senonym,GoodName,UName
 			,CRM.dbo.getGoodFirstGroupId(GoodSn) AS firstGroupId,CRM.dbo.getGoodSecondGroupId(GoodSn) AS secondGroupId
             ,Price3,Price4,SnGoodPriceSale,IIF(csn>0,'YES','NO') favorite,productId,IIF(ISNULL(productId,0)=0,0,1) as requested
-            ,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought
+            ,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought
             ,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,secondUnit,freeExistance,activeTakhfifPercent,activePishKharid,IsActive FROM(
             SELECT  PubGoods.GoodSn,NewStarfood.dbo.getProductSenonym(GoodSn) as senonym,PubGoods.GoodName,PUBGoodUnits.UName,csn,D.productId,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
             ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,secondUnit,star_GoodsSaleRestriction.freeExistance
@@ -1756,7 +1756,7 @@ public function getFavorite(Request $request)
         $kalaList=DB::select("SELECT  GoodSn,senonym,GoodName,UName
 			,CRM.dbo.getGoodFirstGroupId(GoodSn) AS firstGroupId,CRM.dbo.getGoodSecondGroupId(GoodSn) AS secondGroupId
             ,Price3,Price4,SnGoodPriceSale,IIF(csn>0,'YES','NO') favorite,productId,IIF(ISNULL(productId,0)=0,0,1) as requested
-            ,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought
+            ,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought
             ,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,secondUnit,freeExistance,activeTakhfifPercent,activePishKharid,IsActive FROM(
             SELECT  PubGoods.GoodSn,NewStarfood.dbo.getProductSenonym(GoodSn) as senonym,PubGoods.GoodName,PUBGoodUnits.UName,csn,D.productId,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
             ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,secondUnit,star_GoodsSaleRestriction.freeExistance
@@ -2339,7 +2339,7 @@ public function getSubGroupKalaForFront(Request $request){
 	 NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,".Session::get('psn')." as CustomerSn,
 	 IIF(NewStarfood.dbo.isFavoritOrNot(".Session::get('psn').",GoodSn)>0,'YES','NO') AS favorite
 	 ,IIF(NewStarfood.dbo.isRequestedOrNot(".Session::get('psn').",GoodSn)=0,0,1) as requested,
-	 IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,
+	 IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,
 	 SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid,IsActive FROM(
         SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
         ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId,IsActive FROM Shop.dbo.PubGoods
@@ -2351,11 +2351,11 @@ public function getSubGroupKalaForFront(Request $request){
         LEFT JOIN Shop.dbo.GoodPriceSale ON GoodPriceSale.SnGood=PubGoods.GoodSn
         ) A WHERE firstGroupId=$mainGrId AND IsActive=1 AND secondGroupId=$subGroupKalaId and CompanyNo=5 and not exists(SELECT productId FROM NewStarfood.dbo.star_GoodsSaleRestriction WHERE hideKala=1 and productId=GoodSn ) ORDER BY Amount DESC");  
 	foreach($listKala as $kala){
-	if(file_exists('resources/assets/images/kala/' . $kala->GoodSn . '_1.jpg')){
-		$kala->hasPicture=1;
-	}else{
-		$kala->hasPicture=0;	
-	}
+        if(file_exists('resources/assets/images/kala/' . $kala->GoodSn . '_1.jpg')){
+            $kala->hasPicture=1;
+        }else{
+            $kala->hasPicture=0;	
+        }
 	}
     $currency=1;
 
@@ -2418,7 +2418,7 @@ public function appendSubGroupKalaApi(Request $request){
     $mainGrId=$request->get('mainGrId');
     $customerSn=$request->get('psn');
 
-     $listKala= DB::select("SELECT secondGroupId,firstGroupId,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+     $listKala= DB::select("SELECT secondGroupId,firstGroupId,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
         SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale,GoodPriceSale.FiscalYear
         ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId FROM Shop.dbo.PubGoods
         INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
@@ -3012,7 +3012,7 @@ public function buySomethingApi(Request $request) {
         }
 
         //without stocks-----------------------------------------------------
-        $kalaList=DB::select("SELECT  GoodSn,GoodName,UName,CRM.dbo.getGoodFirstGroupId(GoodSn) as firstGroupId,CRM.dbo.getGoodSecondGroupId(GoodSn) as secondGroupId,Price3,Price4,SnGoodPriceSale,IIF(csn>0,'YES','NO') favorite,productId,IIF(ISNULL(productId,0)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),BoughtAmount)) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+        $kalaList=DB::select("SELECT  GoodSn,GoodName,UName,CRM.dbo.getGoodFirstGroupId(GoodSn) as firstGroupId,CRM.dbo.getGoodSecondGroupId(GoodSn) as secondGroupId,Price3,Price4,SnGoodPriceSale,IIF(csn>0,'YES','NO') favorite,productId,IIF(ISNULL(productId,0)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
             SELECT  PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,csn,D.productId,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
             ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,secondUnit,star_GoodsSaleRestriction.freeExistance,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.activePishKharid FROM Shop.dbo.PubGoods
             JOIN NewStarfood.dbo.star_GoodsSaleRestriction ON PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
