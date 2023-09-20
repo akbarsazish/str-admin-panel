@@ -12,8 +12,10 @@ use App\Http\Controllers\Message;
 use App\Http\Controllers\TakhfifCode;
 use App\Http\Controllers\Game;
 use App\Http\Controllers\Cheque;
+use App\Http\Controllers\ChatMessage;
 use App\Http\Controllers\AuthController;
 
+// \Artisan::call("route:clear");
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) { return $request->user(); });
 Route::get('/getMainGroups',[Group::class,'getMainGroups']);
 Route::get('/getSubGroupList',[Group::class,'getSubGroupList']);
@@ -63,3 +65,6 @@ Route::get('/successPayApi',[Order::class,'finalizePayAndOrderApi']);
 Route::get("/publicSearchKalaApi",[Kala::class,"publicSearch"]);
 Route::get("/getFactorPaymentFormApi",[Order::class,"getFactorPaymentFormApi"]);
 Route::get("/finalizeFactorPayApi",[Order::class,"finalizeFactorPayApi"]);
+Route::get("/getChatMessages",[ChatMessage::class,"getChatMessages"]);
+Route::get("/addMessage",[ChatMessage::class,"addMessage"]);
+Route::get("/replayMessage",[ChatMessage::class,"replayMessage"]);

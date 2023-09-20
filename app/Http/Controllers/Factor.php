@@ -408,4 +408,16 @@ class Factor extends Controller{
         }
         return response()->json(['factorBYS'=>$factorBYS,'currency'=>$currency,'currencyName'=>$currencyName]);
     }
+
+    public function salesFactors(Request $request){
+        $fiscallYear=self::getSelectedFiscalYear();
+        $factors=DB::select("SELECT *,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=$fiscallYear");
+        return View("factors.salesFactors",['factors'=>$factors]);
+    }
+
+    public function getSelectedFiscalYear(){
+        $settings=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get('*');
+        return $settings[0]->FiscallYear;
+    }
+
 }
