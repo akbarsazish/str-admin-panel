@@ -68,3 +68,4 @@ Route::get("/finalizeFactorPayApi",[Order::class,"finalizeFactorPayApi"]);
 Route::get("/getChatMessages",[ChatMessage::class,"getChatMessages"]);
 Route::get("/addMessage",[ChatMessage::class,"addMessage"]);
 Route::get("/replayMessage",[ChatMessage::class,"replayMessage"]);
+Route::get("/getHomeParts",[Home::class,"getHomeParts"]);

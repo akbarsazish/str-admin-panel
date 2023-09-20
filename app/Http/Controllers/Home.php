@@ -73,7 +73,7 @@ class Home extends Controller {
             if($part->partType == 1){
                     $countPartGroup=$countPartGroup+1;
                     //گروهی از گروه ها
-                    $groups=DB::select("SELECT star_group.id as groupId,star_group.title FROM NewStarfood.dbo.star_group INNER JOIN NewStarfood.dbo.star_add_homePart_stuff ON star_group.id=star_add_homePart_stuff.firstGroupId WHERE star_add_homePart_stuff.homepartId=".$part->partId);
+                    //$groups=DB::select("SELECT star_group.id as groupId,star_group.title FROM NewStarfood.dbo.star_group INNER JOIN NewStarfood.dbo.star_add_homePart_stuff ON star_group.id=star_add_homePart_stuff.firstGroupId WHERE star_add_homePart_stuff.homepartId=".$part->partId);
                     $firstPartStringLocal=
                 "<section class='product-wrapper container lastBanner'>
                         <div class='headline'><h3>".$part->title."</h3></div>
@@ -796,6 +796,271 @@ class Home extends Controller {
             }
 		 $attractions=DB::select("SELECT  *,CONVERT(DATE,ViewDate) AS ViewJustDate FROM NewStarfood.dbo.star_attractionVisit WHERE CustomerId=".Session::get('psn'));
         return View('home.home',['productGroups' => $productGroups,'attractions'=>$attractions,'homePageType'=>$homePageType,'slider'=>$slider,'smallSlider'=>$smallSlider,'partViews'=>$partStringForView,'showEnamad'=>$showEnamad]);
+    }
+    public function getHomeParts (Request $request)
+    {
+        $customerId=$request->input("psn");
+        $fiscallYear;
+        $partStringForView="";
+        $partStringLocal="";
+        $counterAsId=0;
+        $shegeftAngizColorFlag=0;
+        $countPartGroup=0;
+        $buyFromHome=0;
+        $homePageType=1;
+        $showLogo=true;
+        $logoPos;
+        $logoClass="topRight";
+        $currency=1;
+        $currencyName="ریال";
+        /*
+        if(!Session::get("otherUserInfo")){
+            $lastReferesh=Carbon::parse(DB::table("NewStarfood.dbo.star_customerTrack")->where("customerId",$customerId)->select("visitDate")->max("visitDate"))->diffInHours(Carbon::now());
+            $logedIns=DB::table("NewStarfood.dbo.star_customerTrack")->where("customerId",$customerId)->select("visitDate")->get();
+            if($lastReferesh>=0 or count($logedIns)<1){
+                 $palatform=BrowserDetect::platformFamily();
+                 $browser=BrowserDetect::browserFamily();
+                if(count($logedIns)<1){
+                     DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
+                }elseif($lastReferesh>0){
+                     DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
+                }
+            }
+        }*/
+        //برای جابجایی و نمایش بخش های صفحه اصلی نوشته می شود
+
+		$webSettings=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get();
+        $logoPos=$webSettings[0]->logoPosition;
+		if($logoPos == 0){
+			$logoClass="topLeft";
+		}
+        $currency=$webSettings[0]->currency;
+        if($currency==10){
+            $currencyName="تومان";
+        }
+        $buyFromHome=$webSettings[0]->buyFromHome;
+        $homePageType=$webSettings[0]->homePage;
+        $fiscallYear=$webSettings[0]->FiscallYear;
+        $showBuys="none";
+        if($buyFromHome==1){
+            $showBuys="flex";
+        }
+        $parts=DB::select("SELECT DISTINCT textLogo,textColor,textFontSize,NewStarfood.dbo.HomePart.title,NewStarfood.dbo.HomePart.showPercentTakhfif,NewStarfood.dbo.HomePart.partColor,NewStarfood.dbo.HomePart.showAll,NewStarfood.dbo.HomePart.showTedad,NewStarfood.dbo.HomePart.showOverLine,NewStarfood.dbo.HomePart.id AS partId,NewStarfood.dbo.HomePart.priority AS PartPriority,NewStarfood.dbo.HomePart.partType,NewStarfood.dbo.star_homepart_pictures.homepartId FROM NewStarfood.dbo.HomePart LEFT JOIN NewStarfood.dbo.star_homepart_pictures ON NewStarfood.dbo.HomePart.id=NewStarfood.dbo.star_homepart_pictures.homepartId where activeOrNot=1 and  partType!=3 and  partType!=4 ORDER BY NewStarfood.dbo.HomePart.priority ASC");
+        foreach ($parts as $part) {
+           // $counterAsId+=1;
+            if($part->partType == 1){
+                 // در صورتیکه گروهی از گروه ها باشند
+                $allGroups=DB::select("SELECT  TOP ".$part->showTedad."  star_add_homePart_stuff.priority, star_group.id as groupId,star_group.title FROM NewStarfood.dbo.star_group INNER JOIN NewStarfood.dbo.star_add_homePart_stuff ON star_group.id=star_add_homePart_stuff.firstGroupId WHERE star_add_homePart_stuff.homepartId=".$part->partId." order by priority asc");
+                $part->allGroups=$allGroups;
+            }
+            if($part->partType == 12){
+                //در صورتیکه برند باشد
+                $allBrands=DB::select("SELECT star_add_homePart_stuff.brandId,star_add_homePart_stuff.homePartId FROM NewStarfood.dbo.star_add_homePart_stuff WHERE homePartId=".$part->partId." order by priority asc");
+                $part->allBrands=$allBrands;
+            }
+            if($part->partType == 13){
+                //لیستی از پیش خرید ها
+                $partId=$part->partId;
+                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
+                    SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                            star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                            JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                            JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                            JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                            JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                            JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                            WHERE star_add_homePart_stuff.homepartId=$partId
+                            and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a 
+                            
+                            JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
+
+                foreach ($allKalas as $kala) {
+                    $boughtKalas=DB::select("select  star_pishKharidFactor.*,star_pishKharidOrder.* from NewStarfood.dbo.star_pishKharidFactor join NewStarfood.dbo.star_pishKharidOrder on star_pishKharidFactor.SnOrderPishKharid=star_pishKharidOrder.SnHDS where CustomerSn=".Session::get('psn')." and SnGood=".$kala->GoodSn." and  orderStatus=0");
+                    $orderBYSsn;
+                    $secondUnit;
+                    $amount;
+                    $packAmount;
+                    foreach ($boughtKalas as $boughtKala) {
+                        $orderBYSsn=$boughtKala->SnOrderBYSPishKharid;
+                        $orderGoodSn=$boughtKala->SnGood;
+                        $amount=$boughtKala->Amount;
+                        $packAmount=$boughtKala->PackAmount;
+                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
+                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
+                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
+                        if(count($secondUnits)>0){
+                            $secondUnit=$secondUnits[0]->UName;
+                        }else{
+                            $secondUnit=$kala->UName;
+                        }
+                    }
+                    if(count($boughtKalas)>0){
+                        $kala->bought="Yes";
+                        $kala->SnOrderBYS=$orderBYSsn;
+                        $kala->secondUnit=$secondUnit;
+                        $kala->Amount=$amount;
+                        $kala->PackAmount=$packAmount;
+                    }else{
+                        $kala->bought="No";
+                    }
+                }
+                $part->allKalas=$allKalas;
+            }
+            if($part->partType == 2){
+                //لیستی از کالاها
+                $partId=$part->partId;
+                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
+                                        SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                                                star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                                                JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                                                JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                                                JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                                                JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                                                JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                                                WHERE star_add_homePart_stuff.homepartId=$partId
+                                                and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a 
+                                                JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
+                foreach ($allKalas as $kala) {
+                    $boughtKalas=DB::select("select  FactorStar.*,orderStar.* from NewStarfood.dbo.FactorStar join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and SnGood=".$kala->GoodSn." and  orderStatus=0");
+                    $orderBYSsn;
+                    $secondUnit;
+                    $amount;
+                    $packAmount;
+                    foreach ($boughtKalas as $boughtKala) {
+                        $orderBYSsn=$boughtKala->SnOrderBYS;
+                        $orderGoodSn=$boughtKala->SnGood;
+                        $amount=$boughtKala->Amount;
+                        $packAmount=$boughtKala->PackAmount;
+                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
+                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
+                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
+                    
+                        if(count($secondUnits)>0){
+                            $secondUnit=$secondUnits[0]->UName;
+                        }else{
+                            $secondUnit=$kala->UName;
+                        }
+
+                    }
+                    if(count($boughtKalas)>0){
+                        $kala->bought="Yes";
+                        $kala->SnOrderBYS=$orderBYSsn;
+                        $kala->secondUnit=$secondUnit;
+                        $kala->Amount=$amount;
+                        $kala->PackAmount=$packAmount;
+                    }else{
+                        $kala->bought="No";
+                    }
+                }
+                $part->allKalas=$allKalas;
+            }
+
+            if($part->partType == 11){
+                //شگفت انگیزها'
+                $partId=$part->partId;
+                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
+                        SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                                star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                                JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                                JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                                JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                                JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                                JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                                WHERE star_add_homePart_stuff.homepartId=$partId
+                                and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a
+                                JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
+
+                foreach ($allKalas as $kala) {
+                    $boughtKalas=DB::select("select  FactorStar.*,orderStar.* from NewStarfood.dbo.FactorStar join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and SnGood=".$kala->GoodSn." and  orderStatus=0");
+                    $orderBYSsn;
+                    $secondUnit=$kala->UName;
+                    $amount;
+                    $packAmount;
+                    foreach ($boughtKalas as $boughtKala){
+                        $orderBYSsn=$boughtKala->SnOrderBYS;
+                        $orderGoodSn=$boughtKala->SnGood;
+                        $amount=$boughtKala->Amount;
+                        $packAmount=$boughtKala->PackAmount;
+                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
+                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
+                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
+                        $secondUnit=$secondUnits[0]->UName;
+                    }
+                    if(count($boughtKalas)>0){
+                        $kala->bought="Yes";
+                        $kala->SnOrderBYS=$orderBYSsn;
+                        $kala->secondUnit=$secondUnit;
+                        $kala->Amount=$amount;
+                        $kala->PackAmount=$packAmount;
+                    }else{
+                        $kala->bought="No";
+                    }
+                }
+                $part->allKalas=$allKalas;                
+            }
+            if($part->partType == 6){
+                //تک عکسی و لیستی از کالاها
+                $partId=$part->partId;
+                $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
+                foreach ($pictures as $pic) {
+                    $countPicKala=0;
+                    $disabled="";
+                    $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();
+                    $pic->countPicKala=$countPicKala;
+                }
+                $part->pictures=$pictures;
+            }
+            if($part->partType == 7){
+                //دوعکسی و لیستی از کالاها
+                $partId=$part->partId;
+                $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
+                $i=0;
+                foreach ($pictures as $pic) {
+                    $countPicKala=0;
+                    $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();
+                    $pic->countPicKala=$countPicKala;
+                    }
+                $part->pictures=$pictures;
+            }
+            if($part->partType == 8){
+                //سه عکسی و لیستی از کالاها
+                $partId=$part->partId; 
+                $pictures=DB::select("SELECT * FROM NewStarfood.dbo.star_homepart_pictures WHERE homepartId=".$partId);
+                foreach ($pictures as $pic) {
+                    $countPicKala=0;
+                    $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();
+                    $pic->countPicKala=$countPicKala;
+                }
+                $part->pictures=$pictures;
+            }
+            if($part->partType == 9){
+                //چهار عکسی و لیستی از کالاها
+                $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
+                
+                foreach ($pictures as $pic) {
+                    $countPicKala=0;
+                    $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();
+                    $pic->countPicKala=$countPicKala;
+                }
+                $part->pictures=$pictures;
+            }
+            if($part->partType == 10){
+                //پنج عکسی و لیستی از کالاها
+                $partId=$part->partId;
+                $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
+                foreach ($pictures as $pic) {
+                    $countPicKala=0;
+                    $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();
+                    $pic->countPicKala=$countPicKala;
+                }
+                $part->pictures=$pictures;
+            }
+        }
+        $showEnamad=0;
+        $showEnamad=$webSettings[0]->enamad;
+		$attractions=DB::select("SELECT  *,CONVERT(DATE,ViewDate) AS ViewJustDate FROM NewStarfood.dbo.star_attractionVisit WHERE CustomerId=$customerId");
+        
+        return Response::json(['parts'=>$parts,'showEnamad'=>$showEnamad]);
     }
 
     public function controlMainPage(Request $request){
