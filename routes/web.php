@@ -323,4 +323,5 @@ Route::get("/getInfoOfOrderCustomer",[Customer::class,"getInfoOfOrderCustomer"])
 Route::get("/doEditOrder",[Order::class,"doEditOrder"])->middleware('checkAdmin');
 Route::get("/getKalaByName",[Kala::class,"getKalaByName"])->middleware('checkAdmin');
 Route::get('/searchKalaByCode',[Kala::class,'getKalaByCode'])->middleware('checkAdmin');
+
 Route::get('/salesFactors',[Factor::class,'salesFactors'])->middleware('checkAdmin');

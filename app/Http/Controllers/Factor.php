@@ -46,15 +46,11 @@ class Factor extends Controller{
 
             // return $factorWasRemained;
             $order=$orders[0];
-            
             $customerSn=$order->CustomerSn;
-            
             $takhfif=$order->Takhfif;//
             $inVoiceNumber=$order->InVoiceNumber;//
-            
             $factDesc=$order->OrderDesc;
             $SnGetAndPay=0;
-        
             $netPriceHDS=$netPriceOrder;
             $payedPriceHDS=$order->payedMoney;
             $isOnline=$order->isPayed;
@@ -89,13 +85,15 @@ class Factor extends Controller{
                 ,"OtherAddress"=>"$otherAddress"
                 ,"ErsalTime"=>$ersalTime
                 ,"SnAddress"=>$snAddress
-                ]);
+            ]);
 
-                $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
+              $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
+              
             }else{
                 $lastFactSN=$sendedFactorInfo[0]->SerialNoHDS;
                 //DB::table("Shop.dbo.FactorHDS")->where("CustomerSn",$customerSn)->max("SerialNoHDS");
             }
+
             //ثبت سفارش باقی مانده فاکتور
             $factorNumber=DB::select("SELECT MAX(OrderNo) as maxFact from NewStarfood.dbo.OrderHDSS WHERE CompanyNo=5");
             $factorNo=0;
@@ -282,8 +280,8 @@ class Factor extends Controller{
                     $introMoneyAmount=($introMoneyPercent/100)*$netPriceHDS;
                     $introducerCode=$restrictions[0]->introducerCode;
                     DB::update("UPDATE NewStarfood.dbo.star_customerRestriction 
-								SET introMoneyAmount+=$introMoneyAmount WHERE 
-								selfIntroCode='$introducerCode' AND customerId=$customerSn");
+							SET introMoneyAmount+=$introMoneyAmount WHERE 
+							selfIntroCode='$introducerCode' AND customerId=$customerSn");
                 }
             }
         }
@@ -410,14 +408,14 @@ class Factor extends Controller{
     }
 
     public function salesFactors(Request $request){
-        $fiscallYear=self::getSelectedFiscalYear();
-        $factors=DB::select("SELECT *,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=$fiscallYear");
-        return View("factors.salesFactors",['factors'=>$factors]);
+      $fiscallYear=self::getSelectedFiscalYear();
+      $factors=DB::select("SELECT *,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=$fiscallYear");
+      return View("factors.salesFactors",['factors'=>$factors]);
     }
 
     public function getSelectedFiscalYear(){
-        $settings=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get('*');
-        return $settings[0]->FiscallYear;
+      $settings=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get('*');
+      return $settings[0]->FiscallYear;
     }
 
 }

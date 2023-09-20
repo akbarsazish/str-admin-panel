@@ -12,12 +12,11 @@
         font-size:14px;
         display:inline;
     }
-	
-	
+
 .grid-tableFooter {
-  display: grid;
-  grid-template-columns: auto auto auto;
- color:#000; 
+   display: grid;
+   grid-template-columns: auto auto auto;
+   color:#000; 
 }
 .tableFooter-item {
   padding: 3px;
@@ -32,7 +31,6 @@
 }
 	
 .input-group>input.someInput {flex: 0 1 100px;}
-
 </style>
 
 
@@ -44,7 +42,7 @@
                     @if(hasPermission(Session::get("adminId"),"orderSalesN") > 1)
                     <button type="button" class="btn btn-success btn-sm topButton" id="saleToFactorSaleBtn">ارسال به فاکتور فروش <i class="fa fa-send"></i> </button>
                     {{-- <button type="button" class="btn btn-success btn-sm topButton" disabled data-toggle="modal" data-target="#orderReport">  گزارش سفارش   &nbsp; <i class="fa fa-list"></i> </button> --}}
-                @endif
+                    @endif
                     <span class="situation">
                         <fieldset class="border rounded">
                             <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
@@ -99,49 +97,63 @@
                     
                 </div>
             </div>
-            <div class="row mainContent">
+            <div class="row mainContent table-responsive">
                 <table class="table table-hover table-bordered table-sm">
                     <thead class="tableHeader" style="font-size:11px;">
                         <tr class="bg-success">
                             <th> ردیف </th>
-                            <th class="forMobile" style="width:70px;"> شماره  </th>
-                            <th class="forMobile"  style="width:77px;"> تاریخ </th>
-                            <th class="forMobile"  style="width:77px;"> توضحیات </th>
-                            <th class="forMobile"  style="width:77px;"> کد مشتری </th>
-                            <th style="width:180px; font-weight:bold;"> نام مشتری </th>
+                            <th class="forMobile"> شماره  </th>
+                            <th class="forMobile"> تاریخ </th>
+                            <th class="forMobile"> توضحیات </th>
+                            <th class="forMobile"> کد مشتری </th>
+                            <th> نام مشتری </th>
                             <th class="forMobile" > مبلغ فاکتور </th>
                             <th> مبلغ دریافتی </th>
                             <th class="forMobile" > تنظیم کننده </th>
                             <th class="forMobile" > نحوه پرداخت </th>
-                            <th class="forMobile" > شرح </th>
-                            <th style="width:55px;">روز ارسال</th>
-                            <th class="forMobile" > ارسال </th>
+                            <th class="forMobile"> بازاریاب </th>
+                            <th class="forMobile"> از انبار  </th>
+                            <th class="forMobile"> تعداد چاپ </th>
+                            <th class="forMobile"> پورسانت بازاریاب </th>
+                            <th class="forMobile"> بارگیری </th>
+                            <th class="forMobile"> مبلغ تخفیف </th>
+                            <th class="forMobile"> واحد فروش  </th>
+                            <th class="forMobile"> تاریخ اعلام به انبار </th>
+                            <th class="forMobile"> ساعت اعلام به انبار  </th>
+                            <th class="forMobile"> تاریخ بارگیری  </th>
+                            <th class="forMobile"> ساعت بارگیری  </th>
+                            <th class="forMobile"> شماره بار نامه  </th>
+                            <th class="forMobile"> ساعت ثبت  </th>
+                            <th class="forMobile"> از سفارش  </th>
+                            <th class="forMobile"> شماره بارگیری </th>
+                            <th class="forMobile"> تحویل به راننده </th>
+                            <th class="forMobile"> نام راننده </th>
+                          
                         </tr>
                     </thead>
                     <tbody id="orderListBody" class="tableBody" style="height:233px !important;">
                         
                     </tbody>
-                    <table id="footer">
-                    <div class="grid-tableFooter">
-
-                        </div>
-                    </table>
                 </table> <hr>
             
                 <table class="table table-hover table-bordered table-sm">
                     <thead class="tableHeader" style="font-size:11px;">
                         <tr>
-                            <th> ردیف </th>
-                            <th style="width:160px;"> نام کالا </th>
-                            <th class="forMobile"> تاریخ </th>
-                            <th class="forMobile"> نوع بسته بندی </th>
-                            <th> مقدار کل </th>
-                            <th class="forMobile"> مقدار جز </th>
-                            <th> مقدار سفارش </th>
-                            <th  class="forMobile"> فاکتور شده </th>
-                            <th class="forMobile"> نرخ </th>
-                            <th> مبلغ </th>
-                            <th class="forMobile"> شرح </th>
+                         <th> ردیف </th>
+                         <th> کد کالا </th>
+                         <th style="width:160px;"> نام کالا </th>
+                         <th> واحد کالا </th>
+                         <th> بسته بندی </th>
+                         <th> مقدار بسته  </th>
+                         <th> مقدار کالا </th>
+                         <th>  تخفیف %  </th>
+                         <th> نرخ </th>
+                         <th> نرخ بسته </th>
+                         <th> مبلغ  </th>
+                         <th> مبلغ تخفیف  </th>
+                         <th> شرح کالا </th>
+                         <th> وضعیت بارگیری </th>
+                         <th> بار میکروبی </th>
                         </tr>
                     </thead>
                     <tbody id="orderDetailBody" class="tableBody" style="height:188px ! important; overflow-y: scroll;">
