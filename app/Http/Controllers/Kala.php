@@ -963,6 +963,146 @@ public function getFavorite(Request $request)
        $logoPos=DB::select("SELECT logoPosition FROM NewStarfood.dbo.star_webSpecialSetting")[0]->logoPosition;
         return view('groups.maingroupKala',['listKala'=>$listKala,'listGroups'=>$listSubGroups,'mainGrId'=>$groupId,'subGroupId'=>$minSubGroupId,'currency'=>$currency,'currencyName'=>$currencyName,'logoPos'=>$logoPos]);
     }
+    // کالاهایی را که در داخل تصاویر صفحه اول گذاشته اند بر می گرداند.
+    public function listKalaOfPictureApi(Request $request){
+        $picId=$request->input('picId');
+        $id=$request->input("homePartId");
+        $customerId=$request->input("psn");
+        $overLine=0;
+        $callOnSale=0;
+        $zeroExistance=0;
+        $fiscallYear=1402;
+        $kalaList=DB::select("SELECT NewStarfood.dbo.star_add_homePart_stuff.*,GoodName,A.GoodSn,Price4,Price3,B.SUNAME secondUnit,UNAME as firstUnit,V.Amount,G.GoodGroupSn,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.activePishKharid
+                        FROM NewStarfood.dbo.star_add_homePart_stuff
+                        JOIN (SELECT PubGoods.GoodSn,PubGoods.GoodGroupSn FROM Shop.dbo.GoodGroups JOIN Shop.dbo.PubGoods ON PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn) G ON G.GoodSn=NewStarfood.dbo.star_add_homePart_stuff.productId
+                        JOIN (SELECT PUBGoodUnits.UName,PubGoods.GoodSn FROM Shop.dbo.PUBGoodUnits JOIN Shop.dbo.PubGoods ON PUBGoodUnits.USN=PubGoods.DefaultUnit) A  ON A.GoodSn=NewStarfood.dbo.star_add_homePart_stuff.productId
+                        JOIN (SELECT PubGoods.GoodName,PubGoods.GoodSn FROM Shop.dbo.PubGoods) C ON c.GoodSn=NewStarfood.dbo.star_add_homePart_stuff.productId
+                        JOIN (SELECT * FROM Shop.dbo.ViewGoodExists) V ON NewStarfood.dbo.star_add_homePart_stuff.productId=V.SnGood
+                        LEFT JOIN (Select GoodPriceSale.Price4,GoodPriceSale.Price3,GoodPriceSale.SnGood FROM Shop.dbo.GoodPriceSale) S ON S.SnGood=NewStarfood.dbo.star_add_homePart_stuff.productId
+                        LEFT JOIN (SELECT GoodUnitSecond.SnGoodUnit,PUBGoodUnits.UName as SUNAME,GoodUnitSecond.SnGood FROM Shop.dbo.GoodUnitSecond JOIN Shop.dbo.PUBGoodUnits ON GoodUnitSecond.SnGoodUnit=PUBGoodUnits.USN) B ON NewStarfood.dbo.star_add_homePart_stuff.productId=B.SnGood
+                        LEFT JOIN NewStarfood.dbo.star_GoodsSaleRestriction ON NewStarfood.dbo.star_add_homePart_stuff.productId=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                        WHERE NewStarfood.dbo.star_add_homePart_stuff.partPic=".$picId." and V.FiscalYear=$fiscallYear  and NewStarfood.dbo.star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) order by Amount desc");
+
+        $currency=1;
+        $currencyName="ریال";
+        $currencyExistance=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get('currency');
+        foreach ($currencyExistance as $cr) {
+            $currency=$cr->currency;
+        }
+        if($currency==10){
+            $currencyName="تومان";
+        }
+
+        foreach ($kalaList as $kala) {
+            $overLine=0;
+            $callOnSale=0;
+            $zeroExistance=0;
+            $freeExistance=0;
+            $activePishKharid=0;
+            $exist="NO";
+            $favorits=DB::select("SELECT * FROM NewStarfood.dbo.star_Favorite");
+            foreach ( $favorits as $favorite) {
+                if($kala->GoodSn==$favorite->goodSn and $favorite->customerSn==$customerId){
+                    $exist='YES';
+                    break;
+                }else{
+                    $exist='NO';
+                }
+            }
+            $kala->requested=self::getKalaRequestState($customerId,$kala->GoodSn);
+            $restrictionState=DB::table("NewStarfood.dbo.star_GoodsSaleRestriction")->where("productId",$kala->GoodSn)->select("overLine","callOnSale","zeroExistance",'freeExistance','activePishKharid')->get();
+            if(count($restrictionState)>0){
+                foreach($restrictionState as $rest){
+                    if($rest->overLine==1){
+                        $overLine=1;
+                    }
+                    if($rest->callOnSale==1){
+                        $callOnSale=1;
+                    }
+                    if($rest->zeroExistance==1){
+                        $zeroExistance=1;
+                    }
+                    if($rest->activePishKharid==1){
+                        $activePishKharid=1;
+                    }
+                    if($rest->freeExistance==1){
+                        $freeExistance=1;
+                    }
+                }
+            }
+            $boughtKalas=DB::select("SELECT  FactorStar.*,orderStar.* from NewStarfood.dbo.FactorStar join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and SnGood=".$kala->GoodSn." and orderStatus=0");
+            $orderBYSsn;
+            $secondUnit;
+            $amount;
+            $packAmount;
+            foreach ($boughtKalas as $boughtKala) {
+                $orderBYSsn=$boughtKala->SnOrderBYS;
+                $orderGoodSn=$boughtKala->SnGood;
+                $amount=$boughtKala->Amount;
+                $packAmount=$boughtKala->PackAmount;
+                $secondUnits=DB::select("SELECT GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName FROM Shop.dbo.PubGoods JOIN Shop.dbo.GoodUnitSecond ON PubGoods.GoodSn=GoodUnitSecond.SnGood JOIN Shop.dbo.PUBGoodUnits ON PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 AND GoodUnitSecond.SnGood=".$orderGoodSn);
+                foreach ($secondUnits as $unit) {
+                    $secondUnit=$unit->UName;
+                }
+            }
+            if(count($boughtKalas)>0){
+                $kala->bought="Yes";
+                $kala->SnOrderBYS=$orderBYSsn;
+                $kala->secondUnit=$secondUnit;
+                $kala->Amount=$amount;
+                $kala->PackAmount=$packAmount;
+            }else{
+                $kala->bought="No";
+            }
+            $kala->favorite=$exist;
+            $kala->overLine=$overLine;
+            $kala->callOnSale=$callOnSale;
+            if($zeroExistance==1){
+                $kala->Amount=0;
+            }
+            $boughtKalas=DB::select("select  star_pishKharidFactor.*,star_pishKharidOrder.* from NewStarfood.dbo.star_pishKharidFactor join NewStarfood.dbo.star_pishKharidOrder on star_pishKharidFactor.SnOrderPishKharid=star_pishKharidOrder.SnHDS where CustomerSn=".Session::get('psn')." and SnGood=".$kala->GoodSn." and  orderStatus=0");
+            $orderBYSsn;
+            $secondUnit;
+            $amount;
+            $packAmount;
+            foreach ($boughtKalas as $boughtKala) {
+                $orderBYSsn=$boughtKala->SnOrderBYSPishKharid;
+                $orderGoodSn=$boughtKala->SnGood;
+                $amount=$boughtKala->Amount;
+                $packAmount=$boughtKala->PackAmount;
+                $secondUnits=DB::select("select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
+                join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
+                join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood=".$orderGoodSn);
+                if(count($secondUnits)>0){
+                    foreach ($secondUnits as $unit) {
+                        $secondUnit=$unit->UName;
+                    }
+                }else{
+                    $secondUnit=$kala->firstUnit;
+                }
+            }
+            if(count($boughtKalas)>0){
+                $kala->bought="Yes";
+                $kala->SnOrderBYS=$orderBYSsn;
+                $kala->secondUnit=$secondUnit;
+                $kala->Amount=$amount;
+                $kala->PackAmount=$packAmount;
+                $kala->UName=$kala->firstUnit;
+            }else{
+                $kala->bought="No";
+            }
+            $kala->favorite=$exist;
+            $kala->overLine=$overLine;
+            $kala->callOnSale=$callOnSale;
+            $kala->activePishKharid=$activePishKharid;
+            $kala->freeExistance=$freeExistance;
+            if($zeroExistance==1){
+            $kala->Amount=0;
+            }
+        }
+        $logoPos=DB::select("SELECT logoPosition FROM NewStarfood.dbo.star_webSpecialSetting")[0]->logoPosition;
+        return Response::json(['kala'=>$kalaList,'currency'=>$currency,'currencyName'=>$currencyName,'logoPos'=>$logoPos]);
+    }
 //برای تنظیمات کالاهای برند استفاده می شود.
     public function getListKala(Request $request)
     {

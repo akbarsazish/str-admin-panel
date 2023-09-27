@@ -861,141 +861,55 @@ class Home extends Controller {
             if($part->partType == 13){
                 //لیستی از پیش خرید ها
                 $partId=$part->partId;
-                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
-                    SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
-                            star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
-                            JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
-                            JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
-                            JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
-                            JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
-                            JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
-                            WHERE star_add_homePart_stuff.homepartId=$partId
-                            and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a 
-                            
-                            JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
+                $allKalas=DB::select("SELECT TOP 10 *,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,CRM.dbo.getGoodExistance(GoodSn,1402,23)Amount,(CRM.dbo.getGoodExistance(GoodSn,1402,23)/NewStarfood.dbo.getAmountUnit(GoodSn))PackAmount,NewStarfood.dbo.getFirstUnit(GoodSn) firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) secondUnit FROM (select * from(
+                                        SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                                        star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                                        JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                                        JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                                        JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                                        JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                                        JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                                        WHERE star_add_homePart_stuff.homepartId=$partId
+                                        AND star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a              
+                                        JOIN (SELECT min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id )c
+                                        LEFT JOIN (SELECT  SnOrderBYS,SnGood,Amount as BoughtAmount,PackAmount FROM NewStarfood.dbo.FactorStar inner join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and orderStatus=0)f on f.SnGood=c.GoodSn
+                                        LEFT JOIN (SELECT  SnOrderPishKharid,star_pishKharidOrder.SnOrderBYSPishKharid,SnGood,Amount as PishKharidAmount,PackAmount as pishKharidPackAmount FROM NewStarfood.dbo.star_pishKharidFactor inner join NewStarfood.dbo.star_pishKharidOrder on star_pishKharidFactor.SnOrderPishKharid=SnHDS where CustomerSn=$customerId and orderStatus=0)g on g.SnGood=c.GoodSn order by priority asc");
 
-                foreach ($allKalas as $kala) {
-                    $boughtKalas=DB::select("select  star_pishKharidFactor.*,star_pishKharidOrder.* from NewStarfood.dbo.star_pishKharidFactor join NewStarfood.dbo.star_pishKharidOrder on star_pishKharidFactor.SnOrderPishKharid=star_pishKharidOrder.SnHDS where CustomerSn=".Session::get('psn')." and SnGood=".$kala->GoodSn." and  orderStatus=0");
-                    $orderBYSsn;
-                    $secondUnit;
-                    $amount;
-                    $packAmount;
-                    foreach ($boughtKalas as $boughtKala) {
-                        $orderBYSsn=$boughtKala->SnOrderBYSPishKharid;
-                        $orderGoodSn=$boughtKala->SnGood;
-                        $amount=$boughtKala->Amount;
-                        $packAmount=$boughtKala->PackAmount;
-                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
-                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
-                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
-                        if(count($secondUnits)>0){
-                            $secondUnit=$secondUnits[0]->UName;
-                        }else{
-                            $secondUnit=$kala->UName;
-                        }
-                    }
-                    if(count($boughtKalas)>0){
-                        $kala->bought="Yes";
-                        $kala->SnOrderBYS=$orderBYSsn;
-                        $kala->secondUnit=$secondUnit;
-                        $kala->Amount=$amount;
-                        $kala->PackAmount=$packAmount;
-                    }else{
-                        $kala->bought="No";
-                    }
-                }
                 $part->allKalas=$allKalas;
             }
             if($part->partType == 2){
                 //لیستی از کالاها
                 $partId=$part->partId;
-                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
-                                        SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
-                                                star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
-                                                JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
-                                                JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
-                                                JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
-                                                JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
-                                                JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
-                                                WHERE star_add_homePart_stuff.homepartId=$partId
-                                                and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a 
-                                                JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
-                foreach ($allKalas as $kala) {
-                    $boughtKalas=DB::select("select  FactorStar.*,orderStar.* from NewStarfood.dbo.FactorStar join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and SnGood=".$kala->GoodSn." and  orderStatus=0");
-                    $orderBYSsn;
-                    $secondUnit;
-                    $amount;
-                    $packAmount;
-                    foreach ($boughtKalas as $boughtKala) {
-                        $orderBYSsn=$boughtKala->SnOrderBYS;
-                        $orderGoodSn=$boughtKala->SnGood;
-                        $amount=$boughtKala->Amount;
-                        $packAmount=$boughtKala->PackAmount;
-                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
-                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
-                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
-                    
-                        if(count($secondUnits)>0){
-                            $secondUnit=$secondUnits[0]->UName;
-                        }else{
-                            $secondUnit=$kala->UName;
-                        }
-
-                    }
-                    if(count($boughtKalas)>0){
-                        $kala->bought="Yes";
-                        $kala->SnOrderBYS=$orderBYSsn;
-                        $kala->secondUnit=$secondUnit;
-                        $kala->Amount=$amount;
-                        $kala->PackAmount=$packAmount;
-                    }else{
-                        $kala->bought="No";
-                    }
-                }
+                $allKalas=DB::select("SELECT TOP 10 *,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,CRM.dbo.getGoodExistance(GoodSn,1402,23)Amount,(CRM.dbo.getGoodExistance(GoodSn,1402,23)/NewStarfood.dbo.getAmountUnit(GoodSn))PackAmount,NewStarfood.dbo.getFirstUnit(GoodSn) firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) secondUnit FROM (select * from(
+                    SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                    star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                    JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                    JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                    JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                    JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                    JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                    WHERE star_add_homePart_stuff.homepartId=$partId
+                    and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a              
+                    JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id )c
+                    LEFT JOIN (SELECT  SnOrderBYS,SnGood,Amount as BoughtAmount,PackAmount FROM NewStarfood.dbo.FactorStar inner join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and orderStatus=0)f on f.SnGood=c.GoodSn order by priority asc");
                 $part->allKalas=$allKalas;
             }
 
             if($part->partType == 11){
                 //شگفت انگیزها'
                 $partId=$part->partId;
-                $allKalas=DB::select("SELECT TOP ".$part->showTedad." * FROM (
-                        SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
-                                star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
-                                JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
-                                JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
-                                JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
-                                JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
-                                JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
-                                WHERE star_add_homePart_stuff.homepartId=$partId
-                                and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a
-                                JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id order by priority asc");
-
-                foreach ($allKalas as $kala) {
-                    $boughtKalas=DB::select("select  FactorStar.*,orderStar.* from NewStarfood.dbo.FactorStar join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and SnGood=".$kala->GoodSn." and  orderStatus=0");
-                    $orderBYSsn;
-                    $secondUnit=$kala->UName;
-                    $amount;
-                    $packAmount;
-                    foreach ($boughtKalas as $boughtKala){
-                        $orderBYSsn=$boughtKala->SnOrderBYS;
-                        $orderGoodSn=$boughtKala->SnGood;
-                        $amount=$boughtKala->Amount;
-                        $packAmount=$boughtKala->PackAmount;
-                        $secondUnits=DB::select('select GoodUnitSecond.AmountUnit,PubGoods.GoodSn,PUBGoodUnits.UName from Shop.dbo.PubGoods
-                        join Shop.dbo.GoodUnitSecond on PubGoods.GoodSn=GoodUnitSecond.SnGood
-                        join Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=GoodUnitSecond.SnGoodUnit WHERE GoodUnitSecond.CompanyNo=5 and GoodUnitSecond.SnGood='.$orderGoodSn);
-                        $secondUnit=$secondUnits[0]->UName;
-                    }
-                    if(count($boughtKalas)>0){
-                        $kala->bought="Yes";
-                        $kala->SnOrderBYS=$orderBYSsn;
-                        $kala->secondUnit=$secondUnit;
-                        $kala->Amount=$amount;
-                        $kala->PackAmount=$packAmount;
-                    }else{
-                        $kala->bought="No";
-                    }
-                }
+                $allKalas=DB::select("SELECT TOP 10 *,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,CRM.dbo.getGoodExistance(GoodSn,1402,23)Amount,(CRM.dbo.getGoodExistance(GoodSn,1402,23)/NewStarfood.dbo.getAmountUnit(GoodSn))PackAmount,NewStarfood.dbo.getFirstUnit(GoodSn) firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) secondUnit FROM (select * from(
+                    SELECT  star_add_homePart_stuff.priority,GoodGroups.GoodGroupSn,UName,
+                    star_add_homePart_stuff.productId,PubGoods.GoodName,PubGoods.GoodSn,GoodPriceSale.Price4,GoodPriceSale.Price3,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.callOnSale FROM Shop.dbo.PubGoods
+                    JOIN NewStarfood.dbo.star_add_homePart_stuff ON PubGoods.GoodSn=star_add_homePart_stuff.productId
+                    JOIN Shop.dbo.GoodPriceSale on star_add_homePart_stuff.productId=GoodPriceSale.SnGood
+                    JOIN Shop.dbo.GoodGroups on PubGoods.GoodGroupSn=GoodGroups.GoodGroupSn
+                    JOIN Shop.dbo.PUBGoodUnits on PUBGoodUnits.USN=PubGoods.defaultUnit
+                    JOIN NewStarfood.dbo.star_GoodsSaleRestriction on PubGoods.GoodSn=NewStarfood.dbo.star_GoodsSaleRestriction.productId
+                    WHERE star_add_homePart_stuff.homepartId=$partId
+                    and star_add_homePart_stuff.productId not in(select productId from NewStarfood.dbo.star_GoodsSaleRestriction where hideKala=1 ) )a              
+                    JOIN (select min(firstGroupId) as firstGroupId,product_id from NewStarfood.dbo.star_add_prod_group group by product_id)b on a.productId=b.product_id )c
+                    LEFT JOIN (SELECT  SnOrderBYS,SnGood,Amount as BoughtAmount,PackAmount FROM NewStarfood.dbo.FactorStar inner join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerId and orderStatus=0)f on f.SnGood=c.GoodSn order by priority asc");
                 $part->allKalas=$allKalas;                
             }
             if($part->partType == 6){
@@ -1036,7 +950,6 @@ class Home extends Controller {
             if($part->partType == 9){
                 //چهار عکسی و لیستی از کالاها
                 $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
-                
                 foreach ($pictures as $pic) {
                     $countPicKala=0;
                     $countPicKala = DB::table("NewStarfood.dbo.star_add_homePart_stuff")->where("partPic",$pic->id)->count();

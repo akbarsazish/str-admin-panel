@@ -19,7 +19,10 @@ use App\Http\Controllers\PayOnline;
 use App\Http\Controllers\Notification;
 use App\Http\Controllers\TakhfifCode;
 use App\Http\Controllers\Target;
+use App\Http\Controllers\Driver;
+use App\Http\Controllers\Bank;
 use App\Http\Controllers\Masir;
+use App\Http\Controllers\Bargiri;
 Route::get('/messages',[Message::class,'messages'])->middleware('checkAdmin');
 Route::get('/getTakhfifCode',[TakhfifCode::class,'index'])->middleware('checkAdmin');
 Route::get('/getReplayedMessages',[Message::class,'getReplayedMessages'])->middleware('checkAdmin');
@@ -229,7 +232,7 @@ Route::get('/searchCustomerLocationOrNot', [Admin::class,'searchCustomerLocation
 Route::get('/searchMantagha', [Masir::class, 'searchMantagha'])->middleware('checkAdmin');
 Route::get('/addMantiqah', [Masir::class, 'addMantiqah'])->middleware('checkAdmin');
 Route::get('/addMasir', [Masir::class, 'addMasir'])->middleware('checkAdmin');
-Route::get('/getMasirs', [Masir::class, 'getMasirs'])->middleware('checkAdmin');
+Route::get('/getMasirs', [Masir::class, 'getMantiqasByCityId'])->middleware('checkAdmin');
 Route::get('/takhsisMasirs', [Customer::class, 'takhsisMasirs'])->middleware('checkAdmin');
 Route::get('/searchCustomerByName', [Admin::class, 'searchCustomerByName'])->middleware('checkAdmin');
 Route::get('/orderCustomers', [Admin::class, 'orderCustomers'])->middleware('checkAdmin');
@@ -323,5 +326,13 @@ Route::get("/getInfoOfOrderCustomer",[Customer::class,"getInfoOfOrderCustomer"])
 Route::get("/doEditOrder",[Order::class,"doEditOrder"])->middleware('checkAdmin');
 Route::get("/getKalaByName",[Kala::class,"getKalaByName"])->middleware('checkAdmin');
 Route::get('/searchKalaByCode',[Kala::class,'getKalaByCode'])->middleware('checkAdmin');
-
 Route::get('/salesFactors',[Factor::class,'salesFactors'])->middleware('checkAdmin');
+Route::get('/getFactorBYSInfo',[Factor::class,'getFactorBYSInfo'])->middleware('checkAdmin');
+Route::get("/getDriverFactors",[Factor::class,'getDriverFactors'])->middleware('checkAdmin');
+Route::get("/getDrivers",[Driver::class,'allDrivers'])->middleware('checkAdmin');
+Route::get("/allBanks",[Bank::class,'allBanks'])->middleware('checkAdmin');
+Route::get("/getMasterBarInfo",[Bargiri::class,'getMasterBarInfo'])->middleware('checkAdmin');
+Route::get("/getMantiqasOfFactors",[Masir::class,'getMantiqasOfFactors'])->middleware('checkAdmin');
+Route::get("/getMantiqasFactorForBargiri",[Masir::class,'getMantiqasFactorForBargiri'])->middleware('checkAdmin');
+Route::get("/addFactorToBargiri",[Bargiri::class,'addFactorToBargiri'])->middleware('checkAdmin');
+Route::get("/getFactorsInfoToBargiriTbl",[Bargiri::class,'getFactorsInfoToBargiriTbl'])->middleware('checkAdmin');

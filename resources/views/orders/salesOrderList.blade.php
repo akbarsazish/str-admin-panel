@@ -850,7 +850,7 @@
                 </div>
                 <div class="row">
                 <table class="table table-striped table-bordered table-sm" id="newSefarishTbl">
-                    <thead class="tableHeader">
+                    <thead>
                         <tr>
                             <th style="width:30px!important;" > ردیف </th>
                             <th style="width:40px!important;" > کد کلا </th>
@@ -872,16 +872,16 @@
                             <td style="width:30px!important;"> 1 </td>
                             <td style="width:40px!important;"  class="td-part-input"> <input type="text" class="td-input td-inputCode form-control" required> </td>
                             <td style="width:130px!important;" class="td-part-input"> <input type="text" class="td-input td-inputCodeName form-control" required> </td>
-                            <td style="width:50px!important;">  </td>
-                            <td style="width:70px!important;">  </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                            <td style="width:50px!important;" class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            <td style="width:70px!important;" class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            <td style="width:50px!important;" class="td-part-input"> <input type="text" class="td-input td-inputDescription form-control"> </td>
+                            <td style="width:50px!important;"  class="td-part-input">  </td>
+                            <td style="width:70px!important;"  class="td-part-input">  </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
+                            <td style="width:50px!important;"  class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:45px!important;"  class="td-part-input"> <input type="text" class="td-input td-inputDescription form-control"> </td>
                         </tr>
                     </tbody>
                 </table> 

@@ -290,7 +290,7 @@ $(document).on("keyup",".td-inputCodeName", (e)=>{
         $("#searchKalaForAddToSefarishByName").val();
         $("#searchForAddItemLabel").text("نام کالا")
         $("#searchKalaForAddToSefarishByName").val("");
-        $("#searchKalaForAddToSefarishByName").val($(".td-inputCodeName").val());
+        $("#searchKalaForAddToSefarishByName").val($(e.target).val());
         $("#searchKalaForAddToSefarishByCode").hide();
         $("#searchKalaForAddToSefarishByName").show();
         $("#addOrderItem1").modal("show");
@@ -891,7 +891,6 @@ function setAddedTosefarishKalaStuff(element,goodSn){
 }
 
 $("#selectKalaToSefarishBtn").on("click",function(){
-
     var rowCount = $("#newSefarishTbl tr").length-1;
     let allMoney=0;
     for(let i=1;i<=rowCount;i++){

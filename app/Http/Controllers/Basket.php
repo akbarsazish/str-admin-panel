@@ -605,11 +605,85 @@ class Basket extends Controller {
         }
         return Response::json(mb_convert_encoding($allMoney, "HTML-ENTITIES", "UTF-8"));
     }
+    public function addToBasketFromHomePageApi(Request $request){
+        $packType;
+        $packAmount=1;
+        $defaultUnit=0;
+        $kalaId=$request->input('kalaId');
+        $fiscallYear=1402;
+        $customerId=$request->input("psn");
+        $amountBought=$request->input('amountUnit');
+        $secondUnits=DB::select("SELECT SnGoodUnit,AmountUnit FROM Shop.dbo.GoodUnitSecond WHERE GoodUnitSecond.SnGood=".$kalaId);
+        $defaultUnits=DB::select("SELECT defaultUnit FROM Shop.dbo.PubGoods WHERE PubGoods.GoodSn=".$kalaId);
+        foreach ($defaultUnits as $unit) {
+            $defaultUnit=$unit->defaultUnit;
+        }
+        if(count($secondUnits)>0){
+            foreach ($secondUnits as $unit) {
+                $packType=$unit->SnGoodUnit;
+                $packAmount=$unit->AmountUnit;
+            }
+        }else{
+            $packType=$defaultUnit;
+            $packAmount=1;
+        }
+        $amountUnit=$amountBought*$packAmount;
+        
+        $prices=DB::select("select GoodPriceSale.Price3 from Shop.dbo.GoodPriceSale where GoodPriceSale.SnGood=".$kalaId);
+        $exactPrice=0;
+        foreach ($prices as $price) {
+            $exactPrice=$price->Price3;
+        }
+        $allMoney= $exactPrice * $amountUnit;
+        $maxOrderNo=DB::select("select MAX(OrderNo) as maxNo from NewStarfood.dbo.FactorStar where CompanyNo=5");
+        $maxOrder=0;
+        if(count($maxOrderNo)>0){
+            foreach ($maxOrderNo as $maxNo) {
+                $maxOrder=$maxNo->maxNo;
+                $maxOrder=$maxOrder+1;
+            }
+
+        }else{
+            $maxOrder=1;
+        }
+
+        $todayDate = Jalalian::forge('today')->format('Y/m/d');
+        $todayNow = Jalalian::forge('today')->format("%H:%M:%S");
+        $curTime=  Carbon::now();
+        $dt=$curTime->format("Y-m-d H:i:s");
+
+        $countOrders=DB::table("NewStarfood.dbo.FactorStar")->where("OrderStatus",0)->where("CustomerSn",$customerId)->count();
+        $factorNumber=DB::select("SELECT MAX(OrderNo) as maxFact from Shop.dbo.OrderHDS WHERE CompanyNo=5");
+        $factorNo;
+        foreach ($factorNumber as $number) {
+            $factorNo=$number->maxFact;
+        }
+        $factorNo=$factorNo+1;
+        if($countOrders<1){
+            DB::insert("INSERT INTO NewStarfood.dbo.FactorStar (CompanyNo,OrderNo,OrderDate,CustomerSn,OrderDesc,OrderStatus,LastDatePay,LastDateTrue,FiscalYear,TimeStamp,BazarYab,CountPrintOrder,SnUser,OrderAddress,OtherCustName,TahvilType,TahvilDesc,RanandehName,MashinNo,BarNameNo,IsExport,SnOrderHDSRecived,OrderOrPishFactor,OtherMobile,OtherTel,DateNovbat,TimeNovbat,Takhfif,OrderNo2,SnOrder2,NextOrderDate,LastOrderCust,SaveTimeOrder,LatOrder,LonOrder,Sal_SnCust,Sal_SnBazaryab,IsFax,FaxUser,FaxDate,FaxTime,PayTypeOrder,SnHDSTablet_O,SnSellerTablet_O,EzafatOrder,KosoratOrder,NameEzafatOrder,NameKosoratOrder)
+
+            VALUES(5,".$factorNo.",'".$todayDate."',".$customerId.",'',0,'','','$fiscallYear',".(DB::raw('CURRENT_TIMESTAMP')).",0,0,3,'','',0,'','',0,0,0,0,0,'','','".$todayDate."','',0,0,0,'',0,'',0,0,0,0,0,0,'','',0,0,0,0,0,'','')");
+        }
+
+        $maxOrderSn=DB::table("NewStarfood.dbo.FactorStar")->where("CustomerSn",$customerId)->max("SnOrder");
+        $maxOrder=1;
+
+        if($maxOrderSn>0){
+            $maxOrder=$maxOrderSn;
+        }
+
+        $fiPack=$allMoney/$packAmount;
+        DB::insert("INSERT INTO NewStarfood.dbo.orderStar(CompanyNo,SnHDS,SnGood,PackType,PackAmount,Amount,Fi,Price,DescRecord,StatusBys,DateOrder,SnUser,TimeStamp,FactorFew,ExportType,SendToKarkhaneh,FiPack,IsExport,SnOrderDetailRecived,OrderTo,GoodName2,JozePack,SaleType,PriceMaliyat,PercentTakhFif,PriceTakhfif,PriceAfterTakhfif,PercentReval,PriceReval,RealFi,RealPrice,Price3PercentMaliat,PercentSood,Tedad,Tol,Arz,Zekhamat,SnOrderBys2,SnOrderHds2,OrderNo2,OrderDate2,SnBazaryab2,FewExit,TimeTasviyeInOrder,ItemNo,TakhfifDetail1,TakhfifDetail2,TakhfifDetail3,TakhfifDetail4,PriceTakhfifDetail1,PriceTakhfifDetail2,PriceTakhfifDetail3,PriceTakhfifDetail4,FiAfterTakhfifDetail1,FiAfterTakhfifDetail2,FiAfterTakhfifDetail3,FiAfterTakhfifDetail4)
+        VALUES(5,".$maxOrder.",".$kalaId.",".$packType.",".$amountBought.",".$amountUnit.",".$exactPrice.",".$allMoney.",'',0,'".$todayDate."',12,".(DB::raw('CURRENT_TIMESTAMP')).",0,0,0,".$fiPack.",0,0,0,'',0,0,0,0,0,".$allMoney.",0,0,".$exactPrice.",".$allMoney.",0,0,0,0,0,0,0,0,0,'',0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0)");
+        
+        $snlastBYS=DB::table('NewStarfood.dbo.orderStar')->max('SnOrderBYS');
+        return Response::json(["snLastBYS"=>$snlastBYS,"amountBought"=>$amountBought]);
+    }
 
     public function updateBasketItemFromHomePage(Request $request)
     {
         $orderBYSsn=$request->get('orderBYSSn');
-        $amountUnit=$request->get('amountUnit');
+        $boughtAmount=$request->get('amountUnit');
         $productId=$request->get('kalaId');
         $defaultUnit;
         $defaultUnits=DB::select("SELECT UName FROM Shop.dbo.PubGoods JOIN Shop.dbo.PUBGoodUnits on PubGoods.DefaultUnit=PUBGoodUnits.USN WHERE PubGoods.GoodSn=".$productId);
@@ -626,8 +700,7 @@ class Basket extends Controller {
             $packType=$defaultUnit;
             $packAmount=1;
         }
-        $amountUnit=$request->get('amountUnit')*$packAmount;
-        $amountBought=$request->get('amountUnit');
+        $amountUnit=$boughtAmount*$packAmount;
         $prices=DB::select("select GoodPriceSale.Price3 from Shop.dbo.GoodPriceSale where GoodPriceSale.SnGood=".$productId);
         $exactPrice=0;
         foreach ($prices as $price) {
@@ -635,14 +708,13 @@ class Basket extends Controller {
         }
         $allMoney= $exactPrice * $amountUnit;
         $fiPack=$exactPrice*$packAmount;
-        if($amountUnit>0){
-        DB::update("UPDATE NewStarfood.dbo.orderStar SET Amount=".$amountUnit.",PackAmount=$amountBought ,Price=".$allMoney.",FiPack=".$fiPack.",PriceAfterTakhfif=$allMoney WHERE SnOrderBYS=".$orderBYSsn);
-        return Response::json('good');
+        if($boughtAmount>0){
+            DB::update("UPDATE NewStarfood.dbo.orderStar SET Amount=".$amountUnit.",PackAmount=$boughtAmount ,Price=".$allMoney.",FiPack=".$fiPack.",PriceAfterTakhfif=$allMoney WHERE SnOrderBYS=".$orderBYSsn);
+            return Response::json(["boughtAmount"=>$boughtAmount]);
         }else{
-        DB::delete('DELETE FROM NewStarfood.dbo.orderStar WHERE SnOrderBYS='.$orderBYSsn);
-        return Response::json('good');
+            DB::delete('DELETE FROM NewStarfood.dbo.orderStar WHERE SnOrderBYS='.$orderBYSsn);
+            return Response::json(["boughtAmount"=>0]);
         }
-
     }
 
     public function deleteBasketItem(Request $request)

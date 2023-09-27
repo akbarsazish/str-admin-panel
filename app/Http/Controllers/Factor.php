@@ -18,6 +18,7 @@ class Factor extends Controller{
         $factDate=$request->post("sendOrderDate");
         $fiscallYear=Session::get('FiscallYear');
         $stockId=$request->post("stockId");
+        $willAppendToFactor=0;
 //         DB::beginTransaction();
 
 // try {
@@ -46,11 +47,15 @@ class Factor extends Controller{
 
             // return $factorWasRemained;
             $order=$orders[0];
+            
             $customerSn=$order->CustomerSn;
+            
             $takhfif=$order->Takhfif;//
             $inVoiceNumber=$order->InVoiceNumber;//
+            
             $factDesc=$order->OrderDesc;
             $SnGetAndPay=0;
+        
             $netPriceHDS=$netPriceOrder;
             $payedPriceHDS=$order->payedMoney;
             $isOnline=$order->isPayed;
@@ -63,9 +68,7 @@ class Factor extends Controller{
             $factNo=1;
             $factNo=DB::table("Shop.dbo.FactorHDS")->where("FactType",3)->where("CompanyNo",5)->max("FactNo");
             $sendedFactorInfo=[];
-            if($lastFactId>0){
-                $sendedFactorInfo=DB::select("SELECT * FROM Shop.dbo.FactorHDS WHERE FactDate='$factDate' AND OtherAddress='$otherAddress' AND CustomerSn=$customerSn");
-            }
+            $sendedFactorInfo=DB::select("SELECT * FROM Shop.dbo.FactorHDS WHERE FactDate='$factDate' AND OtherAddress='$otherAddress' AND CustomerSn=$customerSn");
             if(count($sendedFactorInfo)<1){
                 DB::table("Shop.dbo.FactorHDS")->insert([
                 "CompanyNo"=>5
@@ -85,15 +88,14 @@ class Factor extends Controller{
                 ,"OtherAddress"=>"$otherAddress"
                 ,"ErsalTime"=>$ersalTime
                 ,"SnAddress"=>$snAddress
-            ]);
+                ]);
 
-              $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
-              
+                $lastFactSN=DB::table("Shop.dbo.FactorHDS")->max("SerialNoHDS");
             }else{
                 $lastFactSN=$sendedFactorInfo[0]->SerialNoHDS;
+                $willAppendToFactor=1;
                 //DB::table("Shop.dbo.FactorHDS")->where("CustomerSn",$customerSn)->max("SerialNoHDS");
             }
-
             //ثبت سفارش باقی مانده فاکتور
             $factorNumber=DB::select("SELECT MAX(OrderNo) as maxFact from NewStarfood.dbo.OrderHDSS WHERE CompanyNo=5");
             $factorNo=0;
@@ -158,40 +160,40 @@ class Factor extends Controller{
                 $lastSnPayHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
                 //جدول سطح دوم داد و گرفت
                 DB::table("Shop.dbo.GetAndPayBYS")->insert(
-                ["CompanyNo"=>5
-                ,"DocTypeBYS"=>3
-                ,"Price"=>$payedPriceHDS
-                ,"ChequeDate"=>"".Jalalian::fromCarbon(Carbon::today())->format('Y/m/d').""
-                ,"ChequeNo"=>0
-                ,"AccBankno"=>""
-                ,"Owner"=>""
-                ,"SnBank"=>0
-                ,"Branch"=>""
-                ,"SnChequeBook"=>0
-                ,"FiscalYear"=>"".$fiscallYear.""
-                ,"SnHDS"=>$lastSnPayHDS
-                ,"DocDescBYS"=>"پرداخت آنلاین"
-                ,"StatusBYS"=>0
-                ,"ChequeRecNo"=>0
-                ,"CuType"=>0
-                ,"CuPrice"=>0
-                ,"SnAccBank"=>46
-                ,"LastSnTrans"=>0
-                ,"CashNo"=>0
-                ,"SnPriorDetail"=>0
-                ,"SnMainPeopel"=>0
-                ,"SnTransChequeRefrence"=>0
-                ,"IsExport"=>0
-                ,"RadifInDaftarCheque"=>0
-                ,"CuUnitPrice"=>0
-                ,"SnBigIntHDSFact_GapBYS"=>0
-                ,"NoPayaneh_KartKhanBys"=>""
-                ,"KarMozdPriceBys"=>0
-                ,"NoSayyadi"=>""
-                ,"NameSabtShode"=>""
-                ,"SnOldBysGAP"=>0
-                ,"SnOldHDSGAP"=>0
-                ,"SnSellerGap"=>0]);
+                    ["CompanyNo"=>5
+                    ,"DocTypeBYS"=>3
+                    ,"Price"=>$payedPriceHDS
+                    ,"ChequeDate"=>"".Jalalian::fromCarbon(Carbon::today())->format('Y/m/d').""
+                    ,"ChequeNo"=>0
+                    ,"AccBankno"=>""
+                    ,"Owner"=>""
+                    ,"SnBank"=>0
+                    ,"Branch"=>""
+                    ,"SnChequeBook"=>0
+                    ,"FiscalYear"=>"".$fiscallYear.""
+                    ,"SnHDS"=>$lastSnPayHDS
+                    ,"DocDescBYS"=>"پرداخت آنلاین"
+                    ,"StatusBYS"=>0
+                    ,"ChequeRecNo"=>0
+                    ,"CuType"=>0
+                    ,"CuPrice"=>0
+                    ,"SnAccBank"=>46
+                    ,"LastSnTrans"=>0
+                    ,"CashNo"=>0
+                    ,"SnPriorDetail"=>0
+                    ,"SnMainPeopel"=>0
+                    ,"SnTransChequeRefrence"=>0
+                    ,"IsExport"=>0
+                    ,"RadifInDaftarCheque"=>0
+                    ,"CuUnitPrice"=>0
+                    ,"SnBigIntHDSFact_GapBYS"=>0
+                    ,"NoPayaneh_KartKhanBys"=>""
+                    ,"KarMozdPriceBys"=>0
+                    ,"NoSayyadi"=>""
+                    ,"NameSabtShode"=>""
+                    ,"SnOldBysGAP"=>0
+                    ,"SnOldHDSGAP"=>0
+                    ,"SnSellerGap"=>0]);
                 DB::table("NewStarfood.dbo.payedOnline")->insert([
                     'factorSn'=>$lastFactSN,
                     'payedMoney'=>$payedPriceHDS,
@@ -235,6 +237,9 @@ class Factor extends Controller{
                             ,"RealPrice"=>$newPice
                         ]);
 
+                        if($willAppendToFactor>0){
+                            DB::update("UPDATE Shop.dbo.FactorHDS set NetPriceHDS+=$newPice WHERE SerialNoHDS=$lastFactSN");
+                        }
                         DB::table("NewStarfood.dbo.orderBYSS")->where("SnGood",$order->SnGood)->where("SnHDS",$orderHDS)->update(
                             ["PackAmount"=>$newPackAmount
                             ,"Amount"=>$newAmount
@@ -265,7 +270,11 @@ class Factor extends Controller{
                         ,"PriceAfterTakhfif"=>$order->Price//ک ش
                         ,"RealFi"=>$order->Fi
                         ,"RealPrice"=>$order->Price
-                    ]); 
+                    ]);
+                    $price=$order->Price;
+                    if($willAppendToFactor>0){
+                        DB::update("UPDATE Shop.dbo.FactorHDS set NetPriceHDS+=$price WHERE SerialNoHDS=$lastFactSN");
+                    }
                 }
             }
 
@@ -280,8 +289,8 @@ class Factor extends Controller{
                     $introMoneyAmount=($introMoneyPercent/100)*$netPriceHDS;
                     $introducerCode=$restrictions[0]->introducerCode;
                     DB::update("UPDATE NewStarfood.dbo.star_customerRestriction 
-							SET introMoneyAmount+=$introMoneyAmount WHERE 
-							selfIntroCode='$introducerCode' AND customerId=$customerSn");
+								SET introMoneyAmount+=$introMoneyAmount WHERE 
+								selfIntroCode='$introducerCode' AND customerId=$customerSn");
                 }
             }
         }
@@ -409,13 +418,28 @@ class Factor extends Controller{
 
     public function salesFactors(Request $request){
       $fiscallYear=self::getSelectedFiscalYear();
-      $factors=DB::select("SELECT *,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=$fiscallYear");
-      return View("factors.salesFactors",['factors'=>$factors]);
+      $factors=DB::select("SELECT *,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,NewStarfood.dbo.getFactorPayType(SerialNoHDS) payType,NewStarfood.dbo.getAmountPayedFactor(SerialNoHDS) payedAmount,NewStarfood.dbo.getBargiriSetter(SerialNoHDS) setterName,NewStarfood.dbo.getFactorTahvilDate(SerialNoHDS) driverTahvilDate,NewStarfood.dbo.getFactorDriverName(SerialNoHDS) driverName,NewStarfood.dbo.getBargiriNo(SerialNoHDS) bargiriNo,NewStarfood.dbo.getFactorBargiriState(SerialNoHDS) bargiriState,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=1402 and FactType=3 and FactDate=Format(getdate(),'yyyy/MM/dd','fa-ir')");
+      $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE DatePeaper='1402/07/01'");
+      return View("factors.salesFactors",['factors'=>$factors,'todayDrivers'=>$todayDrivers]);
     }
 
     public function getSelectedFiscalYear(){
       $settings=DB::table("NewStarfood.dbo.star_webSpecialSetting")->get('*');
       return $settings[0]->FiscallYear;
+    }
+
+    public function getFactorBYSInfo(Request $request){
+        $snFact=$request->input("snFact");
+        $factorBYSs=DB::select("SELECT *,NewStarfood.dbo.getGoodName(SnGood)GoodName,CRM.dbo.getGoodCode(SnGood)GoodCode,NewStarfood.dbo.getFirstUnit(SnGood)FirstUnit,NewStarfood.dbo.getSecondUnit(SnGood)SecondUnit FROM Shop.dbo.FactorBYS where SnFact=$snFact");
+        return response()->json($factorBYSs);
+    }
+    public function getDriverFactors(Request $request){
+        $snMaster=$request->get("SnMasterBar");
+        $factors=DB::select("
+        SELECT FactNo,FactDate,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode,NetPriceHDS,FactDesc,NaghdPrice,KartPrice,VarizPrice,TakhfifPriceBar,DifPrice,CRM.dbo.getCustomerPeopelAddress(CustomerSn)peopeladdress,CRM.dbo.getCustomerPhoneNumbers(CustomerSn)PhoneStr FROM Shop.dbo.BargiryBYS b join Shop.dbo.FactorHDS f on b.SnFact=f.SerialNoHDS  WHERE b.CompanyNo=5 AND  b.SnMaster=$snMaster");
+        $kalas=DB::select("SELECT CRM.dbo.getGoodName(SnGood)GoodName,NewStarfood.dbo.getAmountUnit(SnGood)AmountUnit,allAmount%NewStarfood.dbo.getAmountUnit(SnGood)joze,CRM.dbo.getGoodCode(SnGood)GoodCde,CRM.dbo.getSecondUnitName(SnGood)SecondUnitName,NewStarfood.dbo.getFirstUnit(SnGood)FirstUnitName,* from (select sum(PackAmnt)packAmnt,sum(Amount)allAmount,sum(SumFewWeight)SumFewWeight,SnGood,COUNT(SnGood)countFactor FROM(
+            SELECT SnGood,PackAmnt,Amount,PackType,Amount2Weight,SumFewWeight FROM Shop.dbo.BargiryBYS b join Shop.dbo.FactorBYS o on b.SnFact=o.SnFact where SnMaster=$snMaster)A GROUP BY SnGood)C");
+        return Response::json(['factors'=>$factors,'kalas'=>$kalas,'status'=>"200 OK"]);
     }
 
 }

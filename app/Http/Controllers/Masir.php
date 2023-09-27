@@ -86,10 +86,27 @@ class Masir extends Controller{
         return Response::json(1);
     }
 
-    public function getMasirs(Request $request)
+    public function getMantiqasByCityId(Request $request)
     {
         $mantiqahId=$request->get("mantiqahId");
         $masirs=DB::select("SELECT * FROM Shop.dbo.MNM WHERE CompanyNo=5 and FatherMNM=".$mantiqahId);
         return Response::json($masirs);
+    }
+    public function getMantiqasOfFactors(Request $request)
+    {
+        $masirs=DB::select("SELECT * FROM(
+                            SELECT SnMNM,concat(NameRec+' _ ',NewStarfood.dbo.getProvinceName(FatherMNM)) NameRec FROM Shop.dbo.MNM WHERE CompanyNo=5 AND SnMNM IN(
+                            SELECT SnMantagheh FROM Shop.dbo.Peopels WHERE PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactDate>='1402/07/04' AND FactType=3
+                            AND SerialNoHDS NOT IN(SELECT SnFact FROM Shop.dbo.BargiriOrderBYS WHERE CompanyNo=5)))
+                            )a JOIN(
+                            SELECT count(PSN)countFactor,SnMantagheh FROM Shop.dbo.Peopels  WHERE CompanyNo=5 and PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactDate>='1402/07/04' AND FactType=3
+                                AND SerialNoHDS NOT IN(SELECT SnFact FROM Shop.dbo.BargiriOrderBYS WHERE CompanyNo=5)) group by SnMantagheh
+                            )b on a.SnMNM=b.SnMantagheh");
+        return Response::json(['mantiqas'=>$masirs,'status'=>'200 OK']);
+    }
+    public function getMantiqasFactorForBargiri(Request $request) {
+        $snMantagheh=$request->input("SnMantagheh");
+        $factors=DB::select("SELECT SerialNoHDS,PCode,Name,FactNo,NetPriceHDS,FactDate,OtherAddress,LonPers,LatPers,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr,CRM.dbo.getCustomerBuyMony(SnMantagheh)NameRec FROM Shop.dbo.FactorHDS a JOIN (SELECT SnFact FROM Shop.dbo.BargiryBYS)b ON a.SerialNoHDS=b.SnFact JOIN Shop.dbo.Peopels p ON a.CustomerSn=p.PSN  WHERE FactDate>='1402/07/04' AND p.SnMantagheh=$snMantagheh AND FactType=3");
+        return Response::json(['factors'=>$factors,'status'=>'200 OK']);
     }
 }
