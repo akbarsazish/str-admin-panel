@@ -391,17 +391,19 @@
         </div>
         <div class="modal-body">
             <div class="container-fluid">
+                <form action="{{url("/addFactorsToBargiri")}}" method="post">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-6">
+                                @csrf
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" >  تاریخ برگه </span>
-                                    <input type="text" id="bargiriPaperDate" class="form-control form-control-sm mb-1"  placeholder="تایخ برگه ">
+                                    <input type="text" id="bargiriPaperDate" name="DatePaper" class="form-control form-control-sm mb-1" required placeholder="تایخ برگه ">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" >  نام راننده </span>
-                                    <select name="factorDriver" id="factorDriver" class="form-select">
+                                    <select name="factorDriver" id="factorDriver" required class="form-select">
                                         <option value=""></option>
                                         <option value=""></option>
                                         <option value=""></option>
@@ -409,39 +411,42 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div><button class="btn btn-success btn-sm mb-1" onclick="searchFactorForAddToBargiri()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
+                                <div><button type="button" class="btn btn-success btn-sm mb-1" onclick="searchFactorForAddToBargiri()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  شماره ماشین </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="شماره ماشین ">
+                                    <input type="text" name="MashinNo" class="form-control form-control-sm"  placeholder="شماره ماشین ">
                                 </div>
                             </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> توضیحات </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder=" توضیحات ">
+                                    <input type="text" name="DescPeaper" class="form-control form-control-sm"  placeholder=" توضیحات ">
                                 </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-3">
-
                             </div>
                             <div class="col-md-9">
                                 <div>
-                                    <button class="btn btn-success btn-sm mb-1"> ثبت <i class="fa fa-save"></i></button>
-                                    <button class="btn btn-danger btn-sm mb-1"> انصراف <i class="fa fa-cancel"></i></button>
+                                    <button type="submit" class="btn btn-success btn-sm mb-1"> ثبت <i class="fa fa-save"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm mb-1" onclick="cancelAddingFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i></button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> حساب بانکی واریز به حساب </span>
-                                    <input type="text" class="form-control form-control-sm">
+                                    <input type="text" name="Bargiri_VarizSnAccBank" class="form-control form-control-sm">
                                     <select name="" id="allVarizBeHisabBanks" class="form-select">
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> حساب بانکی کارت خوان </span>
-                                    <input type="text" class="form-control form-control-sm">
+                                    <input type="text" name="Bargiri_SnAccBank" class="form-control form-control-sm">
                                     <select name="" id="allKartKhanBanks" class="form-select">
                                     </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text"> شماره پایانه </span>
+                                    <input type="text" name="Bargiri_NoPayaneh" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
@@ -468,25 +473,10 @@
                             </tr>
                         </thead>
                         <tbody id="factorsToAddToBargiriBody">
-                            <tr class="factorTablRow">
-                                <td > 1 </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                                <td   class="td-part-input"> <input type="text" class="td-input form-control"> </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
+                </form>
             </div>
         </div>
         <div class="modal-footer">
@@ -632,7 +622,7 @@
                             <div class="col-md-6">
                                 <div>
                                     <button class="btn btn-sm btn-success mb-1" onclick="addSelectFactorsToBargiri()"> انتخاب <i class="fa fa-select"></i> </button>
-                                    <button class="btn btn-sm btn-danger mb-1">انصراف <i class="fa fa-cancel"></i> </button>
+                                    <button class="btn btn-sm btn-danger mb-1" onclick="cancelAddingSearchedFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i> </button>
                                 </div>
                             </div>
                         </div>

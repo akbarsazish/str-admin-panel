@@ -20,12 +20,12 @@ class Home extends Controller {
             $lastReferesh=Carbon::parse(DB::table("NewStarfood.dbo.star_customerTrack")->where("customerId",$customerId)->select("visitDate")->max("visitDate"))->diffInHours(Carbon::now());
             $logedIns=DB::table("NewStarfood.dbo.star_customerTrack")->where("customerId",$customerId)->select("visitDate")->get();
             if($lastReferesh>=0 or count($logedIns)<1){
-                 $palatform=BrowserDetect::platformFamily();
-                 $browser=BrowserDetect::browserFamily();
+                $palatform=BrowserDetect::platformFamily();
+                $browser=BrowserDetect::browserFamily();
                 if(count($logedIns)<1){
-                     DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
+                    DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
                 }elseif($lastReferesh>0){
-                     DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
+                    DB::table("NewStarfood.dbo.star_customerTrack")->insert(['platform'=>$palatform,'customerId'=>$customerId,'browser'=>$browser]);
                 }
             }
         }
@@ -949,6 +949,7 @@ class Home extends Controller {
             }
             if($part->partType == 9){
                 //چهار عکسی و لیستی از کالاها
+                $partId=$part->partId;
                 $pictures=DB::select("select * from NewStarfood.dbo.star_homepart_pictures where homepartId=".$partId);
                 foreach ($pictures as $pic) {
                     $countPicKala=0;

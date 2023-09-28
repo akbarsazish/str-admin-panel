@@ -49,28 +49,102 @@ class Bargiri extends Controller {
             $lastSnMasterBar+=1;
             $snMasterBar=$lastSnMasterBar;
         }
-    foreach ($factorsSn as $snFact) {
-        DB::table('Shop.dbo.BargiriBYS')->insert(
-        ["CompanyNo"=>5
-        ,"SnMaster"=>$snMasterBar
-        ,"SnFact"=>$snFact
-        ,"NaghdPrice"=>0
-        ,"KartPrice"=>0
-        ,"DifPrice"=>0
-        ,"DescRec"=>""
-        ,"VarizPrice"=>0
-        ,"TakhfifPriceBar"=>0]);
+        foreach ($factorsSn as $snFact) {
+            DB::table('Shop.dbo.BargiriBYS')->insert(
+            ["CompanyNo"=>5
+            ,"SnMaster"=>$snMasterBar
+            ,"SnFact"=>$snFact
+            ,"NaghdPrice"=>0
+            ,"KartPrice"=>0
+            ,"DifPrice"=>0
+            ,"DescRec"=>""
+            ,"VarizPrice"=>0
+            ,"TakhfifPriceBar"=>0]);
+        }
+        return Response::json($factorsSn);
     }
-    return Response::json($factorsSn);
-}
-public function getFactorsInfoToBargiriTbl(Request $request) {
-    
-    $factorsSn=$request->input("allFactors");
-    $allFactors=array();
-    foreach ($factorsSn as $snFact) {
-        $factorStuff=DB::select("SELECT * FROM Shop.dbo.FactorHDS WHERE CompanyNo=5 and SerialNoHDS=$snFact");
-        array_push($allFactors,$factorStuff);
+    public function getFactorsInfoToBargiriTbl(Request $request) {
+        
+        $factorsSn=$request->input("allFactors");
+        $allFactors=array();
+        foreach ($factorsSn as $snFact) {
+            $factorStuff=DB::select("SELECT *,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.FactorHDS F join Shop.dbo.Peopels P on CustomerSn=PSN
+            join Shop.dbo.BargiryBYS B on SnFact=SerialNoHDS
+            WHERE F.CompanyNo=5 and SerialNoHDS=$snFact");
+            array_push($allFactors,$factorStuff);
+        }
+        return Response::json($allFactors);
     }
-    return Response::json($allFactors);
-}
+    public function addFactorsToBargiri(Request $request) {
+        $factorsSn;
+        $mashinNo="";
+        $datePeaper="";
+        $descPeaper="";
+        $bargiri_NoPayaneh="";
+        $bargiri_VarizSnAccBank="";
+        $bargiri_SnAccBank=0;
+        $noPaper=1;
+        $snUser1=21;
+        $snDriver=1;
+        if($request->input("FactSns")){
+            $factorsSn=$request->input("FactSns");
+        }
+        if($request->input("MashinNo")){
+            $mashinNo=$request->input("MashinNo");
+        }
+        
+        if($request->input("DatePaper")){
+            $datePeaper=$request->input("DatePaper");
+        }
+        if($request->input("DescPeaper")){
+            $descPeaper=$request->input("DescPeaper");
+        }
+        if($request->input("factorDriver")){
+            $snDriver=$request->input("factorDriver");
+        }
+        if($request->input("Bargiri_SnAccBank")){
+            $bargiri_SnAccBank=$request->input("Bargiri_SnAccBank");
+        }
+        if($request->input("Bargiri_NoPayaneh")){
+            $bargiri_NoPayaneh=$request->input("Bargiri_NoPayaneh");
+        }
+        if($request->input("Bargiri_VarizSnAccBank")){
+            $bargiri_VarizSnAccBank=$request->input("Bargiri_VarizSnAccBank");
+        }
+        
+        $snMasterBar=1;
+        $maxPaperNo=DB::table('Shop.dbo.BargiryHDS')->where("CompanyNo",5)->max("NoPaper");
+        if($maxPaperNo>0){
+            $noPaper=$maxPaperNo+1;
+        }
+        DB::table("Shop.dbo.BargiryHDS")->insert(
+            ["CompanyNo"=>5
+            ,"FiscalYear"=>1402
+            ,"NameRanandeh"=>""
+            ,"MashinNo"=>"".$mashinNo.""
+            ,"NoPaper"=>$noPaper
+            ,"DatePeaper"=>"".$datePeaper.""
+            ,"SnUser1"=>$snUser1
+            ,"DescPeaper"=>"".$descPeaper.""
+            ,"SnDriver"=>$snDriver
+            ,"Bargiri_SnAccBank"=>$bargiri_SnAccBank
+            ,"Bargiri_NoPayaneh"=>$bargiri_NoPayaneh
+            ,"Bargiri_VarizSnAccBank"=>$bargiri_VarizSnAccBank]);
+        $maxMasterBar=DB::table("Shop.dbo.BargiryHDS")->max("SnMasterBar");
+        if($maxMasterBar>0){
+            $snMasterBar=$maxMasterBar;
+        }
+        foreach($factorsSn as $factSn){
+            DB::table("Shop.dbo.BargiryBYS")->insert(["CompanyNo"=>5
+                                                    ,"SnMaster"=>$snMasterBar
+                                                    ,"SnFact"=>$factSn
+                                                    ,"NaghdPrice"=>0
+                                                    ,"KartPrice"=>0
+                                                    ,"DifPrice"=>0
+                                                    ,"DescRec"=>""
+                                                    ,"VarizPrice"=>0
+                                                    ,"TakhfifPriceBar"=>0]);
+        }
+        return redirect("/salesFactors");
+    }
 }

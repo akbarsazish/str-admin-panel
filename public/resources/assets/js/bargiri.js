@@ -303,36 +303,83 @@ function addSelectFactorsToBargiri(){
     $('input[name="factorToadd[]"]:checked').map(function () {
         selectFactorsSn.push($(this).val());
     });
-    alert(selectFactorsSn.length);
-    $("#mantiqasFactorForBargiriBody").empty();
     $.get(baseUrl+"/getFactorsInfoToBargiriTbl",{allFactors:selectFactorsSn},(respond,status)=>{
-        console.log(respond[0])
-        $("#factorsToAddToBargiriBody").empty();
-        let i=0;
+        
+        let i=$("#factorsToAddToBargiriBody tr").length;
         for (const element of respond) {
+            let netPriceHDS=0;
+            let naghdPrice=0;
+            let kartPrice=0;
+            let varizPrice=0;
+            let takhfifPriceBar=0;
+            let difPrice=0;
+            if(element.NetPriceHDS>0){
+                netPriceHDS=element.NetPriceHDS;
+            }
+            if(element.NaghdPrice>0){
+                naghdPrice=element.NaghdPrice;
+            }
+            if(element.KartPrice>0){
+                kartPrice=element.KartPrice;
+            }
+            if(element.VarizPrice>0){
+                varizPrice=element.VarizPrice;
+            }
+            if(element.TakhfifPriceBar>0){
+                takhfifPriceBar=element.TakhfifPriceBar;
+            }
+            if(element.DifPrice>0){
+                difPrice=element.DifPrice;
+            }
             i+=1;
             $("#factorsToAddToBargiriBody").append(`<tr class="factorTablRow">
-                <td > ${i} </td>
-                <td   class="td-part-input"> <input type="text" value="${element.FactNo}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.FactDate}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.PCode}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.Name}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.NetPriceHDS}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.NaghdPrice}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.KartPrice}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.VarizPrice}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.TakhfifPriceBar}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.DifPrice}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.FactDesc}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.OtherAddress}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-input form-control"> </td>
+                <td> ${i} <input type="checkbox" name="FactSns[]" value="${element[0].SerialNoHDS}" checked style="display:none"/> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactNo}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDate}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].PCode}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].Name}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(netPriceHDS).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(naghdPrice).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(kartPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(varizPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(takhfifPriceBar).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(difPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDesc}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].OtherAddress}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].PhoneStr}" class="td-input form-control"> </td>
             </tr>`);
         }
+    //  $("#mantiqasFactorForBargiriBody").empty();
+        $("#searchFoactorForAddToBargiriModal").modal("hide");
         });
     //for adding factors to Bargiri
     $.get(baseUrl+"/addFactorToBargiri",{allFactors:selectFactorsSn},(respond,status)=>{
         console.log(respond)
     })
+}
+
+function cancelAddingFactorToBargiri(){
+    swal({
+        text: "می خواهید بدون ذخیره خارج شوید؟",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        }).then((willAdd) =>{
+            if(willAdd){
+                $("#factorsToAddToBargiriBody").empty();
+                $("#addFactorToBargiriModal").modal("hide");
+            }
+        });
+}
+function cancelAddingSearchedFactorToBargiri(){
+    swal({
+        text: "می خواهید بدون افزودن خارج شوید؟",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        }).then((willAdd) => {
+            $("#searchFoactorForAddToBargiriModal").modal("hide");
+        }); 
 }
 
 $("#selectAllFactorsForBarigiCheckbox").on("change",(respond,status)=>{
@@ -344,9 +391,15 @@ $("#selectAllFactorsForBarigiCheckbox").on("change",(respond,status)=>{
 })
 
 function selectFactorToBargiri(element){
-$("tr").removeClass("selected");
-$(element).addClass("selected");
-$(element).find('input').prop("checked",true);
+    $("tr").removeClass("selected");
+    $(element).addClass("selected");
+    let radio=$(element).find('input:checkbox');
+    if($(radio).is(":checked")){
+        $(radio).prop("checked",false);
+        $("#selectAllFactorsForBarigiCheckbox").prop("checked",false);
+    }else{
+        $(radio).prop("checked",true);
+    }
 }
 
 $("#bargiriPaperDate").persianDatepicker({
