@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.10.24:8080";
+var baseUrl = "http://127.0.0.1:8000";
 function getFactorOrders(element,factorSn){
     $("tr").removeClass("selected");
     $(element).addClass("selected");
@@ -214,15 +214,64 @@ $("#addFactorToBargiriModal").modal("show");
 function editFactorsOfBargiri(snMasterBar){
     $.get(baseUrl+"/getMasterBarInfo",{snMasterBar:snMasterBar},(respond,status)=>{
         $("#factorDriverEdit").empty();
-        console.log(respond)
         let selectedDriverSnDriver;
         let paperDate;
         let paperNo;
+        let paperDesc="";
+        let mashinNo="";
+        $("#SnMasterBarEdit").val(snMasterBar);
+        if(respond.masterInfo[0].MashinNo.length>0){
+            mashinNo=respond.masterInfo[0].MashinNo;
+        }
+        if(respond.masterInfo[0].DescPeaper.length>0){
+            paperDesc=respond.masterInfo[0].DescPeaper;
+        }
         selectedDriverSnDriver=respond.masterInfo[0].SnDriver;
         paperDate=respond.masterInfo[0].DatePeaper;
         paperNo=respond.masterInfo[0].NoPaper;
         $("#bargiriPaperDateEdit").val(paperDate);
         $("#bargiriPaperNoEdit").val(paperNo);
+        $("#paperdescEdit").val(paperDesc);
+        $("#mashinNoEdit").val(mashinNo);
+        $("#factorsToAddToBargiriBodyEdit").empty();
+        respond.masterInfo.forEach((element,index) => {
+            let kartPrice=0;
+            let naghdPrice=0;
+            let varizPrice=0;
+            let difPrice=0;
+            let takhfifPriceBar=0;
+            if(element.KartPrice>0){
+                kartPrice=element.KartPrice;
+            }
+            if(element.NaghdPrice>0){
+                naghdPrice=element.NaghdPrice;
+            }
+            if(element.VarizPrice>0){
+                varizPrice=element.VarizPrice;
+            }
+            if(element.DifPrice>0){
+                difPrice=element.DifPrice;
+            }
+            if(element.TakhfifPriceBar>0){
+                takhfifPriceBar=element.TakhfifPriceBar;
+            }
+            $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow">
+                                                            <td > ${(index+1)} </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactNo}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDate}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.PCode}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.Name}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${parseInt(element.NetPriceHDS).toLocaleString('en-us')}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${naghdPrice}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${kartPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${varizPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${takhfifPriceBar}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${difPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDesc}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.OtherAddress}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-input form-control"> </td>
+                                                        </tr>`);
+        });
         $.get(baseUrl+"/getDrivers",(respond,status)=>{
             $("#factorDriverEdit").empty();
             for (const element of respond.drivers) {
@@ -244,7 +293,7 @@ function editFactorsOfBargiri(snMasterBar){
     });
     $("#editFactorsOfBargiriModal").modal("show");
 }
-function deleteFactorsOfBargiri(SnMasterBar){
+function deleteFactorsOfBargiri(snMasterBar){
     swal({
         title: 'اخطار!',
         text: 'آیا می خواهید حذف کنید؟',
@@ -252,11 +301,79 @@ function deleteFactorsOfBargiri(SnMasterBar){
         buttons: true
     }).then(function (willAdd) {
         if (willAdd) {
-            $.get(baseUrl+"/deleteBargiriHDS",{snMasterBar:SnMasterBar},(respond,status)=>{
-
+            $.get(baseUrl+"/deleteBargiriHDS",{SnMasterBar:snMasterBar},(respond,status)=>{
+                $("#bargiriDriverListBody").empty();
+                respond.todayDrivers.forEach((element,index) => {
+                    $("#bargiriDriverListBody").append(`<tr onclick="getDriverFactors(this,${element.SnMasterBar})">
+                                        <td> ${index+1} </td>
+                                        <td> ${element.NoPaper} </td>
+                                        <td> ${element.DatePeaper} </td>
+                                        <td> ${element.driverName} </td>
+                                        <td> ${element.MashinNo} </td>
+                                        <td> ${element.DescPeaper} <input type="radio" style="display:none" value="${element.SnMasterBar}"/>  </td>
+                                    </tr>`);
+                });
             })
         }});
 }
+
+
+$("#addFactorsBargiriForm").on("submit",function(e){
+    e.preventDefault();
+    $.ajax({
+        method: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: function (respond) {
+            $("#bargiriDriverListBody").empty();
+            respond.todayDrivers.forEach((element,index) => {
+                $("#bargiriDriverListBody").append(`<tr onclick="getDriverFactors(this,${element.SnMasterBar})">
+                                    <td> ${index+1} </td>
+                                    <td> ${element.NoPaper} </td>
+                                    <td> ${element.DatePeaper} </td>
+                                    <td> ${element.driverName} </td>
+                                    <td> ${element.MashinNo} </td>
+                                    <td> ${element.DescPeaper} <input type="radio" style="display:none" value="${element.SnMasterBar}"/>  </td>
+                                </tr>`);
+            });
+            $("#addFactorToBargiriModal").modal("hide");
+        },
+        error:function(error){
+
+        }
+    });
+})
+
+$("#doEditBargiriFactorsForm").on("submit",function(e){
+    e.preventDefault();
+    $.ajax({
+        method: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: function (respond) {
+            $("#bargiriDriverListBody").empty();
+            respond.todayDrivers.forEach((element,index) => {
+                $("#bargiriDriverListBody").append(`<tr onclick="getDriverFactors(this,${element.SnMasterBar})">
+                                    <td> ${index+1} </td>
+                                    <td> ${element.NoPaper} </td>
+                                    <td> ${element.DatePeaper} </td>
+                                    <td> ${element.driverName} </td>
+                                    <td> ${element.MashinNo} </td>
+                                    <td> ${element.DescPeaper} <input type="radio" style="display:none" value="${element.SnMasterBar}"/>  </td>
+                                </tr>`);
+            });
+            $("#editFactorsOfBargiriModal").modal("hide");
+        },
+        error:function(error){
+
+        }
+    });
+});
+
 
 function searchFactorForAddToBargiri(){
     $("#searchFoactorForAddToBargiriModal").modal("show");
@@ -273,6 +390,22 @@ function searchFactorForAddToBargiri(){
         }
     });
 }
+function searchFactorForAddToBargiriEdit(){
+    $("#searchFoactorForAddToBargiriModalEdit").modal("show");
+    $.get(baseUrl+"/getMantiqasOfFactors",(respond,status)=>{
+        $("#factorsMantiqasBodyListEdit").empty();
+        let i=0;
+        for (const element of respond.mantiqas) {
+            i++;
+            $("#factorsMantiqasBodyListEdit").append(`<tr onclick="getMantiqasFactorForBargiriEdit(this,${element.SnMNM})" class="factorTablRow">
+            <td>${i}</td>
+            <td>${element.NameRec}</td>
+            <td>${element.countFactor}</td>
+        </tr>`);
+        }
+    });
+}
+
 function getMantiqasFactorForBargiri(elementTr,snMantagheh){
     $("tr").removeClass("selected");
     $(elementTr).addClass("selected");
@@ -293,6 +426,32 @@ function getMantiqasFactorForBargiri(elementTr,snMantagheh){
                 <td> ${element.LatPers} </td>
                 <td> ${element.LonPers} </td>
                 <td> ${element.NameRec} <input type="checkbox" class="form-check-input selectAllFactorToBargiri" value="${element.SerialNoHDS}" name="factorToadd[]"/> </td>
+            </tr>`);
+        }
+    })
+}
+
+function getMantiqasFactorForBargiriEdit(elementTr,snMantagheh){
+    $("#selectAllFactorsForBarigiCheckboxEdit").prop("checked",false);
+    $("tr").removeClass("selected");
+    $(elementTr).addClass("selected");
+    $.get(baseUrl+"/getMantiqasFactorForBargiri",{SnMantagheh:snMantagheh},(respond,status)=>{
+        $("#mantiqasFactorForBargiriBodyEdit").empty();
+        let i=0;
+        for (const element of respond.factors) {
+            i++
+            $("#mantiqasFactorForBargiriBodyEdit").append(`<tr onclick="selectFactorToBargiriEdit(this)" class="factorTablRow">
+                <td> ${i} </td>
+                <td> ${element.FactNo} </td>
+                <td> ${element.FactDate} </td>
+                <td> ${element.PCode}</td>
+                <td> ${element.Name}</td>
+                <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                <td> ${element.OtherAddress} </td>
+                <td> ${element.PhoneStr} </td>
+                <td> ${element.LatPers} </td>
+                <td> ${element.LonPers} </td>
+                <td> ${element.NameRec} <input type="checkbox" class="form-check-input selectAllFactorToBargiriEdit" value="${element.SerialNoHDS}" name="factorToadd[]"/> </td>
             </tr>`);
         }
     })
@@ -357,6 +516,75 @@ function addSelectFactorsToBargiri(){
         console.log(respond)
     })
 }
+function addSelectFactorsToBargiriEdit(){
+    let selectFactorsSn=[];
+    $('input[name="factorToadd[]"]:checked').map(function () {
+        selectFactorsSn.push($(this).val());
+    });
+    $.get(baseUrl+"/getFactorsInfoToBargiriTbl",{allFactors:selectFactorsSn},(respond,status)=>{
+        
+        let i=$("#factorsToAddToBargiriBodyEdit tr").length;
+        for (const element of respond) {
+            let netPriceHDS=0;
+            let naghdPrice=0;
+            let kartPrice=0;
+            let varizPrice=0;
+            let takhfifPriceBar=0;
+            let difPrice=0;
+            if(element[0].NetPriceHDS>0){
+                netPriceHDS=element[0].NetPriceHDS;
+            }
+            if(element[0].NaghdPrice>0){
+                naghdPrice=element[0].NaghdPrice;
+            }
+            if(element[0].KartPrice>0){
+                kartPrice=element[0].KartPrice;
+            }
+            if(element[0].VarizPrice>0){
+                varizPrice=element[0].VarizPrice;
+            }
+            if(element[0].TakhfifPriceBar>0){
+                takhfifPriceBar=element[0].TakhfifPriceBar;
+            }
+            if(element[0].DifPrice>0){
+                difPrice=element[0].DifPrice;
+            }
+            i+=1;
+            $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow">
+                <td> ${i} <input type="checkbox" name="FactSnsEdit[]" value="${element[0].SerialNoHDS}" checked style="display:none"/> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactNo}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDate}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].PCode}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].Name}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(netPriceHDS).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(naghdPrice).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(kartPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(varizPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(takhfifPriceBar).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(difPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDesc}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].OtherAddress}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="" value="${element[0].PhoneStr}" class="td-input form-control"> </td>
+            </tr>`);
+        }
+    //  $("#mantiqasFactorForBargiriBody").empty();
+        $("#bargiriFactorsEditBtn").prop("disabled",false);
+        $("#searchFoactorForAddToBargiriModalEdit").modal("hide");
+        });
+}
+
+function cancelBargiriFactorEdit(){
+    swal({
+        text: "می خواهید بدون ذخیره خارج شوید؟",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        }).then((willAdd) =>{
+            if(willAdd){
+                $("#editFactorsOfBargiriModal").modal("hide");
+            }
+        });
+}
 
 function cancelAddingFactorToBargiri(){
     swal({
@@ -382,6 +610,17 @@ function cancelAddingSearchedFactorToBargiri(){
         }); 
 }
 
+function cancelAddingSearchedFactorToBargiriEdit(){
+    swal({
+        text: "می خواهید بدون افزودن خارج شوید؟",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        }).then((willAdd) => {
+            $("#searchFoactorForAddToBargiriModalEdit").modal("hide");
+        }); 
+}
+
 $("#selectAllFactorsForBarigiCheckbox").on("change",(respond,status)=>{
     if($("#selectAllFactorsForBarigiCheckbox").is(":checked")){
         $(".selectAllFactorToBargiri").prop("checked",true);
@@ -389,6 +628,26 @@ $("#selectAllFactorsForBarigiCheckbox").on("change",(respond,status)=>{
         $(".selectAllFactorToBargiri").prop("checked",false);
     }
 })
+
+$("#selectAllFactorsForBarigiCheckboxEdit").on("change",(respond,status)=>{
+    if($("#selectAllFactorsForBarigiCheckboxEdit").is(":checked")){
+        $(".selectAllFactorToBargiriEdit").prop("checked",true);
+    }else{
+        $(".selectAllFactorToBargiriEdit").prop("checked",false);
+    }
+})
+
+function selectFactorToBargiriEdit(element){
+    $("tr").removeClass("selected");
+    $(element).addClass("selected");
+    let radio=$(element).find('input:checkbox');
+    if($(radio).is(":checked")){
+        $(radio).prop("checked",false);
+        $("#selectAllFactorsForBarigiCheckboxEdit").prop("checked",false);
+    }else{
+        $(radio).prop("checked",true);
+    }
+}
 
 function selectFactorToBargiri(element){
     $("tr").removeClass("selected");

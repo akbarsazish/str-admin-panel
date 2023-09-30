@@ -337,3 +337,5 @@ Route::get("/getMantiqasFactorForBargiri",[Masir::class,'getMantiqasFactorForBar
 Route::get("/addFactorToBargiri",[Bargiri::class,'addFactorToBargiri'])->middleware('checkAdmin');
 Route::get("/getFactorsInfoToBargiriTbl",[Bargiri::class,'getFactorsInfoToBargiriTbl'])->middleware('checkAdmin');
 Route::post("/addFactorsToBargiri",[Bargiri::class,'addFactorsToBargiri'])->middleware('checkAdmin');
+Route::post("/doEditBargiriFactors",[Bargiri::class,'doEditBargiriFactors'])->middleware('checkAdmin');
+Route::get("/deleteBargiriHDS",[Bargiri::class,'deleteBargiriHDS'])->middleware('checkAdmin');

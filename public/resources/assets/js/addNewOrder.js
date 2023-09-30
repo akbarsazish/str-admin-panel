@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.10.24:8080";
+var baseUrl = "http://127.0.0.1:8000";
 function openNewOrderModal(){
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({

@@ -419,7 +419,7 @@ class Factor extends Controller{
     public function salesFactors(Request $request){
       $fiscallYear=self::getSelectedFiscalYear();
       $factors=DB::select("SELECT *,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,NewStarfood.dbo.getFactorPayType(SerialNoHDS) payType,NewStarfood.dbo.getAmountPayedFactor(SerialNoHDS) payedAmount,NewStarfood.dbo.getBargiriSetter(SerialNoHDS) setterName,NewStarfood.dbo.getFactorTahvilDate(SerialNoHDS) driverTahvilDate,NewStarfood.dbo.getFactorDriverName(SerialNoHDS) driverName,NewStarfood.dbo.getBargiriNo(SerialNoHDS) bargiriNo,NewStarfood.dbo.getFactorBargiriState(SerialNoHDS) bargiriState,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=1402 and FactType=3 and FactDate=Format(getdate(),'yyyy/MM/dd','fa-ir')");
-      $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE DatePeaper='1402/07/01'");
+      $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
       return View("factors.salesFactors",['factors'=>$factors,'todayDrivers'=>$todayDrivers]);
     }
 

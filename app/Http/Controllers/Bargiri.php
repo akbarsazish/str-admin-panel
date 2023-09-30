@@ -11,7 +11,7 @@ use \Morilog\Jalali\Jalalian;
 class Bargiri extends Controller {
     public function getMasterBarInfo(Request $request){
         $snMaster=$request->input("snMasterBar");
-        $masterBargiriInfo=DB::select("SELECT * FROM Shop.dbo.BargiryHDS  WHERE CompanyNo=5 and SnMasterBar=$snMaster");
+        $masterBargiriInfo=DB::select("SELECT *,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.BargiryHDS H JOIN Shop.dbo.BargiryBYS B ON H.SnMasterBar=B.SnMaster JOIN Shop.dbo.FactorHDS F ON F.SerialNoHDS=B.SnFact JOIN Shop.dbo.Peopels P ON F.CustomerSn=P.PSN  WHERE H.CompanyNo=5 AND SnMasterBar=$snMaster");
         return Response::json(['masterInfo'=>$masterBargiriInfo,'status'=>"200 OK"]);
     }
     public function addFactorToBargiri(Request $request) {
@@ -145,6 +145,83 @@ class Bargiri extends Controller {
                                                     ,"VarizPrice"=>0
                                                     ,"TakhfifPriceBar"=>0]);
         }
-        return redirect("/salesFactors");
+        $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
+        return Response::json(["todayDrivers"=>$todayDrivers]);
     }
+
+    public function doEditBargiriFactors(Request $request) {
+        $factorsSn;
+        $mashinNo="";
+        $datePeaper="";
+        $descPeaper="";
+        $bargiri_NoPayaneh="";
+        $bargiri_VarizSnAccBank="";
+        $bargiri_SnAccBank=0;
+        $noPaper=$request->input("NoPaper");
+        $snMasterBar=$request->input("SnMasterBar");
+        $snUser1=21;
+        $snDriver=1;
+        if($request->input("FactSnsEdit")){
+            $factorsSn=$request->input("FactSnsEdit");
+        }
+        if($request->input("MashinNo")){
+            $mashinNo=$request->input("MashinNo");
+        }
+        
+        if($request->input("DatePaper")){
+            $datePeaper=$request->input("DatePaper");
+        }
+        if($request->input("DescPeaper")){
+            $descPeaper=$request->input("DescPeaper");
+        }
+        if($request->input("factorDriver")){
+            $snDriver=$request->input("factorDriver");
+        }
+        if($request->input("Bargiri_SnAccBank")){
+            $bargiri_SnAccBank=$request->input("Bargiri_SnAccBank");
+        }
+        if($request->input("Bargiri_NoPayaneh")){
+            $bargiri_NoPayaneh=$request->input("Bargiri_NoPayaneh");
+        }
+        if($request->input("Bargiri_VarizSnAccBank")){
+            $bargiri_VarizSnAccBank=$request->input("Bargiri_VarizSnAccBank");
+        }
+        
+        DB::table("Shop.dbo.BargiryHDS")->where("SnMasterBar",$snMasterBar)->update(
+            ["CompanyNo"=>5
+            ,"FiscalYear"=>1402
+            ,"NameRanandeh"=>""
+            ,"MashinNo"=>"".$mashinNo.""
+            ,"NoPaper"=>$noPaper
+            ,"DatePeaper"=>"".$datePeaper.""
+            ,"SnUser1"=>$snUser1
+            ,"DescPeaper"=>"".$descPeaper.""
+            ,"SnDriver"=>$snDriver
+            ,"Bargiri_SnAccBank"=>$bargiri_SnAccBank
+            ,"Bargiri_NoPayaneh"=>$bargiri_NoPayaneh
+            ,"Bargiri_VarizSnAccBank"=>$bargiri_VarizSnAccBank]);
+
+        foreach($factorsSn as $factSn){
+            DB::table("Shop.dbo.BargiryBYS")->insert(["CompanyNo"=>5
+                                                    ,"SnMaster"=>$snMasterBar
+                                                    ,"SnFact"=>$factSn
+                                                    ,"NaghdPrice"=>0
+                                                    ,"KartPrice"=>0
+                                                    ,"DifPrice"=>0
+                                                    ,"DescRec"=>""
+                                                    ,"VarizPrice"=>0
+                                                    ,"TakhfifPriceBar"=>0]);
+        }
+        $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
+        return Response::json(["todayDrivers"=>$todayDrivers]);      
+    }
+    public function deleteBargiriHDS(Request $request) {
+        $snMasterBar=$request->input("SnMasterBar");
+        DB::table("Shop.dbo.BargiryBYS")->where("SnMaster",$snMasterBar)->delete();
+        DB::table("Shop.dbo.BargiryHDS")->where("SnMasterBar",$snMasterBar)->delete();
+        $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
+      
+        return Response::json(["todayDrivers"=>$todayDrivers]);
+    }
+
 }
