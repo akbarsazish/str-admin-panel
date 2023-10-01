@@ -40,16 +40,18 @@
                     @endif
                     <span class="situation">
                         <fieldset class="border rounded">
+                            <form action="{{url("/filterFactors")}}" method="get" id="filterFactorsForm">
+                                @csrf
                             <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="sefRadio" id="sefNewOrderRadio" checked>
+                                            <input class="form-check-input float-start" type="checkbox" name="bargiryYes" id="sefNewOrderRadio" checked>
                                             <label class="form-check-label ms-3" for="sefNewOrderRadio"> بارگیری  شده </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="sefRadio" id="sefNewOrderRadio" checked>
+                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehYes" id="sefNewOrderRadio" checked>
                                             <label class="form-check-label ms-3" for="sefNewOrderRadio"> تسویه شده </label>
                                         </div> 
                                     </div>
@@ -57,107 +59,104 @@
                                 <div class="col-sm-6">
                                     <div class="row">
                                         <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="sefRadio" id="sefNewOrderRadio" checked>
+                                            <input class="form-check-input float-start" type="checkbox" name="bargiryNo" id="sefNewOrderRadio" checked>
                                             <label class="form-check-label ms-3" for="sefNewOrderRadio">بارگیری نشده</label>
                                         </div> 
 
                                         <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="sefRadio" id="sefNewOrderRadio" checked>
+                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehNo" id="sefNewOrderRadio" checked>
                                             <label class="form-check-label ms-3" for="sefNewOrderRadio"> تسویه نشده </label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
-                                    <input type="text" class="form-control form-control-sm" id="sefFirstDate">
+                                    <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" class="form-control form-control-sm" id="sefSecondDate">
+                                    <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">ساعت ثبت  </span>
-                                    <input type="text" class="form-control form-control-sm" >
+                                    <input type="time" name="factTime1" class="form-control form-control-sm">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" class="form-control form-control-sm" >
+                                    <input type="time" name="factTime2" class="form-control form-control-sm">
                                 </div>
 
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">شماره فاکتور  </span>
-                                    <input type="text" class="form-control form-control-sm" >
+                                    <input type="text" name="factNo1" class="form-control form-control-sm">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" class="form-control form-control-sm" >
+                                    <input type="text" name="factNo2" class="form-control form-control-sm" >
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  خریدار </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="کد ">
+                                    <span class="input-group-text">  خریدار </span>
+                                    <input  class="form-control form-control-sm" id="customerCode"  placeholder="کد ">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  خریدار </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="نام ">
+                                    <span class="input-group-text">  خریدار </span>
+                                    <input type="text" name="customerName" id="customerName" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  خریدار متفرقه </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="نام ">
+                                    <span class="input-group-text"> خریدار متفرقه </span>
+                                    <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  نحوه پرداخت </span>
+                                    <span class="input-group-text">  نحوه پرداخت </span>
                                     <select name="" id="" class="form-select">
+                                        <option>  </option>
+                                        <option> حضوری </option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text"> تنظیمات کننده </span>
+                                    <select name="setterName" id="setterName" class="form-select">
+                                        <option>  </option>
+                                        @foreach($users as $user)
+                                        <option> {{$user->NameUser}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text">  توضحیات </span>
+                                    <input type="text" name="factDesc" class="form-control form-control-sm"  placeholder="نام ">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text">  شرح کالا </span>
+                                    <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text"> بازاریاب </span>
+                                    <input type="text" name="bazaryabName" class="form-control form-control-sm"  placeholder="نام ">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text"> مشتری </span>
+                                    <select name="" id="" class="form-select">
+                                        <option></option>
+                                        <option>سعیدآباد</option>
+                                        <option>آنلاین</option>
+                                        <option>حضوری</option>
                                         <option>آنلاین</option>
                                         <option>حضوری</option>
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >   تنظیمات کننده </span>
-                                    <select name="" id="" class="form-select">
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                    </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  توضحیات</span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" >  شرح کالا </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" > بازاریاب </span>
-                                    <input type="text" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" > مشتری </span>
-                                    <select name="" id="" class="form-select">
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                    </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" > انبار </span>
-                                    <select name="" id="" class="form-select">
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
-                                        <option>آنلاین</option>
-                                        <option>حضوری</option>
+                                    <span class="input-group-text"> انبار </span>
+                                    <select name="stockName" id="stockName" class="form-select">
+                                        <option></option>
+                                        @foreach($stocks as $stock)
+                                        <option>{{$stock->NameStock}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-success btn-sm topButton"  onclick="filterAllSefarishat()" > بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                            <button type="submit" class="btn btn-success btn-sm topButton"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                        </form>
                         </fieldset>
                     </span>
             </fieldset>
@@ -214,11 +213,11 @@
                                 <td> {{number_format($factor->payedAmount)}} </td>
                                 <td> {{$factor->setterName}} </td>
                                 <td> حضوری </td>
-                                <td>@if($factor->payType==1) آنلاین @elseif($factor->payType==0) حضوری @else  @endif</td>
+                                <td>  </td>
                                 <td> {{$factor->stockName}} </td>
                                 <td> {{$factor->CountPrint}} </td>
                                 <td> {{number_format($factor->TotalPricePorsant)}} </td>
-                                <td> @if($factor->bargiriState==1) شده @else نشده @endif  </td>
+                                <td> @if($factor->bargiriNo) شده @else نشده @endif  </td>
                                 <td> {{$factor->takhfif}} </td>
                                 <td> @if($factor->SnUnitSales>0) {{$factor->SnUnitSales}} @else  @endif </td>
                                 <td> {{$factor->DateEelamBeAnbar}} </td>

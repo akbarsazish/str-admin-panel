@@ -339,3 +339,4 @@ Route::get("/getFactorsInfoToBargiriTbl",[Bargiri::class,'getFactorsInfoToBargir
 Route::post("/addFactorsToBargiri",[Bargiri::class,'addFactorsToBargiri'])->middleware('checkAdmin');
 Route::post("/doEditBargiriFactors",[Bargiri::class,'doEditBargiriFactors'])->middleware('checkAdmin');
 Route::get("/deleteBargiriHDS",[Bargiri::class,'deleteBargiriHDS'])->middleware('checkAdmin');
+Route::get("/filterFactors",[Factor::class,'filterFactors'])->middleware('checkAdmin');

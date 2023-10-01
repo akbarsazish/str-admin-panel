@@ -138,6 +138,7 @@
     <script src="{{url('/resources/assets/js/script.js') }}"></script>
     <script src="{{url('/resources/assets/js/addNewOrder.js') }}"></script>
     <script src="{{url('/resources/assets/js/bargiri.js') }}"></script>
+    <script src="{{url('/resources/assets/js/factors.js') }}"></script>
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>

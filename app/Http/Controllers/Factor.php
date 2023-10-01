@@ -418,9 +418,15 @@ class Factor extends Controller{
 
     public function salesFactors(Request $request){
       $fiscallYear=self::getSelectedFiscalYear();
-      $factors=DB::select("SELECT *,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,NewStarfood.dbo.getFactorPayType(SerialNoHDS) payType,NewStarfood.dbo.getAmountPayedFactor(SerialNoHDS) payedAmount,NewStarfood.dbo.getBargiriSetter(SerialNoHDS) setterName,NewStarfood.dbo.getFactorTahvilDate(SerialNoHDS) driverTahvilDate,NewStarfood.dbo.getFactorDriverName(SerialNoHDS) driverName,NewStarfood.dbo.getBargiriNo(SerialNoHDS) bargiriNo,NewStarfood.dbo.getFactorBargiriState(SerialNoHDS) bargiriState,CRM.dbo.getCustomerName(CustomerSn)Name,CRM.dbo.getCustomerPCode(CustomerSn)PCode FROM Shop.dbo.FactorHDS WHERE FiscalYear=1402 and FactType=3 and FactDate=Format(getdate(),'yyyy/MM/dd','fa-ir')");
-      $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
-      return View("factors.salesFactors",['factors'=>$factors,'todayDrivers'=>$todayDrivers]);
+      $factors=DB::select("SELECT * FROM(
+        SELECT * FROM(
+            SELECT H.SerialNoHDS,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver   where H.CompanyNo=5 and H.FiscalYear=1402 and FactType=3 and FactDate=Format(getdate(),'yyyy/MM/dd','fa-ir')
+        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedAmount,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+    )C");
+      $todayDrivers=DB::select("SELECT NameDriver driverName,H.CompanyNo,H.SnDriver,NoPaper,DatePeaper,MashinNo,DescPeaper,SnMasterBar FROM Shop.dbo.BargiryHDS H JOIN Shop.dbo.Sla_Drivers D on D.SnDriver=H.SnDriver WHERE H.CompanyNo=5 order by DatePeaper desc");
+      $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
+      $stocks=DB::select("SELECT * FROM Shop.dbo.stocks where CompanyNo=5");
+      return View("factors.salesFactors",['factors'=>$factors,'todayDrivers'=>$todayDrivers,'users'=>$users,'stocks'=>$stocks]);
     }
 
     public function getSelectedFiscalYear(){
@@ -440,6 +446,93 @@ class Factor extends Controller{
         $kalas=DB::select("SELECT CRM.dbo.getGoodName(SnGood)GoodName,NewStarfood.dbo.getAmountUnit(SnGood)AmountUnit,allAmount%NewStarfood.dbo.getAmountUnit(SnGood)joze,CRM.dbo.getGoodCode(SnGood)GoodCde,CRM.dbo.getSecondUnitName(SnGood)SecondUnitName,NewStarfood.dbo.getFirstUnit(SnGood)FirstUnitName,* from (select sum(PackAmnt)packAmnt,sum(Amount)allAmount,sum(SumFewWeight)SumFewWeight,SnGood,COUNT(SnGood)countFactor FROM(
             SELECT SnGood,PackAmnt,Amount,PackType,Amount2Weight,SumFewWeight FROM Shop.dbo.BargiryBYS b join Shop.dbo.FactorBYS o on b.SnFact=o.SnFact where SnMaster=$snMaster)A GROUP BY SnGood)C");
         return Response::json(['factors'=>$factors,'kalas'=>$kalas,'status'=>"200 OK"]);
+    }
+
+    public function filterFactors(Request $request) {
+        
+        $factDate1="1399/01/01";
+        $factDate2="1500/01/01";
+        $factTime1="00:00:00";
+        $factTime2="23:59:59";
+        $factNo1=1;
+        $factNo2=2000000;
+        $customerName="";
+        $setterName="";
+        $factDesc="";
+        $bazaryabName="";
+        $stockName="";
+        $tasvieyQPart="";
+        $bargiryQPart="";
+        if(strlen($request->input("factDate1"))>3){
+            $factDate1=$request->input("factDate1");
+        }
+        if(strlen($request->input("factDate2"))>3){
+            $factDate2=$request->input("factDate2");
+        }
+        if(strlen($request->input("factTime1"))>3){
+            $factTime1=$request->input("factTime1").':00';
+        }
+        if(strlen($request->input("factTime2"))>3){
+            $factTime2=$request->input("factTime2").':00';
+        }
+        if($request->input("factNo1")){
+            $factNo1=$request->input("factNo1");
+        }
+        if($request->input("factNo2")){
+            $factNo2=$request->input("factNo2");
+        }
+        if(strlen($request->input("customerName"))>3){
+            $customerName=$request->input("customerName");
+        }
+        if(strlen($request->input("setterName"))>3){
+            $setterName=$request->input("setterName");
+        }
+        if(strlen($request->input("factDesc"))>3){
+            $factDesc=$request->input("factDesc");
+        }
+        if(strlen($request->input("bazaryabName"))>3){
+            $bazaryabName=$request->input("bazaryabName");
+        }        
+        if(strlen($request->input("stockName"))>3){
+            $stockName=$request->input("stockName");
+        }
+
+        if($request->input("tasviyehYes") and $request->input("tasviyehNo")){
+            $tasvieyQPart="AND (tasviyehState='YES' OR tasviyehState='NO')";
+        }else {
+            if($request->input("tasviyehYes")){
+                $tasvieyQPart="AND tasviyehState='YES'";
+            }
+            if($request->input("tasviyehNo")){
+                $tasvieyQPart="AND tasviyehState='NO'";
+            }
+        }
+
+        if($request->input("bargiryYes") and $request->input("bargiryNo")){
+            $bargiryQPart="AND (bargiriyState='YES' OR bargiriyState='NO')";
+        }else{
+            if($request->input("bargiryYes")){
+                $bargiryQPart="AND bargiriyState='YES'";
+            }
+            if($request->input("bargiryNo")){
+                $bargiryQPart="AND bargiriyState='NO'";
+            }
+        }
+        
+        $factors=DB::select("SELECT * FROM(
+                                SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                                    SELECT * FROM(
+                                        SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                                        LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                                    )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                                )C 
+                            )D	WHERE CompanyNo=5 AND FactType=3 $bargiryQPart $tasvieyQPart AND FactDate >= '$factDate1' AND FactDate <= '$factDate2'
+                            AND FactTime>='$factTime1' AND FactTime <= '$factTime2' AND FactNo >= $factNo1 AND FactNo <= $factNo2
+                            AND Name LIKE '%$customerName%' AND setterName LIKE '%$setterName%'
+                            AND FactDesc LIKE '%$factDesc%' AND BazaryabName LIKE '%$bazaryabName%' AND stockName LIKE '%$stockName%' ORDER BY FactDate DESC");
+
+        
+     return Response::json($factors);
     }
 
 }
