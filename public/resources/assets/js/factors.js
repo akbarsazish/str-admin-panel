@@ -1,4 +1,4 @@
-var baseUrl = "http://127.0.0.1:8000";
+var baseUrl = "http://192.168.10.26:8080";
 $("#filterFactorsForm").on("submit",function(e){
     e.preventDefault();
     $.ajax({
@@ -52,9 +52,9 @@ $("#filterFactorsForm").on("submit",function(e){
                                                 <td> ${element.BarNameNo} </td>
                                                 <td> ${element.FactTime} </td>
                                                 <td> خیر </td>
-                                                <td> ${element.bargiriNo} </td>
-                                                <td> ${element.driverTahvilDate} </td>
-                                                <td> ${element.driverName} </td>
+                                                <td> ${(element.bargiriNo||"")} </td>
+                                                <td> ${(element.driverTahvilDate || "")} </td>
+                                                <td> ${(element.driverName || "")} </td>
                                             </tr>`);
             });
         },

@@ -69,8 +69,7 @@ class Bargiri extends Controller {
         $allFactors=array();
         foreach ($factorsSn as $snFact) {
             $factorStuff=DB::select("SELECT *,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.FactorHDS F join Shop.dbo.Peopels P on CustomerSn=PSN
-            join Shop.dbo.BargiryBYS B on SnFact=SerialNoHDS
-            WHERE F.CompanyNo=5 and SerialNoHDS=$snFact");
+                                    WHERE F.CompanyNo=5 and SerialNoHDS=$snFact");
             array_push($allFactors,$factorStuff);
         }
         return Response::json($allFactors);
@@ -150,7 +149,9 @@ class Bargiri extends Controller {
     }
 
     public function doEditBargiriFactors(Request $request) {
-        $factorsSn;
+        return Response::json($request->all());
+        $factorsSnForAdd;
+        $factorsSnForUpdate;
         $mashinNo="";
         $datePeaper="";
         $descPeaper="";
@@ -162,7 +163,10 @@ class Bargiri extends Controller {
         $snUser1=21;
         $snDriver=1;
         if($request->input("FactSnsEdit")){
-            $factorsSn=$request->input("FactSnsEdit");
+            $factorsSnForAdd=$request->input("FactSnsEdit");
+        }
+        if($request->input("FactSns")){
+            $factorsSnForUpdate=$request->input("FactSns");
         }
         if($request->input("MashinNo")){
             $mashinNo=$request->input("MashinNo");
@@ -201,7 +205,7 @@ class Bargiri extends Controller {
             ,"Bargiri_NoPayaneh"=>$bargiri_NoPayaneh
             ,"Bargiri_VarizSnAccBank"=>$bargiri_VarizSnAccBank]);
 
-        foreach($factorsSn as $factSn){
+        foreach($factorsSnForAdd as $factSn){
             DB::table("Shop.dbo.BargiryBYS")->insert(["CompanyNo"=>5
                                                     ,"SnMaster"=>$snMasterBar
                                                     ,"SnFact"=>$factSn

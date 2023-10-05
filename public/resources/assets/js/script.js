@@ -139,7 +139,7 @@ var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('conte
 // window.addEventListener('DOMContentLoaded', () => document.querySelector('.loading').classList.remove('show'));
 ///JAVAD JAVASCRIPT CODES
 
-var baseUrl = "http://127.0.0.1:8000";
+var baseUrl = "http://192.168.10.26:8080";
 
 const loader = document.getElementById("loader");
 function hideLoader() {

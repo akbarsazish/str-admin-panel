@@ -197,10 +197,8 @@ class Order extends Controller{
         $exactPrice1=0;
         foreach ($prices as $price) {
             $exactPrice=$price->Price3;
-            $exactPrice1=$price->Price4;
         }
         $allMoney= $exactPrice * $amountUnit;
-        $allMoneyFirst= $exactPrice1 * $amountUnit;
         $fiPack=$exactPrice*$packAmount;
         $fiPrice=$allMoney/$amountUnit;
         $packAmount1=$amountUnit/$packAmount;
@@ -258,41 +256,35 @@ class Order extends Controller{
     {
         $itemSn=$request->get("orderSn");
         $orderHDSsn=$request->get('snHDS');
-        $defaultUnit;
-        $packType;
-        $packAmount;
         $amountUnit=$request->get('amount');
         $productId=$request->get('productId');
-        $secondUnits=DB::select("select SnGoodUnit,AmountUnit from Shop.dbo.GoodUnitSecond where GoodUnitSecond.SnGood=".$productId);
-        $defaultUnits=DB::select("select defaultUnit from Shop.dbo.PubGoods where PubGoods.GoodSn=".$productId);
+        $defaultUnit=0;
+        $packAmount=1;
+        $secondUnits=DB::select("SELECT SnGoodUnit,AmountUnit FROM Shop.dbo.GoodUnitSecond WHERE GoodUnitSecond.SnGood=".$productId);
+        $defaultUnits=DB::select("SELECT defaultUnit FROM Shop.dbo.PubGoods WHERE PubGoods.GoodSn=".$productId);
         foreach ($defaultUnits as $unit) {
             $defaultUnit=$unit->defaultUnit;
         }
         if(count($secondUnits)>0){
             foreach ($secondUnits as $unit) {
-                $packType=$unit->SnGoodUnit;
                 $packAmount=$unit->AmountUnit;
             }
-            }else{
-                $packType=$defaultUnit;
-                $packAmount=1;
-            }
-
-        $prices=DB::select("select GoodPriceSale.Price3,GoodPriceSale.Price4 from Shop.dbo.GoodPriceSale where GoodPriceSale.SnGood=".$productId);
-        $exactPrice=0;
-        $exactPrice1=0;
-        foreach ($prices as $price) {
-            $exactPrice=$price->Price3;
-            $exactPrice1=$price->Price4;
         }
-        $allMoney= $exactPrice * $amountUnit;
-        $allMoneyFirst= $exactPrice1 * $amountUnit;
-        $fiPack=$exactPrice*$packAmount;
-        $fiPrice=$allMoney/$amountUnit;
-        $packAmount1=$amountUnit/$packAmount;
-        DB::update("UPDATE NewStarfood.dbo.orderBYSS SET Amount=".$amountUnit.",DescRecord='دستی ویرایش شد',PackAmount=$packAmount1 ,Price=".$allMoney.",FiPack=".$fiPack.",
-        PriceAfterTakhfif=$allMoney
-        WHERE SnOrderBYSS=".$itemSn);
+
+        $bysInfo=DB::select("SELECT * FROM NewStarfood.dbo.orderBYSS WHERE SnOrderBYSS=$itemSn");
+        
+        $fi=0;
+
+        foreach ($bysInfo as $info) {
+            $fi=$info->Fi;
+        }
+
+        $allMoney= $fi * $amountUnit;
+
+        $fiPack=$fi*$packAmount;
+        $boughtPackAmount=$amountUnit/$packAmount;
+        DB::update("UPDATE NewStarfood.dbo.orderBYSS SET Amount=$amountUnit,DescRecord='دستی ویرایش شد',PackAmount=$boughtPackAmount ,Price=$allMoney,FiPack=$fiPack,
+        PriceAfterTakhfif=$allMoney,Fi=$fi WHERE SnOrderBYSS=$itemSn");
         $orderItems=DB::select("SELECT *,orderBYSS.Price AS totalPrice FROM NewStarfood.dbo.orderBYSS JOIN Shop.dbo.PubGoods ON orderBYSS.SnGood=PubGoods.GoodSn
                                 JOIN (SELECT USN,UName AS firstUnit FROM Shop.dbo.PUBGoodUnits)a ON PubGoods.DefaultUnit=a.USN
                                 LEFT JOIN (SELECT USN,UName AS secondUnit,SnGood FROM Shop.dbo.PUBGoodUnits
@@ -1180,6 +1172,7 @@ public function addOrder(Request $request){
 		}
     }
 
+   
     public function finalizePayAndOrderApi(Request $request)
     {
         $psn=$request->input("psn");
@@ -1187,7 +1180,6 @@ public function addOrder(Request $request){
         $tref=$request->input("tref");
         $iN=$request->input("iN");
         $iD=$request->input("iD");
-
 
         $allTakhfifMoney=0;
         $takhfif=$request->input("takhfif");
@@ -1202,8 +1194,8 @@ public function addOrder(Request $request){
             $pasargad = new Pasargad(
                           "5015060",
                           "2263969",
-                          "https://starfoods.ir/successPayApi",
-                          "C:/inetpub/vhosts/starfoods.ir/httpdocs/key.xml");
+                        "https://starfoods.ir/successPayApi",
+                        "C:/inetpub/vhosts/starfoods.ir/httpdocs/key.xml");
                           
             $pasargad->setTransactionReferenceId($tref); 
             $pasargad->setInvoiceNumber($iN);
@@ -1442,6 +1434,7 @@ public function addOrder(Request $request){
             return Response::json(["result"=>"Not Connected"]);
         }
     }
+
 
 
 	public function getAllMoneyForOnlinePay(){
