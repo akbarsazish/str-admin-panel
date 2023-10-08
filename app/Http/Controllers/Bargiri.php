@@ -149,9 +149,8 @@ class Bargiri extends Controller {
     }
 
     public function doEditBargiriFactors(Request $request) {
-        return Response::json($request->all());
-        $factorsSnForAdd;
-        $factorsSnForUpdate;
+        $factorsSnForAdd=array();
+        $factorsSnForUpdate=array();
         $mashinNo="";
         $datePeaper="";
         $descPeaper="";
@@ -162,6 +161,19 @@ class Bargiri extends Controller {
         $snMasterBar=$request->input("SnMasterBar");
         $snUser1=21;
         $snDriver=1;
+
+        $naghdPriceAdd=0;
+        $kartPriceAdd=0;
+        $varizPriceAdd=0;
+        $takhfifPriceAdd=0;
+        $difPriceAdd=0;
+
+        $naghdPriceUpdate=0;
+        $kartPriceUpdate=0;
+        $varizPriceUpdate=0;
+        $takhfifPriceUpdate=0;
+        $difPriceUpdate=0;
+
         if($request->input("FactSnsEdit")){
             $factorsSnForAdd=$request->input("FactSnsEdit");
         }
@@ -209,12 +221,22 @@ class Bargiri extends Controller {
             DB::table("Shop.dbo.BargiryBYS")->insert(["CompanyNo"=>5
                                                     ,"SnMaster"=>$snMasterBar
                                                     ,"SnFact"=>$factSn
-                                                    ,"NaghdPrice"=>0
-                                                    ,"KartPrice"=>0
-                                                    ,"DifPrice"=>0
-                                                    ,"DescRec"=>""
-                                                    ,"VarizPrice"=>0
-                                                    ,"TakhfifPriceBar"=>0]);
+                                                    ,"NaghdPrice"=>str_replace(",", "",$request->input("NaghdPrice".$factSn))
+                                                    ,"KartPrice"=>str_replace(",", "",$request->input("KartPrice".$factSn))
+                                                    ,"DifPrice"=>str_replace(",", "",$request->input("DifPrice".$factSn))
+                                                    ,"VarizPrice"=>str_replace(",", "",$request->input("VarizPrice".$factSn))
+                                                    ,"TakhfifPriceBar"=>str_replace(",", "",$request->input("TakhfifPriceBar".$factSn))]);
+        }
+
+        foreach ($factorsSnForUpdate as $factSn){
+            
+            DB::table("Shop.dbo.BargiryBYS")->where("SnFact",$factSn)->update(["CompanyNo"=>5
+                                        ,"NaghdPrice"=>str_replace(",", "",$request->input("NaghdPrice".$factSn))
+                                        ,"KartPrice"=>str_replace(",", "",$request->input("KartPrice".$factSn))
+                                        ,"DifPrice"=>str_replace(",", "",$request->input("DifPrice".$factSn))
+                                        ,"VarizPrice"=>str_replace(",", "",$request->input("VarizPrice".$factSn))
+                                        ,"TakhfifPriceBar"=>str_replace(",", "",$request->input("TakhfifPriceBar".$factSn))]);
+                                        
         }
         $todayDrivers=DB::select("SELECT NewStarfood.dbo.getDriverName(SnDriver)driverName,* FROM Shop.dbo.BargiryHDS WHERE CompanyNo=5 order by DatePeaper desc");
         return Response::json(["todayDrivers"=>$todayDrivers]);      

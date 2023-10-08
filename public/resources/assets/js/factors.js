@@ -70,3 +70,40 @@ $("#customerCode").on("keyup",function(){
         $("#customerName").val(respond[0].Name);
     });
 })
+
+function openEditFactorModal(snFactor){
+alert(snFactor)
+    $.get(baseUrl+"/getFactorInfoForEdit",{SnFactor:snFactor},(respond,status)=>{
+        $("#factorEditListBody").empty();
+        respond.forEach((element,index)=>{
+            $("#factorEditListBody").append(`
+                <tr class="factorTablRow">
+                    <td class="td-part-input"> ${index+1} </td>
+                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.NameGood}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.FirstUnit}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.SecondUnit}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.PackAmnt}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Amount%element.AmountUnit}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.FirstAmout}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.ReAmount}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Amount}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Fi}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.FiPack}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Price}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.PriceAfterTakhfif}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.NameStock}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Price3PercentMaliat}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Fi2Weight}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Amount2Weight}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
+                </tr>
+            `);
+        })
+    })
+    $("#editFactorModal").modal("show");
+}

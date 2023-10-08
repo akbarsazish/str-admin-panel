@@ -255,18 +255,19 @@ function editFactorsOfBargiri(snMasterBar){
             if(element.TakhfifPriceBar>0){
                 takhfifPriceBar=element.TakhfifPriceBar;
             }
-            $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow">
-                                                            <td > ${(index+1)} <input type="checkbox" name="FactSns[]" value="${element.SerialNoHDS}" checked style="display:none"/></td>
+
+            $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow" onclick="setFactorInfoForEdit(this)">
+                                                            <td> ${(index+1)} <input type="checkbox" name="FactSns[]" value="${element.SerialNoHDS}" checked style="display:none"/></td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.FactNo}" class="td-input form-control" required> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.FactDate}" class="td-input form-control" required> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.PCode}" class="td-input form-control" required> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.Name}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="NetPrice${element.SerilNoHDS}" value="${parseInt(element.NetPriceHDS).toLocaleString('en-us')}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="NaghdPrice${element.SerilNoHDS}" value="${naghdPrice}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="KartPrice${element.SerilNoHDS}" value="${kartPrice}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="VarizPrice${element.SerilNoHDS}" value="${varizPrice}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${element.SerilNoHDS}" value="${takhfifPriceBar}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${difPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="NetPrice${element.SerialNoHDS}" value="${parseInt(element.NetPriceHDS).toLocaleString('en-us')}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="NaghdPrice${element.SerialNoHDS}" value="${naghdPrice}" class="td-input form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="KartPrice${element.SerialNoHDS}" value="${kartPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="VarizPrice${element.SerialNoHDS}" value="${varizPrice}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${element.SerialNoHDS}" value="${takhfifPriceBar}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="DifPrice${element.SerialNoHDS}" value="${difPrice}" class="td-input form-control"> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.FactDesc}" class="td-input form-control"> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.OtherAddress}" class="td-input form-control"> </td>
                                                             <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-input form-control"> </td>
@@ -283,6 +284,7 @@ function editFactorsOfBargiri(snMasterBar){
             }
         });
     });
+
     $.get(baseUrl+"/allBanks",(respond,status)=>{
         $("#allKartKhanBanksEdit").empty();
         $("#allVarizBeHisabBanksEdit").empty();
@@ -293,6 +295,13 @@ function editFactorsOfBargiri(snMasterBar){
     });
     $("#editFactorsOfBargiriModal").modal("show");
 }
+
+function setFactorInfoForEdit(element){
+    let snFact= $(element).find('input[type="checkbox"]').val();
+    $("#editModalEditFactorBtn").val(snFact);
+    $("#addModalEditFactorBtn").val(snFact);
+}
+
 function deleteFactorsOfBargiri(snMasterBar){
     swal({
         title: 'اخطار!',
@@ -323,7 +332,7 @@ $("#addFactorsBargiriForm").on("submit",function(e){
     $.ajax({
         method: $(this).attr('method'),
         url: $(this).attr('action'),
-        data: new FormData(this),
+        data:$(this).serialize(),
         processData: false,
         contentType: false,
         success: function (respond) {
@@ -351,7 +360,7 @@ $("#doEditBargiriFactorsForm").on("submit",function(e){
     $.ajax({
         method: $(this).attr('method'),
         url: $(this).attr('action'),
-        data: new FormData(this),
+        data:$(this).serialize(),
         processData: false,
         contentType: false,
         success: function (respond) {
@@ -467,7 +476,7 @@ function addSelectFactorsToBargiri(){
     });
 
     $.get(baseUrl+"/getFactorsInfoToBargiriTbl",{allFactors:selectFactorsSn},(respond,status)=>{
-        console.log(respond)
+
         let i=$("#factorsToAddToBargiriBody tr").length;
         for (const element of respond) {
             let netPriceHDS=0;
@@ -521,27 +530,27 @@ function addSelectFactorsToBargiri(){
     })
 }
 
-$(document).on("keyup",".td-input",(e)=>{
-    if(e.keyCode ==13){
-        var currentInput = $(e.target);
-        var row = $(currentInput).closest("tr");
-        let rowIdx=row.index()+1;
-        let netPriceHDS=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(6) input`).val().replace(/,/g, '');
-        let naghdPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(7) input`).val().replace(/,/g, '');
-        let kartPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(8) input`).val().replace(/,/g, '');
-        let varizPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(9) input`).val().replace(/,/g, '');
-        let takhfifPriceBar=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(10) input`).val().replace(/,/g, '');
-        let difPrice=(netPriceHDS)-(naghdPrice+kartPrice+varizPrice+takhfifPriceBar);
-        $(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(11) input`).val(parseInt(difPrice).toLocaleString("en-us"));
-        
-        if(currentInput.val()>0){
-            $("#bargiriFactorsEditBtn").prop("disabled",false);
-        }
+$(document).on("keyup",".td-input",function(e){
+
+    var currentInput = $(e.target);
+    var row = $(currentInput).closest("tr");
+    let rowIdx=row.index()+1;
+    let netPriceHDS=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(6) input`).val().replace(/,/g, '');
+    let naghdPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(7) input`).val().replace(/,/g, '');
+    let kartPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(8) input`).val().replace(/,/g, '');
+    let varizPrice=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(9) input`).val().replace(/,/g, '');
+    let takhfifPriceBar=$(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(10) input`).val().replace(/,/g, '');
+    let difPrice=parseInt(netPriceHDS)-(parseInt(naghdPrice)+parseInt(kartPrice)+parseInt(varizPrice)+parseInt(takhfifPriceBar));
+    $(`#factorsToAddToBargiriBodyEdit tr:nth-child(${rowIdx}) td:nth-child(11) input`).val(parseInt(difPrice).toLocaleString("en-us"));
+    
+    if(e.keyCode==13){
+        $("#bargiriFactorsEditBtn").prop("disabled",false);
         var nextInput = currentInput.closest('td').next('td').find('input');
         if (nextInput.length > 0) {
             nextInput.focus();
         }
     }
+    
 });
 
 function addSelectFactorsToBargiriEdit(){
@@ -550,7 +559,7 @@ function addSelectFactorsToBargiriEdit(){
         selectFactorsSn.push($(this).val());
     });
     $.get(baseUrl+"/getFactorsInfoToBargiriTbl",{allFactors:selectFactorsSn},(respond,status)=>{
-        
+        console.log(respond)
         let i=$("#factorsToAddToBargiriBodyEdit tr").length;
         for (const element of respond) {
             let netPriceHDS=0;
@@ -577,19 +586,21 @@ function addSelectFactorsToBargiriEdit(){
             if(element[0].DifPrice>0){
                 difPrice=element[0].DifPrice;
             }
+            let serialNoHDS=element[0].SerialNoHDS;
+            alert(serialNoHDS)
             i+=1;
             $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow">
-                <td> ${i} <input type="checkbox" name="FactSnsEdit[]" value="${element[0].SerialNoHDS}" checked style="display:none"/> </td>
+                <td> ${i} <input type="checkbox" name="FactSnsEdit[]" value="${serialNoHDS}" checked style="display:none"/> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactNo}" class="td-input form-control" required> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDate}" class="td-input form-control" required> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].PCode}" class="td-input form-control" required> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].Name}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" name="NetPriceHDS${SerialNoHDS}" value="${parseInt(netPriceHDS).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" name="NaghdPrice${SerialNoHDS}" value="${parseInt(naghdPrice).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                <td   class="td-part-input"> <input type="text" name="KartPrice${SerialNoHDS}" value="${parseInt(kartPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" name="VarizPrice${SerialNoHDS}" value="${parseInt(varizPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${SerialNoHDS}" value="${parseInt(takhfifPriceBar).toLocaleString("en-us")}" class="td-input form-control"> </td>
-                <td   class="td-part-input"> <input type="text" name="" value="${parseInt(difPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="NetPriceHDS${serialNoHDS}" value="${parseInt(netPriceHDS).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="NaghdPrice${serialNoHDS}" value="${parseInt(naghdPrice).toLocaleString("en-us")}" class="td-input form-control" required> </td>
+                <td   class="td-part-input"> <input type="text" name="KartPrice${serialNoHDS}" value="${parseInt(kartPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="VarizPrice${serialNoHDS}" value="${parseInt(varizPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${serialNoHDS}" value="${parseInt(takhfifPriceBar).toLocaleString("en-us")}" class="td-input form-control"> </td>
+                <td   class="td-part-input"> <input type="text" name="DifPrice${serialNoHDS}" value="${parseInt(difPrice).toLocaleString("en-us")}" class="td-input form-control"> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].FactDesc}" class="td-input form-control"> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].OtherAddress}" class="td-input form-control"> </td>
                 <td   class="td-part-input"> <input type="text" name="" value="${element[0].PhoneStr}" class="td-input form-control"> </td>

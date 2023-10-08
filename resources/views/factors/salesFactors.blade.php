@@ -421,6 +421,14 @@
                                     <input type="text" name="DescPeaper" class="form-control form-control-sm"  placeholder=" توضیحات ">
                                 </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div><button class="btn btn-sm btn-success" type="button" id="addModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور </button></div>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -492,7 +500,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('doEditBargiriFactors')}}" method="post" id="doEditBargiriFactorsForm">
+                    <form action="{{url('doEditBargiriFactors')}}" method="get" id="doEditBargiriFactorsForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -526,6 +534,14 @@
                                     <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text"> توضیحات </span>
                                         <input type="text"  name="DescPeaper" class="form-control form-control-sm" id="paperdescEdit"  placeholder=" توضیحات ">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div><button class="btn btn-sm btn-success" type="button" id="editModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور </button></div>
+                                    </div>
+                                    <div class="col-6">
+
                                     </div>
                                 </div>
                             </div>
@@ -731,6 +747,62 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="editFactorModal" tabindex="1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> اصلاح فاکتور </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4"></div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <table class="table table-striped table-bordered table-sm factorTable">
+                            <thead class="bg-success">
+                                <tr class="bg-success factorTableHeadTr">
+                                    <th> ردیف </th>
+                                    <th> کد کالا </th>
+                                    <th> نام کالا </th>
+                                    <th> واحد کالا </th>
+                                    <th> بسته بندی </th>
+                                    <th> مقدار کل </th>
+                                    <th> مقدار جز </th>
+                                    <th> مقدار اولیه </th>
+                                    <th> مقدار برگشتی </th>
+                                    <th> مقدار کالا </th>
+                                    <th>  نرخ واحد </th>
+                                    <th> نرخ بسته </th>
+                                    <th> مبلغ </th>
+                                    <th> مبلغ بعد از تخفیف </th>
+                                    <th> شماره سفارش </th>
+                                    <th> تاریخ سفارش </th>
+                                    <th> شرح کالا </th>
+                                    <th> انبار </th>
+                                    <th> مالیات بر ارزش افزوده </th>
+                                    <th> وزن واحد </th>
+                                    <th> وزن کل </th>
+                                    <th> In Srvice </th>
+                                    <th> درصد مالیات </th>
+                                </tr>
+                            </thead>
+                            <tbody id="factorEditListBody">
+                                <tr class="factorTablRow">
+
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

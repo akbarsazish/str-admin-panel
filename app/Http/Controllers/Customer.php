@@ -887,9 +887,9 @@ public function takhsisMasirs(Request $request)
         return Response::json($orders);
     }
 
-    public function filterCustomers(Request $request)
-    {
-        $nameOrCodeOrPhone=$request->get("nameOrCodeOrPhone");
+    public function filterCustomers(Request $request){
+        $kala=new Kala;
+        $nameOrCodeOrPhone=$kala->changeToArabicLetterAndEngNumber($request->get("nameOrCodeOrPhone"));
 
         $recName=$request->get("recName");
 
@@ -899,17 +899,52 @@ public function takhsisMasirs(Request $request)
 
         $baseName=$request->get("baseName");
 
-        $customers=DB::select("SELECT * FROM (SELECT PSN,CompanyNo,IsActive,PCode,Name,GroupCode
-                ,FORMAT(TimeStamp,'yyyy/MM/dd','fa-ir') as TimeStamp,
-                peopeladdress,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,
-                CRm.dbo.getCustomerMantagheh(SnMantagheh) as NameRec
-                ,CRM.dbo.checkUserLocation(PSN,$lcationState) as hasLocation
-                ,CRM.dbo.checkCustomerActivationState(PSN,$activationState) as activationState
-                FROM Shop.dbo.Peopels)a
-                WHERE CompanyNo=5 AND Name !='' and (Name Like '%$nameOrCodeOrPhone%' OR 
-                PCode Like N'%$nameOrCodeOrPhone%' or PhoneStr Like N'%$nameOrCodeOrPhone%') and 
-                NameRec like N'%$recName%' and hasLocation=$lcationState and activationState=$activationState 
-                AND GroupCode in(291,1297,1297 ,299 ,312 ,313 ,314,299) ORDER BY $baseName ASC");
+        $words=explode(" ",$nameOrCodeOrPhone);
+
+        $queryPart=" ";
+
+        $counter=count($words);
+       
+        foreach($words as $word){
+
+            $counter-=1;
+
+            if($counter>0){
+
+                $queryPart.="Name LIKE '%$word%' AND ";
+
+            }else{
+
+                $queryPart.="Name LIKE '%$word%'";
+
+            }
+             
+        }
+        $customers;
+        if(count($words)==1){
+            $customers=DB::select("SELECT * FROM (SELECT PSN,CompanyNo,IsActive,PCode,Name,GroupCode
+                    ,FORMAT(TimeStamp,'yyyy/MM/dd','fa-ir') as TimeStamp,
+                    peopeladdress,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,
+                    CRm.dbo.getCustomerMantagheh(SnMantagheh) as NameRec
+                    ,CRM.dbo.checkUserLocation(PSN,$lcationState) as hasLocation
+                    ,CRM.dbo.checkCustomerActivationState(PSN,$activationState) as activationState
+                    FROM Shop.dbo.Peopels)a
+                    WHERE CompanyNo=5 AND Name !='' AND (Name Like '%$nameOrCodeOrPhone%' OR 
+                    PCode Like N'%$nameOrCodeOrPhone%' or PhoneStr Like N'%$nameOrCodeOrPhone%') AND 
+                    NameRec like N'%$recName%' AND IsActive=1 AND hasLocation=$lcationState AND activationState=$activationState 
+                    AND GroupCode in(291,1297,312,313,314,299) ORDER BY $baseName ASC");
+        }else{
+            $customers=DB::select("SELECT * FROM (SELECT PSN,CompanyNo,IsActive,PCode,Name,GroupCode
+                    ,FORMAT(TimeStamp,'yyyy/MM/dd','fa-ir') as TimeStamp,
+                    peopeladdress,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,
+                    CRm.dbo.getCustomerMantagheh(SnMantagheh) as NameRec
+                    ,CRM.dbo.checkUserLocation(PSN,$lcationState) as hasLocation
+                    ,CRM.dbo.checkCustomerActivationState(PSN,$activationState) as activationState
+                    FROM Shop.dbo.Peopels)a
+                    WHERE CompanyNo=5 AND Name !='' AND ($queryPart) AND 
+                    NameRec like N'%$recName%' AND IsActive=1 AND hasLocation=$lcationState AND activationState=$activationState 
+                    AND GroupCode in(291,1297,312,313,314,299) ORDER BY $baseName ASC");            
+        }
         return Response::json($customers);
     }
 

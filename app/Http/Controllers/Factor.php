@@ -315,6 +315,12 @@ class Factor extends Controller{
         return redirect("/salesOrder");
     }
 
+    function getFactorInfoForEdit(Request $request) {
+        $factSn=$request->input("SnFactor");
+        $factorInfo=DB::select("SELECT *,G.GoodName NameGood,NewStarfood.dbo.getFirstUnit(SnGood)FirstUnit,NewStarfood.dbo.getAmountUnit(SnGood)AmountUnit,NewStarfood.dbo.getSecondUnit(SnGood)SecondUnit FROM Shop.dbo.PubGoods G join Shop.dbo.FactorBYS b on G.GoodSn=b.SnGood join Shop.dbo.Stocks s  on b.SnSize=s.SnStock where SnFact=$factSn and s.CompanyNo=5");
+        return Response::json($factorInfo);
+    }
+
     public function factorView(Request $request){
         $factorSn=$request->post("factorSn");
         $factorhds=DB::select("SELECT * FROM Shop.dbo.FactorHDS WHERE SerialNoHDS=".$factorSn);
