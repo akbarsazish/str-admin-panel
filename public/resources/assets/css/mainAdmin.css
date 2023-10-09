@@ -6980,7 +6980,7 @@ table thead {
 
 .prizeName {
     color: #7a5a03;
-    font-size: 16px;
+    font-size: 16px !important;
     font-weight: bold;
 }
 
@@ -7279,3 +7279,10 @@ table thead {
     border: none !important;
 }
 
+.tanzimat-label {
+    font-size: 0.9rem;
+}
+
+.form-check-input {
+    padding: 0.5rem;
+}

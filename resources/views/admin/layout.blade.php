@@ -64,7 +64,7 @@
                                         <a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"> <span> <i class="fa-light fa-tasks"  style="color:#fff"></i> &nbsp; عملیات </span></a>
                                         <ul>
                                             @if(hasPermission(Session::get("adminId"),"kalasN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/listKala')}}" > <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%; color:#597c9d"></i> کالا ها </a></li>
+                                                <li><a class="mySidenav__item" href="{{url('/listKala')}}" > <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%;"></i> کالا ها </a></li>
                                             @endif
                                             
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
@@ -73,7 +73,7 @@
                                                         <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
                                                             @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
                                                         </span>  
-                                                        <i class="fa fa-shopping-cart fa-lg sideBarIcon"></i>  
+                                                        <i class="fa fa-money-bill"></i>
                                                         فاکتور فروش 
                                                     </a> 
                                                </li>
@@ -102,8 +102,8 @@
                                               </a>
                                           </li>
                                             @endif
-                                            <li><a class="mySidenav__item" href="{{url('/notification')}}"> <i class="fa fa-bell fa-lg" style="margin-right: 5%; color:#597c9d"></i>  نوتفیکیشن </a>
-                                            <li><a class="mySidenav__item" href="{{url('/discountCode')}}"> <i class="fa fa-code fa-lg" style="margin-right: 5%; color:#597c9d"></i>  کد تخفیف </a>
+                                            <li><a class="mySidenav__item" href="{{url('/notification')}}"> <i class="fa fa-bell fa-lg" style="margin-right: 5%;"></i>  نوتفیکیشن </a>
+                                            <li><a class="mySidenav__item" href="{{url('/discountCode')}}"> <i class="fa fa-code fa-lg" style="margin-right: 5%;"></i>  کد تخفیف </a>
                                         </ul>
                                     </li>
                                 @endif
@@ -119,7 +119,7 @@
                                         @endif
                                         @if(hasPermission(Session::get("adminId"),"gameAndLotteryN") > -1)
                                         <li class="sidebarLi"> 
-                                              <a class="mySidenav__item" href="{{url('/lotteryResult')}}">
+                                              <a class="mySidenav__item" href="{{url('/lotteryResult')}}">  &nbsp;&nbsp; 
                                                 <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages" >@if(hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))>0){{hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))}} @else 0 @endif</span>
                                                 <i class="fa-light fa-briefcase fa-lg" ></i>
                                                   تخفیفات و امتیازات
