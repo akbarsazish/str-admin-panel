@@ -758,55 +758,224 @@
 <div class="modal" id="editFactorModal" tabindex="1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info" >
                 <h5 class="modal-title"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-4"></div>
-                        <div class="col-4"></div>
-                        <div class="col-4"></div>
-                    </div>
-                    <div class="row">
-                        <table class="table table-striped table-bordered table-sm factorTable">
-                            <thead class="bg-success">
-                                <tr class="bg-success factorTableHeadTr">
-                                    <th> ردیف </th>
-                                    <th> کد کالا </th>
-                                    <th> نام کالا </th>
-                                    <th> واحد کالا </th>
-                                    <th> بسته بندی </th>
-                                    <th> مقدار کل </th>
-                                    <th> مقدار جز </th>
-                                    <th> مقدار اولیه </th>
-                                    <th> مقدار برگشتی </th>
-                                    <th> مقدار کالا </th>
-                                    <th>  نرخ واحد </th>
-                                    <th> نرخ بسته </th>
-                                    <th> مبلغ </th>
-                                    <th> مبلغ بعد از تخفیف </th>
-                                    <th> شماره سفارش </th>
-                                    <th> تاریخ سفارش </th>
-                                    <th> شرح کالا </th>
-                                    <th> انبار </th>
-                                    <th> مالیات بر ارزش افزوده </th>
-                                    <th> وزن واحد </th>
-                                    <th> وزن کل </th>
-                                    <th> In Srvice </th>
-                                    <th> درصد مالیات </th>
-                                </tr>
-                            </thead>
-                            <tbody id="factorEditListBody">
-                                <tr class="factorTablRow">
+                <form action="{{url("/doEditFactor")}}" method="post">
+                    @csrf
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > شماره فاکتور </span>
+                                    <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm mb-1">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > انبار </span>
+                                    <select name="stockEdit" id="sockEdit" class="form-select">
+                                        <option></option>
+                                        @foreach($stocks as $stock)
+                                        <option>{{$stock->NameStock}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > تاریخ </span>
+                                    <input type="text" class="form-control" name="FactDateEdit" id="FactDateEdit">
+                                    <select name="" id="customerForFactorEdit">
 
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > خریدار </span>
+                                    <input type="text" class="form-control" name="pCodeEdit" id="pCodeEdit">
+                                    <input type="text" class="form-control" name="NameEdit" id="NameEdit">
+                                    <button type="button" class="btn btn-info">گردش حساب</button>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > بازاریاب </span>
+                                    <input type="text" class="form-control" name="bazaryabCodeEdit" id="bazaryabCodeEdit">
+                                    <input type="text" class="form-control" name="bazaryabNameEdit" id="bazaryabNameEdit">
+                                    <button  type="button" class="btn btn-info"> ... </button>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > خریدار متفرقه </span>
+                                    <input type="text" class="form-control" name="MotafariqahNameEdit" id="MotafariqahNameEdit">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > توضحیات </span>
+                                    <input type="text" class="form-control" name="ّFactDescEdit" id="ّFactDescEdit">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > نحوه تحویل </span>
+                                    <select name="TahvilTypeEdit" id="TahvilTypeEdit" class="form-select">
+                                        <option > تحویل به مشتری </option>
+                                        <option > ارسال به آدرس </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> گردش کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> گردش شخص </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> اصلاح شخص </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> ده خرید آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> ده فروش آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2"> سفارشات ارسال نشده </button>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div>
+                                    <label class="form-label"> کرایه دریافت شد </label>
+                                    <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-sm btn-success"> ثبت </button>
+                                    <button type="button" onclick="cancelEditFactor()" class="btn btn-sm btn-danger"> انصراف </button>
+                                </div>
+                                <div>
+                                    <div class="col-lg-12" style="background-color:#e0e0e0;">
+                                        <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
+                                        <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
+                                        <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
+                                        <span class="description"> آخرین قیمت فروش :  <b id="firstEditLastPrice">0</b> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="table table-striped table-bordered table-sm factorTable">
+                                <thead class="bg-success">
+                                    <tr class="bg-success factorTableHeadTr">
+                                        <th> ردیف </th>
+                                        <th> کد کالا </th>
+                                        <th> نام کالا </th>
+                                        <th> واحد کالا </th>
+                                        <th> بسته بندی </th>
+                                        <th> مقدار کل </th>
+                                        <th> مقدار جز </th>
+                                        <th> مقدار اولیه </th>
+                                        <th> مقدار برگشتی </th>
+                                        <th> مقدار کالا </th>
+                                        <th>  نرخ واحد </th>
+                                        <th> نرخ بسته </th>
+                                        <th> مبلغ </th>
+                                        <th> مبلغ بعد از تخفیف </th>
+                                        <th> شماره سفارش </th>
+                                        <th> تاریخ سفارش </th>
+                                        <th> شرح کالا </th>
+                                        <th> انبار </th>
+                                        <th> مالیات بر ارزش افزوده </th>
+                                        <th> وزن واحد </th>
+                                        <th> وزن کل </th>
+                                        <th> In Srvice </th>
+                                        <th> درصد مالیات </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="factorEditListBody">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='modal fade dragAbleModal' id='customerForSefarishModal' data-backdrop="static" tabindex="-1" >
+    <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+            <div class='modal-header bg-success text-white py-2'>
+                <h5 class='modal-title text-white' > جستجوی مشتری </h5>
+            </div>
+            <div class='modal-body'>
+                <div class="row mb-3 mtn-3">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> نام شخص </span>
+                            <input type="text" class="form-control form-control-sm" id="customerNameForOrder" autocomplete="off" autofocus/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> بر اساس شماره تماس جستجو شود.</span>
+                            <input type="checkbox" class="form-input" name="searchByPhone" id="seachByPhoneNumberCheckBox">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <button type="button" disabled id="searchCustomerSabtBtn" onclick="chooseCustomerForّFactorEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtn"> انصراف <i class="fa fa-trash"></i> </button>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTble">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد   </th>
+                            <th> نام  </th>
+                            <th> خرید </th>
+                            <th> فروش </th>
+                            <th> تعداد چک برگشتی </th>
+                            <th> مبلغ چک های برگشتی </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableBody" id="foundCusotmerForOrderBody">
+                    </tbody>
+                </table> 
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='modal fade dragAbleModal' id='customerForBazaryabFactEdit' data-backdrop="static" tabindex="-1" >
+    <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+            <div class='modal-header bg-success text-white py-2'>
+                <h5 class='modal-title text-white' > جستجوی مشتری </h5>
+            </div>
+            <div class='modal-body'>
+                <div class="row mb-3 mtn-3">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> نام شخص </span>
+                            <input type="text" class="form-control form-control-sm" id="customerNameForBazaryabFactEdit" autocomplete="off" autofocus/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> بر اساس شماره تماس جستجو شود.</span>
+                            <input type="checkbox" class="form-input" name="searchByPhone" id="seachByPhoneNumberCheckBoxBazaryab">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <button type="button" disabled id="searchCustomerForBazaryabFactEditSabtBtn" onclick="chooseCustomerForّFactorEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtnBazaryab"> انصراف <i class="fa fa-trash"></i> </button>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTbleBazaryab">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد   </th>
+                            <th> نام  </th>
+                            <th> خرید </th>
+                            <th> فروش </th>
+                            <th> تعداد چک برگشتی </th>
+                            <th> مبلغ چک های برگشتی </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableBody" id="foundCusotmerForOrderBodyBazarya">
+                    </tbody>
+                </table> 
+                <div class="modal-footer">
+                </div>
             </div>
         </div>
     </div>
