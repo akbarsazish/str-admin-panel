@@ -1222,7 +1222,6 @@ $("#checkExitanceForAddToSefarish").on("change",()=>{
 });
 
 function checkAddedKalaToSefarishAmount(row){
-
     $("#deleteOrderItemBtn").val(row);
     $(row).find('input:radio').prop('checked', true);
     let input = $(row).find('input:radio');

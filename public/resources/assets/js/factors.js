@@ -74,12 +74,25 @@ $("#customerCode").on("keyup",function(){
 function openEditFactorModal(snFactor){
     $.get(baseUrl+"/getFactorInfoForEdit",{SnFactor:snFactor},(respond,status)=>{
         $("#factorEditListBody").empty();
-        $("#FactNoEdit").val(respond[0].FactNo);
-        $("#").val();
-        $("#").val();
-        $("#").val();
-        $("#").val();
-        respond.forEach((element,index)=>{
+        $("#customerOfFactorEdit").val(respond.factorInfo[0].PSN);
+        $("#FactNoEdit").val(respond.factorInfo[0].FactNo);
+        $("#NameEdit").val(respond.factorInfo[0].Name);
+        $("#FactDateEdit").val(respond.factorInfo[0].FactDate);
+        $("#bazaryabNameEdit").val(respond.factorInfo[0].BName);
+        $("#bazaryabCodeEdit").val(respond.factorInfo[0].BPCode);
+        $("#pCodeEdit").val(respond.factorInfo[0].PCode);
+        $("#ّFactDescEdit").val(respond.factorInfo[0].FactDesc);
+        $("#MotafariqahNameEdit").val(respond.factorInfo[0].OtherCustName);
+        $("#MotafariqahMobileEdit").val(respond.factorInfo[0].MobileOtherCust);
+        $("#sockEdit").empty()
+        respond.stocks.forEach((element,index)=>{
+            if(element.SnStock!= respond.factorInfo[0].SnStockIn){
+                $("#stockEdit").append(`<option value="${element.SnStock}">${element.NameStock}</option>`);
+            }else{
+                $("#stockEdit").append(`<option value="${element.SnStock}" selected>${element.NameStock}</option>`);
+            }
+        })
+        respond.factorInfo.forEach((element,index)=>{
             let firstAmount=0;
             let reAmount=0;
             if(element.FirstAmout>0){
@@ -89,9 +102,9 @@ function openEditFactorModal(snFactor){
                 reAmount=element.ReAmount;
             }
             $("#factorEditListBody").append(`
-                <tr class="factorTablRow">
+                <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
                     <td class="td-part-input"> ${index+1}</td>
-                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input form-control" required> <input type="radio" value="${element.GoodSn}"/> </td>
                     <td class="td-part-input"> <input type="text" value="${element.NameGood}" class="td-input form-control" required> </td>
                     <td class="td-part-input"> <input type="text" value="${element.FirstUnit}" class="td-input form-control" required> </td>
                     <td class="td-part-input"> <input type="text" value="${element.SecondUnit}" class="td-input form-control" required> </td>
@@ -118,6 +131,54 @@ function openEditFactorModal(snFactor){
         })
     })
     $("#editFactorModal").modal("show");
+}
+
+
+function checkAddedKalaAmountOfFactor(row){
+    let input = $(row).find('input:radio');
+    let goodSn=$(input).val();
+    if(!goodSn){
+        return
+    }
+    let customerSn=$("#customerOfFactorEdit").val();
+
+    $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
+        goodSn: goodSn,
+        customerSn:customerSn,
+        stockId: 23
+    },(respond,status)=>{
+        
+        if(respond[1][0]){
+
+            $("#firstEditExistInStock").text(parseInt(respond[1][0].Amount).toLocaleString("en-us"));
+
+        }
+
+        if(respond[2][0]){
+
+            $("#firstEditPrice").text(parseInt(respond[2][0].Price3).toLocaleString("en-us"));
+
+        }
+        if(respond[4][0]){
+
+            $("#firstEditLastPriceCustomer").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
+            
+        }
+
+        if(respond[3][0]){
+
+            $("#firstEditLastPrice").text(parseInt(respond[3][0].Fi).toLocaleString("en-us"));
+
+        }
+        
+
+    });
+    const previouslySelectedRow = document.querySelector('.selected');
+    if(previouslySelectedRow) {
+        previouslySelectedRow.classList.remove('selected');
+        //previouslySelectedRow.children().classList.remove('selected');
+    }
+    row.classList.add('selected');
 }
 
 $("#FactDateEdit").persianDatepicker({
@@ -314,7 +375,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
         for (let customer of data){
             i++;
             if(i!=1){
-                tableBody.append(`<tr onclick="selectCustomerForOrder(${customer.PSN},this)">
+                tableBody.append(`<tr onclick="selectCustomerForBazaryabFactEdit(${customer.PSN},this)">
                                                         <td> ${(i)} </td>
                                                         <td> ${customer.PCode} </td>
                                                         <td> ${customer.Name} </td>
@@ -324,7 +385,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
                                                         <td> ${customer.chequeMoneyReturn} </td>
                                                     </tr>`);
             }else{
-                tableBody.append(`<tr onclick="selectCustomerForOrder(${customer.PSN},this)">
+                tableBody.append(`<tr onclick="selectCustomerForBazaryabFactEdit(${customer.PSN},this)">
                     <td> ${(i)} </td>
                     <td> ${customer.PCode} </td>
                     <td> ${customer.Name} </td>
@@ -335,7 +396,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
                 </tr>`);
                 $("#foundCusotmerForOrderBodyBazarya tr").eq(0).css("background-color", "rgb(0,142,201)"); 
                 const selectedPSN = data[0].PSN;
-                selectCustomerForOrder(selectedPSN,0)
+                selectCustomerForBazaryabFactEdit(selectedPSN,0)
             }
         }
         let selectedRow = 0;
@@ -352,7 +413,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
             }
 
             const selectedPSN = data[selectedRow].PSN;
-            selectCustomerForOrder(selectedPSN,selectedRow)
+            selectCustomerForBazaryabFactEdit(selectedPSN,selectedRow)
             let topTr = $("#foundCusotmerForOrderBodyBazarya tr").eq(selectedRow).position().top;
             let bottomTr =topTr+50;
             let tbodyHeight = tableBody.height();
@@ -368,15 +429,15 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
         Mousetrap.bind('up', function (e) {
 
             if (selectedRow >= 0) {
-                $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color','');
+                $("#foundCusotmerForOrderBodyBazarya tr").eq(selectedRow).css('background-color','');
             }
 
             selectedRow = Math.max(selectedRow - 1, 0); 
-            $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
+            $("#foundCusotmerForOrderBodyBazarya tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
             const selectedPSN = data[selectedRow].PSN;
-            selectCustomerForOrder(selectedPSN,selectedRow)
-            let topTr = $("#foundCusotmerForOrderBody tr").eq(selectedRow).position().top;
-            let bottomTr =topTr+parseInt($("#foundCusotmerForOrderBody tr").eq(selectedRow).height());
+            selectCustomerForBazaryabFactEdit(selectedPSN,selectedRow)
+            let topTr = $("#foundCusotmerForOrderBodyBazarya tr").eq(selectedRow).position().top;
+            let bottomTr =topTr+parseInt($("#foundCusotmerForOrderBodyBazarya tr").eq(selectedRow).height());
             let tbodyHeight = tableBody.height();
             let trHieght =50;
             //alert(topTr)
@@ -390,20 +451,32 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
         });
 
         Mousetrap.bind("enter",()=>{
-            $("#searchCustomerSabtBtn").trigger("click");
+            $("#searchCustomerForBazaryabFactEditSabtBtn").trigger("click");
             localStorage.setItem("scrollTop",0);
         });
     })  
     }else{
-        $("#searchCustomerSabtBtn").trigger("click");
+        $("#searchCustomerForBazaryabFactEditSabtBtn").trigger("click");
         localStorage.setItem("scrollTop",0);
     }
 }else{
     $(this).blur();
-    $("#foundCusotmerForOrderTble").focus();
+    $("#searchCustomerForBazaryabFactEditSabtBtn").focus();
     localStorage.setItem("scrollTop",0);
 } 
 });
+
+function chooseBazaryabForFactEdit(psn){
+    alert(psn)
+    $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
+        
+            $("#bazaryabNameEdit").val(respond[0].Name);
+            $("#bazaryabCodeEdit").val(respond[0].PCode);
+           // $("#lastCustomerStatus").text(parseInt(respond[0].TotalPrice)||0);
+        
+    });
+    $("#customerForBazaryabFactEdit").modal("hide");
+}
 
 function cancelEditFactor(){
     swal({
@@ -418,3 +491,51 @@ function cancelEditFactor(){
         });
     
 }
+
+function selectCustomerForBazaryabFactEdit(psn,element){
+    if(isNaN(element)){
+        $("tr").removeClass('selected');
+        $("#foundCusotmerForOrderBodyBazarya tr").css('background-color', '');
+        $(element).addClass("selected")
+    }else{
+        $("tr").removeClass('selected');
+    }
+    $("#searchCustomerForBazaryabFactEditSabtBtn").prop("disabled",false);
+    $("#searchCustomerForBazaryabFactEditSabtBtn").val(psn);
+}
+
+$("#TahvilTypeEdit").on("change",function(e){
+    if($("#TahvilTypeEdit").val() == "ersal"){
+        $("#sendTimeDivEdit").css({"display":"inline"});
+        $("#factorAddressDivEdit").css({"display":"inline"});
+    }else{
+        $("#sendTimeDivEdit").css("display","none");
+        $("#factorAddressDivEdit").css("display","none");
+    }
+});
+
+$("#customerForFactorEdit").on("change",()=>{
+    let psn=$("#customerForFactorEdit").val();
+    $.get(baseUrl+"/getCustomerByID",{PSN:psn},function(data,status){
+        $("#factorAddressEdit").empty();
+        let addressOptions=data.map(element=>{
+            if(element.AddressPeopel){
+                return `<option value="`+element.AddressPeopel+`_`+element.SnPeopelAddress+`">`+element.AddressPeopel+`</option>`
+                }else{
+                    return `<option value="`+element.peopeladdress+`_0">`+element.peopeladdress+`</option>`   
+                }
+        })
+        $("#factorAddressEdit").append(addressOptions);
+    });
+
+})
+
+$("#MotafariqahNameEdit").on("keyup",function(e){
+    if($("#MotafariqahNameEdit").val().length>0){
+        $("#mobileNumberDivEdit").css({"display":"inline"});
+        $("#factorAddressDivEdit").css({"display":"inline"});
+    }else{
+        $("#mobileNumberDivEdit").css({"display":"none"});
+        $("#factorAddressDivEdit").css({"display":"none"});
+    }
+})
