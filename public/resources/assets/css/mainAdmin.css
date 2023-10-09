@@ -131,7 +131,6 @@ body {
 
 .top-head .user-modal .login {
     background-color: #00bfd6;
-    display: block;
     width: 100%;
     height: 35px;
     letter-spacing: -.5px;
@@ -139,7 +138,7 @@ body {
     font-weight: 500;
     font-size: 1.2em;
     line-height: 35px;
-    border-radius: 5px
+    border-radius: 5px;
 }
 
 .user-modal .newuser a,
@@ -772,17 +771,13 @@ a#mynavmenu {
     margin-bottom: 18px
 }
 
-.register-logo img {
-    height: 49px;
-    width: 140px
-}
 
 .account-box .register {
-    background: #F21216;
     width: 389px;
-    border: 1px none #dedede;
+    border: 3px none #dedede;
     position: relative;
-    margin: 0 auto
+    margin: 0 auto;
+    text-align: center;
 }
 
 .account-box .headline {
@@ -791,7 +786,7 @@ a#mynavmenu {
     padding: 17px 40px;
     font-size: 1.8em;
     line-height: 1.222;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .account-box .content {
