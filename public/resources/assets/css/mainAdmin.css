@@ -6740,19 +6740,24 @@ input:focus::placeholder {
     color: white !important;
 }
 
+.sidebarLi {
+    position: relative;
+}
+.sideBarIcon {
+    margin: 0;
+}
+
 .headerNotifications0 {
     color: black !important;
     background-color: white !important;
 }
 
-.headerNotifications1 {
-    color: white !important;
-    background-color: black !important;
-}
+
 .imediatNotification1{
-    color: black !important;
     background-color: white !important;
+    position: absolute;
 }
+
 .imediatNotification0{
     color: white !important;
     background-color: red !important;

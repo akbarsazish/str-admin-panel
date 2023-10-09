@@ -32,75 +32,104 @@
                 <div class="right-head" >
                     <div id="mySidenav" class="sidenav" style="width:0px;overflow-x:hidden;margin-left:100px;padding-right:0;">
                         <!-- <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()">&times;</a> -->
-                    <a href="{{url('/home')}}" class="sidenav__header" style="background: linear-gradient(#3ccc7a, #034620); text-align:center;">
+                         <a href="{{url('/home')}}" class="sidenav__header" style="background: linear-gradient(#3ccc7a, #034620); text-align:center;">
                             <img width="166px" src="{{ url('/resources/assets/images/logomenu4.png') }}"/>
                         </a>
                         <button onclick="closeNav()" class="closeMenuButton"><i class="fad fa-times"></i></button>
                         <div id='cssmenu' style="direction:rtl;">
                             <ul>
-                               <li class='fw-bold'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span><i class="fa-solid fa-dashboard fa-lg" style="color:#fff;"></i>&nbsp;&nbsp; داشبورد </span></a>
+                               <li class='fw-bold'>
+                                <a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span>
+                                <i class="fa-solid fa-dashboard fa-lg" style="color:#fff;"></i>&nbsp; داشبورد </span></a>
                                 @if(hasPermission(Session::get("adminId"),"baseInfoN") > -1)
-                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span><i class="fa-solid fa-info fa-lg " style="color:#fff"></i>&nbsp;&nbsp; اطلاعات پایه</span></a>
+                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span><i class="fa-solid fa-info fa-lg " style="color:#fff"></i>&nbsp;اطلاعات پایه</span></a>
                                         <ul>
                                             @if(hasPermission(Session::get("adminId"),"settingsN") > -1)
-                                            <li><a class="mySidenav__item" href="{{url('/controlMainPage')}}">&nbsp;&nbsp;<i class="fa-regular fa-cog fa-lg" style="margin-right: 5%; color:#597c9d"></i>&nbsp;&nbsp; تنظیمات  </a></li>
+                                            <li><a class="mySidenav__item" href="{{url('/controlMainPage')}}">&nbsp;&nbsp;<i class="fa-regular fa-cog fa-lg" style="margin-right: 5%; color:#597c9d"></i>&nbsp; تنظیمات  </a></li>
                                             @endif
                                         </ul>
                                     </li>
                                 @endif
                                 @if(hasPermission(Session::get("adminId"),"customersN") > -1)
-                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"> <span> <i class="fa-light fa-layer-plus"  style="color:#fff"></i> &nbsp;&nbsp;  تعریف عناصر  </span></a>
+                                    <li class='has-sub'>
+                                        <a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span>
+                                        <i class="fa-light fa-layer-plus"  style="color:#fff"></i> &nbsp; تعریف عناصر  </span></a>
                                         <ul>
-                                            <li><a class="mySidenav__item" href="{{url('/listKarbaran')}}">&nbsp;&nbsp;<i class="fa-regular fa-user fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp; کاربران </a></li>
+                                            <li><a class="mySidenav__item" href="{{url('/listKarbaran')}}">&nbsp;&nbsp;<i class="fa-regular fa-user fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp; کاربران </a></li>
                                         </ul>
                                     </li>
                                 @endif
                                 @if(hasPermission(Session::get("adminId"),"operationN") > -1)
-                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"> <span> <i class="fa-light fa-tasks"  style="color:#fff"></i> &nbsp;&nbsp; عملیات </span></a>
+                                    <li class='has-sub'>
+                                        <a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"> <span> <i class="fa-light fa-tasks"  style="color:#fff"></i> &nbsp; عملیات </span></a>
                                         <ul>
                                             @if(hasPermission(Session::get("adminId"),"kalasN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/listKala')}}" > &nbsp;&nbsp; <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp;  کالا ها </a></li>
+                                                <li><a class="mySidenav__item" href="{{url('/listKala')}}" > <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%; color:#597c9d"></i> کالا ها </a></li>
                                             @endif
+                                            
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/salesFactors')}}"> &nbsp;&nbsp; <i class="fa fa-shopping-cart fa-lg" style="margin-right: 5%; color:#597c9d"></i> 
-                                                <span @if($imediatOrderCount < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif</span> &nbsp;&nbsp; </a>
+                                                <li class="sidebarLi"> 
+                                                    <a class="mySidenav__item position-relative" href="{{url('/salesFactors')}}"> &nbsp;&nbsp;
+                                                        <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                            @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                        </span>  
+                                                        <i class="fa fa-shopping-cart fa-lg sideBarIcon"></i>  
+                                                        فاکتور فروش 
+                                                    </a> 
+                                               </li>
                                             @endif
+
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; <i class="fa fa-shopping-cart fa-lg" style="margin-right: 5%; color:#597c9d"></i> 
-                                                <span @if($imediatOrderCount < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif</span> &nbsp;&nbsp; </a>
+                                              <li class="sidebarLi">
+                                                  <a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; 
+                                                    <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                       @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                   </span>
+                                                     <i class="fa fa-shopping-cart fa-lg"></i>
+                                                    سفارشات فروش 
+                                                 </a>
+                                            </li>
                                             @endif
+
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; <i class="far fa-envelope" style="margin-right: 5%; color:#597c9d"></i> پیامها
-                                                <span @if(hasNewMessage(Session::get('adminId'))<1 ) class="headerNotifications0" @else  class="headerNotifications1" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewMessage(Session::get('adminId'))>0) {{hasNewMessage(Session::get('adminId'))}} @else 0 @endif</span> </a></li>
+                                            <li class="sidebarLi">
+                                                <a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; 
+                                                <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                    @if(hasNewMessage(Session::get('adminId'))>0) {{hasNewMessage(Session::get('adminId'))}} @else 0 @endif
+                                                </span>
+                                                <i class="far fa-envelope"></i> 
+                                                پیامها
+                                              </a>
+                                          </li>
                                             @endif
-                                                <li><a class="mySidenav__item" href="{{url('/notification')}}"> &nbsp;&nbsp; <i class="fa fa-bell fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp; نوتفیکیشن </a>
-                                                <li><a class="mySidenav__item" href="{{url('/discountCode')}}"> &nbsp;&nbsp; <i class="fa fa-code fa-lg" style="margin-right: 5%; color:#597c9d"></i> &nbsp;&nbsp; کد تخفیف </a>
+                                            <li><a class="mySidenav__item" href="{{url('/notification')}}"> <i class="fa fa-bell fa-lg" style="margin-right: 5%; color:#597c9d"></i>  نوتفیکیشن </a>
+                                            <li><a class="mySidenav__item" href="{{url('/discountCode')}}"> <i class="fa fa-code fa-lg" style="margin-right: 5%; color:#597c9d"></i>  کد تخفیف </a>
                                         </ul>
                                     </li>
                                 @endif
+
                                 @if(hasPermission(Session::get("adminId"),"reportN") > -1)
-                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span><i class="fa-solid fa-chart-user fa-lg " style="color:#fff"></i>&nbsp;&nbsp;  گزارشات </span></a>
+                                    <li class='has-sub'><a class="mySidenav__item" href="{{url('/dashboardAdmin')}}"><span><i class="fa-solid fa-chart-user fa-lg " style="color:#fff"></i> &nbsp;  گزارشات </span></a>
                                         <ul>
-                                            @if(hasPermission(Session::get("adminId"),"customerListN") > -1)
-                                                <li><a class="mySidenav__item" href="{{url('/listCustomers')}}"><i class="fa-light fa-users fa-lg" style="margin-right: 5%"></i>&nbsp;&nbsp; مشتریان</a></li>
+                                            @if(hasPermission(Session::get("adminId"),"customerListN") > -1)    
+                                                <li><a class="mySidenav__item" href="{{url('/listCustomers')}}"><i class="fa-light fa-users fa-lg" style="margin-right: 5%"></i>&nbsp; مشتریان</a></li>
                                             @endif
                                         @if(hasPermission(Session::get("adminId"),"onlinePaymentN") > -1)
-                                            <li><a class="mySidenav__item" href="{{url('/payedOnline')}}"><i class="fa-light fa-credit-card fa-lg" style="margin-right: 5%"></i>&nbsp;&nbsp; پرداخت آنلاین </a></li>
+                                            <li><a class="mySidenav__item" href="{{url('/payedOnline')}}"><i class="fa-light fa-credit-card fa-lg" style="margin-right: 5%"></i>&nbsp; پرداخت آنلاین </a></li>
                                         @endif
                                         @if(hasPermission(Session::get("adminId"),"gameAndLotteryN") > -1)
-                                          <li>
+                                        <li class="sidebarLi"> 
                                               <a class="mySidenav__item" href="{{url('/lotteryResult')}}">
-                                                <i class="fa-light fa-briefcase fa-lg" style="margin-right: 5%"></i>
+                                                <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages" >@if(hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))>0){{hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))}} @else 0 @endif</span>
+                                                <i class="fa-light fa-briefcase fa-lg" ></i>
                                                   تخفیفات و امتیازات
-                                                  <span @if((hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))) < 1 ) class="imediatNotification1" @else  class="imediatNotification0" @endif id="countNewMessages" style="border-radius: 50%">@if(hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))>0){{hasNewNazar(Session::get('adminId'))+wonLottery(Session::get('adminId'))+usedTakhfifCase(Session::get('adminId'))+usedTakhfifCode(Session::get('adminId'))+playedGame(Session::get('adminId'))}} @else 0 @endif</span>
-                                                &nbsp;&nbsp;
                                              </a>
                                           </li>
                                         @endif
                                         </ul>
                                     </li>
                                 @endif
-                                <li class='last'><a class="mySidenav__item" href="{{url('/loginAdmin')}}" onclick="logout()"><span><i class="fa-solid fa-sign-out fa-lg" style="color:#fff;" ></i>&nbsp;&nbsp; خروج </span></a></li>
+                                <li class='last'><a class="mySidenav__item" href="{{url('/loginAdmin')}}" onclick="logout()"><span><i class="fa-solid fa-sign-out fa-lg" style="color:#fff;" ></i>&nbsp; خروج </span></a></li>
                             </ul>
                            </div>
                     </div>
@@ -143,15 +172,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
      <script>
-            function goBack() {
-                    window.history.back();
-                }
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "260px";
+        function goBack() {
+                window.history.back();
             }
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "260px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
      </script>
 </body>
 </html>
