@@ -771,9 +771,10 @@
                                     <span class="input-group-text" > شماره فاکتور </span>
                                     <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm mb-1">
                                 </div>
+                                <input type="hidden" id="customerOfFactorEdit">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
-                                    <select name="stockEdit" id="sockEdit" class="form-select">
+                                    <select name="stockEdit" id="stockEdit" class="form-select">
                                         <option></option>
                                         @foreach($stocks as $stock)
                                         <option>{{$stock->NameStock}}</option>
@@ -803,6 +804,18 @@
                                     <span class="input-group-text" > خریدار متفرقه </span>
                                     <input type="text" class="form-control" name="MotafariqahNameEdit" id="MotafariqahNameEdit">
                                 </div>
+                                <div  id="mobileNumberDivEdit" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" >  موبایل </span>
+                                        <input type="text" id="MotafariqahMobileEdit" class="form-control">
+                                    </div>
+                                </div>
+                                <div  id="factorAddressDivEdit" style="display: none">
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > آدرس </span>
+                                    <input type="text"  id="MotafariqahAddressEdit" class="form-control">
+                                </div>
+                                </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > توضحیات </span>
                                     <input type="text" class="form-control" name="ّFactDescEdit" id="ّFactDescEdit">
@@ -810,9 +823,26 @@
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > نحوه تحویل </span>
                                     <select name="TahvilTypeEdit" id="TahvilTypeEdit" class="form-select">
-                                        <option > تحویل به مشتری </option>
-                                        <option > ارسال به آدرس </option>
+                                        <option value="tahvil"> تحویل به مشتری </option>
+                                        <option value="ersal"> ارسال به آدرس </option>
                                     </select>
+                                </div>
+                                <div  id="sendTimeDivEdit" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" >  زمان ارسال </span>
+                                        <select name="SendTimeEdit" id="SendTimeEdit" class="form-select">
+                                            <option > صبح </option>
+                                            <option > عصر </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div  id="factorAddressDivEdit" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" > آدرس </span>
+                                        <select name="factorAddressEdit" id="factorAddressEdit" class="form-select">
+                                            <option >  </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -955,7 +985,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <button type="button" disabled id="searchCustomerForBazaryabFactEditSabtBtn" onclick="chooseCustomerForّFactorEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" disabled id="searchCustomerForBazaryabFactEditSabtBtn" onclick="chooseBazaryabForFactEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
                         <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtnBazaryab"> انصراف <i class="fa fa-trash"></i> </button>
                     </div>
                 </div>
