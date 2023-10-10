@@ -258,19 +258,19 @@ function editFactorsOfBargiri(snMasterBar){
 
             $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow" onclick="setFactorInfoForEdit(this)">
                                                             <td> ${(index+1)} <input type="checkbox" name="FactSns[]" value="${element.SerialNoHDS}" checked style="display:none"/></td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.FactNo}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDate}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.PCode}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.Name}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="NetPrice${element.SerialNoHDS}" value="${parseInt(element.NetPriceHDS).toLocaleString('en-us')}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="NaghdPrice${element.SerialNoHDS}" value="${naghdPrice}" class="td-input form-control" required> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="KartPrice${element.SerialNoHDS}" value="${kartPrice}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="VarizPrice${element.SerialNoHDS}" value="${varizPrice}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${element.SerialNoHDS}" value="${takhfifPriceBar}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" name="DifPrice${element.SerialNoHDS}" value="${difPrice}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDesc}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.OtherAddress}" class="td-input form-control"> </td>
-                                                            <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-input form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactNo}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDate}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.PCode}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.Name}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="NetPrice${element.SerialNoHDS}" value="${parseInt(element.NetPriceHDS).toLocaleString('en-us')}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="NaghdPrice${element.SerialNoHDS}" value="${parseInt(naghdPrice).toLocaleString('en-us')}" class="td-inputFactEdit form-control" required> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="KartPrice${element.SerialNoHDS}" value="${parseInt(kartPrice).toLocaleString('en-us')}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="VarizPrice${element.SerialNoHDS}" value="${parseInt(varizPrice).toLocaleString('en-us')}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="TakhfifPriceBar${element.SerialNoHDS}" value="${parseInt(takhfifPriceBar).toLocaleString('en-us')}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" name="DifPrice${element.SerialNoHDS}" value="${parseInt(difPrice).toLocaleString('en-us')}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.FactDesc}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.OtherAddress}" class="td-inputFactEdit form-control"> </td>
+                                                            <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-inputFactEdit form-control"> </td>
                                                         </tr>`);
         });
         $.get(baseUrl+"/getDrivers",(respond,status)=>{
@@ -354,6 +354,12 @@ $("#addFactorsBargiriForm").on("submit",function(e){
         }
     });
 })
+
+$("#doEditBargiriFactorsForm").on("keydown",function(e){
+    if(e.keyCode==13){
+        e.preventDefault();
+    }
+});
 
 $("#doEditBargiriFactorsForm").on("submit",function(e){
     e.preventDefault();
@@ -530,8 +536,7 @@ function addSelectFactorsToBargiri(){
     })
 }
 
-$(document).on("keyup",".td-input",function(e){
-
+$(document).on("keyup",".td-inputFactEdit",function(e){
     var currentInput = $(e.target);
     var row = $(currentInput).closest("tr");
     let rowIdx=row.index()+1;

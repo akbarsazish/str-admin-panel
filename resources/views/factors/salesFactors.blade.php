@@ -390,7 +390,7 @@
         </div>
         <div class="modal-body">
             <div class="container-fluid">
-                <form action="{{url("/addFactorsToBargiri")}}" method="post" id="addFactorsBargiriForm">
+                <form action="{{url("/addFactorsToBargiri")}}" method="get" id="addFactorsBargiriForm">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="row">
@@ -763,8 +763,8 @@
                 <h5 class="modal-title"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
-                {{-- <form action="{{url("/doEditFactor")}}" method="post">
-                    @csrf --}}
+                <form action="{{url("/doEditFactor")}}" method="post" id="editFactorForm">
+                    @csrf
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-4">
@@ -910,7 +910,7 @@
                             </table>
                         </div>
                     </div>
-                {{-- </form> --}}
+                </form>
             </div>
             <div class="modal-footer">
             </div>

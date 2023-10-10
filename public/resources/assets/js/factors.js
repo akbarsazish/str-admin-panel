@@ -71,6 +71,12 @@ $("#customerCode").on("keyup",function(){
     });
 })
 
+$("#editFactorForm").on("keydown",function(e){
+    if(e.keyCode==13){
+        e.preventDefault();
+    }
+})
+
 function openEditFactorModal(snFactor){
     $.get(baseUrl+"/getFactorInfoForEdit",{SnFactor:snFactor},(respond,status)=>{
         $("#factorEditListBody").empty();
@@ -229,7 +235,6 @@ $(document).on("keyup",".td-inputCodeEdit",function(e){
 $(document).on("keyup",".td-inputCodeNameEdit",function(e){
     if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
         $("#rowTaker").val($(e.target).parents("tr").index()+1)
-
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
                 top: 0,
@@ -256,7 +261,6 @@ $(document).on("keyup",".td-inputCodeNameEdit",function(e){
         });
     }else{
         if(e.keyCode ==13 || e.keyCode ==9){
-            alert(e.keyCode)
             var $currentInput = $(e.target);
             var $nextInput = $currentInput.closest('td').next('td').find('input');
             if ($nextInput.length > 0) {
@@ -390,6 +394,30 @@ $(document).on("keyup",".td-inputFirstAmountEdit",function(e){
     }
 })
 $(document).on("keyup",".td-inputReAmountEdit",function(e){
+    if((e.keyCode>=65 && e.keyCode<=90)|| ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        let rowindex=$(e.target).parents("tr").index()+1
+        let firstAmount;
+        let reAmount;
+        let allAmount;
+        let newAllAmount;
+        let jozeAmount;
+        let packAmount;
+        let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+        reAmount=parseInt($(e.target).val().replace(/,/g, ''));
+        firstAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input')).val().replace(/,/g, '');
+        allAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input')).val().replace(/,/g, '');
+        jozeAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input')).val().replace(/,/g, '');
+        packAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input')).val().replace(/,/g, '');
+        newAllAmount=allAmount-reAmount
+        firstAmount=allAmount;
+        packAmount=parseInt(newAllAmount/amountUnit);
+        jozeAmount=parseInt(newAllAmount%amountUnit);
+
+        $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input')).val(parseInt(firstAmount).toLocaleString("en-us"));
+        $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input')).val(parseInt(newAllAmount).toLocaleString("en-us"));
+        $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input')).val(parseInt(jozeAmount).toLocaleString("en-us"));
+        $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input')).val(parseInt(packAmount).toLocaleString("en-us"));
+    }
     if(e.keyCode ==13 || e.keyCode ==9){
         var $currentInput = $(e.target);
         var $nextInput = $currentInput.closest('td').next('td').find('input');
@@ -397,6 +425,8 @@ $(document).on("keyup",".td-inputReAmountEdit",function(e){
             $nextInput.focus();
         }
     }
+    
+
 })
 $(document).on("keyup",".td-AllAmountEdit",function(e){
     

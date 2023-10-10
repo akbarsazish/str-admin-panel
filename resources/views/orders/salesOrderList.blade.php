@@ -2007,13 +2007,13 @@
                 </div>
                     <div class="col-lg-9 col-md-9 text-black fs-6">
                             <div class="row">
-                                <sapn class="text"> جمع کل :</sapn>
+                                <span class="text"> جمع کل :</span>
                             </div>
                             <div class="row">
-                                <sapn class="text"> راس کل :</sapn>
+                                <span class="text"> راس کل :</span>
                             </div>
                             <div class="row">
-                                <sapn class="text">  جمع تا ردیف جاری  :</sapn>
+                                <span class="text">  جمع تا ردیف جاری  :</span>
                             </div>
                     </div>
               </div>
