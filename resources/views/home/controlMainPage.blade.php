@@ -333,36 +333,52 @@
                     <div class="tab-pane" id="game">
                       <div class="c-checkout" style="border-radius:10px 10px 2px 2px;">
                         <div class="row p-3">
-                          <div class="col-sm-3">
+                          <div class="col-sm-2">
                               <label class="tanzimat-label">جایزه مقام اول</label>
                               <input class="form-control form-control-sm mb-2" id="firstPrize" value="{{number_format($settings->firstPrize)}}" name="firstPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label">جایزه مقام دوم</label>
                               <input class="form-control form-control-sm mb-2" id="secondPrize" value="{{number_format($settings->secondPrize)}}" name="secondPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label">جایزه مقام سوم</label>
                               <input class="form-control form-control-sm mb-2" id="thirdPrize" value="{{number_format($settings->thirdPrize)}}" name="thirdPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label"> جایزه مقام چهارم </label>
                               <input class="form-control form-control-sm mb-2" id="fourthPrize" value="{{number_format($settings->fourthPrize)}}" name="fourthPrize">
-                              
-                          </div>
-                          <div class="col-sm-3">
+                              </div>
+                              <div class="col-sm-2"> 
+                          
                               <label class="tanzimat-label"> جایزه مقام پنجم </label>
                               <input class="form-control form-control-sm mb-2" id="fifthPrize" value="{{number_format($settings->fifthPrize)}}" name="fifthPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label"> جایزه مقام ششم </label>
                               <input class="form-control form-control-sm mb-2" id="sixthPrize" value="{{number_format($settings->sixthPrize)}}" name="sixthPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label"> جایزه مقام هفتم </label>
                               <input class="form-control form-control-sm mb-2" id="seventhPrize" value="{{number_format($settings->seventhPrize)}}" name="seventhPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label"> جایزه مقام هشتم </label>
                               <input class="form-control form-control-sm mb-2" id="eightthPrize" value="{{number_format($settings->eightPrize)}}" name="eightthPrize">
-                          </div>
-                          <div class="col-sm-3">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label">جایزه مقام نهم</label>
                               <input class="form-control form-control-sm mb-2" id="ninthPrize" value="{{number_format($settings->ninthPrize)}}" name="ninthPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label">جایزه مقام دهم</label>
                               <input class="form-control form-control-sm mb-2" id="teenthPrize" value="{{number_format($settings->teenthPrize)}}" name="teenthPrize">
+                              </div>
+                              <div class="col-sm-2"> 
                               <label class="tanzimat-label">جایزه مقام دهم</label>
                               <input class="form-control form-control-sm mb-2" id="teenthPrize" value="{{number_format($settings->teenthPrize)}}" name="teenthPrize">
                           </div>
-                          <div class="col-sm-3 mt-4 text-end">
+                          <div class="col-sm-2 mt-4 text-end">
                               <a href="{{url('/emptyGame')}}" onclick="if (confirm('می خواهید نتایج بازی را تخلیه کنید؟?')){return true;}else{event.stopPropagation(); event.preventDefault();};">
                               <button type="button" class="btn btn-success btn-sm btn-md btn-lg">تخلیه بازی  <i class="fa fa-icon-remove"></i> </button></a>
                           </div>
@@ -482,14 +498,14 @@
                         </div>
                     </div>
 
-                    <div class="row" id="customersList" style="display: none">
-                          <div class="col-sm-5">
+                    <div class="grid-subgroup" id="customersList" style="display: none">
+                          <div class="subgroup-item">
                               <input type="text" class="form-control form-control-sm" style="margin-top:10px;" id="searchNameMNM"  placeholder="نام">
                               <input type="text" class="form-control form-control-sm" style="margin-top:10px;" id="searchAddressMNM"  placeholder="آدرس">
                                   <table class="table table-bordered table-hover table-sm">
                                       <thead class="forMaser tableHeader">
                                           <tr>
-                                              <th>ردیف</th>
+                                              <th>ردی2ف</th>
                                               <th>نام</th>
                                               <th> آدرس</th>
                                               <th>
@@ -501,7 +517,7 @@
                                       </tbody>
                                   </table>
                             </div>
-                           <div class="col-sm-2">
+                           <div class="subgroup-item">
                                <div class='modal-body' style="position:relative; right: 15%; top: 30%;">
                                   <a id="addDataToMantiqah">
                                       <i class="fa-regular fa-circle-chevron-left fa-2x chevronHover"></i>
@@ -512,7 +528,7 @@
                                   </a>
                               </div>
                          </div>
-                        <div class="col-sm-5">
+                        <div class="subgroup-item">
                           <input type="text" class="form-control form-control-sm" style="margin-top:10px;" id="searchAddedNameMNM"  placeholder="نام">
                             <input type="text" class="form-control form-control-sm" style="margin-top:10px;" id="searchAddedAddressMNM"  placeholder="آدرس">
                               <input type="hidden" id="mantiqahIdForSearch"/>   
@@ -633,8 +649,8 @@
                    </div>
                 </div>
 		<!--- شروع کد تخفیف -->
-                      <div class="row px-0 tab-pane" id="takhfifCodeStuff">
-                            <div class="col-lg-12" >
+                      <div class="row" id="takhfifCodeStuff">
+                            <div class="col-lg-12 px-0">
                               <table class="table table-striped table-bordered table-sm">
                                   <thead class="tableHeader">
                                     <tr>
@@ -678,23 +694,23 @@
                               <hr>
                               <table class="table table-striped table-bordered table-sm">
                                 <thead class="tableHeader">
-                                      <tr>
-                                          <th> دریف </th>
-                                          <th> نام مشتری </th>
-                                          <th> تاریخ </th>
-                                          <th> نظر سنجی </th>
-                                          <th>جوابات </th>
-                                          <th> <input type="checkbox"  name="" class="selectAllFromTop form-check-input"/>  </th>
-                                      </tr>
+                                    <tr>
+                                      <th> دریف </th>
+                                      <th> نام مشتری </th>
+                                      <th> تاریخ </th>
+                                      <th> نظر سنجی </th>
+                                      <th>جوابات </th>
+                                      <th> <input type="checkbox"  name="" class="selectAllFromTop form-check-input"/>  </th>
+                                    </tr>
                                 </thead>
                                 <tbody class="tableBody" style="height:calc(100vh - 433px) !important;">
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td> محمود الیاسی  </td>
-                                        <td>12/12/1401 </td>
-                                        <td> نظر سنجی 1401  </td>
-                                        <td id="viewQuestion"><i class="fa fa-eye"></td>
-                                        <td id="checkToStartAgainNazar">  <input class="form-check-input" name="" type="checkbox" value=""> </td>
+                                      <th scope="row">1</th>
+                                      <td> محمود الیاسی  </td>
+                                      <td>12/12/1401 </td>
+                                      <td> نظر سنجی 1401  </td>
+                                      <td id="viewQuestion"><i class="fa fa-eye"></td>
+                                      <td id="checkToStartAgainNazar">  <input class="form-check-input" name="" type="checkbox" value=""> </td>
                                     </tr>
                                 </tbody>
                               </table>
@@ -1522,13 +1538,13 @@
           <div class="container">
           <div class="row">
             <div class="col-sm-3">
-              <div class="input-group input-group-sm mb-3">
+              <div class="input-group input-group-sm mb-2">
                 <span class="input-group-text" id="inputGroup-sizing-sm"> حد اقل امتیاز لاتری  </span>
                 <input type="text" class="form-control form-control-sm" @if(hasPermission(Session::get( 'adminId'),'specialSettingN') < 1) disabled @endif value="{{number_format($lotteryMinBonus)}}" name="lotteryMinBonus">
               </div>
             </div>
             <div class="col-sm-3">
-              <div class="input-group input-group-sm mb-3">
+              <div class="input-group input-group-sm mb-2">
                 <span class="input-group-text" id="inputGroup-sizing-sm">امتیاز معرف</span>
                 <input type="text" class="form-control form-control-sm" @if(hasPermission(Session::get( 'adminId'),'specialSettingN') < 1) disabled @endif value="{{$settings->useIntroBonus}}" name="introductionBonus">
               </div>
@@ -1536,7 +1552,6 @@
             <div class="col-sm-6 text-end">
                 <button type="button" class="btn btn-danger btn-sm d-end" data-dismiss="modal"> بستن <i class="fa fa-xmark"></i> </button> 
                 <button type="submit" class="btn btn-success btn-sm">ذخیره <i class="fa fa-save"></i> </button>
-             
             </div>
           </div>  
         </div>
@@ -1572,7 +1587,7 @@
                                     <th> حذف  </th>
                                 </tr>
                             </thead>
-                            <tbody class="tableBody" id="nazarListBody">
+                            <tbody  id="nazarListBody" style="height:calc(100vh - 333px); display:block; overflow-y:scroll">
                                 
                             </tbody>
                         </table>
