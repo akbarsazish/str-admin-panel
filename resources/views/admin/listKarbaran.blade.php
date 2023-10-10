@@ -617,7 +617,7 @@
                             <li><a data-toggle="tab" style="color:black;"  href="#kalasTabN">  عملیات  </a></li>
                             <li><a data-toggle="tab" style="color:black;"  href="#messagesN"> گزارشات  </a></li>
                         </ul>
-                        <div class="c-checkout tab-content tableBody" style="background-color:#f5f5f5; margin:0; margin-bottom:1%; padding:1%; border-radius:5px 5px 2px 2px;">
+                        <div class="c-checkout tab-content" style="background-color:#f5f5f5; min-height:222px; padding:1%; border-radius:5px 5px 2px 2px;">
                             <div class="c-checkout tab-pane active" id="webManagementN" style="border-radius:10px 10px 2px 2px;">
                                 <div class="container">
                                     <div class="row">

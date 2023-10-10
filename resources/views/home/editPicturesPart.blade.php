@@ -208,10 +208,10 @@
                                             </div>
                                             <div class="subgroup-item mt-5">
                                                 <button type="button" style="background-color:transparent;" @if(hasPermission(Session::get( 'adminId'),'mainPageSetting' ) <1 )  disabled @endif id="addOnePicKalaList1" style="display: inline; padding:0; border:none; background:none">
-                                                        <i class="fa-regular fa-circle-chevron-left fa-2x text-success"></i> </button>
-                                                    <br />
+                                                <i class="fa-regular fa-circle-chevron-left fa-2x text-success"></i> </button>
+                                                <br />
                                                 <button type="button" style="background-color:transparent;" @if(hasPermission(Session::get( 'adminId'),'mainPageSetting' ) <1 )  disabled @endif id="removeOnePicKalaList1" style="display: inline; padding:0; border:none; background:none">
-                                                            <i class="fa-regular fa-circle-chevron-right fa-2x text-success"></i> </button>
+                                                 <i class="fa-regular fa-circle-chevron-right fa-2x text-success"></i> </button>
                                             </div>
                                             <div class="subgroup-item">
                                                     <table class="table table-bordered table-sm">

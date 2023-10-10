@@ -6978,11 +6978,6 @@ table thead {
     font-size: 16px;
 }
 
-.prizeName {
-    color: #7a5a03;
-    font-size: 16px;
-    font-weight: bold;
-}
 
 .prizeCheckbox {
     padding: 16px !important;
@@ -6991,6 +6986,12 @@ table thead {
 
 .prizeLabel {
     font-size: 16px;
+}
+
+.prizeName {
+ font-size: 1rem;
+ color: green;
+ font-weight: bold;
 }
 
 .sideDive {
@@ -7277,5 +7278,13 @@ table thead {
     min-height: 111px !important;
     outline: none !important;
     border: none !important;
+}
+
+.tanzimat-label {
+    font-size: 0.9rem;
+}
+
+.form-check-input {
+    padding: 0.5rem;
 }
 
