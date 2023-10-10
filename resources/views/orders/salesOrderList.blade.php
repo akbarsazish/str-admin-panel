@@ -2593,8 +2593,8 @@
                 <h5 class="modal-title" id="updatingOrderSalesLabel"> افزودن به سفارش </h5>
             </div>
             <div class="modal-body shadow">
-                <form action="{{url('/addToOrderItems')}}" method="get" id="addToOrderForm">
-                    @csrf
+                {{-- <form action="{{url('/addToOrderItems')}}" method="get" id="addToOrderForm">
+                    @csrf --}}
                     <input type="hidden" name="HdsSn" id="HdsSn">
                     <div class="row">
                         <div class="col-lg-4">
@@ -2632,7 +2632,7 @@
                             <span style="color:red;display:none" id="noQualifiedErrorText"> این کالا به این مقدار موجودی ندارد. </span>
                         </div>
                     </div>
-                </from>
+                {{-- </from> --}}
             </div>
             <div class="modal-footer">
             </div>
@@ -2651,17 +2651,17 @@
             <div class="modal-body shadow">
                     <div class="row">
                         <div class="col-lg-4">
-                             <!-- <button type="button" class="btn btn-sm btn-success"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
-                             <div class="form-check mt-1">
-                                 <label class="form-check-label mx-2" for="flexCheckDefault">
-                                     نمایش موجودی انبار، قیمت فروش و قیمت خرید 
-                                    </label>
+                            <!-- <button type="button" class="btn btn-sm btn-success"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
+                            <div class="form-check mt-1">
+                                <label class="form-check-label mx-2" for="flexCheckDefault">
+                                    نمایش موجودی انبار، قیمت فروش و قیمت خرید 
+                                </label>
                                 <input class="form-check-input float-start p-2 mx-2" type="checkbox" value="" id="flexCheckDefault">
                             </div>
                             <div class="input-group input-group-sm mb-3">
-                                   <span class="input-group-text" id="searchForAddItemLabel"> نام کالا : </span>
-                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByName" autofocus>
-                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByCode" autofocus>
+                                <span class="input-group-text" id="searchForAddItemLabel"> نام کالا : </span>
+                                <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByName" autofocus>
+                                <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByCode" autofocus>
                             </div>
                         </div>
                         <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">

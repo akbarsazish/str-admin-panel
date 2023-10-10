@@ -756,14 +756,15 @@
     </div>
 </div>
 <div class="modal" id="editFactorModal" tabindex="1">
+    <input type="hiden" id="rowTaker">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-info" >
                 <h5 class="modal-title"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
-                <form action="{{url("/doEditFactor")}}" method="post">
-                    @csrf
+                {{-- <form action="{{url("/doEditFactor")}}" method="post">
+                    @csrf --}}
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-4">
@@ -771,7 +772,7 @@
                                     <span class="input-group-text" > شماره فاکتور </span>
                                     <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm mb-1">
                                 </div>
-                                <input type="hidden" id="customerOfFactorEdit">
+                                <input type="hidden" id="customerForSefarishId">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
                                     <select name="stockEdit" id="stockEdit" class="form-select">
@@ -909,7 +910,7 @@
                             </table>
                         </div>
                     </div>
-                </form>
+                {{-- </form> --}}
             </div>
             <div class="modal-footer">
             </div>
@@ -1006,6 +1007,65 @@
                 </table> 
                 <div class="modal-footer">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade dragAbleModal" id="searchGoodsModalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-white py-2" style="background-color:#045630;">
+                <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="updatingOrderSalesLabel"> افزودن به سفارش </h5>
+            </div>
+            <div class="modal-body shadow">
+                    <div class="row">
+                        <div class="col-lg-4">
+                             <!-- <button type="button" class="btn btn-sm btn-success"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
+                             <div class="form-check mt-1">
+                                 <label class="form-check-label mx-2" for="flexCheckDefault">
+                                     نمایش موجودی انبار، قیمت فروش و قیمت خرید 
+                                    </label>
+                                <input class="form-check-input float-start p-2 mx-2" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                   <span class="input-group-text" id="searchForAddItemLabel"> نام کالا : </span>
+                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByName" autofocus>
+                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByCode" autofocus>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">
+                                <span class="description"> موجودی انبار : <b id="AddStockExistance">0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="AddSalePrice">0 </b></span> <br>
+                                <span class="description">  آخرین قیمت خرید: <b id="AddPrice">0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddLastPriceCustomer">0</b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="AddLastPrice">0</b> </span>                      
+                        </div>
+                        <div class="col-lg-2 text-center ">
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success" id="selectKalaToFactorBtn"> انتخاب  <i class="fa fa-history"></i> </button> 
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-danger" data-dismiss="modal"> انصراف <i class="fa fa-xmark"></i> </button>
+                            <!-- <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success"> همه کالا ها   <i class="fa fa-save"></i></button>                         -->
+                        </div>
+                    </div><hr>
+
+                    <div class="row my-4">
+                    <table class="table table-striped table-bordered" id="kalaForAddToSefarishTble">
+                            <thead class="tableHeader">
+                                <tr>
+                                    <th scope="col">ردیف</th>
+                                    <th scope="col"> کد کالا  </th>
+                                    <th scope="col"> نام کالا  </th>
+                                    <th scope="col"> واحد کالا </th>
+                                </tr>
+                            </thead>
+                            <tbody class="tableBody" id="kalaForAddToSefarish">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>

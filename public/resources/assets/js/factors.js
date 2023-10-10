@@ -74,7 +74,7 @@ $("#customerCode").on("keyup",function(){
 function openEditFactorModal(snFactor){
     $.get(baseUrl+"/getFactorInfoForEdit",{SnFactor:snFactor},(respond,status)=>{
         $("#factorEditListBody").empty();
-        $("#customerOfFactorEdit").val(respond.factorInfo[0].PSN);
+        $("#customerForSefarishId").val(respond.factorInfo[0].PSN);
         $("#FactNoEdit").val(respond.factorInfo[0].FactNo);
         $("#NameEdit").val(respond.factorInfo[0].Name);
         $("#FactDateEdit").val(respond.factorInfo[0].FactDate);
@@ -104,28 +104,28 @@ function openEditFactorModal(snFactor){
             $("#factorEditListBody").append(`
                 <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
                     <td class="td-part-input"> ${index+1}</td>
-                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input form-control" required> <input type="radio" value="${element.GoodSn}"/> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.NameGood}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.FirstUnit}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.SecondUnit}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PackAmnt).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.NameStock}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Price3PercentMaliat}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Fi2Weight}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Amount2Weight}" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" selected style="display:none" value="${element.GoodSn}"/> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.FirstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.SecondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PackAmnt).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.NameStock}" class="td-input td-inputStockEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="${element.Amount2Weight}" class="td-input td-inputAllWeightEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
                 </tr>
             `);
         })
@@ -133,14 +133,496 @@ function openEditFactorModal(snFactor){
     $("#editFactorModal").modal("show");
 }
 
+$("#selectKalaToFactorBtn").on("click",function(){
+    var rowCount = $("#factorEditListBody tr").length;
+    let allMoney=0;
+    for(let i=1;i<=rowCount;i++){
+       let rowGoodSn= $('#factorEditListBody tr:nth-child('+i+')').find('input:checkbox').val();
+       
+       if(rowGoodSn==$(this).val()){
+        swal({title:"قبلا اضافه شده است",
+              text:"کالای انتخاب شده قبلا اضافه شده است",
+              icon:"warning",
+              buttons:ture});
+        return
+       }
+    }
+    
+$.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
+    if(status=="success"){
+        let row=data.map((element,index)=> `
+                                            <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
+                                            <td class="td-part-input"> ${index+1}</td>
+                                            <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" selected style="display:none" value="${element.GoodSn}"/> </td>
+                                            <td class="td-part-input"> <input type="text" value="${element.GoodName}" class="td-input td-inputCodeNameEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="${element.firstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="${element.secondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="${parseInt(element.Price3).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
+                                        </tr>
+                                        `)
+        $(`#factorEditListBody tr:nth-child(`+$("#rowTaker").val()+`)`).replaceWith(row);
+        $(`#factorEditListBody tr:nth-child(`+$("#rowTaker").val()+`) td:nth-child(6) input`).focus();
+        $(`#factorEditListBody tr:nth-child(`+$("#rowTaker").val()+`) td:nth-child(6) input`).select();
+        checkAddedKalaAmountOfFactor(data[0].GoodSn);
+        }
+    });
+
+    $("#searchGoodsModalEdit").modal("hide");
+});
+
+
+$(document).on("keyup",".td-inputCodeEdit",function(e){
+    if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        $("#rowTaker").val($(e.target).parents("tr").index()+1)
+
+        if (!($('.modal.in').length)) {
+            $('.modal-dialog').css({
+                top: 0,
+                left: 0
+            });
+        }
+        $('#searchGoodsModalEdit').modal({
+            backdrop: false,
+            show: true
+        });
+
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
+        $("#searchKalaForAddToSefarishByName").val();
+        $("#searchForAddItemLabel").text("نام کالا")
+        $("#searchKalaForAddToSefarishByName").val("");
+        $("#searchKalaForAddToSefarishByName").val($(e.target).val());
+        $("#searchKalaForAddToSefarishByCode").hide();
+        $("#searchKalaForAddToSefarishByName").show();
+        $("#searchGoodsModalEdit").modal("show");
+        $('#searchGoodsModalEdit').on('shown.bs.modal', function() {
+        $("#searchKalaForAddToSefarishByName").focus();
+        });
+    }else{
+        if(e.keyCode ==13 || e.keyCode ==9){
+            var $currentInput = $(e.target);
+            var $nextInput = $currentInput.closest('td').next('td').find('input');
+            if ($nextInput.length > 0) {
+                $nextInput.focus();
+            }
+        }
+    }
+})
+$(document).on("keyup",".td-inputCodeNameEdit",function(e){
+    if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        $("#rowTaker").val($(e.target).parents("tr").index()+1)
+
+        if (!($('.modal.in').length)) {
+            $('.modal-dialog').css({
+                top: 0,
+                left: 0
+            });
+        }
+        $('#searchGoodsModalEdit').modal({
+            backdrop: false,
+            show: true
+        });
+
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
+        $("#searchKalaForAddToSefarishByName").val();
+        $("#searchForAddItemLabel").text("نام کالا")
+        $("#searchKalaForAddToSefarishByName").val("");
+        $("#searchKalaForAddToSefarishByName").val($(e.target).val());
+        $("#searchKalaForAddToSefarishByCode").hide();
+        $("#searchKalaForAddToSefarishByName").show();
+        $("#searchGoodsModalEdit").modal("show");
+        $('#searchGoodsModalEdit').on('shown.bs.modal', function() {
+        $("#searchKalaForAddToSefarishByName").focus();
+        });
+    }else{
+        if(e.keyCode ==13 || e.keyCode ==9){
+            alert(e.keyCode)
+            var $currentInput = $(e.target);
+            var $nextInput = $currentInput.closest('td').next('td').find('input');
+            if ($nextInput.length > 0) {
+                $nextInput.focus();
+            }
+        }
+    }
+})
+$(document).on("keyup",".td-inputFirstUnitEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var currentInput = $(e.target);
+        var nextInput = currentInput.closest('td').next('td').find('input');
+        if (nextInput.length > 0) {
+            nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSecondUnitEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSecondUnitAmountEdit",function(e){
+
+    // نوعیت اعداد چک شود و محاسبات انجام شود
+    checkNumberInput(e)
+    
+    let subPackUnitAmount=0;
+    if(($('#factorEditListBody tr:nth-child('+$('#factorEditListBody tr').length+') td:nth-child(2)').children('input').val().length)<1){
+        $(`#factorEditListBody tr:nth-child(`+$('#factorEditListBody tr').length+`)`).replaceWith('');
+    }
+    let rowindex=$(e.target).parents("tr").index()+1
+    let packAmount=$(e.target).val().replace(/,/g, '')
+    let subPackUnits=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val().replace(/,/g, ''));
+    let GoodSn=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:checkbox').val());
+    let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+    let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
+    if(!isNaN(subPackUnits)){
+        subPackUnitAmount=subPackUnits;
+    }
+    
+    let allAmountUnit=(packAmount*amountUnit)+subPackUnitAmount;
+    
+    if( allAmountUnit > parseInt($("#firstEditExistInStock").text().replace(/,/g,'')) ){
+        swal({
+            title: "به این اندازه موجودی ندارد.",
+            text:"میخواهید ثبت شود؟",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            }).then((willAdd) => {
+                if(willAdd){
+                    let allPrice=allAmountUnit*price;
+                    let packPrice=amountUnit*price;
+                    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+                    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+                    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+                    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
+                }
+            })
+    }else{
+        let allPrice=allAmountUnit*price;
+        let packPrice=amountUnit*price;
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
+    }
+
+    calculateNewOrderMoney();
+    if(e.keyCode==9 || e.keyCode==13){
+        var $currentInput = $(e.target);
+        if(($currentInput.val()>0)){
+            var $nextInput = $currentInput.closest('td').next('td').find('input');
+            
+            if($nextInput.length > 0) {
+                $nextInput.focus();
+            }
+        }else{
+
+            alert("مقدار کالا را وارد کنید.")
+
+        }
+    }
+
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputJozeAmountEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputFirstAmountEdit",function(e){
+    if((e.keyCode>=65 && e.keyCode<=90)|| ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        let rowindex=$(e.target).parents("tr").index()+1
+        let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
+        let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+        let allAmountUnit=parseInt($(e.target).val().replace(/,/g, ''));
+        let packAmount=parseInt(allAmountUnit/amountUnit);
+        let subPackUnits=allAmountUnit%amountUnit;
+        let allPrice=allAmountUnit*price;
+        let packPrice=amountUnit*price;
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val(parseInt(packAmount).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(parseInt(subPackUnits).toLocaleString("en-us"));
+    }
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputReAmountEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-AllAmountEdit",function(e){
+    
+    if((e.keyCode>=65 && e.keyCode<=90)|| ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        let rowindex=$(e.target).parents("tr").index()+1
+
+        let subPackUnits=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val().replace(/,/g, ''));
+        let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+        let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
+
+        let allAmountUnit=parseInt($(e.target).val().replace(/,/g, ''));
+        let packAmount=parseInt(allAmountUnit/amountUnit);
+        subPackUnits=parseInt(allAmountUnit%amountUnit);
+        let allPrice=allAmountUnit*price;
+        let packPrice=amountUnit*price;
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val(parseInt(packAmount).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(parseInt(subPackUnits).toLocaleString("en-us"));
+    }
+    if(e.keyCode==9 || e.keyCode==13){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+        $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputFirstUnitPriceEdit",function(e){
+    if(e.keyCode==9 || e.keyCode==13){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        localStorage.setItem("allowedChangePrice",0)
+        if ($nextInput.length > 0) {
+        $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSecondUnitPriceEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputAllPriceEdit",function(e){
+    let subPackUnitAmount=0;
+    if(($('#factorEditListBody tr:nth-child('+$('#factorEditListBody tr').length+') td:nth-child(2)').children('input').val().length)<1){
+        $(`#factorEditListBody tr:nth-child(`+$('#factorEditListBody tr').length+`)`).replaceWith('');
+    }
+    let rowindex=$(e.target).parents("tr").index()+1
+    let packAmount=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val());
+    if(!$(e.target).val()){
+        $(e.target).val(0)
+    }
+    let allPrice=parseInt($(e.target).val().replace(/,/g, ''))
+    let subPackUnits=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val());
+    let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+    let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
+    if(!isNaN(subPackUnits)){
+        subPackUnitAmount=subPackUnits;
+    }
+    let allAmountUnit=allPrice/price;
+    packAmount=parseInt(allAmountUnit/amountUnit)
+    subPackUnitAmount=allAmountUnit%amountUnit;
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(parseInt(subPackUnitAmount).toLocaleString("en-us"))
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').valparseInt((packAmount).toLocaleString("en-us"))
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+    if(e.keyCode==9 || e.keyCode==13){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        
+        if ($nextInput.length > 0) {
+        $nextInput.focus();
+        }
+    }
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+
+$(document).on("keyup",".td-inputAllPriceAfterTakhfifEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSefarishNumEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSefarishDateEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputSefarishDescEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputStockEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputMaliatEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputWeightUnitEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputAllWeightEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputInserviceEdit",function(e){
+    if(e.keyCode ==13 || e.keyCode ==9){
+        var $currentInput = $(e.target);
+        var $nextInput = $currentInput.closest('td').next('td').find('input');
+        if ($nextInput.length > 0) {
+            $nextInput.focus();
+        }
+    }
+})
+$(document).on("keyup",".td-inputPercentMaliatEdit",function(e){
+    let goodSn=$('#factorEditListBody tr:nth-child('+($(e.target).parents("tr").index()+1)+') td:nth-child(2)').children('input').val().length
+    if((e.keyCode === 9 ||e.keyCode === 13)  && (($(e.target).parents("tr").index()+1)==$("#factorEditListBody tr").length) && goodSn>0){
+    let row=`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
+        <td class="td-part-input"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeEdit form-control" required> <input type="radio" style="display:none" value=""/> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
+    </tr>`;
+$("#factorEditListBody").append(row);
+
+} 
+if(e.keyCode===9 || e.keyCode===13){
+    var $currentInput = $(e.target);
+    var $currentTd = $currentInput.closest('td');
+    var $currentTr = $currentTd.closest('tr');
+    var $nextTr = $currentTr.next('tr');
+    if ($nextTr.length > 0) {
+      var $nextTd = $nextTr.find('td:eq(1)');
+      var $nextInput = $nextTd.find('input');
+      if ($nextInput.length > 0) {
+        $nextInput.focus();
+      }
+    }
+}
+})
 
 function checkAddedKalaAmountOfFactor(row){
-    let input = $(row).find('input:radio');
+    let input = $(row).find('input:checkbox');
     let goodSn=$(input).val();
     if(!goodSn){
         return
     }
-    let customerSn=$("#customerOfFactorEdit").val();
+    let customerSn=$("#customerForSefarishId").val();
 
     $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
         goodSn: goodSn,
@@ -319,6 +801,7 @@ $("#customerNameForOrder").on("keyup", function (event){
 });
 
 function chooseCustomerForّFactorEdit(psn){
+
     $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
         if(localStorage.getItem("editCustomerName")!=1){
             $("#customerForFactorEdit").append(`<option selected value="${respond[0].PSN}"> ${respond[0].Name} </option>`);
