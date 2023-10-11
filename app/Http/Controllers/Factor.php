@@ -604,9 +604,39 @@ class Factor extends Controller{
             $inservice=str_replace(",", "",$request->input("Inservice".$goodSn));
             $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
             $netPriceHDS+=$priceAfterTakhfif;
+            $packType=0;
+            $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
+            if(count($packTypes)>0){
+                $packType=$packTypes[0]->SnGoodUnit;
+            }else{
+                $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
+                $packType=$defaultUnits[0]->DefaultUnit;
+            }
+            DB::table('Shop.dbo.FactorBYS')->insert([
+             "CompanyNo"=>5
+            ,"SnFact"=>$serialNoHDS
+            ,"SnGood"=>$goodSn
+            ,"PackType"=>$packType
+            ,"PackAmnt"=>$secondUnitAmount
+            ,"Amount"=>$allAmount
+            ,"Fi"=>$fi
+            ,"Price"=>$price
+            ,"SnOrderDetail"=>0
+            ,"FiPack"=>$fiPack
+            ,"SnStockBYS"=>23
+            ,"Price3PercentMaliat"=>$percentMaliat
+            ,"PriceAfterAmel"=>$price
+            ,"FiAfterAmel"=>$fi
+            ,"Amount2Weight"=>$weightAllUnit
+            ,"Fi2Weight"=>$weight2Unit
+            ,"PriceAfterTakhfif"=>$price
+            ,"RealFi"=>$fi
+            ,"RealPrice"=>$price
+            ,"FirstAmout"=>$firstAmount
+            ,"ReAmount"=>$reAmount]);
         }
 
-       // DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update([]);
+       // DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update("]);
         return Response::json($request->all());
     }
 
