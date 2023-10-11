@@ -558,7 +558,9 @@ class Factor extends Controller{
        $sendTimeEdit=$request->input("SendTimeEdit");
        $editableGoods=$request->input("editableGoods");//arrays
        $netPriceHDS=0;
-        foreach ($editableGoods as $goodSn) {
+       DB::delete("DELETE FROM Shop.dbo.FactorBYS WHERE SnFact=$serialNoHDS AND SnGood not in( ".implode(",",$editableGoods).")");
+       
+       foreach ($editableGoods as $goodSn) {
             $nameGood=$request->input("NameGood".$goodSn);
             $firstUnit=$request->input("FirstUnit".$goodSn);
             $secondUnit=$request->input("SecondUnit".$goodSn);
@@ -577,33 +579,6 @@ class Factor extends Controller{
             $amount2Weight=str_replace(",", "",$request->input("Amount2Weight".$goodSn));
             $service=str_replace(",", "",$request->input("Service".$goodSn));
             $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
-            $netPriceHDS+=$priceAfterTakhfif;
-
-        }
-        $addableGoods=$request->input("addableGoods");
-        foreach ($addableGoods as $goodSn) {
-            $goodName=$request->input("GoodName".$goodSn);
-            $firstUnit=$request->input("FirstUnit".$goodSn);
-            $secondUnit=$request->input("SecondUnit".$goodSn);
-            $secondUnitAmount=$request->input("SecondUnitAmount".$goodSn);
-            $jozeAmount=str_replace(",", "",$request->input("JozeAmount".$goodSn));
-            $firstAmount=$request->input("FirstAmount".$goodSn);
-            $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
-            $allAmount=str_replace(",", "",$request->input("AllAmount".$goodSn));
-            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
-            $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
-            $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
-            $priceAfterTakhfif=str_replace(",", "",$request->input("AllPriceAfterTakhfif".$goodSn));
-            $sefarishNum=$request->input("SefarishNum".$goodSn);
-            $sefarishDate=$request->input("SefarishDate".$goodSn);
-            $sefarishDesc=$request->input("SefarishDesc".$goodSn);
-            $stockName=$request->input("StockName".$goodSn);
-            $priceMaliat=str_replace(",", "",$request->input("PriceMaliat".$goodSn));
-            $weight2Unit=str_replace(",", "",$request->input("Weight2Unit".$goodSn));
-            $weightAllUnit=str_replace(",", "",$request->input("WeightAllUnit".$goodSn));
-            $inservice=str_replace(",", "",$request->input("Inservice".$goodSn));
-            $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
-            $netPriceHDS+=$priceAfterTakhfif;
             $packType=0;
             $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
             if(count($packTypes)>0){
@@ -612,31 +587,97 @@ class Factor extends Controller{
                 $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
                 $packType=$defaultUnits[0]->DefaultUnit;
             }
-            DB::table('Shop.dbo.FactorBYS')->insert([
-             "CompanyNo"=>5
-            ,"SnFact"=>$serialNoHDS
-            ,"SnGood"=>$goodSn
-            ,"PackType"=>$packType
-            ,"PackAmnt"=>$secondUnitAmount
-            ,"Amount"=>$allAmount
-            ,"Fi"=>$fi
-            ,"Price"=>$price
-            ,"SnOrderDetail"=>0
-            ,"FiPack"=>$fiPack
-            ,"SnStockBYS"=>23
-            ,"Price3PercentMaliat"=>$percentMaliat
-            ,"PriceAfterAmel"=>$price
-            ,"FiAfterAmel"=>$fi
-            ,"Amount2Weight"=>$weightAllUnit
-            ,"Fi2Weight"=>$weight2Unit
-            ,"PriceAfterTakhfif"=>$price
-            ,"RealFi"=>$fi
-            ,"RealPrice"=>$price
-            ,"FirstAmout"=>$firstAmount
-            ,"ReAmount"=>$reAmount]);
-        }
+            $netPriceHDS+=$price;
 
-       // DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update("]);
+            //check if it is updateable
+            $countEditable=DB::table("Shop.dbo.FactorBYS")->where("SnFact",$serialNoHDS)->where("SnGood",$goodSn)->count();
+            if($countEditable>0){
+                DB::table('Shop.dbo.FactorBYS')->where("SnGood",$goodSn)->where("SnFact",$serialNoHDS)->update([
+                                                                "PackType"=>$packType
+                                                                ,"PackAmnt"=>$packAmnt
+                                                                ,"Amount"=>$amount
+                                                                ,"Fi"=>$fi
+                                                                ,"Price"=>$price
+                                                                ,"SnOrderDetail"=>0
+                                                                ,"FiPack"=>$fiPack
+                                                                ,"SnStockBYS"=>23
+                                                                ,"Price3PercentMaliat"=>$percentMaliat
+                                                                ,"PriceAfterAmel"=>$price
+                                                                ,"FiAfterAmel"=>$fi
+                                                                ,"Amount2Weight"=>$amount2Weight
+                                                                ,"Fi2Weight"=>$fi2Weight
+                                                                ,"PriceAfterTakhfif"=>$price
+                                                                ,"RealFi"=>$fi
+                                                                ,"RealPrice"=>$price
+                                                                ,"FirstAmout"=>$firstAmount
+                                                                ,"ReAmount"=>$reAmount]);
+            }
+            //check if it is insertable
+
+            if($countEditable==0){
+                DB::table('Shop.dbo.FactorBYS')->insert([
+                    "CompanyNo"=>5
+                    ,"SnFact"=>$serialNoHDS
+                    ,"SnGood"=>$goodSn
+                    ,"PackType"=>$packType
+                    ,"PackAmnt"=>$packAmnt
+                    ,"Amount"=>$amount
+                    ,"Fi"=>$fi
+                    ,"Price"=>$price
+                    ,"SnOrderDetail"=>0
+                    ,"FiPack"=>$fiPack
+                    ,"SnStockBYS"=>23
+                    ,"Price3PercentMaliat"=>$percentMaliat
+                    ,"PriceAfterAmel"=>$price
+                    ,"FiAfterAmel"=>$fi
+                    ,"Amount2Weight"=>$amount2Weight
+                    ,"Fi2Weight"=>$fi2Weight
+                    ,"PriceAfterTakhfif"=>$price
+                    ,"RealFi"=>$fi
+                    ,"RealPrice"=>$price
+                    ,"FirstAmout"=>$firstAmount
+                    ,"ReAmount"=>$reAmount]
+                );
+            }
+        }
+        // $addableGoods=$request->input("addableGoods");
+        // if($addableGoods){
+        //     foreach ($addableGoods as $goodSn) {
+        //         $goodName=$request->input("GoodName".$goodSn);
+        //         $firstUnit=$request->input("FirstUnit".$goodSn);
+        //         $secondUnit=$request->input("SecondUnit".$goodSn);
+        //         $secondUnitAmount=$request->input("SecondUnitAmount".$goodSn);
+        //         $jozeAmount=str_replace(",", "",$request->input("JozeAmount".$goodSn));
+        //         $firstAmount=$request->input("FirstAmount".$goodSn);
+        //         $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
+        //         $allAmount=str_replace(",", "",$request->input("AllAmount".$goodSn));
+        //         $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+        //         $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
+        //         $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
+        //         $priceAfterTakhfif=str_replace(",", "",$request->input("AllPriceAfterTakhfif".$goodSn));
+        //         $sefarishNum=$request->input("SefarishNum".$goodSn);
+        //         $sefarishDate=$request->input("SefarishDate".$goodSn);
+        //         $sefarishDesc=$request->input("SefarishDesc".$goodSn);
+        //         $stockName=$request->input("StockName".$goodSn);
+        //         $priceMaliat=str_replace(",", "",$request->input("PriceMaliat".$goodSn));
+        //         $weight2Unit=str_replace(",", "",$request->input("Weight2Unit".$goodSn));
+        //         $weightAllUnit=str_replace(",", "",$request->input("WeightAllUnit".$goodSn));
+        //         $inservice=str_replace(",", "",$request->input("Inservice".$goodSn));
+        //         $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
+        //         $netPriceHDS+=$price;
+        //         $packType=0;
+        //         $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
+        //         if(count($packTypes)>0){
+        //             $packType=$packTypes[0]->SnGoodUnit;
+        //         }else{
+        //             $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
+        //             $packType=$defaultUnits[0]->DefaultUnit;
+        //         }
+
+        //     }
+        // }
+
+        DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["NetPriceHDS"=>$netPriceHDS]);
         return Response::json($request->all());
     }
 
