@@ -763,7 +763,7 @@
                 <h5 class="modal-title"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
-                <form action="{{url("/doEditFactor")}}" method="post" id="editFactorForm">
+                <form action="{{url("/doEditFactor")}}" method="get" id="editFactorForm">
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
@@ -771,8 +771,9 @@
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > شماره فاکتور </span>
                                     <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm mb-1">
+                                    <input type="text"  name="SerialNoHDSEdit" id="SerialNoHDSEdit" class="d-none">
                                 </div>
-                                <input type="hidden" id="customerForSefarishId">
+                                <input type="hidden" name="psnEdit" id="customerForSefarishId">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
                                     <select name="stockEdit" id="stockEdit" class="form-select">
@@ -814,7 +815,7 @@
                                 <div  id="factorAddressDivEdit" style="display: none">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > آدرس </span>
-                                    <input type="text"  id="MotafariqahAddressEdit" class="form-control">
+                                    <input type="text" name="MotafariqahAddressEdit"  id="MotafariqahAddressEdit" class="form-control">
                                 </div>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
@@ -841,7 +842,6 @@
                                     <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text" > آدرس </span>
                                         <select name="factorAddressEdit" id="factorAddressEdit" class="form-select">
-                                            <option >  </option>
                                         </select>
                                     </div>
                                 </div>
@@ -890,7 +890,7 @@
                                         <th> مقدار اولیه </th>
                                         <th> مقدار برگشتی </th>
                                         <th> مقدار کالا </th>
-                                        <th>  نرخ واحد </th>
+                                        <th> نرخ واحد </th>
                                         <th> نرخ بسته </th>
                                         <th> مبلغ </th>
                                         <th> مبلغ بعد از تخفیف </th>

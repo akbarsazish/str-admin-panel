@@ -542,6 +542,71 @@ class Factor extends Controller{
      return Response::json($factors);
     }
     function doEditFactor(Request $request) {
+       $factNoEdit=$request->input("FactNoEdit");
+       $serialNoHDS=$request->input("SerialNoHDSEdit");
+       $psnEdit=$request->input("psnEdit");
+       $stockEdit=$request->input("stockEdit");
+       $factDateEdit=$request->input("FactDateEdit");
+       $pCodeEdit=$request->input("pCodeEdit");
+       $nameEdit=$request->input("NameEdit");
+       $bazaryabCodeEdit=$request->input("bazaryabCodeEdit");
+       $bazaryabNameEdit=$request->input("bazaryabNameEdit");
+       $motafariqahNameEdit=$request->input("MotafariqahNameEdit");
+       $motafariqahAddressEdit=$request->input("MotafariqahAddressEdit");
+       $factDescEdit=$request->input("ّFactDescEdit");
+       $tahvilTypeEdit=$request->input("TahvilTypeEdit");
+       $sendTimeEdit=$request->input("SendTimeEdit");
+       $editableGoods=$request->input("editableGoods");//arrays
+       $netPriceHDS=0;
+        foreach ($editableGoods as $goodSn) {
+            $nameGood=$request->input("NameGood".$goodSn);
+            $firstUnit=$request->input("FirstUnit".$goodSn);
+            $secondUnit=$request->input("SecondUnit".$goodSn);
+            $packAmnt=str_replace(",", "",$request->input("PackAmnt".$goodSn));
+            $jozeAmountEdit=str_replace(",", "",$request->input("JozeAmountEdit".$goodSn));
+            $firstAmount=str_replace(",", "",$request->input("FirstAmount".$goodSn));
+            $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
+            $amount=str_replace(",", "",$request->input("Amount".$goodSn));
+            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
+            $price=str_replace(",", "",$request->input("Price".$goodSn));
+            $priceAfterTakhfif=str_replace(",", "",$request->input("PriceAfterTakhfif".$goodSn));
+            $nameStock=$request->input("NameStock".$goodSn);
+            $price3PercentMaliat=str_replace(",", "",$request->input("Price3PercentMaliat".$goodSn));
+            $fi2Weight=str_replace(",", "",$request->input("Fi2Weight".$goodSn));
+            $amount2Weight=str_replace(",", "",$request->input("Amount2Weight".$goodSn));
+            $service=str_replace(",", "",$request->input("Service".$goodSn));
+            $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
+            $netPriceHDS+=$priceAfterTakhfif;
+
+        }
+        $addableGoods=$request->input("addableGoods");
+        foreach ($addableGoods as $goodSn) {
+            $goodName=$request->input("GoodName".$goodSn);
+            $firstUnit=$request->input("FirstUnit".$goodSn);
+            $secondUnit=$request->input("SecondUnit".$goodSn);
+            $secondUnitAmount=$request->input("SecondUnitAmount".$goodSn);
+            $jozeAmount=str_replace(",", "",$request->input("JozeAmount".$goodSn));
+            $firstAmount=$request->input("FirstAmount".$goodSn);
+            $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
+            $allAmount=str_replace(",", "",$request->input("AllAmount".$goodSn));
+            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
+            $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
+            $priceAfterTakhfif=str_replace(",", "",$request->input("AllPriceAfterTakhfif".$goodSn));
+            $sefarishNum=$request->input("SefarishNum".$goodSn);
+            $sefarishDate=$request->input("SefarishDate".$goodSn);
+            $sefarishDesc=$request->input("SefarishDesc".$goodSn);
+            $stockName=$request->input("StockName".$goodSn);
+            $priceMaliat=str_replace(",", "",$request->input("PriceMaliat".$goodSn));
+            $weight2Unit=str_replace(",", "",$request->input("Weight2Unit".$goodSn));
+            $weightAllUnit=str_replace(",", "",$request->input("WeightAllUnit".$goodSn));
+            $inservice=str_replace(",", "",$request->input("Inservice".$goodSn));
+            $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
+            $netPriceHDS+=$priceAfterTakhfif;
+        }
+
+       // DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update([]);
         return Response::json($request->all());
     }
 

@@ -82,6 +82,7 @@ function openEditFactorModal(snFactor){
         $("#factorEditListBody").empty();
         $("#customerForSefarishId").val(respond.factorInfo[0].PSN);
         $("#FactNoEdit").val(respond.factorInfo[0].FactNo);
+        $("#SerialNoHDSEdit").val(respond.factorInfo[0].SerialNoHDS);
         $("#NameEdit").val(respond.factorInfo[0].Name);
         $("#FactDateEdit").val(respond.factorInfo[0].FactDate);
         $("#bazaryabNameEdit").val(respond.factorInfo[0].BName);
@@ -109,29 +110,29 @@ function openEditFactorModal(snFactor){
             }
             $("#factorEditListBody").append(`
                 <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                    <td class="td-part-input"> ${index+1}</td>
-                    <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" selected style="display:none" value="${element.GoodSn}"/> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.FirstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.SecondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PackAmnt).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.NameStock}" class="td-input td-inputStockEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="${element.Amount2Weight}" class="td-input td-inputAllWeightEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
+                    <td class="td-part-input"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
+                    <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
+                    <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(element.PackAmnt).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="${element.GoodSn}" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="${element.GoodSn}" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="${element.GoodSn}" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="NameStock${element.GoodSn}" value="${element.NameStock}" class="td-input td-inputStockEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Fi2Weight${element.GoodSn}" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Amount2Weight${element.GoodSn}" value="${element.Amount2Weight}" class="td-input td-inputAllWeightEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
                 </tr>
             `);
         })
@@ -159,28 +160,28 @@ $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
         let row=data.map((element,index)=> `
                                             <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
                                             <td class="td-part-input"> ${index+1}</td>
-                                            <td class="td-part-input"> <input type="text" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" selected style="display:none" value="${element.GoodSn}"/> </td>
-                                            <td class="td-part-input"> <input type="text" value="${element.GoodName}" class="td-input td-inputCodeNameEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="${element.firstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="${element.secondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="${parseInt(element.Price3).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
+                                            <td class="td-part-input"> <input type="text" name="GoodName${element.GoodSn}" value="${element.GoodName}" class="td-input td-inputCodeNameEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.firstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.secondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="SecondUnitAmount${element.GoodSn}" value="" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="JozeAmount${element.GoodSn}" value="" class="td-input td-inputJozeAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="" class="td-input td-inputFirstAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="" class="td-input td-inputReAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="AllAmount${element.GoodSn}" value="" class="td-input  td-AllAmountEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Price3).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="AllPrice${element.GoodSn}" value="" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="AllPriceAfterTakhfif${element.GoodSn}" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="SefarishNum${element.GoodSn}" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="SefarishDate${element.GoodSn}" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="SefarishDesc${element.GoodSn}" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="StockName${element.GoodSn}" value="" class="td-input td-inputStockEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="PriceMaliat${element.GoodSn}" value="" class="td-input td-inputMaliatEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="Weight2Unit${element.GoodSn}" value="" class="td-input td-inputWeightUnitEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="WeightAllUnit${element.GoodSn}" value="" class="td-input td-inputAllWeightEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="Inservice${element.GoodSn}" value="0" class="td-input  td-inputInserviceEdit form-control" required> </td>
+                                            <td class="td-part-input"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
                                         </tr>
                                         `)
         $(`#factorEditListBody tr:nth-child(`+$("#rowTaker").val()+`)`).replaceWith(row);
@@ -307,7 +308,6 @@ $(document).on("keyup",".td-inputSecondUnitAmountEdit",function(e){
     }
     
     let allAmountUnit=(packAmount*amountUnit)+subPackUnitAmount;
-    
     if( allAmountUnit > parseInt($("#firstEditExistInStock").text().replace(/,/g,'')) ){
         swal({
             title: "به این اندازه موجودی ندارد.",
@@ -360,6 +360,28 @@ $(document).on("keyup",".td-inputSecondUnitAmountEdit",function(e){
     }
 })
 $(document).on("keyup",".td-inputJozeAmountEdit",function(e){
+    if(($('#factorEditListBody tr:nth-child('+$('#factorEditListBody tr').length+') td:nth-child(2)').children('input').val().replace(/,/g, '').length)<1){
+        $(`#factorEditListBody tr:nth-child(`+$('#factorEditListBody tr').length+`)`).replaceWith('');
+    }
+    let rowindex=$(e.target).parents("tr").index()+1
+    let packAmount=parseInt($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val().replace(/,/g, ''));
+    let subPackUnits=parseInt($(e.target).val().replace(/,/g, ''))
+    let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+    let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
+
+    let allAmountUnit=0;
+    if(packAmount>0){
+        allAmountUnit=(packAmount*amountUnit)+subPackUnits;
+    }else{
+        allAmountUnit=subPackUnits;
+    }
+    packAmount=parseInt(allAmountUnit/amountUnit);
+    subPackUnits=allAmountUnit%amountUnit;
+    let allPrice=allAmountUnit*price;
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val(packAmount)
+    $(e.target).val(subPackUnits)
     if(e.keyCode ==13 || e.keyCode ==9){
         var $currentInput = $(e.target);
         var $nextInput = $currentInput.closest('td').next('td').find('input');
@@ -399,17 +421,21 @@ $(document).on("keyup",".td-inputReAmountEdit",function(e){
         let firstAmount;
         let reAmount;
         let allAmount;
+        let allAmountSabit=0;
         let newAllAmount;
         let jozeAmount;
         let packAmount;
         let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
+        allAmountSabit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(1)').find('input:radio')).val().replace(/,/g, '');
         reAmount=parseInt($(e.target).val().replace(/,/g, ''));
         firstAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input')).val().replace(/,/g, '');
         allAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input')).val().replace(/,/g, '');
+        
+        
         jozeAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input')).val().replace(/,/g, '');
         packAmount=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input')).val().replace(/,/g, '');
-        newAllAmount=allAmount-reAmount
-        firstAmount=allAmount;
+        newAllAmount=allAmountSabit-reAmount;
+        firstAmount=allAmountSabit;
         packAmount=parseInt(newAllAmount/amountUnit);
         jozeAmount=parseInt(newAllAmount%amountUnit);
 
@@ -497,19 +523,12 @@ $(document).on("keyup",".td-inputAllPriceEdit",function(e){
     packAmount=parseInt(allAmountUnit/amountUnit)
     subPackUnitAmount=allAmountUnit%amountUnit;
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(parseInt(subPackUnitAmount).toLocaleString("en-us"))
-    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').valparseInt((packAmount).toLocaleString("en-us"))
+    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val(parseInt(packAmount).toLocaleString("en-us"))
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
-    $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
-    if(e.keyCode==9 || e.keyCode==13){
-        var $currentInput = $(e.target);
-        var $nextInput = $currentInput.closest('td').next('td').find('input');
-        
-        if ($nextInput.length > 0) {
-        $nextInput.focus();
-        }
-    }
+    //$('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
+    
     if(e.keyCode ==13 || e.keyCode ==9){
         var $currentInput = $(e.target);
         var $nextInput = $currentInput.closest('td').next('td').find('input');
