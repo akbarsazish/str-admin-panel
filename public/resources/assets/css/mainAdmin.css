@@ -6563,36 +6563,41 @@ span.footerbasket {
     font-size: 14px;
     width: 100% !important;
 }
+
 .factorTablRow{
-    display:table-row!important;
+    display:table-row !important;
     
 }
 .factorTableHeadTr{
     display:table-row!important;
     position: sticky;
-                        top: 0;
-                        z-index: 2;
-                        background-color: #f0f0f0
+    top: 0;
+    z-index: 2;
+    background-color: #f0f0f0
 }
 .factorTableBody{
     width:100%;
     max-height: 233px !important;
     overflow-y: scroll;
 }
+
 .factorTable{
     font-size: 14px!important;
-    height:337px !important;display: block!important;
-                overflow-x: auto!important;
-                white-space: nowrap!important;
-                overflow-y: scroll !important;
+    height:337px !important;
+    display: block!important;
+    overflow-x: auto!important;
+    white-space: nowrap!important;
+    overflow-y: scroll !important;
 }
+
 .factorBargiriTable{
     font-size: 14px!important;
     height:190px !important;display: block!important;
-                overflow-x: auto!important;
-                white-space: nowrap!important;
-                overflow-y: scroll !important; 
+    overflow-x: auto!important;
+    white-space: nowrap!important;
+    overflow-y: scroll !important; 
 }
+
 .tableBodyTwo {
     height: calc((100vh - 292px) / 2) !important;
     overflow-y: scroll !important;
