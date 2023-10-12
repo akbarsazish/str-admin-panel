@@ -542,6 +542,105 @@ class Factor extends Controller{
      return Response::json($factors);
     }
     function doEditFactor(Request $request) {
+       $factNoEdit=$request->input("FactNoEdit");
+       $serialNoHDS=$request->input("SerialNoHDSEdit");
+       $psnEdit=$request->input("psnEdit");
+       $stockEdit=$request->input("stockEdit");
+       $factDateEdit=$request->input("FactDateEdit");
+       $pCodeEdit=$request->input("pCodeEdit");
+       $nameEdit=$request->input("NameEdit");
+       $bazaryabCodeEdit=$request->input("bazaryabCodeEdit");
+       $bazaryabNameEdit=$request->input("bazaryabNameEdit");
+       $motafariqahNameEdit=$request->input("MotafariqahNameEdit");
+       $motafariqahAddressEdit=$request->input("MotafariqahAddressEdit");
+       $factDescEdit=$request->input("ّFactDescEdit");
+       $tahvilTypeEdit=$request->input("TahvilTypeEdit");
+       $sendTimeEdit=$request->input("SendTimeEdit");
+       $editableGoods=$request->input("editableGoods");//arrays
+       $netPriceHDS=0;
+       DB::delete("DELETE FROM Shop.dbo.FactorBYS WHERE SnFact=$serialNoHDS AND SnGood not in( ".implode(",",$editableGoods).")");
+       
+       foreach ($editableGoods as $goodSn) {
+            $nameGood=$request->input("NameGood".$goodSn);
+            $firstUnit=$request->input("FirstUnit".$goodSn);
+            $secondUnit=$request->input("SecondUnit".$goodSn);
+            $packAmnt=str_replace(",", "",$request->input("PackAmnt".$goodSn));
+            $jozeAmountEdit=str_replace(",", "",$request->input("JozeAmountEdit".$goodSn));
+            $firstAmount=str_replace(",", "",$request->input("FirstAmount".$goodSn));
+            $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
+            $amount=str_replace(",", "",$request->input("Amount".$goodSn));
+            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
+            $price=str_replace(",", "",$request->input("Price".$goodSn));
+            $priceAfterTakhfif=str_replace(",", "",$request->input("PriceAfterTakhfif".$goodSn));
+            $nameStock=$request->input("NameStock".$goodSn);
+            $price3PercentMaliat=str_replace(",", "",$request->input("Price3PercentMaliat".$goodSn));
+            $fi2Weight=str_replace(",", "",$request->input("Fi2Weight".$goodSn));
+            $amount2Weight=str_replace(",", "",$request->input("Amount2Weight".$goodSn));
+            $service=str_replace(",", "",$request->input("Service".$goodSn));
+            $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
+            $packType=0;
+            $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
+            if(count($packTypes)>0){
+                $packType=$packTypes[0]->SnGoodUnit;
+            }else{
+                $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
+                $packType=$defaultUnits[0]->DefaultUnit;
+            }
+            $netPriceHDS+=$price;
+
+            //check if it is updateable
+            $countEditable=DB::table("Shop.dbo.FactorBYS")->where("SnFact",$serialNoHDS)->where("SnGood",$goodSn)->count();
+            if($countEditable>0){
+                DB::table('Shop.dbo.FactorBYS')->where("SnGood",$goodSn)->where("SnFact",$serialNoHDS)->update([
+                                                                "PackType"=>$packType
+                                                                ,"PackAmnt"=>$packAmnt
+                                                                ,"Amount"=>$amount
+                                                                ,"Fi"=>$fi
+                                                                ,"Price"=>$price
+                                                                ,"SnOrderDetail"=>0
+                                                                ,"FiPack"=>$fiPack
+                                                                ,"SnStockBYS"=>23
+                                                                ,"Price3PercentMaliat"=>$percentMaliat
+                                                                ,"PriceAfterAmel"=>$price
+                                                                ,"FiAfterAmel"=>$fi
+                                                                ,"Amount2Weight"=>$amount2Weight
+                                                                ,"Fi2Weight"=>$fi2Weight
+                                                                ,"PriceAfterTakhfif"=>$price
+                                                                ,"RealFi"=>$fi
+                                                                ,"RealPrice"=>$price
+                                                                ,"FirstAmout"=>$firstAmount
+                                                                ,"ReAmount"=>$reAmount]);
+            }
+            //check if it is insertable
+
+            if($countEditable==0){
+                DB::table('Shop.dbo.FactorBYS')->insert([
+                    "CompanyNo"=>5
+                    ,"SnFact"=>$serialNoHDS
+                    ,"SnGood"=>$goodSn
+                    ,"PackType"=>$packType
+                    ,"PackAmnt"=>$packAmnt
+                    ,"Amount"=>$amount
+                    ,"Fi"=>$fi
+                    ,"Price"=>$price
+                    ,"SnOrderDetail"=>0
+                    ,"FiPack"=>$fiPack
+                    ,"SnStockBYS"=>23
+                    ,"Price3PercentMaliat"=>$percentMaliat
+                    ,"PriceAfterAmel"=>$price
+                    ,"FiAfterAmel"=>$fi
+                    ,"Amount2Weight"=>$amount2Weight
+                    ,"Fi2Weight"=>$fi2Weight
+                    ,"PriceAfterTakhfif"=>$price
+                    ,"RealFi"=>$fi
+                    ,"RealPrice"=>$price
+                    ,"FirstAmout"=>$firstAmount
+                    ,"ReAmount"=>$reAmount]
+                );
+            }
+        }
+        DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["NetPriceHDS"=>$netPriceHDS]);
         return Response::json($request->all());
     }
 

@@ -7224,6 +7224,11 @@ table thead {
     border: 0;
     border-radius: 0px!important;
 }
+.td-inputFactEdit{
+    padding: 0;
+    border: 0;
+    border-radius: 0px!important;
+}
 .td-part-input{
     padding: 0px!important;
 }

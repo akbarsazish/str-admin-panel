@@ -299,6 +299,7 @@ $(document).on("keyup",".td-inputCodeName", (e)=>{
         });
     }else{
         if(e.keyCode ==13 || e.keyCode ==9){
+            alert(e.keyCode)
             var $currentInput = $(e.target);
             var $nextInput = $currentInput.closest('td').next('td').find('input');
             if ($nextInput.length > 0) {
@@ -831,6 +832,9 @@ function setAddedTosefarishKalaStuff(element,goodSn){
         $("tr").removeClass('selected');
     }
  $("#selectKalaToSefarishBtn").val(goodSn)
+ if($("#selectKalaToFactorBtn")){
+    $("#selectKalaToFactorBtn").val(goodSn)
+ }
  let customerSn=$("#customerForSefarishId").val();
  $.ajax({
     method: 'get',
@@ -937,7 +941,6 @@ $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
 
 
 $(document).on("keyup",".td-inputDescription",(e)=>{
-
     if((e.keyCode === 9 ||e.keyCode === 13)  && ($(e.target).parents("tr").index()+1)==$("#addsefarishtbl tr").length && ($('#addsefarishtbl tr:nth-child('+($(e.target).parents("tr").index()+1)+') td:nth-child(2)').children('input').val().length)>0){
             let row=`<tr onclick="checkAddedKalaToSefarishAmount(this)">
                         <td style="width:30px!important;">`+($(e.target).parents("tr").index()+2)+`</td>
@@ -1061,7 +1064,6 @@ $(document).on("keyup",".td-inputEachFirstUnitAmount", (e)=>{
         $nextInput.focus();
         }
     }
-
 });
 
 $(document).on("keydown",".td-inputFirstUnitPrice", (e)=>{
