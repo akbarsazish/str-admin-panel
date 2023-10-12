@@ -35,7 +35,7 @@
             <fieldset class="border rounded mt-4 sidefieldSet">
                 <legend  class="float-none w-auto legendLabel mb-0">انتخاب</legend>
                     @if(hasPermission(Session::get("adminId"),"orderSalesN") > 1)
-                    <button type="button" class="btn btn-success btn-sm topButton" onclick="openBargiriModal()">بارگیری فاکتور ها<i class="fa fa-send"></i> </button>
+                    <button type="button" class="btn btn-success btn-sm topButton text-warning" onclick="openBargiriModal()">بارگیری فاکتور ها<i class="fa fa-send"></i> </button>
                     {{-- <button type="button" class="btn btn-success btn-sm topButton" disabled data-toggle="modal" data-target="#orderReport">  گزارش سفارش   &nbsp; <i class="fa fa-list"></i> </button> --}}
                     @endif
                     <span class="situation">
@@ -155,7 +155,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success btn-sm topButton"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                            <button type="submit" class="btn btn-success btn-sm topButton text-warning"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
                         </form>
                         </fieldset>
                     </span>
@@ -261,10 +261,10 @@
             </div>
             <div class="row contentFooter">
                 <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success" value="TODAY">امروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success" value="YESTERDAY">دیروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success" value="HUNDRED">صد تای آخر</button>
-                    <button class="sefOrderBtn btn btn-sm btn-success" value="ALL">همه</button>
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="TODAY">امروز</button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="YESTERDAY">دیروز</button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="HUNDRED">صد تای آخر</button>
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="ALL">همه</button>
                 </div>
             </div>
         </div>
@@ -284,18 +284,18 @@
                 <div class="col-md-2">
                     <div class="row" style="height: 40vh">
                         <div>
-                        <button class="btn btn-sm btn-success"> نمایش کالاهای برگشتی </button>
+                        <button class="btn btn-sm btn-success text-warning"> نمایش کالاهای برگشتی </button>
                         </div>
                     </div>
                     <div class="row" style="height: 40vh">
                         <div>
-                        <button onclick="addFactorToBargiri()" class="btn btn-sm btn-success mb-2"> افزودن <i class="fa fa-add"></i></button>
-                        <button disabled onclick="editFactorsOfBargiri(this.value)" id="editDriverFactorBtn" class="btn btn-sm btn-success mb-2"> اصلاح <i class="fa fa-edit"></i></button>
-                        <button disabled onclick="deleteFactorsOfBargiri(this.value)" class="btn btn-sm btn-success mb-2" id="deletDriverFactorBtn"> حذف <i class="fa fa-trash"></i></button>
-                        <button class="btn btn-sm btn-success mb-2" style="width:200px;"> چاپ لیست فاکتورها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2" style="width:200px;"> چاپ لیست کالاها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2" style="width:200px;"> چاپ تکی فاکتورها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2" style="width:200px;"> چاپ هرسه مورد بالا <i class="fa fa-print"></i></button>
+                        <button onclick="addFactorToBargiri()" class="btn btn-sm btn-success mb-2 text-warning"> افزودن <i class="fa fa-add"></i></button>
+                        <button disabled onclick="editFactorsOfBargiri(this.value)" id="editDriverFactorBtn" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح <i class="fa fa-edit"></i></button>
+                        <button disabled onclick="deleteFactorsOfBargiri(this.value)" class="btn btn-sm btn-success mb-2 text-warning" id="deletDriverFactorBtn"> حذف <i class="fa fa-trash"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ لیست فاکتورها <i class="fa fa-print"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ لیست کالاها <i class="fa fa-print"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ تکی فاکتورها <i class="fa fa-print"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ هرسه مورد بالا <i class="fa fa-print"></i></button>
                         </div>
                     </div>
                 </div>
@@ -382,7 +382,7 @@
     </div>
   </div>
   <div class="modal" tabindex="1" id="addFactorToBargiriModal">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header bg-info">
           <button type="button" class="btn-close btn-danger" data-dismiss="modal" aria-label="Close"></button>
@@ -410,7 +410,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div><button type="button" class="btn btn-success btn-sm mb-1" onclick="searchFactorForAddToBargiri()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
+                                <div><button type="button" class="btn btn-success btn-sm mb-1 text-warning" onclick="searchFactorForAddToBargiri()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
+                                {{-- <div><button class="btn btn-sm btn-success text-warning" type="button" id="addModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور <i class="fa fa-edit"></i></button></div> --}}
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  شماره ماشین </span>
                                     <input type="text" name="MashinNo" class="form-control form-control-sm"  placeholder="شماره ماشین ">
@@ -423,7 +424,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <div><button class="btn btn-sm btn-success" type="button" id="addModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور </button></div>
+                                
                             </div>
                             <div class="col-6">
 
@@ -436,8 +437,8 @@
                             </div>
                             <div class="col-md-9">
                                 <div>
-                                    <button type="submit" class="btn btn-success btn-sm mb-1"> ثبت <i class="fa fa-save"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm mb-1" onclick="cancelAddingFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i></button>
+                                    <button type="submit" class="btn btn-success btn-sm mb-1 text-warning"> ثبت <i class="fa fa-save"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm mb-1 text-warning" onclick="cancelAddingFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i></button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> حساب بانکی واریز به حساب </span>
@@ -493,7 +494,7 @@
 </div>
 
 <div class="modal" tabindex="1" id="editFactorsOfBargiriModal">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-info">
                 <h5 class="modal-title">بارگیری</h5>
@@ -525,7 +526,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div><button class="btn btn-success btn-sm mb-1" type="button" onclick="searchFactorForAddToBargiriEdit()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
+                                        <div><button class="btn btn-success btn-sm mb-1 text-warning" type="button" onclick="searchFactorForAddToBargiriEdit()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
+                                        <div><button class="btn btn-sm btn-success text-warning" type="button" id="editModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور <i class="fa fa-edit"></i></button></div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
                                             <span class="input-group-text">  شماره ماشین </span>
                                             <input type="text" name="MashinNo" class="form-control form-control-sm" id="mashinNoEdit" placeholder="شماره ماشین ">
@@ -538,7 +540,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
-                                        <div><button class="btn btn-sm btn-success" type="button" id="editModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور </button></div>
+                                        
                                     </div>
                                     <div class="col-6">
 
@@ -551,8 +553,8 @@
                                     </div>
                                     <div class="col-md-9">
                                         <div>
-                                            <button disabled type="submit" id="bargiriFactorsEditBtn" class="btn btn-success btn-sm mb-1"> ثبت <i class="fa fa-save"></i></button>
-                                            <button onclick="cancelBargiriFactorEdit()" type="button" class="btn btn-danger btn-sm mb-1"> انصراف <i class="fa fa-cancel"></i></button>
+                                            <button disabled type="submit" id="bargiriFactorsEditBtn" class="btn btn-success btn-sm mb-1 text-warning"> ثبت <i class="fa fa-save"></i></button>
+                                            <button onclick="cancelBargiriFactorEdit()" type="button" class="btn btn-danger btn-sm mb-1 text-warning"> انصراف <i class="fa fa-cancel"></i></button>
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
                                             <span class="input-group-text"> حساب بانکی واریز به حساب </span>
@@ -626,8 +628,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div>
-                                    <button class="btn btn-sm btn-success mb-1" onclick="addSelectFactorsToBargiri()"> انتخاب <i class="fa fa-select"></i> </button>
-                                    <button class="btn btn-sm btn-danger mb-1" onclick="cancelAddingSearchedFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i> </button>
+                                    <button class="btn btn-sm btn-success mb-1 text-warning" onclick="addSelectFactorsToBargiri()"> انتخاب <i class="fa fa-select"></i> </button>
+                                    <button class="btn btn-sm btn-danger mb-1 text-warning" onclick="cancelAddingSearchedFactorToBargiri()"> انصراف <i class="fa fa-cancel"></i> </button>
                                 </div>
                             </div>
                         </div>
@@ -700,8 +702,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <button class="btn btn-sm btn-success mb-1" onclick="addSelectFactorsToBargiriEdit()"> انتخاب <i class="fa fa-select"></i> </button>
-                                        <button class="btn btn-sm btn-danger mb-1" onclick="cancelAddingSearchedFactorToBargiriEdit()"> انصراف <i class="fa fa-cancel"></i> </button>
+                                        <button class="btn btn-sm btn-success mb-1 text-warning" onclick="addSelectFactorsToBargiriEdit()"> انتخاب <i class="fa fa-select"></i> </button>
+                                        <button class="btn btn-sm btn-danger mb-1 text-warning" onclick="cancelAddingSearchedFactorToBargiriEdit()"> انصراف <i class="fa fa-cancel"></i> </button>
                                     </div>
                                 </div>
                             </div>
@@ -757,7 +759,7 @@
 </div>
 <div class="modal" id="editFactorModal" tabindex="1">
     <input type="hiden" id="rowTaker">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-info" >
                 <h5 class="modal-title"> اصلاح فاکتور </h5>
@@ -794,13 +796,13 @@
                                     <span class="input-group-text" > خریدار </span>
                                     <input type="text" class="form-control" name="pCodeEdit" id="pCodeEdit">
                                     <input type="text" class="form-control" name="NameEdit" id="NameEdit">
-                                    <button type="button" class="btn btn-info">گردش حساب</button>
+                                    <button type="button" class="btn btn-info text-warning">گردش حساب</button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
                                     <input type="text" class="form-control" name="bazaryabCodeEdit" id="bazaryabCodeEdit">
                                     <input type="text" class="form-control" name="bazaryabNameEdit" id="bazaryabNameEdit">
-                                    <button  type="button" class="btn btn-info"> ... </button>
+                                    <button  type="button" class="btn btn-info text-warning"> ... </button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار متفرقه </span>
@@ -848,13 +850,13 @@
                             </div>
                             <div class="col-4">
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> گردش کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> گردش شخص </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> اصلاح کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> اصلاح شخص </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> ده خرید آخر </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> ده فروش آخر </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2"> سفارشات ارسال نشده </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -863,7 +865,7 @@
                                     <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-sm btn-success"> ثبت </button>
+                                    <button type="submit" class="btn btn-sm btn-success text-warning"> ثبت </button>
                                     <button type="button" onclick="cancelEditFactor()" class="btn btn-sm btn-danger"> انصراف </button>
                                 </div>
                                 <div>
@@ -1022,7 +1024,7 @@
             <div class="modal-body shadow">
                     <div class="row">
                         <div class="col-lg-4">
-                             <!-- <button type="button" class="btn btn-sm btn-success"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
+                             <!-- <button type="button" class="btn btn-sm btn-success text-warning"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
                              <div class="form-check mt-1">
                                  <label class="form-check-label mx-2" for="flexCheckDefault">
                                      نمایش موجودی انبار، قیمت فروش و قیمت خرید 
@@ -1043,9 +1045,9 @@
                                 <span class="description"> آخرین قیمت فروش :  <b id="AddLastPrice">0</b> </span>                      
                         </div>
                         <div class="col-lg-2 text-center ">
-                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success" id="selectKalaToFactorBtn"> انتخاب  <i class="fa fa-history"></i> </button> 
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success text-warning" id="selectKalaToFactorBtn"> انتخاب  <i class="fa fa-history"></i> </button> 
                             <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-danger" data-dismiss="modal"> انصراف <i class="fa fa-xmark"></i> </button>
-                            <!-- <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success"> همه کالا ها   <i class="fa fa-save"></i></button>                         -->
+                            <!-- <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success text-warning"> همه کالا ها   <i class="fa fa-save"></i></button>                         -->
                         </div>
                     </div><hr>
 

@@ -102,11 +102,15 @@ function openEditFactorModal(snFactor){
         respond.factorInfo.forEach((element,index)=>{
             let firstAmount=0;
             let reAmount=0;
+            let packAmount=0;
             if(element.FirstAmout>0){
                 firstAmount=element.FirstAmout;
             }
             if(element.ReAmount>0){
                 reAmount=element.ReAmount;
+            }
+            if(element.PackAmnt>0){
+                packAmount=element.PackAmnt;
             }
             $("#factorEditListBody").append(`
                 <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
@@ -115,7 +119,7 @@ function openEditFactorModal(snFactor){
                     <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(element.PackAmnt).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountEdit form-control" required> </td>
@@ -333,7 +337,10 @@ $(document).on("keyup",".td-inputSecondUnitAmountEdit",function(e){
         $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
         $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
         $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(12)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
-        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(0);
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input').val(0);
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(9)').children('input').val(0);
+        //$('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
     }
 
     calculateNewOrderMoney();
@@ -407,11 +414,13 @@ $(document).on("keyup",".td-inputReAmountEdit",function(e){
         let rowindex=$(e.target).parents("tr").index()+1
         let firstAmount;
         let reAmount;
-        let allAmount;
+        let allPrice=0;
         let allAmountSabit=0;
         let newAllAmount;
         let jozeAmount;
         let packAmount;
+
+        let price=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(11)').children('input')).val().replace(/,/g, '');
         let amountUnit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(2)').find('input:radio')).val().replace(/,/g, '');
         allAmountSabit=$($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(1)').find('input:radio')).val().replace(/,/g, '');
         reAmount=parseInt($(e.target).val().replace(/,/g, ''));
@@ -426,9 +435,14 @@ $(document).on("keyup",".td-inputReAmountEdit",function(e){
         packAmount=parseInt(newAllAmount/amountUnit);
         jozeAmount=parseInt(newAllAmount%amountUnit);
 
+        allPrice=newAllAmount*price;
+
+
+
         $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(8)').children('input')).val(parseInt(firstAmount).toLocaleString("en-us"));
         $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input')).val(parseInt(newAllAmount).toLocaleString("en-us"));
         $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input')).val(parseInt(jozeAmount).toLocaleString("en-us"));
+        $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(13)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
         $($('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input')).val(parseInt(packAmount).toLocaleString("en-us"));
     }
     if(e.keyCode ==13 || e.keyCode ==9){
@@ -510,6 +524,7 @@ $(document).on("keyup",".td-inputAllPriceEdit",function(e){
     let allAmountUnit=allPrice/price;
     packAmount=parseInt(allAmountUnit/amountUnit)
     subPackUnitAmount=allAmountUnit%amountUnit;
+    let packPrice=amountUnit*price;
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val(parseInt(subPackUnitAmount).toLocaleString("en-us"))
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val(parseInt(packAmount).toLocaleString("en-us"))
     $('#factorEditListBody tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));

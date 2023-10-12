@@ -640,43 +640,6 @@ class Factor extends Controller{
                 );
             }
         }
-        // $addableGoods=$request->input("addableGoods");
-        // if($addableGoods){
-        //     foreach ($addableGoods as $goodSn) {
-        //         $goodName=$request->input("GoodName".$goodSn);
-        //         $firstUnit=$request->input("FirstUnit".$goodSn);
-        //         $secondUnit=$request->input("SecondUnit".$goodSn);
-        //         $secondUnitAmount=$request->input("SecondUnitAmount".$goodSn);
-        //         $jozeAmount=str_replace(",", "",$request->input("JozeAmount".$goodSn));
-        //         $firstAmount=$request->input("FirstAmount".$goodSn);
-        //         $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
-        //         $allAmount=str_replace(",", "",$request->input("AllAmount".$goodSn));
-        //         $fi=str_replace(",", "",$request->input("Fi".$goodSn));
-        //         $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
-        //         $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
-        //         $priceAfterTakhfif=str_replace(",", "",$request->input("AllPriceAfterTakhfif".$goodSn));
-        //         $sefarishNum=$request->input("SefarishNum".$goodSn);
-        //         $sefarishDate=$request->input("SefarishDate".$goodSn);
-        //         $sefarishDesc=$request->input("SefarishDesc".$goodSn);
-        //         $stockName=$request->input("StockName".$goodSn);
-        //         $priceMaliat=str_replace(",", "",$request->input("PriceMaliat".$goodSn));
-        //         $weight2Unit=str_replace(",", "",$request->input("Weight2Unit".$goodSn));
-        //         $weightAllUnit=str_replace(",", "",$request->input("WeightAllUnit".$goodSn));
-        //         $inservice=str_replace(",", "",$request->input("Inservice".$goodSn));
-        //         $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
-        //         $netPriceHDS+=$price;
-        //         $packType=0;
-        //         $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
-        //         if(count($packTypes)>0){
-        //             $packType=$packTypes[0]->SnGoodUnit;
-        //         }else{
-        //             $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
-        //             $packType=$defaultUnits[0]->DefaultUnit;
-        //         }
-
-        //     }
-        // }
-
         DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["NetPriceHDS"=>$netPriceHDS]);
         return Response::json($request->all());
     }
