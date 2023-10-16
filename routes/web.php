@@ -342,3 +342,4 @@ Route::get("/deleteBargiriHDS",[Bargiri::class,'deleteBargiriHDS'])->middleware(
 Route::get("/filterFactors",[Factor::class,'filterFactors'])->middleware('checkAdmin');
 Route::get("/getFactorInfoForEdit",[Factor::class,'getFactorInfoForEdit'])->middleware('checkAdmin');
 Route::get("/doEditFactor",[Factor::class,'doEditFactor'])->middleware('checkAdmin');
+Route::get("/getCustomerGardish",[Customer::class,'getCustomerGardish'])->middleware('checkAdmin');

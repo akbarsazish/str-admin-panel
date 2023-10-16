@@ -5602,7 +5602,8 @@ function filterAllKala() {
         searchKalaActiveOrNot: $("#searchKalaActiveOrNot").val(),
         searchKalaExistInStock: $("#searchKalaExistInStock").val(),
         assesFirstDate: $("#assesFirstDate").val(),
-        assesSecondDate: $("#assesSecondDate").val()
+        assesSecondDate: $("#assesSecondDate").val(),
+        settingProps:$("#SettingProps").val()
     }, function (data, status) {
         if (status == "success") {
             $('#kalaContainer').empty();
@@ -5613,8 +5614,8 @@ function filterAllKala() {
                 <td>` + element.GoodCde + `</td>
                 <td>` + element.firstGroupName + `</td>
                 <td>` + element.lastDate + `</td>
-                <td>no</td>
-                <td>` + element.hideKala + `</td>
+                <td> </td>
+                <td>${element.hideKala==0? "خیر":"بله" }</td>
                 <td>` + parseInt(element.Price4 / 10).toLocaleString("en-US") + `</td>
                 <td>` + parseInt(element.Price3 / 10).toLocaleString("en-US") + `</td>
                 <td>` + element.Amount + `</td>

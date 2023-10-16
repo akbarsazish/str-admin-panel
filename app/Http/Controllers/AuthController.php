@@ -46,7 +46,32 @@ public function register (Request $request){
     }
 }
 
+public function irregularLoginApi(Request $request) {
+    $validator = Validator::make($request->all(), [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+    if($validator->fails()){
+        return response()->json([
+            'validation_errors' =>$validator->messages(),
+        ]);
+    }else{
+        $role="jaliLogin";
+        $user = Star_CustomerPass::where('userName', $request->email)->where('customerPss',$request->password)->first();
+        $sessionKeyId= $user->createToken(trim($user->userName), [''])->plainTextToken;
+        $countBuy=DB::select("SELECT COUNT(SnOrderBYS) as countBuy FROM NewStarfood.dbo.orderStar  where exists(SELECT * FROM NewStarfood.dbo.FactorStar where SnOrder=SnHDS and OrderStatus=0 and CustomerSn=$user->customerId)");
+        return response()->json([
+            'status' =>200,
+            'username' =>$user->userName,
+            'token' =>$sessionKeyId,
+            'message' =>'شما موفقانه وارد سیستم شدید!!',
+            'psn' =>$user->customerId,
+            'countBuy'=>$countBuy,
+            'role'=>"jaliLogin"
+        ]);
+    }
 
+}
 
 public function login (Request $request){
 
@@ -76,7 +101,7 @@ public function login (Request $request){
                 $allowMobile=$mobile->manyMobile;
             }
 
-            $browserToken=$request->token;
+            $browserToken=$request->plainTextToken;
 
             if(strlen($browserToken)>5){
                 
@@ -112,7 +137,7 @@ public function login (Request $request){
                     foreach ($allowanceCountUser as $allowanceTedad) {
                         $allowedDevice=$allowanceTedad->manyMobile;
                     }
-                    $sessionKeyId= $user->createToken(trim($user->userName), [''])->token;
+                    $sessionKeyId= $user->createToken(trim($user->userName), [''])->plainTextToken;
 
                     $SnLastBuy;
                     $SnLastBuy=DB::table('factorStar')->where('orderStatus',0)->where('CustomerSn',$user->customerId)->get()->max('SnOrder');
@@ -145,7 +170,7 @@ public function login (Request $request){
 
 
                         if(count($alredyExistUser)>0){
-                            $token=$alredyExistUser[0]->token;
+                            $token=$alredyExistUser[0]->plainTextToken;
                         }else{
                             $token = $user->createToken(trim($user->userName), [''])->plainTextToken;
                         }
@@ -173,7 +198,7 @@ public function login (Request $request){
                             'message' =>'لطفا یکی از مرورگر ها را برای خروج انتخاب کنید!',
                             'psn' =>$user->customerId,
                             'countBuy'=>"",
-                            'role'=>""
+                            'role'=>$role
                         ]);
                     }
                 }else{
@@ -186,7 +211,7 @@ public function login (Request $request){
                         'message' =>$error,
                         'psn' =>"",
                         'countBuy'=>0,
-                        'role'=>""
+                        'role'=>$role
                     ]);
                 }
 
@@ -256,7 +281,7 @@ public function login (Request $request){
                             'message' =>'لطفا یکی از مرورگر ها را برای خروج انتخاب کنید!',
                             'psn' =>$user->customerId,
                             'countBuy'=>"",
-                            'role'=>""
+                            'role'=>$role
                         ]);
                     }
                 }else{
@@ -270,7 +295,7 @@ public function login (Request $request){
                         'message' =>$error,
                         'psn' =>"",
                         'countBuy'=>0,
-                        'role'=>""
+                        'role'=>$role
                     ]);
                 }
 

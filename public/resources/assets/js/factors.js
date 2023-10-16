@@ -91,6 +91,11 @@ function openEditFactorModal(snFactor){
         $("#ّFactDescEdit").val(respond.factorInfo[0].FactDesc);
         $("#MotafariqahNameEdit").val(respond.factorInfo[0].OtherCustName);
         $("#MotafariqahMobileEdit").val(respond.factorInfo[0].MobileOtherCust);
+        
+        if(respond.factorInfo[0].SnAmel==142){
+            $("#ّtakeKerayahEdit").prop("checked",true)
+        }
+        
         $("#sockEdit").empty()
         respond.stocks.forEach((element,index)=>{
             if(element.SnStock!= respond.factorInfo[0].SnStockIn){
@@ -126,7 +131,7 @@ function openEditFactorModal(snFactor){
                     <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputSefarishDateEdit form-control" required> </td>
@@ -143,6 +148,40 @@ function openEditFactorModal(snFactor){
     })
     $("#editFactorModal").modal("show");
 }
+
+$("#customerGardishBtn").on("click",function(e){
+    $("#customerGardishModal").modal("show");
+    $.get(baseUrl+"/getCustomerGardish",{psn:$("#customerForSefarishId").val()},function(respond,status){
+        $("#customerGardishListBody").empty();
+
+        respond.customerGardish.forEach((element,index)=>{
+            let bestankar=0;
+            let bedehkar=0;
+            let remain=0;
+            if(element.bestankar>0){
+                bestankar=element.bestankar;
+            }
+            if(element.bedehkar>0){
+                bedehkar=element.bedehkar;
+            }
+            if(element.remain!=0){
+                remain=element.remain;
+            }
+            $("#customerGardishListBody").append(`<tr class="factorTablRow">
+                                                    <td> ${element.DocDate} </td>
+                                                    <td> ${element.FactDesc} </td>
+                                                    <td> ${element.tasviyeh} </td>
+                                                    <td> ${parseInt(bestankar).toLocaleString("en-us")} </td>
+                                                    <td> ${parseInt(bedehkar).toLocaleString("en-us")} </td>
+                                                    <td> ${element.bdbsState==0 ? 0 : "--"} </td>
+                                                    <td> ${parseInt(remain).toLocaleString("en-us")} </td>
+                                                </tr>`);
+        });
+    })
+})
+$("#closeCustomerGardishModalBtn").on("click",function(){
+    $("#customerGardishModal").modal("hide");
+})
 
 $("#selectKalaToFactorBtn").on("click",function(){
     var rowCount = $("#factorEditListBody tr").length;

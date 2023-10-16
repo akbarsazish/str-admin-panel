@@ -2491,10 +2491,11 @@ public function getFavorite(Request $request)
         $kalaNameCode= $request->get("kalaNameCode");
         $mainGroup  = $request->get("mainGroup");
         $subGroup  = $request->get("subGroup");
-        $searchKalaStock  = $request->get("searchKalaStock");
+        $stockSn  = $request->get("searchKalaStock");
         $searchKalaActiveOrNot  = $request->get("searchKalaActiveOrNot");
         $searchKalaExistInStock  = $request->get("searchKalaExistInStock");
         $assesFirstDate  = $request->get("assesFirstDate");
+        $settingProps=$request->input("settingProps");
         $assesSecondDate='1490/01/01';
         if(strlen($request->get("assesSecondDate"))>3){
         $assesSecondDate  = $request->get("assesSecondDate");
@@ -2510,19 +2511,40 @@ public function getFavorite(Request $request)
         if($searchKalaExistInStock==-1){
             $existanceQuery=">=-2000";
         }
+        $settingPropQuery="";
 
-
-
+        switch ($settingProps) {
+            case '-1':
+                $settingPropQuery="";
+            break;
+            case '1':
+                $settingPropQuery="freeExistance=1 AND";
+                break;
+            case '2':
+                $settingPropQuery="hideKala=1 AND";
+                break;
+            case '3':
+                $settingPropQuery="activePishKharid=1 AND";
+                break;
+            case '4':
+                $settingPropQuery="callOnSale=1 AND";
+                break;
+            case '0':
+                $settingPropQuery="zeroExistance=1 AND";
+                break;
+        }
+        
         $listKala=DB::select("SELECT * FROM(
-            SELECT PubGoods.GoodName,PubGoods.GoodSn,CRM.dbo.getGoodPrice(GoodSn,'Price3') AS Price3,
-            CRM.dbo.getGoodPrice(GoodSn,'Price4') AS Price4,CRM.dbo.getGoodExistance(GoodSn,1402,$searchKalaStock) AS Amount
-            ,GoodCde,PubGoods.GoodGroupSn,PubGoods.CompanyNo,
-            FORMAT(CONVERT(DATE,CRM.dbo.getLastDateGoodSale(GoodSn)),'yyyy/MM/dd','fa-IR') AS lastDate,
-            CRM.dbo.getGoodHiddenState(GoodSn) AS hideKala,CRM.dbo.getGoodMainGroupStarfood(GoodSn) AS firstGroupName,CRM.dbo.getGoodSubGroupStarfood(GoodSn) AS secondGroupName,IsActive FROM Shop.dbo.PubGoods 
-            )a
-            WHERE GoodName!='' AND a.GoodSn!=0 AND GoodGroupSn >49 AND CompanyNo=5 AND (GoodName LIKE '%$kalaNameCode%' OR GoodCde LIKE '%$kalaNameCode%')
-            AND lastDate >='$assesFirstDate' AND lastDate <='$assesSecondDate' AND hideKala LIKE '%$searchKalaActiveOrNot%' AND Amount $existanceQuery AND firstGroupName LIKE N'%$mainGroup%' AND secondGroupName LIKE N'%$subGroup%' AND IsActive=1
-            ORDER BY Amount desc");
+                                SELECT r.activePishKharid,R.callOnSale,R.freeExistance,R.zeroExistance,r.hideKala, P.GoodName,P.GoodSn,CRM.dbo.getGoodPrice(GoodSn,'Price3') AS Price3,
+                                CRM.dbo.getGoodPrice(GoodSn,'Price4') AS Price4,CRM.dbo.getGoodExistance(GoodSn,1402,$stockSn) AS Amount
+                                ,GoodCde,P.GoodGroupSn,P.CompanyNo,
+                                FORMAT(CONVERT(DATE,CRM.dbo.getLastDateGoodSale(GoodSn)),'yyyy/MM/dd','fa-IR') AS lastDate,
+                                CRM.dbo.getGoodMainGroupStarfood(GoodSn) AS firstGroupName,CRM.dbo.getGoodSubGroupStarfood(GoodSn) AS secondGroupName,IsActive FROM Shop.dbo.PubGoods P
+                                JOIN NewStarfood.dbo.star_GoodsSaleRestriction R on P.GoodSn=R.productId
+                                )a
+                                WHERE $settingPropQuery GoodName!='' AND a.GoodSn!=0 AND GoodGroupSn >49 AND CompanyNo=5 AND (GoodName LIKE '%$kalaNameCode%' OR GoodCde LIKE '%$kalaNameCode%')
+                                AND lastDate >='$assesFirstDate' AND lastDate <='$assesSecondDate' AND hideKala LIKE '%$searchKalaActiveOrNot%' AND Amount $existanceQuery AND firstGroupName LIKE N'%$mainGroup%' AND secondGroupName LIKE N'%$subGroup%' AND IsActive=1
+                                ORDER BY Amount desc");
         return Response::json($listKala);
     }
 

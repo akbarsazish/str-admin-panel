@@ -136,6 +136,19 @@
                         </div>
                         <div class="col-sm-12 listkalarStaff">
                             <div class="input-group input-group-sm mt-1">
+                                <span class="input-group-text" id="inputGroup-sizing-sm"> تنظیم شده </span>
+                                <select class="form-select form-select-sm" id="SettingProps">
+                                    <option value="-1"> همه </option>
+                                    <option value="0"> صفر شده </option>
+                                    <option value="2">  غیر فعال </option>
+                                    <option value="1"> آزادگذاری فروش </option>
+                                    <option value="4"> تماس برای خرید  </option>
+                                    <option value="3"> پیش خرید </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 listkalarStaff">
+                            <div class="input-group input-group-sm mt-1">
                                 <span class="input-group-text" id="inputGroup-sizing-sm"> از تاریخ خرید </span>
                                 <input type="text" class="form-control" id="assesFirstDate">
                             </div>
