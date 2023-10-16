@@ -343,3 +343,4 @@ Route::get("/filterFactors",[Factor::class,'filterFactors'])->middleware('checkA
 Route::get("/getFactorInfoForEdit",[Factor::class,'getFactorInfoForEdit'])->middleware('checkAdmin');
 Route::get("/doEditFactor",[Factor::class,'doEditFactor'])->middleware('checkAdmin');
 Route::get("/getCustomerGardish",[Customer::class,'getCustomerGardish'])->middleware('checkAdmin');
+Route::get("/getGardishKala",[Kala::class,'getGardishKala'])->middleware('checkAdmin');

@@ -3275,6 +3275,24 @@ public function buySomethingApi(Request $request) {
         return Response::json($kala);
     }
 
+    public function getGardishKala(Request $request) {
+        $productId=$request->input("goodSn");
+        $gardishKala=DB::select("WITH ordered_data AS (
+            SELECT * FROM(
+                SELECT 'موجودی اول دوره' DescRec,0 Fi,'' username,'' as TimeStamp, 0 SerialNoHDS,0 SerialNoBYS,0 Amount,'' FactDate,0 FactNo,$productId SnGood,1402 FiscalYear,23 SnStockIn,'' Name,'' PackAmount ,0 FactType,Shop.dbo.FuncGoodExistInStock(5,$productId,1399,23) import,0 export union
+                SELECT ' فروش ' DescRec,B.Fi,Shop.dbo.FuncUserName(SnUser1) username,F.timestamp TimeStamp, SerialNoHDS,B.SerialNoBys SerialNoBYS,Amount Amount,FactDate,FactNo,SnGood,F.FiscalYear,SnStockIn,CRM.dbo.getCustomerName(CustomerSn)Name,concat(cast (PackAmnt as int),' '+NewStarfood.dbo.getSecondUnit(SnGood))PackAmount ,FactType,0 import,Amount export FROM Shop.dbo.FactorHDS F join Shop.dbo.FactorBYS B on F.SerialNoHDS=B.SnFact where FactType=3 union 
+                SELECT ' خرید ' DescRec,B.Fi,Shop.dbo.FuncUserName(SnUser1) username,F.timestamp TimeStamp, SerialNoHDS,B.SerialNoBys SerialNoBYS,Amount Amount,FactDate,FactNo,SnGood,F.FiscalYear,SnStockIn,CRM.dbo.getCustomerName(CustomerSn)Name,concat(cast (PackAmnt as int),' '+NewStarfood.dbo.getSecondUnit(SnGood))PackAmount ,FactType,Amount import,0 export FROM Shop.dbo.FactorHDS F join Shop.dbo.FactorBYS B on F.SerialNoHDS=B.SnFact where FactType=1 union 
+                SELECT ' برگشت از فروش ' DescRec,B.Fi,Shop.dbo.FuncUserName(SnUser1) username,F.timestamp TimeStamp, SerialNoHDS,B.SerialNoBys SerialNoBYS,Amount Amount,FactDate,FactNo,SnGood,F.FiscalYear,SnStockIn,CRM.dbo.getCustomerName(CustomerSn)Name,concat(cast (Amount/NewStarfood.dbo.getSecondUnitAmount(SnGood) as int),' '+NewStarfood.dbo.getSecondUnit(SnGood))PackAmount ,FactType,Amount import,0 export  FROM Shop.dbo.FactorHDS F join Shop.dbo.FactorBYS B on F.SerialNoHDS=B.SnFact where FactType=4
+            )a
+            WHERE a.SnGood=$productId and FiscalYear=1402
+        )
+        SELECT FactDate,DescRec,FactNo,import,export,iif(FactType=0,NewStarfood.dbo.setExistanceAmount($productId),iif(FactType=3,NewStarfood.dbo.getExistanceAmount($productId,export),iif(FactType=1 or FactType=4,NewStarfood.dbo.addExistanceAmount($productId,import),NewStarfood.dbo.getExistanceAmount($productId,export)))) Exist,SnStockIn,Name,PackAmount,Fi,username,TimeStamp,SerialNoBYS,SerialNoHDS FROM(
+            SELECT * FROM ordered_data AS B
+        )a  order by FactDate asc");
+        return Response::json(['kalaGardish'=>$gardishKala]);
+        
+    }
+
 
 }
 

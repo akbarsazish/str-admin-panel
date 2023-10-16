@@ -856,7 +856,7 @@
                             </div>
                             <div class="col-4">
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning" id="openKalaGardishButton"> گردش کالا </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button>
@@ -1078,39 +1078,77 @@
 </div>
 <div class="modal" tabindex="-1" id="customerGardishModal">
     <div class="modal-dialog  modal-xl">
-      <div class="modal-content">
-        <div class="modal-header bg-info">
-          <h5 class="modal-title"> گردش مشتری </h5>
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title"> گردش مشتری </h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-end"><button class="btn btn-sm btn-danger m-2" id="closeCustomerGardishModalBtn">بستن <i class="fa fa-times"></i></button></div>
+                <table class="table table-striped table-bordered table-sm factorTable">
+                    <thead>
+                        <tr  class="bg-success factorTableHeadTr">
+                            <th> تاریخ </th>
+                            <th> شرح عملیات </th>
+                            <th> تسویه با </th>
+                            <th> بستانکار </th>
+                            <th> بدهکار </th>
+                            <th> وضعیت </th>
+                            <th> مانده </th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerGardishListBody">
+                        <tr>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+            </div>
         </div>
-        <div class="modal-body">
-            <div class="text-end"><button class="btn btn-sm btn-danger m-2" id="closeCustomerGardishModalBtn">بستن <i class="fa fa-times"></i></button></div>
-        <table class="table table-striped table-bordered table-sm factorTable">
-            <thead>
-                <tr  class="bg-success factorTableHeadTr">
-                    <th> تاریخ </th>
-                    <th> شرح عملیات </th>
-                    <th> تسویه با </th>
-                    <th> بستانکار </th>
-                    <th> بدهکار </th>
-                    <th> وضعیت </th>
-                    <th> مانده </th>
-                </tr>
-            </thead>
-            <tbody id="customerGardishListBody">
-                <tr>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                    <td>  </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="modal-footer">
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+</div>
+
+<div class="modal" tabindex="-1" id="kalaGardishModal">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title"> گردش کالا </h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-end"><button class="btn btn-sm btn-danger m-2" id="closeKalaGardishModalBtn">بستن <i class="fa fa-times"></i></button></div>
+                <table class="table table-striped table-bordered table-sm factorTable">
+                    <thead>
+                        <tr  class="bg-success factorTableHeadTr">
+                            <th> ردیف </th>
+                            <th> تاریخ </th>
+                            <th> شرح </th>
+                            <th> شماره </th>
+                            <th> صادره </th>
+                            <th> وارده </th>
+                            <th> موجودی </th>
+                            <th> انبار </th>
+                            <th> نام طرف حساب </th>
+                            <th> بسته بندی </th>
+                            <th> نرخ خرید/فروش </th>
+                            <th> کاربر </th>
+                            <th> زمان ثبت </th>
+                            <th> SerialNoBYS </th>
+                            <th> SerialNoHDS </th>
+                        </tr>
+                    </thead>
+                    <tbody id="kalaGardishListBody">
+                    </tbody>
+                </table>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

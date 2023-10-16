@@ -183,6 +183,35 @@ $("#closeCustomerGardishModalBtn").on("click",function(){
     $("#customerGardishModal").modal("hide");
 })
 
+$("#openKalaGardishButton").on("click",function(e){
+    $("#kalaGardishModal").modal("show");
+    $.get(baseUrl+"/getGardishKala",{goodSn:$("#openKalaGardishButton").val()},function(respond,status){
+        $("#kalaGardishListBody").empty();
+
+        respond.kalaGardish.forEach((element,index)=>{
+            $("#kalaGardishListBody").append(`
+            <tr  class="factorTablRow">
+                <td> ${index+1} </td>
+                <td> ${element.FactDate} </td>
+                <td> ${element.DescRec} </td>
+                <td> ${element.FactNo} </td>
+                <td> ${element.export} </td>
+                <td> ${element.import} </td>
+                <td> ${element.Exist} </td>
+                <td> ${element.SnStockIn} </td>
+                <td> ${element.Name} </td>
+                <td> ${element.PackAmount} </td>
+                <td> ${element.Fi} </td>
+                <td> ${element.username} </td>
+                <td> ${element.TimeStamp} </td>
+                <td> ${element.SerialNoBYS} </td>
+                <td> ${element.SerialNoHDS} </td>
+        </tr>
+        `);
+        });
+    })
+})
+
 $("#selectKalaToFactorBtn").on("click",function(){
     var rowCount = $("#factorEditListBody tr").length;
     let allMoney=0;
@@ -711,6 +740,7 @@ if(e.keyCode===9 || e.keyCode===13){
 function checkAddedKalaAmountOfFactor(row){
     let input = $(row).find('input:checkbox');
     let goodSn=$(input).val();
+    $("#openKalaGardishButton").val(goodSn);
     if(!goodSn){
         return
     }
