@@ -1864,7 +1864,7 @@ public function getInviteCodeApi(Request $request){
         return Response::json($customers);
     }
 
-    function getCustomerGardish(Request $request) {
+    public function getCustomerGardish(Request $request) {
         $psn=$request->input("psn");
         $customerGardish=DB::select("SELECT * FROM(
             SELECT DocDate,PeopelHDS,SnFactForTasviyeh,FiscalYear,'دریافت شماره'+cast (DocNoHDS AS varchar)++' ('+DocDescHDS+')' as FactDesc,'' tasviyeh,NetPriceHDS bestankar,0 bedehkar,1 state,iif(NewStarfood.dbo.getRemainedMoney(PeopelHDS,SnFactForTasviyeh)>0,1,0) bdbsState,NewStarfood.dbo.[getRemainedPayedMoney](PeopelHDS,SnFactForTasviyeh) remain from Shop.dbo.GetAndPayHDS union
@@ -1873,6 +1873,5 @@ public function getInviteCodeApi(Request $request){
             ");
         return response()->json(['customerGardish'=>$customerGardish]);
     }
-
-
+    
     }

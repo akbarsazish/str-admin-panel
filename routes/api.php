@@ -72,3 +72,4 @@ Route::get("/getHomeParts",[Home::class,"getHomeParts"]);
 Route::get("/addToBasketFromHomePageApi",[Basket::class,"addToBasketFromHomePageApi"]);
 Route::get("/updateBasketItemFromHomePage",[Basket::class,"updateBasketItemFromHomePage"]);
 Route::get("/irregularLoginApi",[AuthController::class,"irregularLoginApi"]);
+Route::get("/getAllMainGroupBranches",[Group::class,"getAllMainGroupBranches"]);

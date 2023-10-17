@@ -149,7 +149,7 @@ function openEditFactorModal(snFactor){
     $("#editFactorModal").modal("show");
 }
 
-$("#customerGardishBtn").on("click",function(e){
+function openCustomerGardishModal(){
     $("#customerGardishModal").modal("show");
     $.get(baseUrl+"/getCustomerGardish",{psn:$("#customerForSefarishId").val()},function(respond,status){
         $("#customerGardishListBody").empty();
@@ -178,7 +178,8 @@ $("#customerGardishBtn").on("click",function(e){
                                                 </tr>`);
         });
     })
-})
+}
+
 $("#closeCustomerGardishModalBtn").on("click",function(){
     $("#customerGardishModal").modal("hide");
 })
@@ -189,19 +190,31 @@ $("#openKalaGardishButton").on("click",function(e){
         $("#kalaGardishListBody").empty();
 
         respond.kalaGardish.forEach((element,index)=>{
+            let exported=0;
+            let imported=0;
+            let fi=0;
+            if(element.export>0){
+                exported=element.export;
+            }
+            if(element.import>0){
+                imported=element.import;
+            }
+            if(element.Fi>0){
+                fi=element.Fi;
+            }
             $("#kalaGardishListBody").append(`
             <tr  class="factorTablRow">
                 <td> ${index+1} </td>
                 <td> ${element.FactDate} </td>
                 <td> ${element.DescRec} </td>
                 <td> ${element.FactNo} </td>
-                <td> ${element.export} </td>
-                <td> ${element.import} </td>
+                <td> ${parseFloat(exported).toLocaleString("en-us")} </td>
+                <td> ${parseFloat(imported).toLocaleString("en-us")} </td>
                 <td> ${element.Exist} </td>
                 <td> ${element.SnStockIn} </td>
                 <td> ${element.Name} </td>
                 <td> ${element.PackAmount} </td>
-                <td> ${element.Fi} </td>
+                <td> ${parseInt(fi).toLocaleString("en-us")} </td>
                 <td> ${element.username} </td>
                 <td> ${element.TimeStamp} </td>
                 <td> ${element.SerialNoBYS} </td>
@@ -209,8 +222,97 @@ $("#openKalaGardishButton").on("click",function(e){
         </tr>
         `);
         });
+        $("#kalaGardishListBody").append(`
+                                            <tr  class="factorTablRow">
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td> مجموع خروج </td>
+                                                <td> مجموع ورود </td>
+                                                <td> موجودی نهایی </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                            </tr>`);
     })
+
 })
+
+$("#closeKalaGardishModalBtn").on("click",function(){
+    $("#kalaGardishModal").modal("hide");
+})
+
+function openLastTenBuysModal(){
+    $("#lastTenBuysModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#lastTenBuysListBody").empty();
+    $.get(baseUrl+"/getlastTenBuys",{kalaId:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#lastTenBuysListBody").append(`<tr class="factorTablRow">
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                            </tr>`);
+        })
+    })
+}
+
+function openLastTenSalesModal(){
+    $("#lastTenSalesModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#lastTenSalesListBody").empty();
+    $.get(baseUrl+"/getTenLastSales",{kalaId:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#lastTenSalesListBody").append(`<tr class="factorTablRow">
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                            </tr>`);
+        })
+    })
+}
+
+function openNotSentOrdersModal(){
+    $("#unSentOrdersModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#unSentOrdersListBody").empty();
+    $.get(baseUrl+"/getUnSentOrders",{goodSn:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#unSentOrdersListBody").append(`<tr class="factorTablRow">
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                            </tr>`);
+        })
+    })
+}
 
 $("#selectKalaToFactorBtn").on("click",function(){
     var rowCount = $("#factorEditListBody tr").length;
@@ -1072,7 +1174,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
 });
 
 function chooseBazaryabForFactEdit(psn){
-    alert(psn)
+    
     $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
         
             $("#bazaryabNameEdit").val(respond[0].Name);

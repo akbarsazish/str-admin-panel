@@ -344,3 +344,5 @@ Route::get("/getFactorInfoForEdit",[Factor::class,'getFactorInfoForEdit'])->midd
 Route::get("/doEditFactor",[Factor::class,'doEditFactor'])->middleware('checkAdmin');
 Route::get("/getCustomerGardish",[Customer::class,'getCustomerGardish'])->middleware('checkAdmin');
 Route::get("/getGardishKala",[Kala::class,'getGardishKala'])->middleware('checkAdmin');
+Route::get("/getlastTenBuys",[Kala::class,'getlastTenBuys'])->middleware('checkAdmin');
+Route::get("/getUnSentOrders",[Customer::class,'getUnSentOrders'])->middleware('checkAdmin');
