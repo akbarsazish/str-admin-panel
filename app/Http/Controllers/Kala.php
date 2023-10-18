@@ -3491,17 +3491,20 @@ public function buySomethingApi(Request $request) {
     }
 
     public function getlastTenBuys(Request $request){
-        $customerSn=$request->input("psn");
-        $lastTenSalse=DB::select('select * from users where active = ?', [1]);
-        return Response::json($lastTenSalse);
+        $goodSn=$request->input("goodSn");
+        $lastTenBuys=DB::select("SELECT  top 10 F.FactDate,Shop.dbo.FuncPeopelName(CustomerSn,5)Name,F.FactNo,B.Amount,B.Fi,B.DescRecord FROM Shop.dbo.FactorHDS F JOIN Shop.dbo.FactorBYS B on F.SerialNoHDS=B.SnFact JOIN Shop.dbo.PubGoods G on B.SnGood=G.GoodSn WHERE F.FactType=1 and G.GoodSn=$goodSn and F.FiscalYear=1402 AND F.CompanyNo=5 order by F.FactDate Desc");
+        return Response::json($lastTenBuys);
     }
+
+    public function getLastTenSales(Request $request){
+        $goodSn=$request->input("goodSn");
+        $lastTenSales=DB::select("SELECT top 10 F.FactDate,Shop.dbo.FuncPeopelName(CustomerSn,5)Name,F.FactNo,B.Amount,B.Fi,B.DescRecord FROM Shop.dbo.FactorHDS F JOIN Shop.dbo.FactorBYS B ON F.SerialNoHDS=B.SnFact JOIN Shop.dbo.PubGoods G ON B.SnGood=G.GoodSn WHERE F.FactType=3 AND G.GoodSn=$goodSn AND F.FiscalYear=1402 AND F.CompanyNo=5 order by F.FactDate Desc");
+        return Response::json($lastTenSales);
+    }
+
     public function getUnSentOrders(Request $request){
         $goodSn=$request->input("goodSn");
-        $unsentOrders=DB::select("SELECT O.OrderNo,O.OrderDate,P.PCode,P.Name,G.GoodCde,G.GoodName,CRM.dbo.getSecondUnitName(G.GoodSn) secondUnit,B.PackAmount
-                                    FROM NewStarfood.dbo.OrderHDSS O JOIN Shop.dbo.Peopels P ON O.CustomerSn=P.PSN
-                                    JOIN NewStarfood.dbo.OrderBYSS B ON O.SnOrder=B.SnHDS
-                                    JOIN Shop.dbo.PubGoods G ON G.GoodSn=B.SnGood 
-                                    WHERE G.GoodSn=$goodSn AND O.isSent=0 AND O.isDistroy=0");
+        $unsentOrders=DB::select("SELECT O.OrderNo,O.OrderDate,P.PCode,P.Name,G.GoodCde,G.GoodName,CRM.dbo.getSecondUnitName(G.GoodSn) secondUnit,B.Amount FROM NewStarfood.dbo.OrderHDSS O JOIN Shop.dbo.Peopels P ON O.CustomerSn=P.PSN JOIN NewStarfood.dbo.OrderBYSS B ON O.SnOrder=B.SnHDS JOIN Shop.dbo.PubGoods G ON G.GoodSn=B.SnGood WHERE B.SnGood=$goodSn AND O.isSent=0 AND O.isDistroy=0");
         return Response::json($unsentOrders);
     }
 }

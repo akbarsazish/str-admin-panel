@@ -261,10 +261,11 @@
             </div>
             <div class="row contentFooter">
                 <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="TODAY">امروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="YESTERDAY">دیروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="HUNDRED">صد تای آخر</button>
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="ALL">همه</button>
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
                 </div>
             </div>
         </div>
@@ -583,7 +584,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <table class="table table-striped table-bordered table-sm">
+                            <table class="table table-striped table-bordered table-sm factorTable">
                                 <thead class="bg-success">
                                     <tr class="bg-success factorTableHeadTr">
                                         <th > ردیف </th>

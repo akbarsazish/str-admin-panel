@@ -81,11 +81,10 @@ $(document).ready(function () {
             scrollTop: 0
         }, 500)
     });
+
     $("#logreg").click(function () {
         $(".top-head .user-modal").fadeToggle()
     });
-
-
 
     $('#sfl-cart').click(function () {
         $('#cart-sfl').show();
@@ -94,13 +93,13 @@ $(document).ready(function () {
         $('#main-cart').children('.c-checkout__tab-counter').css({ backgroundColor: "#bbb" });
         $(this).children('span').addClass('c-checkout__tab--active');
     });
+
     $('#main-cart').click(function () {
         $('#cart-sfl').hide();
         $('.c-checkout,.o-page__aside').show();
         $('#main-cart .c-checkout-text').addClass('c-checkout__tab--active');
         $('#main-cart').children('.c-checkout__tab-counter').css({ backgroundColor: "#ef394e" });
         $('#sfl-cart .c-checkout-text').removeClass('c-checkout__tab--active');
-
     });
 
     // suppliers
@@ -10567,7 +10566,6 @@ $("#editLotteryPrizeBtn").on("click", function () {
     });
 });
 
-
 $("#editSendForm").on("submit", function (e) {
     $.ajax({
         url: $(this).attr('action'),
@@ -10578,13 +10576,10 @@ $("#editSendForm").on("submit", function (e) {
             window.location.reload();
         },
         error: function (error) {
-
         }
     });
-
     e.preventDefault();
 });
-
 
 $("#editOrderBtn").on("click", () => {
     $.ajax({

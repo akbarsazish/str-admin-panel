@@ -6593,19 +6593,16 @@ span.footerbasket {
 
 .factorBargiriTable{
     font-size: 14px!important;
-<<<<<<< HEAD
-    height:190px !important;
-    display: block!important;
-    overflow-x: auto!important;
-    white-space: nowrap!important;
-    overflow-y: scroll !important;
-    width:inherit;
-=======
     height:190px !important;display: block!important;
     overflow-x: auto!important;
     white-space: nowrap!important;
     overflow-y: scroll !important; 
->>>>>>> d841b1df56b6ec181d74501e5c043e028e64acfd
+}
+
+
+.factorTablRow td input{
+    width: auto!important;
+    background-color: #fff!important;
 }
 
 .tableBodyTwo {

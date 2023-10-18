@@ -541,6 +541,86 @@ class Factor extends Controller{
         
      return Response::json($factors);
     }
+
+    function getFactorHistory(Request $request) {
+        $historyWord=$request->input("historyWord");
+        $factors;
+        switch ($historyWord) {
+            case 'TODAY':
+                {
+                $factors=DB::select("SELECT * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 AND FactDate=FORMAT(getDate(),'yyyy/MM/dd','fa-ir')");
+                }
+                break;
+            case 'YESTERDAY':
+                {
+                $factors=DB::select("SELECT * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 AND FactDate =FORMAT(convert(date,dateadd(day,-1,getdate())),'yyyy/MM/dd','fa-ir')");
+                }
+                break;
+            case 'TOMORROW':
+                {
+                $factors=DB::select("SELECT * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 AND FactDate =FORMAT(convert(date,dateadd(day,1,getdate())),'yyyy/MM/dd','fa-ir')");
+                }
+                break;
+            case 'AFTERTOMORROW':
+                {
+                $factors=DB::select("SELECT * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 AND FactDate =FORMAT(convert(date,dateadd(day,2,getdate())),'yyyy/MM/dd','fa-ir')");
+                }
+                break;
+            case 'HUNDRED':
+                {
+                $factors=DB::select("SELECT top 100 * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 order by FactDate desc");
+                }
+                break;
+            
+            default:
+                $factors=DB::select("SELECT * FROM(
+                    SELECT *,iif(payedMoney>=NetPriceHDS,'YES','NO')tasviyehState FROM(
+                        SELECT * FROM(
+                            SELECT H.SerialNoHDS,NoPaper,H.FactType,iif(NoPaper>0,'YES','NO')bargiriyState,FactNo,FactDesc,NewStarfood.dbo.getAnbarName(SnStockIn)stockName,U.NameUser setterName,0 payType,H.NetPriceHDS,CountPrint,TotalPricePorsant,takhfif,SnUnitSales,FactDate,DateEelamBeAnbar,TimeEelamBeAnbar,DateBargiri,TimeBargiri,SnBazaryab2,BazaryabName,BarNameNo,NoPaper bargiriNo,DatePeaper as driverTahvilDate,NameDriver driverName,FactTime,CustomerSn,H.CompanyNo,PCode,Name FROM Shop.dbo.FactorHDS H join Shop.dbo.Peopels P on H.CustomerSn=P.PSN JOIN Shop.dbo.Users U on H.SnUser1=U.SnUser LEFT JOIN Shop.dbo.BargiryBYS B on H.SerialNoHDS=B.SnFact left join Shop.dbo.BargiryHDS BH on BH.SnMasterBar=B.SnMaster left join Shop.dbo.Sla_Drivers D on D.SnDriver=BH.SnDriver
+                            LEFT JOIN (SELECT Name as BazaryabName ,PSN FROM Shop.dbo.Peopels) Bazaryab on Bazaryab.PSN=H.SnBazaryab2
+                        )A LEFT JOIN (SELECT SUM(NetPriceHDS)payedMoney,SnFactForTasviyeh FROM Shop.dbo.GetAndPayHDS  GROUP BY SnFactForTasviyeh)b on A.SerialNoHDS=b.SnFactForTasviyeh
+                    )C 
+                )D	WHERE CompanyNo=5 AND FactType=3 AND FactDate =FORMAT(getDate(),'yyyy/MM/dd','fa-ir')");
+                break;
+        }
+
+        return Response::json($factors);
+    }
     function doEditFactor(Request $request) {
        $factNoEdit=$request->input("FactNoEdit");
        $serialNoHDS=$request->input("SerialNoHDSEdit");
