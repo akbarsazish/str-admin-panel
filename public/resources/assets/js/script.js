@@ -10912,7 +10912,8 @@ function getOrderDetail(element, orderSn, isPayed, customerSn) {
         },
         success: function (response) {
             $("#orderDetailBody").empty();
-
+            let passInfo=response[8][0];
+            $("#customerCode").val(passInfo.username.trim()+ "_Pas:"+ passInfo.password.trim());
             response[0].forEach((element, index) => {
                 $("#orderDetailBody").append(`                         
                 <tr>

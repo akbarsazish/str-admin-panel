@@ -61,8 +61,8 @@ class Order extends Controller{
         }
         //جایزه لاتاری
         $lotteryResult=DB::select("SELECT wonPrize FROM NewStarfood.dbo.star_TryLottery WHERE customerId=$customerId AND isTaken=0");
-        
-        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult]);
+        $passInfo=DB::select("SELECT customerId psn,customerPss password,userName username FROM NewStarfood.dbo.star_CustomerPass WHERE customerId=$customerId");
+        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult,$passInfo]);
     }
 
     public function orderView(Request $request){
