@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.10.26:8080";
+var baseUrl = "http://192.168.10.33:8080";
 $("#filterFactorsForm").on("submit",function(e){
     e.preventDefault();
     $.ajax({

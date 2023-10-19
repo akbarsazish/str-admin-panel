@@ -7298,3 +7298,40 @@ table thead {
     padding: 0.5rem;
 }
 
+
+
+.resizeAbleTable {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.resizeAbleTable tbody {
+    display: table;
+    width: 100%;
+}
+
+.resize-able-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.resizeAbleTable th,
+.resizeAbleTable td {
+    width: auto !important;
+}
+
+.resizable {
+  position: relative;
+}
+  
+.resize-handle {
+  position: absolute;
+  width: 6px;
+  height: 100%;
+  top: 0;
+  right: -3px;
+  cursor: col-resize;
+  background-color: #f0f0f0;
+}

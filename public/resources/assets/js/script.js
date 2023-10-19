@@ -139,7 +139,7 @@ var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('conte
 // window.addEventListener('DOMContentLoaded', () => document.querySelector('.loading').classList.remove('show'));
 ///JAVAD JAVASCRIPT CODES
 
-var baseUrl = "http://192.168.10.26:8080";
+var baseUrl = "http://192.168.10.33:8080";
 
 const loader = document.getElementById("loader");
 function hideLoader() {
@@ -154,7 +154,6 @@ $(".star-loader").on('click', function(){
     });
 });
 
-
 $('#kalaNameId').on('keyup', function () {
     const nameOrCode = $(this).val();
     $.ajax({
@@ -162,13 +161,12 @@ $('#kalaNameId').on('keyup', function () {
         url: baseUrl + "/searchKalaByName",
         async: true,
         data: {
-              
             nameOrCode: nameOrCode
         },
         success: function (arrayed_result) {
             $('#kalaContainer').empty();
             for (var i = 0; i <= arrayed_result.length - 1; i++) {
-                $('#kalaContainer').append(`
+        $('#kalaContainer').append(`
             <tr onClick="kalaProperties(this)" id='kalaContainer' class="select-highlightKala">
             <td></td>
             <td>` + arrayed_result[i].GoodCde + `</td>
@@ -13520,15 +13518,17 @@ $("#filterReqChequeBtn").on("click",()=>{
 		console.log(respond)
 		let i=0;
 		for(let element of respond){
-			$("#checkReqList").append(`<tr onclick="selectCustomerStuff(this)">
-											<td> ${i++} </td>
-											<td> ${element.PCode} </td>
-											<td> ${element.Name} </td>
-											<td> ${element.PhoneStr} </td>
-											<td> ${element.NameRec} </td>
-											<td onclick="customerCheckDetails(${element.PSN})"> <i class="fa fa-eye"></i>  </td>
-											<td> <input type="radio" name="checkReqRadio"/> </td>
-										</tr>`);
+			$("#checkReqList").append(`
+            <tr onclick="selectCustomerStuff(this)">
+                <td> ${i++} </td>
+                <td> ${element.PCode} </td>
+                <td> ${element.Name} </td>
+                <td> ${element.PhoneStr} </td>
+                <td> ${element.NameRec} </td>
+                <td onclick="customerCheckDetails(${element.PSN})"> <i class="fa fa-eye"></i>  </td>
+                <td> <input type="radio" name="checkReqRadio"/> </td>
+            </tr>`
+        );
 		}
 	});
 });
@@ -13568,5 +13568,5 @@ $("#filterReqChequeBtn").on("click",()=>{
     return formattedNumber;
   }
 
-  
+
 

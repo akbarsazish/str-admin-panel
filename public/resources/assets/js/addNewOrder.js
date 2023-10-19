@@ -1,4 +1,4 @@
-var baseUrl = "http://127.0.0.1:8000";
+var baseUrl = "http://192.168.10.33:8080";
 function openNewOrderModal(){
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({
@@ -1359,3 +1359,6 @@ $("#newOrderTakhfifInput").on("keyup",function(e){
     let moneyAfterTakhfif=(parseInt(calculateNewOrderMoney())-parseInt($("#newOrderTakhfifInput").val()))
     $("#sumAllRowMoneyAfterTakhfif").text(parseInt(moneyAfterTakhfif).toLocaleString("en-us"));
 })
+
+
+
