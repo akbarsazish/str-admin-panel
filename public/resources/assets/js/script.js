@@ -81,11 +81,10 @@ $(document).ready(function () {
             scrollTop: 0
         }, 500)
     });
+
     $("#logreg").click(function () {
         $(".top-head .user-modal").fadeToggle()
     });
-
-
 
     $('#sfl-cart').click(function () {
         $('#cart-sfl').show();
@@ -94,13 +93,13 @@ $(document).ready(function () {
         $('#main-cart').children('.c-checkout__tab-counter').css({ backgroundColor: "#bbb" });
         $(this).children('span').addClass('c-checkout__tab--active');
     });
+
     $('#main-cart').click(function () {
         $('#cart-sfl').hide();
         $('.c-checkout,.o-page__aside').show();
         $('#main-cart .c-checkout-text').addClass('c-checkout__tab--active');
         $('#main-cart').children('.c-checkout__tab-counter').css({ backgroundColor: "#ef394e" });
         $('#sfl-cart .c-checkout-text').removeClass('c-checkout__tab--active');
-
     });
 
     // suppliers
@@ -5600,7 +5599,8 @@ function filterAllKala() {
         searchKalaActiveOrNot: $("#searchKalaActiveOrNot").val(),
         searchKalaExistInStock: $("#searchKalaExistInStock").val(),
         assesFirstDate: $("#assesFirstDate").val(),
-        assesSecondDate: $("#assesSecondDate").val()
+        assesSecondDate: $("#assesSecondDate").val(),
+        settingProps:$("#SettingProps").val()
     }, function (data, status) {
         if (status == "success") {
             $('#kalaContainer').empty();
@@ -5611,8 +5611,8 @@ function filterAllKala() {
                 <td>` + element.GoodCde + `</td>
                 <td>` + element.firstGroupName + `</td>
                 <td>` + element.lastDate + `</td>
-                <td>no</td>
-                <td>` + element.hideKala + `</td>
+                <td> </td>
+                <td>${element.hideKala==0? "خیر":"بله" }</td>
                 <td>` + parseInt(element.Price4 / 10).toLocaleString("en-US") + `</td>
                 <td>` + parseInt(element.Price3 / 10).toLocaleString("en-US") + `</td>
                 <td>` + element.Amount + `</td>
@@ -10564,7 +10564,6 @@ $("#editLotteryPrizeBtn").on("click", function () {
     });
 });
 
-
 $("#editSendForm").on("submit", function (e) {
     $.ajax({
         url: $(this).attr('action'),
@@ -10575,13 +10574,10 @@ $("#editSendForm").on("submit", function (e) {
             window.location.reload();
         },
         error: function (error) {
-
         }
     });
-
     e.preventDefault();
 });
-
 
 $("#editOrderBtn").on("click", () => {
     $.ajax({
@@ -10909,7 +10905,8 @@ function getOrderDetail(element, orderSn, isPayed, customerSn) {
         },
         success: function (response) {
             $("#orderDetailBody").empty();
-
+            let passInfo=response[8][0];
+            $("#customerCode").val(passInfo.username.trim()+ "_Pas:"+ passInfo.password.trim());
             response[0].forEach((element, index) => {
                 $("#orderDetailBody").append(`                         
                 <tr>

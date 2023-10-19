@@ -342,3 +342,10 @@ Route::get("/deleteBargiriHDS",[Bargiri::class,'deleteBargiriHDS'])->middleware(
 Route::get("/filterFactors",[Factor::class,'filterFactors'])->middleware('checkAdmin');
 Route::get("/getFactorInfoForEdit",[Factor::class,'getFactorInfoForEdit'])->middleware('checkAdmin');
 Route::get("/doEditFactor",[Factor::class,'doEditFactor'])->middleware('checkAdmin');
+Route::get("/getCustomerGardish",[Customer::class,'getCustomerGardish'])->middleware('checkAdmin');
+Route::get("/getGardishKala",[Kala::class,'getGardishKala'])->middleware('checkAdmin');
+Route::get("/getlastTenBuys",[Kala::class,'getlastTenBuys'])->middleware('checkAdmin');
+Route::get("/getlastTenSales",[Kala::class,'getlastTenSales'])->middleware('checkAdmin');
+Route::get("/getUnSentOrders",[Kala::class,'getUnSentOrders'])->middleware('checkAdmin');
+Route::get("/getGameHistory",[Game::class,"getGameHistory"])->middleware("checkAdmin");
+Route::get("/getFactorHistory",[Factor::class,"getFactorHistory"])->middleware("checkAdmin");

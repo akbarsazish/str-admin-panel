@@ -12,6 +12,12 @@ use \Morilog\Jalali\Jalalian;
 
 class Game extends Controller
 {
+
+    public function getGameHistory(Request $request) {
+        $gameHistory=DB::select("SELECT gameId,Shop.dbo.FuncPeopelName(firstPosId,5)first,Shop.dbo.FuncPeopelName(secondPosId,5)second,Shop.dbo.FuncPeopelName(thirdPosId,5)third,Shop.dbo.FuncPeopelName(fourthPosId,5)fourth,Shop.dbo.FuncPeopelName(fifthPosId,5)fifth,FORMAT(timestamp,'yyyy/MM/dd','fa-ir') sabtDate from NewStarfood.dbo.star_game_history");
+        return Response::json($gameHistory);
+    }
+    
     public function index($gameId){
         $gameId=$gameId;
         $players=DB::select("SELECT Name,PSN,customerId,score FROM NewStarfood.dbo.star_game_score JOIN Shop.dbo.Peopels ON customerId=PSN WHERE gameId=$gameId ORDER BY score DESC");

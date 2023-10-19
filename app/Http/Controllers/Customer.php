@@ -1864,5 +1864,14 @@ public function getInviteCodeApi(Request $request){
         return Response::json($customers);
     }
 
-
+    public function getCustomerGardish(Request $request) {
+        $psn=$request->input("psn");
+        $customerGardish=DB::select("SELECT * FROM(
+            SELECT DocDate,PeopelHDS,SnFactForTasviyeh,FiscalYear,'دریافت شماره'+cast (DocNoHDS AS varchar)++' ('+DocDescHDS+')' as FactDesc,'' tasviyeh,NetPriceHDS bestankar,0 bedehkar,1 state,iif(NewStarfood.dbo.getRemainedMoney(PeopelHDS,SnFactForTasviyeh)>0,1,0) bdbsState,NewStarfood.dbo.[getRemainedPayedMoney](PeopelHDS,SnFactForTasviyeh) remain from Shop.dbo.GetAndPayHDS union
+            SELECT FactDate,CustomerSn,SerialNoHDS AS SnFactForTasviyeh,FiscalYear,'فاکتور فروش به شماره'+cast(FactNo as varchar)+' ('+FactDesc+')'  as FactDesc,'' as tasviyeh,0 bestankar,NetPriceHDS as bedehkar,0 state,iif(NewStarfood.dbo.getRemainedMoney(CustomerSn,SerialNoHDS)>0,1,0) bdbsState,NewStarfood.dbo.getRemainedFactorMoney(CustomerSn,SerialNoHDS) remain from Shop.dbo.FactorHDS where FactType=3 union
+			SELECT FactDate,CustomerSn,SerialNoHDS AS SnFactForTasviyeh,FiscalYear,'فاکتور برگشتی به شماره'+cast(FactNo as varchar)+' ('+FactDesc+')'  as FactDesc,'' as tasviyeh,NetPriceHDS bestankar,0 as bedehkar,0 state,iif(NewStarfood.dbo.getRemainedMoney(CustomerSn,SerialNoHDS)>0,1,0) bdbsState,NewStarfood.dbo.getRemainedPayedMoney(CustomerSn,SerialNoHDS) remain from Shop.dbo.FactorHDS where FactType=4)a  where a.PeopelHDS=$psn and FiscalYear=1402 order by DocDate,state asc
+            ");
+        return response()->json(['customerGardish'=>$customerGardish]);
+    }
+    
     }

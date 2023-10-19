@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Response;
 use Carbon\Carbon;
 use \Morilog\Jalali\Jalalian;
+use App\Http\Controllers\Kala;
 class Group extends Controller {
 	// گروه های اصلی را در سمت فرانت لیست می کند.
     public function index(Request $request){
@@ -388,6 +389,45 @@ public function getSubGroupKalaByName(Request $request)
     
         return Response::json(['listKala'=>$listKala,'listGroups'=>$listSubGroups,'mainGrId'=>$mainGrId,'currency'=>$currency,'currencyName'=>$currencyName,'logoPos'=>$logoPos]);
     
+    }
+
+    public function getAllMainGroupBranches(Request $request) {
+        $customerSn=$request->input("psn");
+        $kalaObj=new Kala;
+
+        $mainGroups=DB::select("SELECT * FROM NewStarfood.dbo.star_group WHERE selfGroupId=0");
+        
+        foreach ($mainGroups as $group) {
+            $subGroups=DB::select("SELECT * FROM NewStarfood.dbo.star_group where selfGroupId=$group->id order by subGroupPriority desc");
+            
+            $listKala= DB::select("SELECT secondGroupId,firstGroupId,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+                                    SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale
+                                    ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId FROM Shop.dbo.PubGoods
+                                    INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
+                                    INNER JOIN NewStarfood.dbo.star_group ON star_group.id=star_add_prod_group.firstGroupId
+                                    INNER JOIN Shop.dbo.PUBGoodUnits ON PubGoods.DefaultUnit=PUBGoodUnits.USN
+                                    LEFT JOIN (SELECT  SnOrderBYS,SnGood,Amount as BoughtAmount,PackAmount FROM NewStarfood.dbo.FactorStar inner join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerSn and orderStatus=0)f on f.SnGood=PubGoods.GoodSn
+                                    LEFT JOIN (SELECT freeExistance,zeroExistance,callOnSale,overLine,productId,activePishKharid,activeTakhfifPercent FROM NewStarfood.dbo.star_GoodsSaleRestriction)E on E.productId=PubGoods.GoodSn
+                                    LEFT JOIN Shop.dbo.GoodPriceSale ON GoodPriceSale.SnGood=PubGoods.GoodSn WHERE GoodPriceSale.FiscalYear=1402
+                                    ) A WHERE firstGroupId=$group->id and CompanyNo=5 and not exists(SELECT productId FROM NewStarfood.dbo.star_GoodsSaleRestriction WHERE hideKala=1 and productId=GoodSn ) ORDER BY Amount DESC");  
+                                    
+            foreach ($subGroups as $subGroup) {
+                $listKala= DB::select("SELECT secondGroupId,firstGroupId,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+                    SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale,GoodPriceSale.FiscalYear
+                    ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId FROM Shop.dbo.PubGoods
+                    INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
+                    INNER JOIN NewStarfood.dbo.star_group ON star_group.id=star_add_prod_group.firstGroupId
+                    INNER JOIN Shop.dbo.PUBGoodUnits ON PubGoods.DefaultUnit=PUBGoodUnits.USN
+                    LEFT JOIN (SELECT  SnOrderBYS,SnGood,Amount as BoughtAmount,PackAmount FROM NewStarfood.dbo.FactorStar inner join NewStarfood.dbo.orderStar on FactorStar.SnOrder=orderStar.SnHDS where CustomerSn=$customerSn and orderStatus=0)f on f.SnGood=PubGoods.GoodSn
+                    LEFT JOIN (SELECT freeExistance,zeroExistance,callOnSale,overLine,productId,activePishKharid,activeTakhfifPercent FROM NewStarfood.dbo.star_GoodsSaleRestriction)E on E.productId=PubGoods.GoodSn
+                    LEFT JOIN Shop.dbo.GoodPriceSale ON GoodPriceSale.SnGood=PubGoods.GoodSn
+                    ) A WHERE FiscalYear=1402 AND firstGroupId=$group->id AND secondGroupId=$subGroup->id and CompanyNo=5 and not exists(SELECT productId FROM NewStarfood.dbo.star_GoodsSaleRestriction WHERE hideKala=1 and productId=GoodSn ) ORDER BY Amount DESC"); 
+                
+                $subGroup->listKala=$listKala;
+            }
+            $group->listGroups=$subGroups;
+        }
+        return Response::json(["mainGroupBranches"=>$mainGroups]);
     }
 
 }

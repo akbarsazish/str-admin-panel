@@ -23,8 +23,8 @@ $("#filterFactorsForm").on("submit",function(e){
                 if(element.TotalPricePorsant>0){
                     bazaryabPorsant=element.TotalPricePorsant;
                 }
-                if(element.payedAmount>0){
-                    payedAmount=element.payedAmount;
+                if(element.payedMoney>0){
+                    payedAmount=element.payedMoney;
                 }
                 $("#factorListBody").append(`
                                             <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
@@ -38,7 +38,7 @@ $("#filterFactorsForm").on("submit",function(e){
                                                 <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
                                                 <td> ${element.setterName} </td>
                                                 <td> حضوری </td>
-                                                <td> حضوری </td>
+                                                <td> </td>
                                                 <td> ${element.stockName} </td>
                                                 <td> ${element.CountPrint} </td>
                                                 <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
@@ -64,6 +64,61 @@ $("#filterFactorsForm").on("submit",function(e){
     });
 });
 
+function factorHistory(historyWord) {
+    $.get(baseUrl+"/getFactorHistory",{historyWord:historyWord},(respond,status)=>{
+        
+            $("#factorListBody").empty();
+            respond.forEach((element,index) => {
+                let bargiriyState='شده';
+                let payedAmount=0;
+                let bazaryabPorsant=0;
+                let trStyle="";
+                if(element.bargiriyState!='YES'){
+                    bargiriyState="نشده";
+                }
+                if(element.tasviyehState=='NO'){
+                    trStyle="background-color:rgb(232, 22, 144)";
+                }
+                if(element.TotalPricePorsant>0){
+                    bazaryabPorsant=element.TotalPricePorsant;
+                }
+                if(element.payedMoney>0){
+                    payedAmount=element.payedMoney;
+                }
+                $("#factorListBody").append(`
+                                            <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
+                                                <td> ${index+1} </td>
+                                                <td> ${element.FactNo} </td>
+                                                <td> ${element.FactDate} </td>
+                                                <td> ${element.FactDesc} </td>
+                                                <td> ${element.PCode} </td>
+                                                <td> ${element.Name} </td>
+                                                <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                                                <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                                                <td> ${element.setterName} </td>
+                                                <td> حضوری </td>
+                                                <td> </td>
+                                                <td> ${element.stockName} </td>
+                                                <td> ${element.CountPrint} </td>
+                                                <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                                                <td> ${bargiriyState} </td>
+                                                <td> ${element.takhfif} </td>
+                                                <td>  </td>
+                                                <td> ${element.DateEelamBeAnbar} </td>
+                                                <td> ${element.TimeEelamBeAnbar} </td>
+                                                <td> ${element.DateBargiri} </td>
+                                                <td> ${element.TimeBargiri} </td>
+                                                <td> ${element.BarNameNo} </td>
+                                                <td> ${element.FactTime} </td>
+                                                <td> خیر </td>
+                                                <td> ${(element.bargiriNo||"")} </td>
+                                                <td> ${(element.driverTahvilDate || "")} </td>
+                                                <td> ${(element.driverName || "")} </td>
+                                            </tr>`);
+            });
+    })
+}
+
 $("#customerCode").on("keyup",function(){
     $.get(baseUrl+"/getCustomerByCode",{PCode:$("#customerCode").val()},(respond,status)=>{
         $("#customerName").val("");
@@ -76,6 +131,24 @@ $("#editFactorForm").on("keydown",function(e){
         e.preventDefault();
     }
 })
+
+$("#editFactorForm").on("submit",function(e){
+    e.preventDefault();
+    $.ajax({
+        url: $(this).attr('action'),
+        type: $(this).attr('method'),
+        dataType: 'json',
+        data: $(this).serialize(),
+        success: function (data) {
+            $("#editFactorModal").modal("hide")
+        },
+        error:function(error){
+
+
+        }
+    });
+})
+
 
 function openEditFactorModal(snFactor){
     $.get(baseUrl+"/getFactorInfoForEdit",{SnFactor:snFactor},(respond,status)=>{
@@ -91,6 +164,11 @@ function openEditFactorModal(snFactor){
         $("#ّFactDescEdit").val(respond.factorInfo[0].FactDesc);
         $("#MotafariqahNameEdit").val(respond.factorInfo[0].OtherCustName);
         $("#MotafariqahMobileEdit").val(respond.factorInfo[0].MobileOtherCust);
+        
+        if(respond.factorInfo[0].SnAmel==142){
+            $("#ّtakeKerayahEdit").prop("checked",true)
+        }
+        
         $("#sockEdit").empty()
         respond.stocks.forEach((element,index)=>{
             if(element.SnStock!= respond.factorInfo[0].SnStockIn){
@@ -116,7 +194,7 @@ function openEditFactorModal(snFactor){
                 <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
                     <td class="td-part-input"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
                     <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
-                    <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}"  style="width:auto!important;" value="${element.NameGood}" class="td-input td-inputCodeNameEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
@@ -126,7 +204,7 @@ function openEditFactorModal(snFactor){
                     <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
+                    <td class="td-part-input"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputSefarishNumEdit form-control" required> </td>
                     <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputSefarishDateEdit form-control" required> </td>
@@ -142,6 +220,166 @@ function openEditFactorModal(snFactor){
         })
     })
     $("#editFactorModal").modal("show");
+}
+
+function openCustomerGardishModal(){
+    $("#customerGardishModal").modal("show");
+    $.get(baseUrl+"/getCustomerGardish",{psn:$("#customerForSefarishId").val()},function(respond,status){
+        $("#customerGardishListBody").empty();
+
+        respond.customerGardish.forEach((element,index)=>{
+            let bestankar=0;
+            let bedehkar=0;
+            let remain=0;
+            if(element.bestankar>0){
+                bestankar=element.bestankar;
+            }
+            if(element.bedehkar>0){
+                bedehkar=element.bedehkar;
+            }
+            if(element.remain!=0){
+                remain=element.remain;
+            }
+            $("#customerGardishListBody").append(`<tr class="factorTablRow">
+                                                    <td> ${element.DocDate} </td>
+                                                    <td> ${element.FactDesc} </td>
+                                                    <td> ${element.tasviyeh} </td>
+                                                    <td> ${parseInt(bestankar).toLocaleString("en-us")} </td>
+                                                    <td> ${parseInt(bedehkar).toLocaleString("en-us")} </td>
+                                                    <td> ${element.bdbsState==0 ? 0 : "--"} </td>
+                                                    <td> ${parseInt(remain).toLocaleString("en-us")} </td>
+                                                </tr>`);
+        });
+    })
+}
+
+$("#closeCustomerGardishModalBtn").on("click",function(){
+    $("#customerGardishModal").modal("hide");
+})
+
+$("#openKalaGardishButton").on("click",function(e){
+    $("#kalaGardishModal").modal("show");
+    $.get(baseUrl+"/getGardishKala",{goodSn:$("#openKalaGardishButton").val()},function(respond,status){
+        $("#kalaGardishListBody").empty();
+
+        respond.kalaGardish.forEach((element,index)=>{
+            let exported=0;
+            let imported=0;
+            let fi=0;
+            if(element.export>0){
+                exported=element.export;
+            }
+            if(element.import>0){
+                imported=element.import;
+            }
+            if(element.Fi>0){
+                fi=element.Fi;
+            }
+            $("#kalaGardishListBody").append(`
+            <tr  class="factorTablRow">
+                <td> ${index+1} </td>
+                <td> ${element.FactDate} </td>
+                <td> ${element.DescRec} </td>
+                <td> ${element.FactNo} </td>
+                <td> ${parseFloat(exported).toLocaleString("en-us")} </td>
+                <td> ${parseFloat(imported).toLocaleString("en-us")} </td>
+                <td> ${element.Exist} </td>
+                <td> ${element.SnStockIn} </td>
+                <td> ${element.Name} </td>
+                <td> ${element.PackAmount} </td>
+                <td> ${parseInt(fi).toLocaleString("en-us")} </td>
+                <td> ${element.username} </td>
+                <td> ${element.TimeStamp} </td>
+                <td> ${element.SerialNoBYS} </td>
+                <td> ${element.SerialNoHDS} </td>
+        </tr>
+        `);
+        });
+        $("#kalaGardishListBody").append(`
+                                            <tr  class="factorTablRow">
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td> مجموع خروج </td>
+                                                <td> مجموع ورود </td>
+                                                <td> موجودی نهایی </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                                <td>  </td>
+                                            </tr>`);
+    })
+
+})
+
+$("#closeKalaGardishModalBtn").on("click",function(){
+    $("#kalaGardishModal").modal("hide");
+})
+
+function openLastTenBuysModal(){
+    $("#lastTenBuysModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#lastTenBuysListBody").empty();
+    $.get(baseUrl+"/getlastTenBuys",{goodSn:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#lastTenBuysListBody").append(`<tr class="factorTablRow">
+                                <td> ${ index+1 } </td>
+                                <td> ${ element.FactDate } </td>
+                                <td> ${ element.FactNo } </td>
+                                <td> ${ element.Name } </td>
+                                <td> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
+                                <td> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
+                                <td>  </td>
+                                <td> ${ element.DescRecord } </td>
+                            </tr>`);
+        })
+    })
+}
+
+function openLastTenSalesModal(){
+    $("#lastTenSalesModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#lastTenSalesListBody").empty();
+    $.get(baseUrl+"/getlastTenSales",{goodSn:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#lastTenSalesListBody").append(`<tr class="factorTablRow">
+                                <td> ${ index+1 } </td>
+                                <td> ${ element.FactDate } </td>
+                                <td> ${ element.FactNo } </td>
+                                <td> ${ element.Name } </td>
+                                <td> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
+                                <td> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
+                                <td>  </td>
+                                <td> ${ element.DescRecord } </td>
+                            </tr>`);
+        })
+    })
+}
+
+function openNotSentOrdersModal(){
+    $("#unSentOrdersModal").modal("show");
+    let goodSn=$("#openKalaGardishButton").val();
+    $("#unSentOrdersListBody").empty();
+    $.get(baseUrl+"/getUnSentOrders",{goodSn:goodSn},(respond,status)=>{
+        respond.forEach((element,index)=>{
+            $("#unSentOrdersListBody").append(`<tr class="factorTablRow">
+                                <td> ${ index+1 } </td>
+                                <td> ${ element.OrderNo } </td>
+                                <td> ${ element.OrderDate } </td>
+                                <td> ${ element.PCode } </td>
+                                <td> ${ element.Name } </td>
+                                <td> ${ element.GoodCde } </td>
+                                <td> ${ element.GoodName } </td>
+                                <td> ${ element.secondUnit } </td>
+                                <td> ${ element.Amount } </td>
+                            </tr>`);
+        })
+    })
 }
 
 $("#selectKalaToFactorBtn").on("click",function(){
@@ -628,28 +866,28 @@ $(document).on("keyup",".td-inputPercentMaliatEdit",function(e){
         checkNumberInput(e);
         let row=`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
         <td class="td-part-input"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeEdit form-control" required> <input type="radio" style="display:none" value=""/> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceEdit form-control" required> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatEdit form-control" required> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeEdit form-control"> <input type="radio" style="display:none" value=""/> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifEdit  form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceEdit form-control"> </td>
+        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatEdit form-control"> </td>
     </tr>`;
 $("#factorEditListBody").append(row);
 
@@ -672,6 +910,7 @@ if(e.keyCode===9 || e.keyCode===13){
 function checkAddedKalaAmountOfFactor(row){
     let input = $(row).find('input:checkbox');
     let goodSn=$(input).val();
+    $("#openKalaGardishButton").val(goodSn);
     if(!goodSn){
         return
     }
@@ -1003,7 +1242,7 @@ $("#customerNameForBazaryabFactEdit").on("keyup",function(e){
 });
 
 function chooseBazaryabForFactEdit(psn){
-    alert(psn)
+    
     $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
         
             $("#bazaryabNameEdit").val(respond[0].Name);
@@ -1075,3 +1314,4 @@ $("#MotafariqahNameEdit").on("keyup",function(e){
         $("#factorAddressDivEdit").css({"display":"none"});
     }
 })
+

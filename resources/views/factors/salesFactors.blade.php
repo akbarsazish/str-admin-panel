@@ -261,10 +261,11 @@
             </div>
             <div class="row contentFooter">
                 <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="TODAY">امروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="YESTERDAY">دیروز</button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="HUNDRED">صد تای آخر</button>
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" value="ALL">همه</button>
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
                 </div>
             </div>
         </div>
@@ -328,50 +329,54 @@
                     </div>
                     <hr/>
                     <div class="row border p-2" id="factorsDiv">
-                        <table class="table  table-hover table-bordered table-sm factorBargiriTable">
-                            <thead  style="width:100%;">
-                                <tr  class="bg-success factorTableHeadTr">
-                                <th> ردیف </th>
-                                <th> شماره فاکتور  </th>
-                                <th> تاریخ فاکتور </th>
-                                <th> کد مشتری  </th>
-                                <th> نام مشتری </th>
-                                <th> مبلغ  </th>
-                                <th> توضحیات  </th>
-                                <th> نقد  </th>
-                                <th> کارت </th>
-                                <th> واریز به حساب </th>
-                                <th> تخفیف </th>
-                                <th> تفاوت  </th>
-                                <th> آدرس </th>
-                                <th> تلفن </th>
-                                </tr>
-                            </thead>
-                            <tbody id="bargiriFactorLisBody">
-                            </tbody>
-                        </table>                
+                        <div class="col">
+                            <table class="table  table-hover table-bordered table-sm factorBargiriTable">
+                                <thead style="width:100%;">
+                                    <tr  class="bg-success factorTableHeadTr">
+                                    <th> ردیف </th>
+                                    <th> شماره فاکتور  </th>
+                                    <th> تاریخ فاکتور </th>
+                                    <th> کد مشتری  </th>
+                                    <th> نام مشتری </th>
+                                    <th> مبلغ  </th>
+                                    <th> توضحیات  </th>
+                                    <th> نقد  </th>
+                                    <th> کارت </th>
+                                    <th> واریز به حساب </th>
+                                    <th> تخفیف </th>
+                                    <th> تفاوت  </th>
+                                    <th> آدرس </th>
+                                    <th> تلفن </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bargiriFactorLisBody">
+                                </tbody>
+                            </table> 
+                        </div>               
                     </div>
                     <hr/>
                     <div class="row border p-2" id="goodsDiv">
-                        <table class="table  table-hover table-bordered table-sm factorBargiriTable">
-                            <thead  style="width:100%;">
-                                <tr  class="bg-success factorTableHeadTr">
-                                <th> ردیف </th>
-                                <th> کد کالا   </th>
-                                <th> نام کالا  </th>
-                                <th> مقدار کل  </th>
-                                <th>   نام واحد کل </th>
-                                <th>  مقدار جزء </th>
-                                <th> واحد جزء  </th>
-                                <th> مقدار کالا  </th>
-                                <th> وزن </th>
-                                <th> تعداد فاکتور </th>
-                                </tr>
-                            </thead>
-                            <tbody id="bargiriKalaLisBody">
-                            </tbody>
-                        </table>                
-                    </div>
+                        <div class="col">
+                            <table class="table  table-hover table-bordered table-responsive factorBargiriTable">
+                                <thead style="width:100%;">
+                                    <tr  class="bg-success factorTableHeadTr">
+                                    <th> ردیف </th>
+                                    <th> کد کالا   </th>
+                                    <th> نام کالا  </th>
+                                    <th> مقدار کل  </th>
+                                    <th>   نام واحد کل </th>
+                                    <th>  مقدار جزء </th>
+                                    <th> واحد جزء  </th>
+                                    <th> مقدار کالا  </th>
+                                    <th> وزن </th>
+                                    <th> تعداد فاکتور </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bargiriKalaLisBody">
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>    
                 </div>
             </div>
           </div>
@@ -508,29 +513,31 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group input-group-sm mb-1 filterItems">
-                                            <span class="input-group-text" >  شماره برگه </span>
+                                            <span class="input-group-text">  شماره برگه </span>
                                             <input type="text"  name="NoPaper" id="bargiriPaperNoEdit" class="form-control form-control-sm mb-1"  placeholder="تایخ برگه ">
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
-                                            <span class="input-group-text" >  تاریخ برگه </span>
+                                            <span class="input-group-text">  تاریخ برگه </span>
                                             <input type="text"  name="DatePaper" id="bargiriPaperDateEdit" class="form-control form-control-sm mb-1"  placeholder="تایخ برگه ">
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
-                                            <input type="text" name="SnMasterBar" id="SnMasterBarEdit">
-                                            <span class="input-group-text" >  نام راننده </span>
+                                            <input type="hidden" name="SnMasterBar" id="SnMasterBarEdit">
+                                            <span class="input-group-text">  نام راننده </span>
                                             <select  name="factorDriver" id="factorDriverEdit" class="form-select">
                                                 <option value=""></option>
                                                 <option value=""></option>
                                                 <option value=""></option>
                                             </select>
                                         </div>
+                                        <div class="input-group input-group-sm mb-1 filterItems">
+                                            <span class="input-group-text"> شماره ماشین </span>
+                                            <input type="text" name="MashinNo" class="form-control form-control-sm" id="mashinNoEdit" placeholder="شماره ماشین ">
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div><button class="btn btn-success btn-sm mb-1 text-warning" type="button" onclick="searchFactorForAddToBargiriEdit()">انتخاب فاکتور <i class="fa fa-check"></i> </button></div>
-                                        <div><button class="btn btn-sm btn-success text-warning" type="button" id="editModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور <i class="fa fa-edit"></i></button></div>
-                                        <div class="input-group input-group-sm mb-1 filterItems">
-                                            <span class="input-group-text">  شماره ماشین </span>
-                                            <input type="text" name="MashinNo" class="form-control form-control-sm" id="mashinNoEdit" placeholder="شماره ماشین ">
+                                        <div>
+                                            <button class="btn btn-success btn-sm mb-1 mt-1 text-warning" type="button" onclick="searchFactorForAddToBargiriEdit()">انتخاب فاکتور <i class="fa fa-check"></i> </button>
+                                            <button class="btn btn-sm btn-success mb-1 mt-1 text-warning" disabled type="button" id="editModalEditFactorBtn" onclick="openEditFactorModal(this.value)"> اصلاح فاکتور <i class="fa fa-edit"></i></button>
                                         </div>
                                     </div>
                                     <div class="input-group input-group-sm mb-1 filterItems">
@@ -552,7 +559,7 @@
                                     <div class="col-md-3">
                                     </div>
                                     <div class="col-md-9">
-                                        <div>
+                                        <div class="text-end">
                                             <button disabled type="submit" id="bargiriFactorsEditBtn" class="btn btn-success btn-sm mb-1 text-warning"> ثبت <i class="fa fa-save"></i></button>
                                             <button onclick="cancelBargiriFactorEdit()" type="button" class="btn btn-danger btn-sm mb-1 text-warning"> انصراف <i class="fa fa-cancel"></i></button>
                                         </div>
@@ -577,7 +584,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <table class="table table-striped table-bordered table-sm">
+                            <table class="table table-striped table-bordered table-sm factorTable">
                                 <thead class="bg-success">
                                     <tr class="bg-success factorTableHeadTr">
                                         <th > ردیف </th>
@@ -758,11 +765,11 @@
     </div>
 </div>
 <div class="modal" id="editFactorModal" tabindex="1">
-    <input type="hiden" id="rowTaker">
+    <input type="hidden" id="rowTaker">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-info" >
-                <h5 class="modal-title"> اصلاح فاکتور </h5>
+                <h5 class="modal-title text-end"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
                 <form action="{{url("/doEditFactor")}}" method="get" id="editFactorForm">
@@ -772,9 +779,10 @@
                             <div class="col-4">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > شماره فاکتور </span>
-                                    <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm mb-1">
-                                    <input type="text"  name="SerialNoHDSEdit" id="SerialNoHDSEdit" class="d-none">
+                                    <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm">
+                                    
                                 </div>
+                                <input type="text"  name="SerialNoHDSEdit" id="SerialNoHDSEdit" class="d-none">
                                 <input type="hidden" name="psnEdit" id="customerForSefarishId">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
@@ -788,15 +796,14 @@
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > تاریخ </span>
                                     <input type="text" class="form-control" name="FactDateEdit" id="FactDateEdit">
-                                    <select name="" id="customerForFactorEdit">
-
+                                    <select name="" id="customerForFactorEdit" style="display: none;">
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار </span>
                                     <input type="text" class="form-control" name="pCodeEdit" id="pCodeEdit">
                                     <input type="text" class="form-control" name="NameEdit" id="NameEdit">
-                                    <button type="button" class="btn btn-info text-warning">گردش حساب</button>
+                                    <button type="button" onclick="openCustomerGardishModal()" class="btn btn-info text-warning">گردش حساب</button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
@@ -850,26 +857,24 @@
                             </div>
                             <div class="col-4">
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning" id="openKalaGardishButton"> گردش کالا </button>
+                                    <button type="button" onclick="openCustomerGardishModal()" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
+                                    {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
+                                    <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
+                                    <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
+                                    <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <div>
+                                <div class="text-end">
                                     <label class="form-label"> کرایه دریافت شد </label>
                                     <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
+                                    <button type="submit" class="btn btn-sm btn-success text-warning mb-2"> ثبت </button>
+                                    <button type="button" onclick="cancelEditFactor()" class="btn btn-sm btn-danger  mb-2"> انصراف </button>
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-sm btn-success text-warning"> ثبت </button>
-                                    <button type="button" onclick="cancelEditFactor()" class="btn btn-sm btn-danger"> انصراف </button>
-                                </div>
-                                <div>
-                                    <div class="col-lg-12" style="background-color:#e0e0e0;">
+                                    <div class="col-lg-12 border-2" style="background-color:#e0e0e0;">
                                         <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
                                         <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
                                         <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
@@ -1072,4 +1077,221 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="customerGardishModal">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title"> گردش مشتری </h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-end"><button class="btn btn-sm btn-danger m-2" id="closeCustomerGardishModalBtn">بستن <i class="fa fa-times"></i></button></div>
+                <table class="table table-striped table-bordered table-sm factorTable">
+                    <thead>
+                        <tr  class="bg-success factorTableHeadTr">
+                            <th> تاریخ </th>
+                            <th> شرح عملیات </th>
+                            <th> تسویه با </th>
+                            <th> بستانکار </th>
+                            <th> بدهکار </th>
+                            <th> وضعیت </th>
+                            <th> مانده </th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerGardishListBody">
+                        <tr>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal" tabindex="-1" id="kalaGardishModal">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title"> گردش کالا </h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-end"><button class="btn btn-sm btn-danger m-2" id="closeKalaGardishModalBtn">بستن <i class="fa fa-times"></i></button></div>
+                <table class="table table-striped table-bordered table-sm factorTable">
+                    <thead>
+                        <tr  class="bg-success factorTableHeadTr">
+                            <th> ردیف </th>
+                            <th> تاریخ </th>
+                            <th> شرح </th>
+                            <th> شماره </th>
+                            <th> صادره </th>
+                            <th> وارده </th>
+                            <th> موجودی </th>
+                            <th> انبار </th>
+                            <th> نام طرف حساب </th>
+                            <th> بسته بندی </th>
+                            <th> نرخ خرید/فروش </th>
+                            <th> کاربر </th>
+                            <th> زمان ثبت </th>
+                            <th> SerialNoBYS </th>
+                            <th> SerialNoHDS </th>
+                        </tr>
+                    </thead>
+                    <tbody id="kalaGardishListBody">
+                    </tbody>
+                </table>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="lastTenBuysModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> ده خرید آخر </h5>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-striped table-bordered table-sm factorTable">
+                        <thead>
+                            <tr class="bg-success factorTableHeadTr">
+                                <th> ردیف </th>
+                                <th> تاریخ </th>
+                                <th> شماره فاکتور </th>
+                                <th> فروشنده </th>
+                                <th> مقدار کالا </th>
+                                <th> نرخ (ریال) </th>
+                                <th> % </th>
+                                <th> توضحیات </th>
+                            </tr>
+                        </thead>
+                        <tbody id="lastTenBuysListBody">
+                            <tr class="factorTablRow">
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                                <td>  </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal" tabindex="-1" id="lastTenSalesModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> ده فروش آخر </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped table-bordered table-sm factorTable">
+                                <thead>
+                                    <tr class="bg-success factorTableHeadTr">
+                                        <th> ردیف </th>
+                                        <th> تاریخ </th>
+                                        <th> شماره فاکتور </th>
+                                        <th> مشتری </th>
+                                        <th> مقدار کالا </th>
+                                        <th> نرخ (ریال) </th>
+                                        <th> % </th>
+                                        <th> توضحیات </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lastTenSalesListBody">
+                                    <tr class="factorTablRow">
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="unSentOrdersModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> سفارش ارسال نشده </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped table-bordered table-sm factorTable">
+                                <thead>
+                                    <tr class="bg-success factorTableHeadTr">
+                                        <th> ردیف </th>
+                                        <th> شماره </th>
+                                        <th> تاریخ  </th>
+                                        <th> کد مشتری </th>
+                                        <th>  نام مشتری </th>
+                                        <th> کد کالا </th>
+                                        <th> نام کالا </th>
+                                        <th> واحد کالا </th>
+                                        <th> مقدار سفارش </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="unSentOrdersListBody">
+                                    <tr class="factorTablRow">
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                        <td>  </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection

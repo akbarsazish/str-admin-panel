@@ -6570,6 +6570,7 @@ span.footerbasket {
 }
 .factorTableHeadTr{
     display:table-row!important;
+    font-size:medium;
     position: sticky;
     top: 0;
     z-index: 2;
@@ -6596,6 +6597,12 @@ span.footerbasket {
     overflow-x: auto!important;
     white-space: nowrap!important;
     overflow-y: scroll !important; 
+}
+
+
+.factorTablRow td input{
+    width: auto!important;
+    background-color: #fff!important;
 }
 
 .tableBodyTwo {

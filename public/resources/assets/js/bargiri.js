@@ -299,6 +299,7 @@ function editFactorsOfBargiri(snMasterBar){
 function setFactorInfoForEdit(element){
     let snFact= $(element).find('input[type="checkbox"]').val();
     $("#editModalEditFactorBtn").val(snFact);
+    $("#editModalEditFactorBtn").prop("disabled",false);
     $("#addModalEditFactorBtn").val(snFact);
 }
 
@@ -564,7 +565,7 @@ function addSelectFactorsToBargiriEdit(){
         selectFactorsSn.push($(this).val());
     });
     $.get(baseUrl+"/getFactorsInfoToBargiriTbl",{allFactors:selectFactorsSn},(respond,status)=>{
-        console.log(respond)
+        
         let i=$("#factorsToAddToBargiriBodyEdit tr").length;
         for (const element of respond) {
             let netPriceHDS=0;
@@ -592,7 +593,7 @@ function addSelectFactorsToBargiriEdit(){
                 difPrice=element[0].DifPrice;
             }
             let serialNoHDS=element[0].SerialNoHDS;
-            alert(serialNoHDS)
+            
             i+=1;
             $("#factorsToAddToBargiriBodyEdit").append(`<tr class="factorTablRow">
                 <td> ${i} <input type="checkbox" name="FactSnsEdit[]" value="${serialNoHDS}" checked style="display:none"/> </td>
