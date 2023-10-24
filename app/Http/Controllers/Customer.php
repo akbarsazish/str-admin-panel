@@ -1840,11 +1840,11 @@ public function getInviteCodeApi(Request $request){
         $customers;
         if(strlen($searchByPhone)>0){
             $customers=DB::select("SELECT * FROM(
-                SELECT PSN,PCode, Name,0 as countBuy,0 as countSale,0 as chequeCountReturn,0 as chequeMoneyReturn,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,CompanyNo,IsActive
+                SELECT PSN,PCode, Name,0 as countBuy,0 as countSale,GroupCode,0 as chequeCountReturn,0 as chequeMoneyReturn,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,CompanyNo,IsActive
                 FROM Shop.dbo.Peopels)a WHERE PhoneStr LIKE '%$nameOrPhone%' and GroupCode in(291,297,299,312,313,314) AND CompanyNo=5 and IsActive=1");
     
         }else{
-            $customers=DB::select("SELECT PSN,PCode, Name,0 as countBuy,0 as countSale,0 as chequeCountReturn,0 as chequeMoneyReturn
+            $customers=DB::select("SELECT PSN,PCode, Name,0 as countBuy,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,0 as countSale,0 as chequeCountReturn,0 as chequeMoneyReturn
                                     FROM Shop.dbo.Peopels WHERE Name LIKE '%$nameOrPhone%' and GroupCode in(291,297,299,312,313,314) AND CompanyNo=5 and IsActive=1");
         }
     

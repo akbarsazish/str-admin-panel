@@ -319,7 +319,9 @@ class Factor extends Controller{
         $factSn=$request->input("SnFactor");
         $factorInfo=DB::select("SELECT GoodSn,GoodCde,amel.SnAmel,G.GoodName NameGood,P.Name as Name,P.PCode as PCode,b.*,bazar.Name as BName,bazar.PCode BPCode,P.PSN,G.GoodName,F.FactDate,F.SerialNoHDS,F.FactNo,F.SnStockIn,F.OtherCustName,F.MobileOtherCust,F.OtherAddress,F.SerialNoHDS,F.FactDesc,NewStarfood.dbo.getFirstUnit(SnGood)FirstUnit,NewStarfood.dbo.getAmountUnit(SnGood)AmountUnit,NewStarfood.dbo.getSecondUnit(SnGood)SecondUnit FROM Shop.dbo.PubGoods G join Shop.dbo.FactorBYS b on G.GoodSn=b.SnGood join Shop.dbo.Stocks s  on b.SnStockBYS=s.SnStock join Shop.dbo.FactorHDS F on F.SerialNoHDS=b.SnFact join Shop.dbo.Peopels P on F.CustomerSn=P.PSN join Shop.dbo.Peopels bazar on BazaryabSn=bazar.PSN  LEFT JOIN SHop.dbo.FactorBYSAmel amel ON F.SerialNoHDS=amel.SnFact WHERE F.SerialNoHDS=$factSn AND s.CompanyNo=5");
         $stocks=DB::table('Shop.dbo.Stocks')->where("CompanyNo",5)->get();
-        return Response::json(['factorInfo'=>$factorInfo,'stocks'=>$stocks]);
+        $customerSn=$factorInfo[0]->PSN;
+        $phones=DB::select("SELECT * FROM Shop.dbo.PeopelAddress WHERE SnPeopel=$customerSn");
+        return Response::json(['factorInfo'=>$factorInfo,'stocks'=>$stocks,'phones'=>$phones]);
     }
 
     public function factorView(Request $request){
@@ -624,7 +626,7 @@ class Factor extends Controller{
     function doEditFactor(Request $request) {
        $factNoEdit=$request->input("FactNoEdit");
        $serialNoHDS=$request->input("SerialNoHDSEdit");
-       $psnEdit=$request->input("psnEdit");
+       $psnEdit=$request->input("customerForFactorEdit");
        $stockEdit=$request->input("stockEdit");
        $factDateEdit=$request->input("FactDateEdit");
        $pCodeEdit=$request->input("pCodeEdit");
@@ -638,8 +640,9 @@ class Factor extends Controller{
        $sendTimeEdit=$request->input("SendTimeEdit");
        $editableGoods=$request->input("editableGoods");//arrays
        $netPriceHDS=0;
+       list($snAddress,$otherAddress)=explode("_",$request->input("factorAddressEdit"));
        DB::delete("DELETE FROM Shop.dbo.FactorBYS WHERE SnFact=$serialNoHDS AND SnGood not in( ".implode(",",$editableGoods).")");
-       
+       DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["CustomerSn"=>$psnEdit,"OtherAddress"=>"$otherAddress","SnAddress"=>$snAddress,'FactDate'=>"$factDateEdit"]);
        foreach ($editableGoods as $goodSn) {
             $nameGood=$request->input("NameGood".$goodSn);
             $firstUnit=$request->input("FirstUnit".$goodSn);
@@ -723,5 +726,107 @@ class Factor extends Controller{
         DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["NetPriceHDS"=>$netPriceHDS]);
         return Response::json($request->all());
     }
+
+
+    function addFactorFromAdmin(Request $request) {
+        $stockAdd=$request->input("stockAdd");
+        $factDateAdd=$request->input("FactDateAdd");
+        $pCodeAdd=$request->input("pCodeAdd");
+        $nameAdd=$request->input("NameAdd");
+        $bazaryabCodeAdd=$request->input("bazaryabCodeAdd");
+        $bazaryabNameAdd=$request->input("bazaryabNameAdd");
+        $motafariqahNameAdd=$request->input("MotafariqahNameAdd");
+        $motafariqahAddressAdd=$request->input("MotafariqahAddressAdd");
+        $factDescAdd=$request->input("ّFactDescAdd");
+        $tahvilTypeAdd=$request->input("TahvilTypeAdd");
+        $sendTimeAdd=$request->input("SendTimeAdd");
+        $addableGoods=$request->input("addableGoods");//arrays
+        $netPriceHDS=0;
+        $factTime=Carbon::now()->format("H:i:s");
+        $settings=DB::select("SELECT * FROM NewStarfood.dbo.star_webSpecialSetting");
+        $customerSnAdd=$request->input("customerForFactorAdd");
+        $takhfifAdd=0;
+        $fiscallYear=$settings[0]->FiscallYear;
+        list($otherAddress,$snAddress)=explode("_",$request->input("factorAddressAdd"));
+        $factNo=DB::table('Shop.dbo.FactorHDS')->where("CompanyNo",5)->max("FactNo");
+        $ersalTime=1;
+        DB::table("Shop.dbo.FactorHDS")->insert([
+            "CompanyNo"=>5
+            ,"FactType"=>3
+            ,"FactNo"=>$factNo+1
+            ,"FactDate"=>"$factDateAdd"
+            ,"CustomerSn"=>$customerSnAdd
+            ,"takhfif"=>$takhfifAdd
+            ,"FactDesc"=>"$factDescAdd"
+            ,"FiscalYear"=>"$fiscallYear"
+            ,"NetPriceHDS"=>$netPriceHDS
+            ,"SnStockIn"=>$stockAdd
+            ,"SnUser1"=>21
+            ,"FactTime"=>"$factTime"
+            ,"OtherAddress"=>"$otherAddress"
+            ,"ErsalTime"=>$ersalTime
+            ,"SnAddress"=>$snAddress
+            ]);
+        $serialNoHDS=DB::table('Shop.dbo.FactorHDS')->max("SerialNoHDS");
+        foreach ($addableGoods as $goodSn) {
+             $packAmnt=str_replace(",", "",$request->input("PackAmnt".$goodSn));
+             $firstAmount=str_replace(",", "",$request->input("FirstAmount".$goodSn));
+             $reAmount=str_replace(",", "",$request->input("ReAmount".$goodSn));
+             $amount=str_replace(",", "",$request->input("Amount".$goodSn));
+             $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+             $fiPack=str_replace(",", "",$request->input("FiPack".$goodSn));
+             $price=str_replace(",", "",$request->input("Price".$goodSn));
+             $priceAfterTakhfif=str_replace(",", "",$request->input("PriceAfterTakhfif".$goodSn));
+             $nameStock=$request->input("NameStock".$goodSn);
+             $price3PercentMaliat=str_replace(",", "",$request->input("Price3PercentMaliat".$goodSn));
+             $fi2Weight=str_replace(",", "",$request->input("Fi2Weight".$goodSn));
+             $amount2Weight=str_replace(",", "",$request->input("Amount2Weight".$goodSn));
+             $percentMaliat=str_replace(",", "",$request->input("PercentMaliat".$goodSn));
+             $packType=0;
+             $packTypes=DB::table("Shop.dbo.GoodUnitSecond")->where("SnGood",$goodSn)->get();
+             if(count($packTypes)>0){
+                 $packType=$packTypes[0]->SnGoodUnit;
+             }else{
+                 $defaultUnits=DB::table("Shop.dbo.PubGoods")->where("GoodSn",$goodSn)->get();
+                 $packType=$defaultUnits[0]->DefaultUnit;
+             }
+             $netPriceHDS+=$price;
+                 DB::table('Shop.dbo.FactorBYS')->insert([
+                     "CompanyNo"=>5
+                     ,"SnFact"=>$serialNoHDS
+                     ,"SnGood"=>$goodSn
+                     ,"PackType"=>$packType
+                     ,"PackAmnt"=>$packAmnt
+                     ,"Amount"=>$amount
+                     ,"Fi"=>$fi
+                     ,"Price"=>$price
+                     ,"SnOrderDetail"=>0
+                     ,"FiPack"=>$fiPack
+                     ,"SnStockBYS"=>23
+                     ,"Price3PercentMaliat"=>$percentMaliat
+                     ,"PriceAfterAmel"=>$price
+                     ,"FiAfterAmel"=>$fi
+                     ,"Amount2Weight"=>$amount2Weight
+                     ,"Fi2Weight"=>$fi2Weight
+                     ,"PriceAfterTakhfif"=>$price
+                     ,"RealFi"=>$fi
+                     ,"RealPrice"=>$price
+                     ,"FirstAmout"=>$firstAmount
+                     ,"ReAmount"=>$reAmount]
+                 );
+         }
+         DB::table('Shop.dbo.FactorHDS')->where("SerialNoHDS",$serialNoHDS)->update(["NetPriceHDS"=>$netPriceHDS]);
+         return Response::json($request->all());
+    }
+
+    function deleteFactor(Request $request) {
+
+        $snFact=$request->input("FactSn");
+        DB::delete("DELETE FROM Shop.dbo.FactorBYS WHERE SnFact=$snFact");
+        DB::delete("DELETE FROM Shop.dbo.FactorHDS WHERE SerialNoHDS=$snFact");
+        return response()->json($snFact);
+        
+    }
+    
 
 }

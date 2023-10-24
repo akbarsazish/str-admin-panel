@@ -498,7 +498,7 @@ public function getFavorite(Request $request)
     public function searchKalaByID(Request $request)
     {
         $goodSn=$request->get("goodSn");
-        $kala=DB::select("SELECT *,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getAmountUnit(GoodSn) as AmountUnit FROM Shop.dbo.PubGoods join SHop.dbo.GoodPriceSale on GoodSn=GoodPriceSale.SnGood WHERE PubGoods.CompanyNo=5 and GoodSn=$goodSn");
+        $kala=DB::select("SELECT *,NewStarfood.dbo.getLastDateBuyFi(GoodSn)lastBuyFi,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getAmountUnit(GoodSn) as AmountUnit FROM Shop.dbo.PubGoods join SHop.dbo.GoodPriceSale on GoodSn=GoodPriceSale.SnGood WHERE PubGoods.CompanyNo=5 and GoodSn=$goodSn");
         return Response::json($kala);
     }
 // لیست انبارها را از بر می گرداند.
@@ -3506,6 +3506,11 @@ public function buySomethingApi(Request $request) {
         $goodSn=$request->input("goodSn");
         $unsentOrders=DB::select("SELECT O.OrderNo,O.OrderDate,P.PCode,P.Name,G.GoodCde,G.GoodName,CRM.dbo.getSecondUnitName(G.GoodSn) secondUnit,B.Amount FROM NewStarfood.dbo.OrderHDSS O JOIN Shop.dbo.Peopels P ON O.CustomerSn=P.PSN JOIN NewStarfood.dbo.OrderBYSS B ON O.SnOrder=B.SnHDS JOIN Shop.dbo.PubGoods G ON G.GoodSn=B.SnGood WHERE B.SnGood=$goodSn AND O.isSent=0 AND O.isDistroy=0");
         return Response::json($unsentOrders);
+    }
+    public function checkAddedKalaPrice(Request $request) {
+        $fi=$request->input("fi");
+        $goodSn=$request->input("goodSn");
+        return Response::json(true);
     }
 }
 

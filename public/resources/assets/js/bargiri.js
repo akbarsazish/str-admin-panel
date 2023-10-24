@@ -2,6 +2,16 @@ var baseUrl = "http://192.168.10.26:8080";
 function getFactorOrders(element,factorSn){
     $("tr").removeClass("selected");
     $(element).addClass("selected");
+    if($("#deleteFactorBtn")){
+        $("#deleteFactorBtn").prop("disabled",false);
+        $("#deleteFactorBtn").val(factorSn);
+
+    }
+
+    if($("#editFactorButton")){
+        $("#editFactorButton").prop("disabled",false);
+        $("#editFactorButton").val(factorSn);
+    }
 $.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
     $("#FactorDetailBody").empty();
     let i=0;

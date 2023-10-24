@@ -753,31 +753,6 @@
                             <input type="text" id="tarabariMoney" value="0"  name="tarabariMoney">
                             <input type="text" id="tarabariDesc"  name="tarabariDesc">
                         </div>
-                          <!-- <div class="row">
-                              <div class="col-lg-4 mx-0">
-                                    <div class="input-group input-group-sm mb-1">
-                                        <span class="input-group-text" > خریدار متفرقه</span>
-                                        <input type="text" class="form-control" aria-label="Sizing example input" placeholder="مهدی محمدی" aria-describedby="inputGroup-sizing-sm">
-                                    </div>
-                                </div>
-                              <div class="col-lg-3">
-                                   <div class="input-group input-group-sm mb-1">
-                                      <span class="input-group-text" > بازاریاب </span>
-                                      <input type="number" class="form-control" aria-label="Sizing example input" placeholder="762" aria-describedby="inputGroup-sizing-sm disabled">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mx-0">
-                                      <select class="form-select form-select-sm d-sm-inline-block" aria-label=".form-select-sm example">
-                                        <option selected> انبار اصلی </option>
-                                        <option value="1">مغازه انبار نفت</option>
-                                        <option value="2">افشار</option>
-                                        <option value="3">انبار پشتیبان</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-1 col-md-1 col-sm-1 mt-1">
-                                     <button class="d-sm-inline-block bg-success p-1">... </button>
-                                </div>
-                          </div> -->
                         <div class="row">
                             <div class="col-lg-6 col-md-6">
                                 <div class="input-group input-group-sm mb-1">
@@ -785,25 +760,6 @@
                                     <input type="text" class="form-control" name="orderDescription">
                                 </div>
                             </div>
-                            <!-- <div class="col-lg-3">
-                                <div class="input-group input-group-sm mb-1">
-                                    <span class="input-group-text" >  نحوه تحویل کالا </span>
-                                    <select class="form-select form-select-sm">
-                                        <option value="1"> تحویل به مشتر </option>
-                                        <option value="0"> ارسال به آدرس مشتری </option>
-                                    </select>
-                                </div>
-                            </div> -->
-                            <!-- <div class="col-lg-3">
-                                <div class="input-group input-group-sm mb-1">
-                                    <span class="input-group-text" > زمان رسید </span>
-                                    <select name="amOrPm" class="form-select form-select-sm">
-                                        <option value="1"> صبح </option>
-                                        <option value="2"> عصر </option>
-                                        <option value="3"> فوری </option>
-                                    </select>
-                                </div>
-                            </div>  -->
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
@@ -817,17 +773,6 @@
                         </div>
                     </div> 
                     <div class="col-lg-3 col-md-3">
-                       <!-- <div class="row">
-                            <div class="col-lg-12 col-md-12 mt-1">
-                                <div class="input-group input-group-sm mb-1">
-                                    <span class="input-group-text" > نوع برگه </span>
-                                    <select class="form-select form-select-sm">
-                                        <option value="1"> سفارش فروش   </option>
-                                        <option value="2"> پیش فاکتور </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row">
                             <div class="col-lg-12 col-md-12 mt-1">
                                 <div class="form-check">
@@ -921,7 +866,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal" tabindex="-1" id="addAmelModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -2342,7 +2286,7 @@
         <div class="modal-content">
         <div class="modal-header bg-success text-white py-2">
             <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
-            <h5 class="modal-title fs-5" id="dispensedCheckListLabel"> لیست چک ها ی خرچ شده   </h5>
+            <h5 class="modal-title fs-5" id="dispensedCheckListLabel"> لیست چک های خرچ شده   </h5>
         </div> 
         <div class="modal-body">
             <div class="row mb-1">
@@ -2699,6 +2643,233 @@
         </div>
     </div>
 </div>
+
+<div class='modal fade dragAbleModal' id='editOrder' data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <input type="hidden" id="rowTaker">
+    <div class='modal-dialog modal-fullscreen'>
+        <div class='modal-content'>
+            <div class='modal-header bg-success text-white py-2'>
+                <h5 class='modal-title text-white' id='exampleModalLongTitle'> ویرایش فروش </h5>
+            </div>
+            <div class='modal-body'>
+                <form action="{{url('/doUpdateOrder')}}" method="get" id="editNewOrderForm"> 
+                    @csrf
+                    <input type="text" name="SnHDS" class="d-none" id="SnHDSEdit">
+                <div class="row mb-3 mtn-3">
+                    <div class="col-lg-9 col-md-9">
+                    </div>
+                    <div class="col-lg-3 col-md-3 text-end">
+                        <button class="btn btn-success btn-sm" type="submit"> ثبت <i class="fa fa-save"></i> </button>
+                        <button type="button" class="btn btn-danger btn-sm"  onclick="closeEditNewOrderModal()"> انصراف <i class="fa fa-xmark"></i> </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-9 col-md-9">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4">
+                                <div class="input-group input-group-sm mb-1">
+                                    <span class="input-group-text" >تاریخ </span>
+                                    <input type="text" class="form-control" autocomplete="off" name="orderDateEdit" id="sendDateFromSefarishPageEdit" required>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 mx-0">
+                                <div class="input-group input-group-sm mb-1">
+                                    <span class="input-group-text" > کد مشتری </span>
+                                    <input type="text" class="form-control form-control-sm" id="customerCodeInputEdit" autocomplete="off" onkeyup="getCustomerByCode(this.value)">
+                                    <span class="input-group-text" > نام مشتری </span>
+                                    <input type="text" id="searchCustomerNameInputEdit" class="form-control form-control-sm" autocomplete="off" aouto required>
+                                    <select name="customerForSefarishIdEdit"  id="customerForSefarishIdEdit" class="form-select customerForSefarishId d-none">
+                                    </select>
+                                    <!-- <button  class="btn btn-sm btn-success btn-sm"> گردش حساب </button> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-none">
+                            <input type="text" id="hamlMoneyEdit" value="0" name="hamlMoneyEdit">
+                            <input type="text" id="hamlDescEdit" name="hamlDescEdit">
+                            <input type="text" id="nasbMoneyEdit" value="0"  name="nasbMoneyEdit">
+                            <input type="text" id="nasbDescEdit"  name="nasbDescEdit">
+                            <input type="text" id="motafariqaMoneyEdit" value="0"  name="motafariqaMoneyEdit">
+                            <input type="text" id="motafariqaDescEdit"  name="motafariqaDescEdit">
+                            <input type="text" id="bargiriMoneyEdit" value="0"  name="bargiriMoneyEdit">
+                            <input type="text" id="bargiriDescEdit"  name="bargiriDescEdit">
+                            <input type="text" id="tarabariMoneyEdit" value="0"  name="tarabariMoneyEdit">
+                            <input type="text" id="tarabariDescEdit"  name="tarabariDescEdit">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="input-group input-group-sm mb-1">
+                                    <span class="input-group-text" > توضیحات </span>
+                                    <input type="text" class="form-control" name="orderDescriptionEdit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="input-group input-group-sm mb-1">
+                                    <span class="input-group-text" > آدرس</span>
+                                    <select class="form-select form-select-sm" name="customerAddressEdit" id="customerAddressForSefarishEdit" required>
+                                        <option selected> آدرس </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-lg-3 col-md-3">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input float-start" type="checkbox" id="checkExitanceForAddToSefarishEdit" style="padding:6px" checked>
+                                    <label class="form-check-label ms-3" for="flexCheckDefault">
+                                        موجودی کالا کنترل شود 
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12" style="background-color:#e0e0e0;">
+                                <span class="description"> موجودی انبار : <b id="goodAmountInStockEdit"> 0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="goodPriceAddSefarishEdit"> 0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="lastSalePriceToThisCustomerAddSefarishEdit"></b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="lastSalePriceAddSefarishEdit"> 0 </b> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <table class="table table-striped table-bordered table-sm" id="newSefarishTblEdit">
+                    <thead>
+                        <tr>
+                            <th style="width:30px!important;" > ردیف </th>
+                            <th style="width:40px!important;" > کد کلا </th>
+                            <th style="width:130px!important;" > نام کلا </th>
+                            <th style="width:50px!important;" > واحد کالا </th>
+                            <th style="width:70px!important;" > بسته بندی </th>
+                            <th style="width:70px!important;" > مقدار کل </th>
+                            <th style="width:50px!important;" > مقدار جز </th>
+                            <th style="width:70px!important;"> مقدار کالا </th>
+                            <th style="width:70px!important;"> نرخ واحد </th>
+                            <th style="width:70px!important;"> نرخ بسته </th>
+                            <th style="width:70px!important;"> مبلغ </th>
+                            <th style="width:70px!important;"> نوع ارسال </th>
+                            <th style="width:60px!important;"> شرح </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableBodyNewOrderEdit" id="addsefarishtblEdit">
+                        <tr>
+                            <td style="width:30px!important;"> 1 </td>
+                            <td style="width:40px!important;"  class="td-part-input"> <input type="text" class="td-input td-inputCode form-control" required> </td>
+                            <td style="width:130px!important;" class="td-part-input"> <input type="text" class="td-input td-inputCodeName form-control" required> </td>
+                            <td style="width:50px!important;"  class="td-part-input">  </td>
+                            <td style="width:70px!important;"  class="td-part-input">  </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
+                            <td style="width:50px!important;"  class="td-part-input"> <input type="text" class="td-input form-control" required> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:70px!important;"  class="td-part-input"> <input type="text" class="td-input form-control"> </td>
+                            <td style="width:45px!important;"  class="td-part-input"> <input type="text" class="td-input td-inputDescription form-control"> </td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12  col-sm-12"  style="background-color:#e0e0e0; boarder-radius:6px; padding:15px;">
+                            <span class="sumRow mt-4"> آخرین وضعیت مشتری :   <b id="lastCustomerStatusEdit"></b> </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4" style="background-color:#e0e0e0; boarder-radius:6px; padding:15px;">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <button type="button" class="btn btn-sm btGroup btn-success deletOrderButton" id="deleteOrderItemBtnEdit"> حذف کالا <i class="fa fa-xmark"></i> </button>
+                            <button type="button" class="btn btn-sm btGroup btn-success mb-3" onclick="showAmelModalEdit()"> هزینه ها  <i class="fa fa-list"></i> </button> <br>
+                            <span class="sumRow mt-4"> وزن     :  </span> <br>
+                            <span class="sumRow">  حجم  :  </span><br><br>
+                        </div>
+                        <div class="col-lg-7">
+                            <span class="sumRow border-bottom"> جمع تار دیف جاری :  <b id="allMoneyTillThisRowEdit"></b></span> <hr>
+                            <span class="sumRow mb-3"> مجموع     :  <b id="allMoneyTillEndRowEdit"></b> </span> <br>
+                            <span class="sumRow"> جمع هزینه ها  :  <b id="allAmelMoneyEdit">0</b></span><br> <br>
+                            <div class="input-group input-group-sm mb-1">
+                                <span class="input-group-text" > مبلغ تخفیف </span>
+                                <input type="number" class="form-control" name="takhfif"  id="newOrderTakhfifInputEdit"/>
+                            </div> <hr>
+                            <span class="sumRow"> مجموع : <b id="sumAllRowMoneyAfterTakhfifEdit"></b></span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!---- add Item fro edit--->
+<div class="modal fade dragAbleModal" id="addOrderItemEdit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-white py-2" style="background-color:#045630;">
+                <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="updatingOrderSalesLabelEdit"> افزودن به سفارش </h5>
+            </div>
+            <div class="modal-body shadow">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <!-- <button type="button" class="btn btn-sm btn-success"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
+                            <div class="form-check mt-1">
+                                <label class="form-check-label mx-2" for="flexCheckDefault">
+                                    نمایش موجودی انبار، قیمت فروش و قیمت خرید 
+                                </label>
+                                <input class="form-check-input float-start p-2 mx-2" type="checkbox" value="" id="flexCheckDefaultEdit">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="searchForAddItemLabelEdit"> نام کالا : </span>
+                                <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByNameEdit" autofocus>
+                                <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToSefarishByCodeEdit" autofocus>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">
+                                <span class="description"> موجودی انبار : <b id="AddStockExistanceEdit">0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="AddSalePriceEdit">0 </b></span> <br>
+                                <span class="description">  آخرین قیمت خرید: <b id="AddPriceEdit">0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddLastPriceCustomerEdit">0</b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="AddLastPriceEdit">0</b> </span>                      
+                        </div>
+                        <div class="col-lg-2 text-center ">
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success" id="selectKalaToSefarishBtnEdit"> انتخاب  <i class="fa fa-history"></i> </button> 
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-danger" data-dismiss="modal"> انصراف <i class="fa fa-xmark"></i> </button>
+                            <!-- <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success"> همه کالا ها   <i class="fa fa-save"></i></button>                         -->
+                        </div>
+                    </div><hr>
+
+                    <div class="row my-4">
+                    <table class="table table-striped table-bordered" id="kalaForAddToSefarishTbleEdit">
+                            <thead class="tableHeader">
+                                <tr>
+                                    <th scope="col">ردیف</th>
+                                    <th scope="col"> کد کالا  </th>
+                                    <th scope="col"> نام کالا  </th>
+                                    <th scope="col"> واحد کالا </th>
+                                </tr>
+                            </thead>
+                            <tbody class="tableBody" id="kalaForAddToFactorEdit">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script> 
 	
 $('.searchingKalaTd').on("click", (e)=> {

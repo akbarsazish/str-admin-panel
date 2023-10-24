@@ -113,7 +113,7 @@ Route::get('/deleteGroup',[Group::class,'deleteMainGroup'])->middleware('checkAd
 Route::post('/deleteSubGroup',[Group::class,'deleteSubGroup'])->middleware('checkAdmin');
 Route::get('/descKala/{groupId}/itemCode/{id}',[Kala::class,'describeKala'])->middleware('checkUser');
 Route::post('/shipping',[Basket::class,'sendBasket'])->middleware('checkUser');
-Route::post('/addFactor',[Order::class,'addOrder'])->middleware('checkUser');
+Route::post('/addOrder',[Order::class,'addOrder'])->middleware('checkUser');
 Route::get('/starfoodFrom',[Order::class,'getPaymentForm'])->middleware('checkUser');
 Route::get('/sucessPay',[Order::class,'finalizePayAndOrder'])->middleware('checkUser');
 
@@ -342,6 +342,7 @@ Route::get("/deleteBargiriHDS",[Bargiri::class,'deleteBargiriHDS'])->middleware(
 Route::get("/filterFactors",[Factor::class,'filterFactors'])->middleware('checkAdmin');
 Route::get("/getFactorInfoForEdit",[Factor::class,'getFactorInfoForEdit'])->middleware('checkAdmin');
 Route::get("/doEditFactor",[Factor::class,'doEditFactor'])->middleware('checkAdmin');
+Route::get("/addFactor",[Factor::class,'addFactorFromAdmin'])->middleware('checkAdmin');
 Route::get("/getCustomerGardish",[Customer::class,'getCustomerGardish'])->middleware('checkAdmin');
 Route::get("/getGardishKala",[Kala::class,'getGardishKala'])->middleware('checkAdmin');
 Route::get("/getlastTenBuys",[Kala::class,'getlastTenBuys'])->middleware('checkAdmin');
@@ -349,3 +350,6 @@ Route::get("/getlastTenSales",[Kala::class,'getlastTenSales'])->middleware('chec
 Route::get("/getUnSentOrders",[Kala::class,'getUnSentOrders'])->middleware('checkAdmin');
 Route::get("/getGameHistory",[Game::class,"getGameHistory"])->middleware("checkAdmin");
 Route::get("/getFactorHistory",[Factor::class,"getFactorHistory"])->middleware("checkAdmin");
+Route::get("/deleteFactor",[Factor::class,"deleteFactor"])->middleware("checkAdmin");
+Route::get("/checkAddedKalaPrice",[Kala::class,"checkAddedKalaPrice"])->middleware("checkAdmin");
+Route::get("/doUpdateOrder",[Order::class,"doUpdateOrder"])->middleware("checkAdmin");

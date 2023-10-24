@@ -10581,111 +10581,7 @@ $("#editSendForm").on("submit", function (e) {
     e.preventDefault();
 });
 
-$("#editOrderBtn").on("click", () => {
-    $.ajax({
-        method: 'get',
-        url: baseUrl + '/getOrderDetail',
-        async: true,
-        data: {
-            orderSn: $("#editOrderBtn").val()
-        },
-        success: function (response) {
-            $("#editFactorNo").val(response[1][0].OrderNo);
-            $("#editCustomerSn").val(response[1][0].CustomerSn);
-            $("#editOrderDate").val(response[1][0].OrderDate);
-            $("#editPCode").val(response[1][0].PCode);
-            $("#CustomerNameEditInput").val(response[1][0].Name);
-            $("#editName").empty();
-            $("#editName").append(`<option selected>${response[1][0].Name}</option>`);
-            $("#editDiscription").val(response[1][0].OrderDesc);
-            $("#EditHDSSn").val(response[1][0].SnOrder);
-            if (response[1][0].isSent == 1) {
-                $("#editSendState").css("display", "inline");
-                $("#editSaveBtn").css("display", "inline");
-                $("#editSentOrderSn").val(response[1][0].SnOrder);
-            }
-            if (response[1][0].isSent == 1 && response[1][0].isDistroy == 0) {
-                $("#editSentOption").prop('selected', true);
-            } else {
-                if (response[1][0].isSent == 0 && response[1][0].isDistroy == 0) {
-                    $("#editUnSentOption").prop('selected', true);
-                } else {
-                    $("#editDistroyOption").prop('selected', true);
-                }
-            }
-            if (response[4][0]) {
-                $("#editTotalMoney").text(parseInt(response[4][0].totalMoney / 10).toLocaleString("en-us"));
-            } else {
-                $("#editTotalMoney").text(parseInt(0 / 10).toLocaleString("en-us"));
-            }
-            if (response[3][0]) {
-                $("#editTotalCosts").text(parseInt(response[3][0].totalPrice / 10).toLocaleString("en-us"));
-            } else {
-                $("#editTotalCosts").text(parseInt(0 / 10).toLocaleString("en-us"));
-            }
-            $("#editTakhfifTotal").val(parseInt(response[1][0].Takhfif / 10));
-            $("#editHdsSn").val(response[1][0].SnOrder);
-            $("#HdsSn").val(response[1][0].SnOrder);
-            $("#editInVoiceNumber").val(response[1][0].InVoiceNumber);
-            if (response[2].length < 1) {
-                $("#editSabtBtn").prop("disabled", false);
-            }
-            if (response[1][0].OrderErsalTime == 1) {
-                $("#editAm").prop("selected", true);
-            } else {
-                $("#editPm").prop("selected", true);
-            }
-            $("#editAddress").empty();
-            $("#editAddress").append(`<option value="`+response[1][0].OrderAddress+`" selected>` + response[1][0].OrderAddress + `</option>`);
 
-            //نمایش کالای سفارش داده شده
-            $("#editSalesOrdersItemsBody").empty();
-
-            response[0].forEach((element, index) => {
-                let secondUnit = "ندارد";
-                if (element.secondUnit) {
-                    secondUnit = element.secondUnit;
-                }
-                $("#editSalesOrdersItemsBody").append(`                         
-                <tr onclick="getEditItemInfo(this,`+ element.SnGood + `,` + element.SnOrderBYSS + `)">
-                <td>`+ (index + 1) + `</td>
-                <td class="forMobile">`+ element.GoodCde + `</td>
-                <td style="width:180px;">`+ element.GoodName + `</td>
-                <td class="forMobile">`+ element.DateOrder + `</td>
-                <td class="forMobile">`+ element.firstUnit + `</td>
-                <td class="forMobile">`+ secondUnit + `</td>
-                <td>`+ parseInt(element.PackAmount).toLocaleString("en-us") + `</td>
-                <td class="forMobile">0</td>
-                <td class="forMobile">`+ parseInt(element.Amount).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ parseInt(element.Fi / 10).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ parseInt(element.FiPack / 10).toLocaleString("en-us") + ` </td>
-                <td >`+ parseInt(element.totalPrice / 10).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ element.DescRecord + `</td>
-                </tr>
-                `);
-            });
-
-            if (!($('.modal.in').length)) {
-                $('.modal-dialog').css({
-                    top: 0,
-                    left: 0
-                });
-            }
-            $('#orderEditingModal').modal({
-                backdrop: false,
-                show: true
-            });
-
-            $('.modal-dialog').draggable({
-                handle: ".modal-header"
-            });
-
-            $("#orderEditingModal").modal("show");
-        },
-        error: function (error) {
-        }
-    });
-});
 
 $("#distroyOrderBtn").on("click", () => {
     swal({
@@ -11046,10 +10942,9 @@ $("#editDeleteOrderItem").on("click", () => {
                 method: 'get',
                 async: true,
                 url: baseUrl + "/deleteOrderItem",
-                data: {
-                      
-                    orderSn: $("#editDeleteOrderItem").val(),
-                    hdsSn: $("#editOrderBtn").val()
+                data: { 
+                        orderSn: $("#editDeleteOrderItem").val(),
+                        hdsSn: $("#editOrderBtn").val()
                 },
                 success: function (respond) {
                     $("#editSalesOrdersItemsBody").empty();
@@ -11303,14 +11198,14 @@ $("#editEditOrderItem").on("click", function () {
             $("#editOrderKalaName").append(`<option selected value="` + element.GoodSn + `">` + element.GoodName + `</option>`);
             
             if (element.AmountUnit) {
-                for (let index = 1; index <= 40; index++) {
+                for (let index = 1; index <= 100; index++) {
                     if (index != parseInt(element.PackAmount)) {
                         $("#editOrderAmount").append(`<option value="` + (index * element.AmountUnit) + `">` + (index) + `  ` + element.secondUnit + ` معادل ` + index * element.AmountUnit
                             + ` ` + element.firstUnit + `</option>`);
                     }else{
                         $("#editOrderAmount").append(`<option selected value="` + (index * element.AmountUnit) + `">` + (index) + `  ` + element.secondUnit + ` معادل ` + index * element.AmountUnit
                         + ` ` + element.firstUnit + `</option>`);
-                    } 
+                    }
                 }
 
                 if (!isNaN(parseInt(response[1][0].Amount))) {

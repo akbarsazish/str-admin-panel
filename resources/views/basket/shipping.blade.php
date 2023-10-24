@@ -4,7 +4,7 @@
         <div class="row fw-bold"> <span>گیرنده :{{Session::get('username')}}</span> </div>
         <div class="row">
             <div class="col-lg-12 col-md-12">
-            <form method="post" action="{{url('/addFactor')}}" onSubmit="chekForm(event)">
+            <form method="post" action="{{url('/addOrder')}}" onSubmit="chekForm(event)">
                   @csrf
                    <div class="row">
                         <div class="col-lg-6 col-md-6">

@@ -155,8 +155,21 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success btn-sm topButton text-warning"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success btn-sm topButton text-warning mb-2"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                            </div>
                         </form>
+                        <div class="row">
+                            <div>
+                                <button class="btn btn-sm text-warning btn-success mb-2" id="addFactorBtn"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
+                                <button class="btn btn-sm text-warning btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
+                                <button class="btn btn-sm text-warning btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
+                            </div>
+                            <div class="text-end">
+                            </div>
+                            <div class="text-end">
+                            </div>
+                        </div>
                         </fieldset>
                     </span>
             </fieldset>
@@ -796,14 +809,14 @@
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > تاریخ </span>
                                     <input type="text" class="form-control" name="FactDateEdit" id="FactDateEdit">
-                                    <select name="" id="customerForFactorEdit" style="display: none;">
+                                    <select name="customerForFactorEdit" id="customerForFactorEdit" style="display: none;">
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار </span>
                                     <input type="text" class="form-control" name="pCodeEdit" id="pCodeEdit">
                                     <input type="text" class="form-control" name="NameEdit" id="NameEdit">
-                                    <button type="button" onclick="openCustomerGardishModal()" class="btn btn-info text-warning">گردش حساب</button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForSefarishId').value)" class="btn btn-info text-warning">گردش حساب</button>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
@@ -821,7 +834,7 @@
                                         <input type="text" id="MotafariqahMobileEdit" class="form-control">
                                     </div>
                                 </div>
-                                <div  id="factorAddressDivEdit" style="display: none">
+                                <div  id="motafariqahAddressDivEdit" style="display: none">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > آدرس </span>
                                     <input type="text" name="MotafariqahAddressEdit"  id="MotafariqahAddressEdit" class="form-control">
@@ -858,7 +871,7 @@
                             <div class="col-4">
                                 <div>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning" id="openKalaGardishButton"> گردش کالا </button>
-                                    <button type="button" onclick="openCustomerGardishModal()" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForSefarishId').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
                                     {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
                                     <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
@@ -925,6 +938,189 @@
     </div>
 </div>
 
+<div class="modal" id="addFactorModal" tabindex="1">
+    <input type="hidden" id="factorRowTaker">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header bg-info" >
+                <h5 class="modal-title text-end"> افزودن فاکتور </h5>
+            </div>
+            <div class="modal-body">
+                <form action="{{url("/addFactor")}}" method="get" id="addFactorForm">
+                    @csrf
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > انبار </span>
+                                    <select name="stockAdd" id="stockAdd" class="form-select">
+                                        <option></option>
+                                        @foreach($stocks as $stock)
+                                        @if($stock->SnStock!=23)
+                                            <option value="{{$stock->SnStock}}">{{$stock->NameStock}}</option>
+                                        @else
+                                            <option value="{{$stock->SnStock}}" selected>{{$stock->NameStock}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > تاریخ </span>
+                                    <input type="text" class="form-control" name="FactDateAdd" id="FactDateAdd">
+                                    <select name="customerForFactorAdd" id="customerForFactorAdd" style="display: none;">
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > خریدار </span>
+                                    <input type="text" class="form-control" name="pCodeAdd" id="pCodeAdd">
+                                    <input type="text" class="form-control" name="NameAdd" id="NameAdd">
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-info text-warning">گردش حساب</button>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > بازاریاب </span>
+                                    <input type="text" class="form-control" name="bazaryabCodeAdd" id="bazaryabCodeAdd">
+                                    <input type="text" class="form-control" name="bazaryabNameAdd" id="bazaryabNameAdd">
+                                    <button  type="button" class="btn btn-info text-warning"> ... </button>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > خریدار متفرقه </span>
+                                    <input type="text" class="form-control" name="MotafariqahNameAdd" id="MotafariqahNameAdd">
+                                </div>
+                                <div  id="mobileNumberDivAdd" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" >  موبایل </span>
+                                        <input type="text" id="MotafariqahMobileAdd" class="form-control">
+                                    </div>
+                                </div>
+                                <div  id="motafariqahfactorAddressDivAdd" style="display: none">
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > آدرس </span>
+                                    <input type="text" name="MotafariqahAddressAdd"  id="MotafariqahAddressAdd" class="form-control">
+                                </div>
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > توضحیات </span>
+                                    <input type="text" class="form-control" name="ّFactDescAdd" id="ّFactDescAdd">
+                                </div>
+                                <div class="input-group input-group-sm mb-1 filterItems">
+                                    <span class="input-group-text" > نحوه تحویل </span>
+                                    <select name="TahvilTypeAdd" id="TahvilTypeAdd" class="form-select">
+                                        <option value="tahvil"> تحویل به مشتری </option>
+                                        <option value="ersal"> ارسال به آدرس </option>
+                                    </select>
+                                </div>
+                                <div  id="sendTimeDivAdd" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" >  زمان ارسال </span>
+                                        <select name="SendTimeAdd" id="SendTimeAdd" class="form-select">
+                                            <option > صبح </option>
+                                            <option > عصر </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div  id="factorAddressDivAdd" style="display: none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text" > آدرس </span>
+                                        <select name="factorAddressAdd" id="factorAddressAdd" class="form-select">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning" id="openKalaGardishButton"> گردش کالا </button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
+                                    {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
+                                    <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
+                                    <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
+                                    <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-end">
+                                    <label class="form-label"> کرایه دریافت شد </label>
+                                    <input type="checkbox" class="form-check-input" name="ّtakeKerayahAdd" id="ّtakeKerayahAdd">
+                                    <button type="submit" class="btn btn-sm btn-success text-warning mb-2"> ثبت </button>
+                                    <button type="button" onclick="cancelAddFactor()" class="btn btn-sm btn-danger  mb-2"> انصراف </button>
+                                </div>
+                                <div>
+                                    <div class="col-lg-12 border-2" style="background-color:#e0e0e0;">
+                                        <span class="description"> موجودی انبار : <b id="AddedToFactorExistInStock">0</b></span> <br>
+                                        <span class="description">  قیمت فروش : <b id="AddedToFactorPrice">0</b></span> <br>
+                                        <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddedToFactorLastPriceCustomer">0</b></span> <br>
+                                        <span class="description"> آخرین قیمت فروش :  <b id="AddedToFactorLastPrice">0</b> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="table table-striped table-bordered table-sm factorTable">
+                                <thead class="bg-success">
+                                    <tr class="bg-success factorTableHeadTr">
+                                        <th> ردیف </th>
+                                        <th> کد کالا </th>
+                                        <th> نام کالا </th>
+                                        <th> واحد کالا </th>
+                                        <th> بسته بندی </th>
+                                        <th> مقدار کل </th>
+                                        <th> مقدار جز </th>
+                                        <th> مقدار اولیه </th>
+                                        <th> مقدار برگشتی </th>
+                                        <th> مقدار کالا </th>
+                                        <th> نرخ واحد </th>
+                                        <th> نرخ بسته </th>
+                                        <th> مبلغ </th>
+                                        <th> مبلغ بعد از تخفیف </th>
+                                        <th> شماره سفارش </th>
+                                        <th> تاریخ سفارش </th>
+                                        <th> شرح کالا </th>
+                                        <th> انبار </th>
+                                        <th> مالیات بر ارزش افزوده </th>
+                                        <th> وزن واحد </th>
+                                        <th> وزن کل </th>
+                                        <th> In Srvice </th>
+                                        <th> درصد مالیات </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="factorAddListBody">
+                                    <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
+                                        <td class="td-part-input"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
+                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class='modal fade dragAbleModal' id='customerForSefarishModal' data-backdrop="static" tabindex="-1" >
     <div class='modal-dialog modal-xl'>
         <div class='modal-content'>
@@ -946,7 +1142,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <button type="button" disabled id="searchCustomerSabtBtn" onclick="chooseCustomerForّFactorEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" disabled id="searchCustomerSabtBtn" onclick="chooseCustomerForFactorEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
                         <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtn"> انصراف <i class="fa fa-trash"></i> </button>
                     </div>
                 </div>
@@ -963,6 +1159,54 @@
                         </tr>
                     </thead>
                     <tbody class="tableBody" id="foundCusotmerForOrderBody">
+                    </tbody>
+                </table> 
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='modal fade dragAbleModal' id='customerForFactorModal' data-backdrop="static" tabindex="-1" >
+    <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+            <div class='modal-header bg-success text-white py-2'>
+                <h5 class='modal-title text-white' > جستجوی مشتری </h5>
+            </div>
+            <div class='modal-body'>
+                <div class="row mb-3 mtn-3">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> نام شخص </span>
+                            <input type="text" class="form-control form-control-sm" id="customerNameForFactor" autocomplete="off" autofocus/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> بر اساس شماره تماس جستجو شود.</span>
+                            <input type="checkbox" class="form-input" name="searchByPhone" id="searchByPhoneNumberCheckBox">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <button type="button" disabled id="addCustomerFactSabtBtn" onclick="chooseCustomerForFactorAdd(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtn"> انصراف <i class="fa fa-trash"></i> </button>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-sm" id="foundCusotmerForFactorTble">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد   </th>
+                            <th> نام  </th>
+                            <th> شماره تماس  </th>
+                            <th> خرید </th>
+                            <th> فروش </th>
+                            <th> تعداد چک برگشتی </th>
+                            <th> مبلغ چک های برگشتی </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableBody" id="foundCusotmerForFactorBody">
                     </tbody>
                 </table> 
                 <div class="modal-footer">
@@ -1286,6 +1530,65 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade dragAbleModal" id="searchGoodsModalAddFactor" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header text-white py-2" style="background-color:#045630;">
+                <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="updatingOrderSalesLabel"> افزودن به فاکتور </h5>
+            </div>
+            <div class="modal-body shadow">
+                    <div class="row">
+                        <div class="col-lg-4">
+                             <!-- <button type="button" class="btn btn-sm btn-success text-warning"> افزودن کالا <i class="fa fa-plus"></i> </button> -->
+                             <div class="form-check mt-1">
+                                 <label class="form-check-label mx-2" for="flexCheckDefault">
+                                     نمایش موجودی انبار، قیمت فروش و قیمت خرید 
+                                    </label>
+                                <input class="form-check-input float-start p-2 mx-2" type="checkbox" value="" id="flexCheckDefault">
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                   <span class="input-group-text" id="searchForAddItemLabel"> نام کالا : </span>
+                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToFactorByName" autofocus>
+                                  <input type="text" class="form-control" autocomplete="off" id="searchKalaForAddToFactorByCode" autofocus>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">
+                                <span class="description"> موجودی انبار : <b id="AddFactorStockExistance">0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="AddFactorSalePrice">0 </b></span> <br>
+                                <span class="description">  آخرین قیمت خرید: <b id="AddFactorPrice">0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddFactorLastPriceCustomer">0</b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="AddFactorLastPrice">0</b> </span>                      
+                        </div>
+                        <div class="col-lg-2 text-center ">
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success text-warning" id="selectKalaToAddFactorBtn"> انتخاب  <i class="fa fa-history"></i> </button> 
+                            <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-danger" data-dismiss="modal"> انصراف <i class="fa fa-xmark"></i> </button>
+                            <!-- <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success text-warning"> همه کالا ها   <i class="fa fa-save"></i></button>                         -->
+                        </div>
+                    </div><hr>
+
+                    <div class="row my-4">
+                    <table class="table table-striped table-bordered" id="kalaForAddToFactorTble">
+                            <thead class="tableHeader">
+                                <tr>
+                                    <th scope="col">ردیف</th>
+                                    <th scope="col"> کد کالا  </th>
+                                    <th scope="col"> نام کالا  </th>
+                                    <th scope="col"> واحد کالا </th>
+                                </tr>
+                            </thead>
+                            <tbody class="tableBody" id="kalaForAddToFactor">
+                                
+                            </tbody>
+                        </table>
+                    </div>
             </div>
             <div class="modal-footer">
             </div>

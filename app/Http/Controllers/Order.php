@@ -31,7 +31,7 @@ class Order extends Controller{
 
         $orderSn=$request->get("orderSn");
 
-        $orderItems=DB::select("SELECT *,orderBYSS.Price as totalPrice,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit  from NewStarfood.dbo.orderBYSS join Shop.dbo.PubGoods on orderBYSS.SnGood=PubGoods.GoodSn
+        $orderItems=DB::select("SELECT *,orderBYSS.Price as totalPrice,NewStarfood.dbo.getLastDateBuyFi(GoodSn)lastBuyFi,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getSecondUnitAmount(GoodSn)AmountUnit,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit  from NewStarfood.dbo.orderBYSS join Shop.dbo.PubGoods on orderBYSS.SnGood=PubGoods.GoodSn
         where orderBYSS.SnHDS=".$orderSn);
 
         $order=DB::select("SELECT * FROM NewStarfood.dbo.orderHDSS JOIN Shop.dbo.Peopels ON orderHDSS.CustomerSn=PSN
@@ -1996,4 +1996,66 @@ public function addOrder(Request $request){
         DB::update("UPDATE NewStarfood.dbo.OrderHDSS SET CustomerSn=$psn,OrderAddress='$address',OrderSnAddress=$addressSn WHERE SnOrder=$snHDS");
         return Response::json(1);
     }
+    
+    public function doUpdateOrder(Request $request) {
+        $psn=$request->input("customerForSefarishIdEdit");
+        $snHDS=$request->input("SnHDS");
+        $orderDate=$request->input("orderDateEdit");
+        list($addressSn,$address)=explode("_",$request->input("customerAddressEdit"));
+        $orderDescription=$request->input("orderDescriptionEdit");
+        $editablesGoods=$request->input("editables");        
+        DB::update("UPDATE NewStarfood.dbo.OrderHDSS SET CustomerSn=$psn,OrderDate='$orderDate',OrderDesc='$orderDescription',OrderAddress='$address',OrderSnAddress=$addressSn WHERE SnOrder=$snHDS");
+        DB::delete("DELETE FROM NewStarfood.dbo.OrderBYSS WHERE SnHDS=$snHDS AND SnGood not in( ".implode(",",$editablesGoods).")");
+
+        foreach ($editablesGoods as $goodSn) {
+            $packAmount=str_replace(",", "",$request->input("packAmount".$goodSn));
+            $amount=str_replace(",", "",$request->input("Amount".$goodSn));
+            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
+            $descRec=$request->input("Description".$goodSn);
+            $fiPack=str_replace(",", "",$request->input("PackPrice".$goodSn));
+            $jozePack=str_replace(",", "",$request->input("JozeAmount".$goodSn));
+            $realFi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $realPrice=str_replace(",", "",$request->input("AllPrice".$goodSn));
+            $countAddables=DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->count();
+            $countEditables=0;
+            if($countAddables>0){
+                 // is editable?
+                DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->update(["PackAmount"=>$packAmount
+                ,"Amount"=>$amount
+                ,"Fi"=>$fi
+                ,"Price"=>$price
+                ,"PriceAfterTakhfif"=>$price
+                ,"DescRecord"=>"دستی"
+                ,"FiPack"=>$fiPack
+                ,"JozePack"=>$jozePack
+                ,"RealFi"=>$fi
+                ,"RealPrice"=>$price]);
+            }else{
+                $packtypes=DB::select("SELECT NewStarfood.dbo.getPackType($goodSn)PackType");
+                $packType=$packtypes[0]->PackType;
+                $current = Carbon::today();
+                $todayDate = Jalalian::fromCarbon($current)->format('Y/m/d');
+                 // is addable?
+                    DB::table('NewStarfood.dbo.OrderBYSS')->insert(["CompanyNo"=>5
+                        ,"SnHDS"=>$snHDS
+                        ,"SnGood"=>$goodSn
+                        ,"PackType"=>$packType
+                        ,"PackAmount"=>$packAmount
+                        ,"Amount"=>$amount
+                        ,"Fi"=>$fi
+                        ,"Price"=>$price
+                        ,"PriceAfterTakhfif"=>$price
+                        ,"DescRecord"=>"دستی"
+                        ,"DateOrder"=>"".$todayDate.""
+                        ,"FiPack"=>$fiPack
+                        ,"JozePack"=>$jozePack
+                        ,"RealFi"=>$fi
+                        ,"RealPrice"=>$price]);
+                }     
+           
+    }
+
+    return Response::json("done");
 }
+}   
