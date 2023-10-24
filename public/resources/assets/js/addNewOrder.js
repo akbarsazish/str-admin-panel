@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.10.33:8080";
+var baseUrl = "http://192.168.10.26:8080";
 function openNewOrderModal(){
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({
@@ -192,16 +192,6 @@ $("#bargiriDescModal").on("keyup",(e)=>{
     }
 });
 
-function checkNumberInput(e){
-    if(((e.keyCode>=48 && e.keyCode<=57 || (e.keyCode==13 || e.keyCode==9)) || ((e.keyCode>=96 && e.keyCode<=105)|| e.keyCode==8))){
-        if(e.target.value.length>0){
-            e.target.value=parseInt(e.target.value.replace(/,/g, '')).toLocaleString("en-us")
-        }
-    }else{
-        e.target.focus();
-        e.target.value="";
-    }
-}
 $("#tarabariDescModal").on("keyup",(e)=>{
     if(e.keyCode==13 || e.keyCode==9){
         let allAmel=checkWantToaddedAmel();
@@ -219,6 +209,18 @@ $("#tarabariDescModal").on("keyup",(e)=>{
         }
     }
 });
+
+function checkNumberInput(e){
+    if(((e.keyCode>=48 && e.keyCode<=57 || (e.keyCode==13 || e.keyCode==9)) || ((e.keyCode>=96 && e.keyCode<=105)|| e.keyCode==8))){
+        if(e.target.value.length>0){
+            e.target.value=parseInt(e.target.value.replace(/,/g, '')).toLocaleString("en-us")
+        }
+    }else{
+        e.target.focus();
+        e.target.value="";
+    }
+}
+
 
 
 function checkWantToaddedAmel(){
@@ -582,6 +584,11 @@ $(document).on("keyup",".td-inputCode", (e)=>{
 function showAmelModal(){
 
     $("#addAmelModal").modal("show");
+
+}
+function showAmelModalEdit(){
+
+    $("#addAmelModalEdit").modal("show");
 
 }
 
@@ -1365,6 +1372,7 @@ $("#editOrderBtn").on("click", () => {
             $("#customerForSefarishIdEdit").append(`<option value='${response[1][0].PSN}'>${response[1][0].Name}</option>`);
             $("#customerAddressForSefarishEdit").empty();
             $("#SnHDSEdit").val(response[1][0].SnOrder);
+
             if(response[5].length>0){
                 response[5].forEach((element)=>{
                     if(element.AddressPeopel!=response[1][0].OrderAddress){
@@ -1380,63 +1388,11 @@ $("#editOrderBtn").on("click", () => {
             $("#sendDateFromSefarishPageEdit").val(response[1][0].OrderDate);
             $("#customerCodeInputEdit").val(response[1][0].PCode);
             $("#searchCustomerNameInputEdit").val(response[1][0].Name);
-            // $("#editName").empty();
-            // $("#editName").append(`<option selected>${response[1][0].Name}</option>`);
-            // $("#editDiscription").val(response[1][0].OrderDesc);
-            // $("#EditHDSSn").val(response[1][0].SnOrder);
-
-            // if (response[4][0]) {
-            //     $("#editTotalMoney").text(parseInt(response[4][0].totalMoney / 10).toLocaleString("en-us"));
-            // } else {
-            //     $("#editTotalMoney").text(parseInt(0 / 10).toLocaleString("en-us"));
-            // }
-            // if (response[3][0]) {
-            //     $("#editTotalCosts").text(parseInt(response[3][0].totalPrice / 10).toLocaleString("en-us"));
-            // } else {
-            //     $("#editTotalCosts").text(parseInt(0 / 10).toLocaleString("en-us"));
-            // }
-            // $("#editTakhfifTotal").val(parseInt(response[1][0].Takhfif / 10));
-            // $("#editHdsSn").val(response[1][0].SnOrder);
-            // $("#HdsSn").val(response[1][0].SnOrder);
-            // $("#editInVoiceNumber").val(response[1][0].InVoiceNumber);
-            // if (response[2].length < 1) {
-            //     $("#editSabtBtn").prop("disabled", false);
-            // }
-            // if (response[1][0].OrderErsalTime == 1) {
-            //     $("#editAm").prop("selected", true);
-            // } else {
-            //     $("#editPm").prop("selected", true);
-            // }
-            // $("#editAddress").empty();
-            // $("#editAddress").append(`<option value="`+response[1][0].OrderAddress+`" selected>` + response[1][0].OrderAddress + `</option>`);
-
-            //نمایش کالای سفارش داده شده
-            // $("#editSalesOrdersItemsBody").empty();
-
-            // response[0].forEach((element, index) => {
-            //     let secondUnit = "ندارد";
-            //     if (element.secondUnit) {
-            //         secondUnit = element.secondUnit;
-            //     }
-            //     $("#editSalesOrdersItemsBody").append(`                         
-            //     <tr onclick="getEditItemInfo(this,`+ element.SnGood + `,` + element.SnOrderBYSS + `)">
-            //     <td>`+ (index + 1) + `</td>
-            //     <td class="forMobile">`+ element.GoodCde + `</td>
-            //     <td style="width:180px;">`+ element.GoodName + `</td>
-            //     <td class="forMobile">`+ element.DateOrder + `</td>
-            //     <td class="forMobile">`+ element.firstUnit + `</td>
-            //     <td class="forMobile">`+ secondUnit + `</td>
-            //     <td>`+ parseInt(element.PackAmount).toLocaleString("en-us") + `</td>
-            //     <td class="forMobile">0</td>
-            //     <td class="forMobile">`+ parseInt(element.Amount).toLocaleString("en-us") + `</td>
-            //     <td class="forMobile">`+ parseInt(element.Fi / 10).toLocaleString("en-us") + `</td>
-            //     <td class="forMobile">`+ parseInt(element.FiPack / 10).toLocaleString("en-us") + ` </td>
-            //     <td >`+ parseInt(element.totalPrice / 10).toLocaleString("en-us") + `</td>
-            //     <td class="forMobile">`+ element.DescRecord + `</td>
-            //     </tr>
-            //     `);
+            $("#lastCustomerStatusEdit").text(response[1][0].CustomerStatus);
             $(`#addsefarishtblEdit`).empty();
+            let totalMoney=0;
             response[0].forEach((element,index) => {
+                totalMoney+=parseInt(element.PriceAfterTakhfif)
                 $("#addsefarishtblEdit").append(`<tr  onclick="checkAddedKalaOfOrderAmount(this)">
                                                 <td style="width:30px!important;">`+(index+1)+`</td>
                                                 <td style="width:40px!important;" class="td-part-input"> <input type="checkbox" name="editables[]" class="d-none" value="${element.GoodSn}" checked/> <input type="number" value="`+element.GoodCde+`" class="td-input td-inputCodeEdit form-control"></td>
@@ -1461,12 +1417,22 @@ $("#editOrderBtn").on("click", () => {
                                                 </td>
                                             </tr>`)
                                     });
-        
+                $("#allMoneyTillEndRowEdit").text(parseInt(totalMoney).toLocaleString("en-us"));
                // checkAddedKalaToSefarishAmountAfterAdd(data[0].GoodSn);
                 },
                 error: function (error) {
                 }
             });
+
+            let hamlMoneyEdit=$("#hamlMoneyEdit").val();
+            let nasbMoneyEdit=$("#nasbMoneyEdit").val();
+            let motafariqaMoneyEdit=$("#motafariqaMoneyEdit").val();
+            let bargiriMoneyEdit=$("#bargiriMoneyEdit").val();
+            let tarabariMoneyEdit=$("#tarabariMoneyEdit").val();
+
+            let allAmelMoneyEdit=parseInt(hamlMoneyEdit)+parseInt(nasbMoneyEdit)+parseInt(motafariqaMoneyEdit)+parseInt(bargiriMoneyEdit)+parseInt(tarabariMoneyEdit);
+            $("#allAmelMoneyEdit").text(allAmelMoneyEdit);
+
             if (!($('.modal.in').length)) {
                 $('.modal-dialog').css({
                     top: 0,
@@ -1737,8 +1703,8 @@ $(document).on("keydown",".td-inputFirstUnitPriceEdit", (e)=>{
     }
     if(e.keyCode==9 || e.keyCode==13){
         let lastBuyFi=parseInt($('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(16)').children('input').val().replace(/,/g, ''));
-        let givenFi=parseInt($(e.target).val().replace(/,/g, ''))
         
+        let givenFi=parseInt($(e.target).val().replace(/,/g, ''))
         if(givenFi<lastBuyFi){
             swal({
                 title: "توجه!",
@@ -1896,6 +1862,15 @@ function closeEditNewOrderModal(){
 
 function checkAddedKalaOfOrderAmount(row){
     $(row).find('input:radio').prop('checked', true);
+    let rowindex=$(row).index()+1
+    let totalMoneyTillRow=0;
+
+    for (let index = 1; index <=rowindex; index++) {
+
+        totalMoneyTillRow+=parseInt($('#addsefarishtblEdit tr:nth-child('+index+') td:nth-child(11)').children('input').val().replace(/,/g, ''));
+    
+    }
+
     let input = $(row).find('input:radio');
     let goodSn=$(input).val();
     if(!goodSn){
@@ -1903,7 +1878,7 @@ function checkAddedKalaOfOrderAmount(row){
     }
 
     let customerSn=$("#customerForSefarishIdEdit").val();
-
+    $("#allMoneyTillThisRowEdit").text(parseInt(totalMoneyTillRow).toLocaleString("en-us"));
     if($("#checkExitanceForAddToSefarish").is(":checked")){
         $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
             goodSn: goodSn,
@@ -2265,6 +2240,7 @@ $("#deleteOrderItemBtnEdit").on("click",function(e){
     
 })
 
+
 $("#editNewOrderForm").on("submit",function(e){
     e.preventDefault();
     $.ajax({
@@ -2282,3 +2258,109 @@ $("#editNewOrderForm").on("submit",function(e){
 
         }});
 })
+
+function addAmelToSefarishEdit(){
+    $("#addAmelModalEdit").modal("hide");
+    $("#hamlMoneyEdit").val($("#hamlMoneyModalEdit").val().replace(/,/g, ''));
+    $("#hamlDescEdit").val($("#hamlDescModalEdit").val());
+    $("#nasbMoneyEdit").val($("#nasbMoneyModalEdit").val().replace(/,/g, ''));
+    $("#nasbDescEdit").val($("#nasbDescModalEdit").val());
+    $("#motafariqaMoneyEdit").val($("#motafariqaMoneyModalEdit").val().replace(/,/g, ''));
+    $("#motafariqaDescEdit").val($("#motafariqaDescModalEdit").val());
+    $("#bargiriMoneyEdit").val($("#bargiriMoneyModalEdit").val().replace(/,/g, ''));
+    $("#bargiriDescEdit").val($("#bargiriDescModalEdit").val());
+    $("#tarabariMoneyEdit").val($("#tarabariMoneyModalEdit").val().replace(/,/g, ''));
+    $("#tarabariDescEdit").val($("#tarabariDescModalEdit").val());
+
+    let hamlMoneyEdit=0;
+    let nasbMoneyEdit=0;
+    let motafariqaMoneyEdit=0;
+    let bargiriMoneyEdit=0;
+    let tarabariMoneyEdit=0;
+    if(!isNaN(parseInt($("#hamlMoneyEdit").val()))){
+        hamlMoneyEdit=parseInt($("#hamlMoneyEdit").val());
+    }
+    if(!isNaN(parseInt($("#nasbMoneyEdit").val()))){
+        nasbMoneyEdit=parseInt($("#nasbMoneyEdit").val());
+    }
+    if(!isNaN(parseInt($("#motafariqaMoneyEdit").val()))){
+        motafariqaMoneyEdit=parseInt($("#motafariqaMoneyEdit").val());
+    }
+    if(!isNaN(parseInt($("#bargiriMoneyEdit").val()))){
+        bargiriMoneyEdit=parseInt($("#bargiriMoneyEdit").val());
+    }
+    if(!isNaN(parseInt($("#tarabariMoneyEdit").val()))){
+        tarabariMoneyEdit=parseInt($("#tarabariMoneyEdit").val());
+    }
+
+    let allAmelEdit=hamlMoneyEdit+nasbMoneyEdit+motafariqaMoneyEdit+bargiriMoneyEdit+tarabariMoneyEdit;
+    $("#allAmelMoneyEdit").text(parseInt(allAmelEdit).toLocaleString("en-us"));
+}
+$("#hamlMoneyModalEdit").on("keyup",(e)=>{
+    checkNumberInput(e);
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#hamlDescModalEdit").focus();
+    }
+})
+$("#nasbMoneyModalEdit").on("keyup",(e)=>{
+    checkNumberInput(e);
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#nasbDescModalEdit").focus();
+    }
+})
+$("#motafariqaMoneyModalEdit").on("keyup",(e)=>{
+    checkNumberInput(e);
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#motafariqaDescModalEdit").focus();
+    } 
+})
+$("#bargiriMoneyModalEdit").on("keyup",(e)=>{
+    checkNumberInput(e);
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#bargiriDescModalEdit").focus();
+    }
+})
+$("#tarabariMoneyModalEdit").on("keyup",(e)=>{
+    checkNumberInput(e);
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#tarabariDescModalEdit").focus();
+    }
+})
+$("#hamlDescModalEdit").on("keyup",(e)=>{
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#nasbMoneyModalEdit").focus();
+    }
+})
+$("#nasbDescModalEdit").on("keyup",(e)=>{
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#motafariqaMoneyModalEdit").focus();
+    }
+})
+$("#motafariqaDescModalEdit").on("keyup",(e)=>{
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#bargiriMoneyModalEdit").focus();
+    }
+})
+$("#bargiriDescModalEdit").on("keyup",(e)=>{
+    if(e.keyCode==13 || e.keyCode==9){
+        $("#tarabariMoneyModalEdit").focus();
+    }
+});
+
+$("#tarabariDescModalEdit").on("keyup",(e)=>{
+    if(e.keyCode==13 || e.keyCode==9){
+        let allAmelEdit=checkWantToaddedAmel();
+        if(allAmelEdit>0){
+            swal({
+                text: "می خواهید این هزینه ها اضافه شوند؟",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                }).then((willAdd) => {
+                    if(willAdd){
+                        $("#sabtAmelButtonEdit").trigger("click");
+                }
+            });
+        }
+    }
+});

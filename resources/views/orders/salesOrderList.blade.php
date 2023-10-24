@@ -2798,7 +2798,7 @@
                             <span class="sumRow"> جمع هزینه ها  :  <b id="allAmelMoneyEdit">0</b></span><br> <br>
                             <div class="input-group input-group-sm mb-1">
                                 <span class="input-group-text" > مبلغ تخفیف </span>
-                                <input type="number" class="form-control" name="takhfif"  id="newOrderTakhfifInputEdit"/>
+                                <input type="number" class="form-control" value="0" name="takhfif"  id="newOrderTakhfifInputEdit" required />
                             </div> <hr>
                             <span class="sumRow"> مجموع : <b id="sumAllRowMoneyAfterTakhfifEdit"></b></span><br>
                         </div>
@@ -2868,6 +2868,64 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal" tabindex="-1" id="addAmelModalEdit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"> افزودن هزینه به سفارش </h5>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTbleEdit">
+                <thead class="tableHeader">
+                    <tr>
+                        <th> ردیف </th>
+                        <th> هزینه </th>
+                        <th> افزوده به سفارش </th>
+                        <th> توضیح </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> 1 </td>
+                        <td> هزینه حمل </td>
+                        <td><input type="text" name="hamlMoney" id="hamlMoneyModalEdit" class="td-input form-control"></td>
+                        <td><input type="text" name="hamlDesc" id="hamlDescModalEdit"  class="td-input form-control"></td>
+                    </tr>
+                    <tr>
+                        <td> 2 </td>
+                        <td> هزینه های نصب </td>
+                        <td><input type="text"  name="nasbMoney" id="nasbMoneyModalEdit" class="td-input form-control"></td>
+                        <td><input type="text"  name="nasbDesc" id="nasbDescModalEdit" class="td-input form-control"></td>
+                    </tr>
+                    <tr>
+                        <td> 3 </td>
+                        <td> هزینه های متفرقه </td>
+                        <td><input type="text"  name="motafariqaMoney" id="motafariqaMoneyModalEdit" class="td-input form-control"></td>
+                        <td><input type="text"  name="motafariqaDesc" id="motafariqaDescModalEdit" class="td-input form-control"></td>
+                    </tr>
+                    <tr>
+                        <td> 4 </td>
+                        <td> بارگیری </td>
+                        <td><input type="text"  name="bargiriMoney" id="bargiriMoneyModalEdit" class="td-input form-control"></td>
+                        <td><input type="text"  name="bargiriDesc" id="bargiriDescModalEdit" class="td-input form-control"></td>
+                    </tr>
+                    <tr>
+                        <td> 5 </td>
+                        <td> ترابری </td>
+                        <td><input type="text"  name="tarabariMoney" id="tarabariMoneyModalEdit" class="td-input form-control"></td>
+                        <td><input type="text"  name="tarabariDesc" id="tarabariDescModalEdit" class="td-input form-control"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="cancelAmelButtonEdit" class="btn btn-danger btn-sm" data-dismiss="modal"> انصراف </button>
+            <button type="button" id="sabtAmelButtonEdit" class="btn btn-success btn-sm" onclick="addAmelToSefarishEdit()"> ذخیره </button>
+        </div>
+    </div>
+  </div>
 </div>
 
 <script> 
