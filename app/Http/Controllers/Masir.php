@@ -96,10 +96,10 @@ class Masir extends Controller{
     {
         $masirs=DB::select("SELECT * FROM(
                             SELECT SnMNM,concat(NameRec+' _ ',NewStarfood.dbo.getProvinceName(FatherMNM)) NameRec FROM Shop.dbo.MNM WHERE CompanyNo=5 AND SnMNM IN(
-                            SELECT SnMantagheh FROM Shop.dbo.Peopels WHERE PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactDate>=FORMAT(getdate(),'yyyy/MM/dd','fa-ir') AND FactType=3
+                            SELECT SnMantagheh FROM Shop.dbo.Peopels WHERE PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactorHDS.FiscalYear=1402 AND FactType=3
                             AND SerialNoHDS NOT IN(SELECT SnFact FROM Shop.dbo.BargiryBYS WHERE CompanyNo=5)))
                             )a JOIN(
-                            SELECT count(PSN)countFactor,SnMantagheh FROM Shop.dbo.Peopels  WHERE CompanyNo=5 and PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactDate>=FORMAT(getdate(),'yyyy/MM/dd','fa-ir') AND FactType=3
+                            SELECT count(PSN)countFactor,SnMantagheh FROM Shop.dbo.Peopels  WHERE CompanyNo=5 and PSN IN(SELECT CustomerSn FROM Shop.dbo.FactorHDS WHERE FactorHDS.FiscalYear=1402 AND FactType=3
                                 AND SerialNoHDS NOT IN(SELECT SnFact FROM Shop.dbo.BargiryBYS WHERE CompanyNo=5)) group by SnMantagheh
                             )b on a.SnMNM=b.SnMantagheh");
         return Response::json(['mantiqas'=>$masirs,'status'=>'200 OK']);

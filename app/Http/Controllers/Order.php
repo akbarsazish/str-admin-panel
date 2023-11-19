@@ -31,14 +31,14 @@ class Order extends Controller{
 
         $orderSn=$request->get("orderSn");
 
-        $orderItems=DB::select("SELECT *,orderBYSS.Price as totalPrice,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit  from NewStarfood.dbo.orderBYSS join Shop.dbo.PubGoods on orderBYSS.SnGood=PubGoods.GoodSn
+        $orderItems=DB::select("SELECT *,orderBYSS.Price as totalPrice,NewStarfood.dbo.getLastDateBuyFi(GoodSn)lastBuyFi,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getSecondUnitAmount(GoodSn)AmountUnit,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit  from NewStarfood.dbo.orderBYSS join Shop.dbo.PubGoods on orderBYSS.SnGood=PubGoods.GoodSn
         where orderBYSS.SnHDS=".$orderSn);
 
-        $order=DB::select("SELECT * FROM NewStarfood.dbo.orderHDSS JOIN Shop.dbo.Peopels ON orderHDSS.CustomerSn=PSN
+        $order=DB::select("SELECT *,Shop.dbo.FuncStatusCustomer(5,1402,PSN)CustomerStatus,Takhfif FROM NewStarfood.dbo.orderHDSS JOIN Shop.dbo.Peopels ON orderHDSS.CustomerSn=PSN
                             JOIN (SELECT SnPeopel, STRING_AGG(PhoneStr, '-') AS PhoneStr
                             FROM Shop.dbo.PhoneDetail
                             GROUP BY SnPeopel)a on PSN=a.SnPeopel WHERE SnOrder=$orderSn");
-
+        $amelInfo=DB::select("SELECT * FROM NewStarfood.dbo.OrderAmelBYSS where SnOrder=$orderSn");
         $customerId=$order[0]->PSN;
 
         $notEffecientList=DB::select("SELECT * FROM(
@@ -62,7 +62,7 @@ class Order extends Controller{
         //جایزه لاتاری
         $lotteryResult=DB::select("SELECT wonPrize FROM NewStarfood.dbo.star_TryLottery WHERE customerId=$customerId AND isTaken=0");
         $passInfo=DB::select("SELECT customerId psn,customerPss password,userName username FROM NewStarfood.dbo.star_CustomerPass WHERE customerId=$customerId");
-        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult,$passInfo]);
+        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult,$passInfo,$amelInfo]);
     }
 
     public function orderView(Request $request){
@@ -1996,4 +1996,183 @@ public function addOrder(Request $request){
         DB::update("UPDATE NewStarfood.dbo.OrderHDSS SET CustomerSn=$psn,OrderAddress='$address',OrderSnAddress=$addressSn WHERE SnOrder=$snHDS");
         return Response::json(1);
     }
-}
+    
+    public function doUpdateOrder(Request $request) {
+        
+        $snHDS=$request->input("SnHDS");
+        $hamlMoney=$request->input("hamlMoneyEdit");
+        $hamlSn=142;
+
+        $hamlDesc=$request->input("hamlDescEdit");
+        if(!$hamlDesc){
+            $hamlDesc="";
+        }
+
+        $nasbMoney=$request->input("nasbMoneyEdit");
+        $nasbSn=143;
+        $nasbDesc=$request->input("nasbDescEdit");
+        if(!$nasbDesc){
+            $nasbDesc="";
+        }
+
+        $motafariqaMoney=$request->input("motafariqaMoneyEdit");
+        $motafariqaSn=144;
+        $motafariqaDesc=$request->input("motafariqaDescEdit");
+        if(!$motafariqaDesc){
+            $motafariqaDesc="";
+        }
+
+        $bargiriMoney=$request->input("bargiriMoneyEdit");
+        $bargiriDesc=$request->input("bargiriDescEdit");
+        if(!$bargiriDesc){
+            $bargiriDesc="";
+        }
+
+        $bargiriSn=168;
+        $tarabariMoney=$request->input("tarabariMoneyEdit");
+        $tarabariDesc=$request->input("tarabariDescEdit");
+        if(!$tarabariDesc){
+            $tarabariDesc="";
+        }
+
+        $tarabariSn=188;
+        if($nasbMoney>0){
+            $nasbExistance=DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$nasbSn)->where("SnOrder",$snHDS)->count();
+            if($nasbExistance<1){
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->insert(["CompanyNo"=>5
+                ,"SnOrder"=>$snHDS
+                ,"SnAmel"=>$nasbSn
+                ,"Price"=>$nasbMoney
+                ,"FiscalYear"=>1402
+                ,"DescItem"=>$nasbDesc]);
+            }else{
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$nasbSn)->where("SnOrder",$snHDS)->update([
+                "Price"=>$nasbMoney
+                ,"DescItem"=>$nasbDesc]);
+            }
+        }
+        if($hamlMoney>0){
+            $hamlExistance=DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$hamlSn)->where("SnOrder",$snHDS)->count();
+                if($hamlExistance<1){
+                    DB::table("NewStarfood.dbo.orderAmelBYSS")->insert(["CompanyNo"=>5
+                    ,"SnOrder"=>$snHDS
+                    ,"SnAmel"=>$hamlSn
+                    ,"Price"=>$hamlMoney
+                    ,"FiscalYear"=>1402
+                    ,"DescItem"=>$hamlDesc]);
+                }else{
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$hamlSn)->where("SnOrder",$snHDS)->update([
+                "Price"=>$hamlMoney
+                ,"DescItem"=>$hamlDesc]);
+            }
+        }
+        if($motafariqaMoney>0){
+            $motafariqahExistance=DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$motafariqaSn)->where("SnOrder",$snHDS)->count();
+            if($motafariqahExistance<1){
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->insert(["CompanyNo"=>5
+                ,"SnOrder"=>$snHDS
+                ,"SnAmel"=>$motafariqaSn
+                ,"Price"=>$motafariqaMoney
+                ,"FiscalYear"=>1402
+                ,"DescItem"=>$motafariqaDesc]);
+            }else{
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$motafariqaSn)->where("SnOrder",$snHDS)->update([
+                "Price"=>$motafariqaMoney
+                ,"DescItem"=>$motafariqaDesc]);
+            }
+        }
+        if($tarabariMoney>0){
+            $tarabariExistance=DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$tarabariSn)->where("SnOrder",$snHDS)->count();
+            if($tarabariExistance<1){
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->insert(["CompanyNo"=>5
+                ,"SnOrder"=>$snHDS
+                ,"SnAmel"=>$tarabariSn
+                ,"Price"=>$tarabariMoney
+                ,"FiscalYear"=>1402
+                ,"DescItem"=>$tarabariDesc]);
+            }else{
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$tarabariSn)->where("SnOrder",$snHDS)->update([
+                "Price"=>$tarabariMoney
+                ,"DescItem"=>$tarabariDesc]);
+            }
+        }
+        if($bargiriMoney>0){
+            $bargiriExistance=DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$bargiriSn)->where("SnOrder",$snHDS)->count();
+            if($bargiriExistance<1){
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->insert(["CompanyNo"=>5
+                ,"SnOrder"=>$snHDS
+                ,"SnAmel"=>$bargiriSn
+                ,"Price"=>$bargiriMoney
+                ,"FiscalYear"=>1402
+                ,"DescItem"=>$bargiriDesc]);
+            }else{
+                DB::table("NewStarfood.dbo.orderAmelBYSS")->where("SnAmel",$bargiriSn)->where("SnOrder",$snHDS)->update([
+                "Price"=>$bargiriMoney
+                ,"DescItem"=>$bargiriDesc]);
+            }
+        }
+
+        $takhfif=$request->input("takhfif");
+        $takhfifMoney=0;
+        if($takhfif){
+            $takhfifMoney=$takhfif;
+        }
+        $psn=$request->input("customerForSefarishIdEdit");
+
+        $orderDate=$request->input("orderDateEdit");
+        list($addressSn,$address)=explode("_",$request->input("customerAddressEdit"));
+        $orderDescription=$request->input("orderDescriptionEdit");
+        $editablesGoods=$request->input("editables");  
+        DB::update("UPDATE NewStarfood.dbo.OrderHDSS SET CustomerSn=$psn,Takhfif=$takhfif,OrderDate='$orderDate',OrderDesc='$orderDescription',OrderAddress='$address',OrderSnAddress=$addressSn WHERE SnOrder=$snHDS");
+        DB::delete("DELETE FROM NewStarfood.dbo.OrderBYSS WHERE SnHDS=$snHDS AND SnGood not in( ".implode(",",$editablesGoods).")");
+
+        foreach ($editablesGoods as $goodSn) {
+            $packAmount=str_replace(",", "",$request->input("packAmount".$goodSn));
+            $amount=str_replace(",", "",$request->input("Amount".$goodSn));
+            $fi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $price=str_replace(",", "",$request->input("AllPrice".$goodSn));
+            $descRec=$request->input("Description".$goodSn);
+            $fiPack=str_replace(",", "",$request->input("PackPrice".$goodSn));
+            $jozePack=str_replace(",", "",$request->input("JozeAmount".$goodSn));
+            $realFi=str_replace(",", "",$request->input("Fi".$goodSn));
+            $realPrice=str_replace(",", "",$request->input("AllPrice".$goodSn));
+            $countAddables=DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->count();
+            $countEditables=0;
+            if($countAddables>0){
+                 // is editable?
+                DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->update(["PackAmount"=>$packAmount
+                ,"Amount"=>$amount
+                ,"Fi"=>$fi
+                ,"Price"=>$price
+                ,"PriceAfterTakhfif"=>$price
+                ,"DescRecord"=>"دستی"
+                ,"FiPack"=>$fiPack
+                ,"JozePack"=>$jozePack
+                ,"RealFi"=>$fi
+                ,"RealPrice"=>$price]);
+            }else{
+                $packtypes=DB::select("SELECT NewStarfood.dbo.getPackType($goodSn)PackType");
+                $packType=$packtypes[0]->PackType;
+                $current = Carbon::today();
+                $todayDate = Jalalian::fromCarbon($current)->format('Y/m/d');
+                // is addable?
+                DB::table('NewStarfood.dbo.OrderBYSS')->insert(["CompanyNo"=>5
+                    ,"SnHDS"=>$snHDS
+                    ,"SnGood"=>$goodSn
+                    ,"PackType"=>$packType
+                    ,"PackAmount"=>$packAmount
+                    ,"Amount"=>$amount
+                    ,"Fi"=>$fi
+                    ,"Price"=>$price
+                    ,"PriceAfterTakhfif"=>$price
+                    ,"DescRecord"=>"دستی"
+                    ,"DateOrder"=>"".$todayDate.""
+                    ,"FiPack"=>$fiPack
+                    ,"JozePack"=>$jozePack
+                    ,"RealFi"=>$fi
+                    ,"RealPrice"=>$price]);
+            }
+        }
+    return Response::json("done");
+    }
+}   

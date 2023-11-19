@@ -439,10 +439,11 @@ class Lottery extends Controller
 
 	public function setCustomerLotteryHistory(Request $request)
     {
-        $product=$request->get("product");
-        $customerId=$request->get("customerId");
+        $product=$request->input("product");
+        $customerId=$request->input("customerId");
+		$remainBonus=$request->input("remainedBonus");
         DB::table("NewStarfood.dbo.star_TryLottery")->insert(['customerId'=>$customerId,'lotteryId'=>1,'wonPrize'=>"$product"]);
-        DB::table("NewStarfood.dbo.star_customerRestriction")->where('customerId',$customerId)->update(['introBonusAmount'=>0]);
+        DB::table("NewStarfood.dbo.star_customerRestriction")->where('customerId',$customerId)->update(['introBonusAmount'=>0,'remainedBonus'=>$remainBonus]);
 		DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->where('CustomerSn',$customerId)->update(['isUsed'=>1]);
         return Response::json("success");
     }

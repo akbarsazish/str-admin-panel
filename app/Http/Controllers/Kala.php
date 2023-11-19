@@ -498,7 +498,7 @@ public function getFavorite(Request $request)
     public function searchKalaByID(Request $request)
     {
         $goodSn=$request->get("goodSn");
-        $kala=DB::select("SELECT *,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getAmountUnit(GoodSn) as AmountUnit FROM Shop.dbo.PubGoods join SHop.dbo.GoodPriceSale on GoodSn=GoodPriceSale.SnGood WHERE PubGoods.CompanyNo=5 and GoodSn=$goodSn");
+        $kala=DB::select("SELECT *,NewStarfood.dbo.getLastDateBuyFi(GoodSn)lastBuyFi,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getAmountUnit(GoodSn) as AmountUnit FROM Shop.dbo.PubGoods join SHop.dbo.GoodPriceSale on GoodSn=GoodPriceSale.SnGood WHERE PubGoods.CompanyNo=5 and GoodSn=$goodSn");
         return Response::json($kala);
     }
 // لیست انبارها را از بر می گرداند.
@@ -2762,7 +2762,7 @@ public function appendSubGroupKalaApi(Request $request){
     $mainGrId=$request->get('mainGrId');
     $customerSn=$request->get('psn');
 
-     $listKala= DB::select("SELECT secondGroupId,firstGroupId,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+     $listKala= DB::select("SELECT secondGroupId,firstGroupId,NewStarfood.dbo.getSecondUnitAmount(GoodSn)SecondUnitAmount,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
         SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale,GoodPriceSale.FiscalYear
         ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId FROM Shop.dbo.PubGoods
         INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
@@ -3004,7 +3004,7 @@ public function buySomethingApi(Request $request) {
 
         //
         //without stocks----------------------------------------
-        $listKala=DB::select("SELECT  GoodGroups.NameGRP,PubGoods.GoodCde,GoodPriceSale.FiscalYear,PubGoods.GoodSn,PubGoods.GoodName,GoodPriceSale.Price3,GoodPriceSale.Price4,PUBGoodUnits.UName as UNAME,A.Amount as AmountExist,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.freeExistance,star_GoodsSaleRestriction.activePishKharid  from Shop.dbo.PubGoods
+        $listKala=DB::select("SELECT  GoodGroups.NameGRP,NewStarfood.dbo.getSecondUnitAmount(GoodSn)SecondUnitAmount,PubGoods.GoodCde,GoodPriceSale.FiscalYear,PubGoods.GoodSn,PubGoods.GoodName,GoodPriceSale.Price3,GoodPriceSale.Price4,PUBGoodUnits.UName as UNAME,A.Amount as AmountExist,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.freeExistance,star_GoodsSaleRestriction.activePishKharid  from Shop.dbo.PubGoods
                                 JOIN Shop.dbo.GoodGroups on GoodGroups.GoodGroupSn=PubGoods.GoodGroupSn
                                 LEFT JOIN Shop.dbo.GoodPriceSale on GoodPriceSale.SnGood=PubGoods.GoodSn
                                 LEFT JOIN Shop.dbo.PUBGoodUnits on PubGoods.DefaultUnit=PUBGoodUnits.USN
@@ -3506,6 +3506,11 @@ public function buySomethingApi(Request $request) {
         $goodSn=$request->input("goodSn");
         $unsentOrders=DB::select("SELECT O.OrderNo,O.OrderDate,P.PCode,P.Name,G.GoodCde,G.GoodName,CRM.dbo.getSecondUnitName(G.GoodSn) secondUnit,B.Amount FROM NewStarfood.dbo.OrderHDSS O JOIN Shop.dbo.Peopels P ON O.CustomerSn=P.PSN JOIN NewStarfood.dbo.OrderBYSS B ON O.SnOrder=B.SnHDS JOIN Shop.dbo.PubGoods G ON G.GoodSn=B.SnGood WHERE B.SnGood=$goodSn AND O.isSent=0 AND O.isDistroy=0");
         return Response::json($unsentOrders);
+    }
+    public function checkAddedKalaPrice(Request $request) {
+        $fi=$request->input("fi");
+        $goodSn=$request->input("goodSn");
+        return Response::json(true);
     }
 }
 

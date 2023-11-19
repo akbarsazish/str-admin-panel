@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-utilities.rtl.min.css')}}">
     <link rel="stylesheet" href="{{url('/resources/assets/js/persianDatepicker-master/css/persianDatepicker-default.css')}}" />
 	<link rel="stylesheet" href="{{ url('/resources/assets/css/jquery-ui.css')}}">
-
+    <link rel="icon" type="image/png" href="{{ url('/resources/assets/images/part.png')}}">
+    <script type="text/javascript" src="{{ url('/resources/assets/js/jquery.min.js')}}"></script>
 </head>
 <body>
     <div class="menuBackdrop"></div>
@@ -28,7 +29,6 @@
             <section class="top-head container">
                 <div class="right-head" >
                     <div id="mySidenav" class="sidenav" style="width:0px;overflow-x:hidden;margin-left:100px;padding-right:0;">
-                        <!-- <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()">&times;</a> -->
                          <a href="{{url('/home')}}" class="sidenav__header" style="background: linear-gradient(#3ccc7a, #034620); text-align:center;">
                             <img width="166px" src="{{ url('/resources/assets/images/logomenu4.png') }}"/>
                         </a>
@@ -63,6 +63,28 @@
                                             @if(hasPermission(Session::get("adminId"),"kalasN") > -1)
                                                 <li><a class="mySidenav__item" href="{{url('/listKala')}}" > <i class="fa-regular fa-list-radio fa-lg" style="margin-right: 5%;"></i> کالا ها </a></li>
                                             @endif
+                                            @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                                <li class="sidebarLi"> 
+                                                    <a class="mySidenav__item position-relative" href="{{url('/buyFactors')}}"> &nbsp;&nbsp;
+                                                        <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                            @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                        </span>  
+                                                        <i class="fa fa-money-bill"></i>
+                                                        فاکتور خرید 
+                                                    </a> 
+                                                </li>
+                                            @endif
+                                            @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                                <li class="sidebarLi"> 
+                                                    <a class="mySidenav__item position-relative" href="{{url('/returnedBuyFactors')}}"> &nbsp;&nbsp;
+                                                        <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                            @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                        </span>  
+                                                        <i class="fa fa-money-bill"></i>
+                                                        فاکتور  برگشت از خرید 
+                                                    </a> 
+                                                </li>
+                                            @endif
                                             
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
                                                 <li class="sidebarLi"> 
@@ -77,17 +99,39 @@
                                             @endif
 
                                             @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
-                                              <li class="sidebarLi">
-                                                  <a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; 
-                                                    <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
-                                                       @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
-                                                   </span>
-                                                     <i class="fa fa-shopping-cart fa-lg"></i>
-                                                    سفارشات فروش 
-                                                 </a>
-                                            </li>
+                                                <li class="sidebarLi">
+                                                    <a class="mySidenav__item" href="{{url('/returnedFactors')}}"> &nbsp;&nbsp; 
+                                                        <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                            @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                        </span>
+                                                        <i class="fa fa-shopping-cart fa-lg"></i>
+                                                        فاکتور برگشت از فروش
+                                                    </a>
+                                                </li>
                                             @endif
 
+                                            @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                                <li class="sidebarLi">
+                                                    <a class="mySidenav__item" href="{{url('/salesOrder')}}"> &nbsp;&nbsp; 
+                                                        <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                            @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                        </span>
+                                                        <i class="fa fa-shopping-cart fa-lg"></i>
+                                                        سفارشات فروش 
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                            <li class="sidebarLi">
+                                                <a class="mySidenav__item" href="{{url('/receives')}}"> &nbsp;&nbsp; 
+                                                    <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                        @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                    </span>
+                                                    <i class="fa fa-shopping-cart fa-lg"></i>
+                                                     دریافت ها 
+                                                </a>
+                                            </li>
+                                        @endif
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
                                             <li class="sidebarLi">
                                                 <a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; 
@@ -169,12 +213,10 @@
     <script src="{{url('/resources/assets/vendor/persianumber.min.js')}}"></script>
     <script src="{{url('/resources/assets/vendor/elevatezoom.js')}}"></script>
     <script src="{{url('/resources/assets/js/script.js') }}"></script>
-    <script src="{{url('/resources/assets/js/tableScript.js') }}"></script>
-    
     <script src="{{url('/resources/assets/js/addNewOrder.js') }}"></script>
-
     <script src="{{url('/resources/assets/js/bargiri.js') }}"></script>
     <script src="{{url('/resources/assets/js/factors.js') }}"></script>
+    <script src="{{url('/resources/assets/js/getAndPay.js') }}"></script>
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>

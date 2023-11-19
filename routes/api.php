@@ -73,3 +73,5 @@ Route::get("/addToBasketFromHomePageApi",[Basket::class,"addToBasketFromHomePage
 Route::get("/updateBasketItemFromHomePage",[Basket::class,"updateBasketItemFromHomePage"]);
 Route::get("/irregularLoginApi",[AuthController::class,"irregularLoginApi"]);
 Route::get("/getAllMainGroupBranches",[Group::class,"getAllMainGroupBranches"]);
+Route::get("/getAttractiveVisits",[App::class,"getAttractiveVisits"]);
+Route::get("/setAttractiveVisits",[App::class,"setAttractiveVisits"]);

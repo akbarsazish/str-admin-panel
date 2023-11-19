@@ -1052,7 +1052,7 @@ class Home extends Controller {
             $brands=DB::select("SELECT * FROM NewStarfood.dbo.star_brands where star_brands.id not in(select brandId from NewStarfood.dbo.star_add_homePart_stuff where homePartId=".$partId.")");
             return view('home.editPicturesPart',['brands'=>$brands,'addedBrands'=>$addedBrands,'title'=>$title,'parts'=>$parts,'countHomeParts'=>$countHomeParts]);
         }
-        if($partType==3 or $partType==4){
+        if(($partType==3 or $partType==4) or $partType==15){
             //سلایدر ها
             $allPics=DB::select("SELECT NewStarfood.dbo.star_add_homePart_stuff.id as id,firstPic,secondPic,thirdPic,fourthPic,fifthPic,HomePart.partType FROM NewStarfood.dbo.star_add_homePart_stuff JOIN HomePart ON NewStarfood.dbo.star_add_homePart_stuff.homepartId=HomePart.id WHERE homepartId=".$partId);
             return view('home.editSliders',['title'=>$title,'parts'=>$parts,'picture'=>$allPics,'countHomeParts'=>$countHomeParts]);

@@ -26,7 +26,6 @@ class Message extends Controller
     public function doAddMessage(Request $request)
     {
 		$kalaObj= new Kala;
-		
         $messageContent=$kalaObj->changeToArabicLetterAndEngNumber($request->get('pmContent'));
         $customerId=Session::get('psn');
         DB::insert("INSERT INTO NewStarfood.dbo.star_message (messageContent,readState	,customerId)

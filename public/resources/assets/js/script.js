@@ -137,7 +137,7 @@ var csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('conte
 // window.addEventListener('DOMContentLoaded', () => document.querySelector('.loading').classList.remove('show'));
 ///JAVAD JAVASCRIPT CODES
 
-var baseUrl = "http://192.168.10.33:8080";
+var baseUrl = "http://192.168.10.21:8080";
 
 const loader = document.getElementById("loader");
 function hideLoader() {
@@ -1026,6 +1026,10 @@ $("#operationN").on("change", () => {
         $("#messageN").prop("checked", true);
         $("#seeMessageN").prop("checked", true);
         $("#seeKalaGroupN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
 
     } else {
         $("#kalasN").prop("checked", false);
@@ -1069,6 +1073,10 @@ $("#operationN").on("change", () => {
         $("#seeKalaGroupN").prop("checked", false);
         $("#editOrderSalesN").prop("checked", false);
         $("#deleteOrderSalesN").prop("checked", false);
+        $("#factorN").prop("checked", false);
+        $("#seeFactorN").prop("checked", false);
+        $("#bargiriN").prop("checked", false);
+        $("#seeBargiriN").prop("checked", false);
     }
 })
 
@@ -1094,6 +1102,10 @@ $("#kalasN").on("change", () => {
         $("#seeSalesOrderN").prop("checked", true);
         $("#messageN").prop("checked", true);
         $("#seeMessageN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
 
     } else {
         $("#operationN").prop("checked", false);
@@ -1138,6 +1150,10 @@ $("#kalasN").on("change", () => {
         $("#seeKalaGroupN").prop("checked", false);
         $("#editOrderSalesN").prop("checked", false);
         $("#deleteOrderSalesN").prop("checked", false);
+        $("#factorN").prop("checked", false);
+        $("#seeFactorN").prop("checked", false);
+        $("#bargiriN").prop("checked", false);
+        $("#seeBargiriN").prop("checked", false);
     }
 })
 
@@ -1969,7 +1985,184 @@ $("#seeMessageN").on("change", () => {
     }
 })
 
+// new features
 
+$("#factorN").on("change", () => {
+    if ($("#factorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+
+    } else {
+        $("#factorN").prop("checked", false);
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#seeFactorN").prop("checked", false);
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+
+$("#deleteFactorN").on("change", () => {
+    if ($("#deleteFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#editFactorN").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+$("#editFactorN").on("change", () => {
+    if ($("#editFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+
+$("#seeFactorN").on("change", () => {
+    if ($("#seeFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+
+    } else {
+        $("#factorN").prop("checked", false);
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#seeFactorN").prop("checked", false);
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+// new bargiri
+
+$("#bargiriN").on("change", () => {
+    if ($("#bargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+
+    } else {
+        $("#bargiriN").prop("checked", false);
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#seeBargiriN").prop("checked", false);
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+
+$("#deleteBargiriN").on("change", () => {
+    if ($("#deleteBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+        $("#editBargiriN").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+$("#editBargiriN").on("change", () => {
+    if ($("#editBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+
+$("#seeBargiriN").on("change", () => {
+    if ($("#seeBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+
+    } else {
+        $("#bargiriN").prop("checked", false);
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#seeBargiriN").prop("checked", false);
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
 
 // گزارشات 
 
@@ -2850,7 +3043,10 @@ $("#operationED").on("change", () => {
         $("#messageED").prop("checked", true);
         $("#seeMessageED").prop("checked", true);
         $("#seeKalaGroupED").prop("checked", true);
-
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
     } else {
         $("#kalasED").prop("checked", false);
         $("#kalaListsED").prop("checked", false);
@@ -2893,6 +3089,10 @@ $("#operationED").on("change", () => {
         $("#seeKalaGroupED").prop("checked", false);
         $("#editOrderSalesED").prop("checked", false);
         $("#deleteOrderSalesED").prop("checked", false);
+        $("#factorED").prop("checked", false);
+        $("#seeFactorED").prop("checked", false);
+        $("#bargiriED").prop("checked", false);
+        $("#seeBargiriED").prop("checked", false);
     }
 })
 
@@ -2918,6 +3118,10 @@ $("#kalasED").on("change", () => {
         $("#seeSalesOrderED").prop("checked", true);
         $("#messageED").prop("checked", true);
         $("#seeMessageED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
 
     } else {
         $("#operationED").prop("checked", false);
@@ -2962,6 +3166,10 @@ $("#kalasED").on("change", () => {
         $("#seeKalaGroupED").prop("checked", false);
         $("#editOrderSalesED").prop("checked", false);
         $("#deleteOrderSalesED").prop("checked", false);
+        $("#factorED").prop("checked", false);
+        $("#seeFactorED").prop("checked", false);
+        $("#bargiriED").prop("checked", false);
+        $("#seeBargiriED").prop("checked", false);
     }
 })
 
@@ -3692,18 +3900,6 @@ $("#seeSalesOrderED").on("change", () => {
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
 $("#messageED").on("change", () => {
     if ($("#messageED").is(":checked")) {
         $("#operationED").prop("checked", true);
@@ -3790,6 +3986,186 @@ $("#seeMessageED").on("change", () => {
         $("#seeMessageED").prop("checked", false);
         $("#editMessageED").prop("checked", false);
         $("#deleteMessageED").prop("checked", false);
+    }
+})
+
+// factor
+
+$("#factorED").on("change", () => {
+    if ($("#factorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+
+    } else {
+        $("#factorED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#seeFactorED").prop("checked", false);
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+
+$("#deleteFactorED").on("change", () => {
+    if ($("#deleteFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#editFactorED").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+$("#editFactorED").on("change", () => {
+    if ($("#editFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+
+$("#seeFactorED").on("change", () => {
+    if ($("#seeFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+
+    } else {
+        $("#factorED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#seeFactorED").prop("checked", false);
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+// bargiri
+$("#bargiriED").on("change", () => {
+    if ($("#bargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+
+    } else {
+        $("#bargiriED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#seeBargiriED").prop("checked", false);
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+
+$("#deleteBargiriED").on("change", () => {
+    if ($("#deleteBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+        $("#editBargiriED").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+$("#editBargiriED").on("change", () => {
+    if ($("#editBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+
+$("#seeBargiriED").on("change", () => {
+    if ($("#seeBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+
+    } else {
+        $("#bargiriED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#seeBargiriED").prop("checked", false);
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
     }
 })
 
@@ -6400,6 +6776,31 @@ function openEditDashboard() {
                 case -1: $("#seeOnlinePaymentED").prop("checked", false).change();
                     break;
                 default: $("#seeOnlinePaymentED").prop("checked", false).change();
+                    break;
+            }
+
+            switch (parseInt(data.factorN)) {
+                case 2: $("#deleteFactorED").prop("checked", true).change();
+                    break;
+                case 1: $("#editFactorED").prop("checked", true).change();
+                    break;
+                case 0: $("#seeFactorED").prop("checked", true).change();
+                    break;
+                case -1: $("#seeFactorED").prop("checked", false).change();
+                    break;
+                default: $("#seeFactorED").prop("checked", false).change();
+                    break;
+            }
+            switch (parseInt(data.bargiriN)) {
+                case 2: $("#deleteBargiriED").prop("checked", true).change();
+                    break;
+                case 1: $("#editBargiriED").prop("checked", true).change();
+                    break;
+                case 0: $("#seeBargiriED").prop("checked", true).change();
+                    break;
+                case -1: $("#seeBargiriED").prop("checked", false).change();
+                    break;
+                default: $("#seeBargiriED").prop("checked", false).change();
                     break;
             }
 
@@ -10578,111 +10979,7 @@ $("#editSendForm").on("submit", function (e) {
     e.preventDefault();
 });
 
-$("#editOrderBtn").on("click", () => {
-    $.ajax({
-        method: 'get',
-        url: baseUrl + '/getOrderDetail',
-        async: true,
-        data: {
-            orderSn: $("#editOrderBtn").val()
-        },
-        success: function (response) {
-            $("#editFactorNo").val(response[1][0].OrderNo);
-            $("#editCustomerSn").val(response[1][0].CustomerSn);
-            $("#editOrderDate").val(response[1][0].OrderDate);
-            $("#editPCode").val(response[1][0].PCode);
-            $("#CustomerNameEditInput").val(response[1][0].Name);
-            $("#editName").empty();
-            $("#editName").append(`<option selected>${response[1][0].Name}</option>`);
-            $("#editDiscription").val(response[1][0].OrderDesc);
-            $("#EditHDSSn").val(response[1][0].SnOrder);
-            if (response[1][0].isSent == 1) {
-                $("#editSendState").css("display", "inline");
-                $("#editSaveBtn").css("display", "inline");
-                $("#editSentOrderSn").val(response[1][0].SnOrder);
-            }
-            if (response[1][0].isSent == 1 && response[1][0].isDistroy == 0) {
-                $("#editSentOption").prop('selected', true);
-            } else {
-                if (response[1][0].isSent == 0 && response[1][0].isDistroy == 0) {
-                    $("#editUnSentOption").prop('selected', true);
-                } else {
-                    $("#editDistroyOption").prop('selected', true);
-                }
-            }
-            if (response[4][0]) {
-                $("#editTotalMoney").text(parseInt(response[4][0].totalMoney / 10).toLocaleString("en-us"));
-            } else {
-                $("#editTotalMoney").text(parseInt(0 / 10).toLocaleString("en-us"));
-            }
-            if (response[3][0]) {
-                $("#editTotalCosts").text(parseInt(response[3][0].totalPrice / 10).toLocaleString("en-us"));
-            } else {
-                $("#editTotalCosts").text(parseInt(0 / 10).toLocaleString("en-us"));
-            }
-            $("#editTakhfifTotal").val(parseInt(response[1][0].Takhfif / 10));
-            $("#editHdsSn").val(response[1][0].SnOrder);
-            $("#HdsSn").val(response[1][0].SnOrder);
-            $("#editInVoiceNumber").val(response[1][0].InVoiceNumber);
-            if (response[2].length < 1) {
-                $("#editSabtBtn").prop("disabled", false);
-            }
-            if (response[1][0].OrderErsalTime == 1) {
-                $("#editAm").prop("selected", true);
-            } else {
-                $("#editPm").prop("selected", true);
-            }
-            $("#editAddress").empty();
-            $("#editAddress").append(`<option value="`+response[1][0].OrderAddress+`" selected>` + response[1][0].OrderAddress + `</option>`);
 
-            //نمایش کالای سفارش داده شده
-            $("#editSalesOrdersItemsBody").empty();
-
-            response[0].forEach((element, index) => {
-                let secondUnit = "ندارد";
-                if (element.secondUnit) {
-                    secondUnit = element.secondUnit;
-                }
-                $("#editSalesOrdersItemsBody").append(`                         
-                <tr onclick="getEditItemInfo(this,`+ element.SnGood + `,` + element.SnOrderBYSS + `)">
-                <td>`+ (index + 1) + `</td>
-                <td class="forMobile">`+ element.GoodCde + `</td>
-                <td style="width:180px;">`+ element.GoodName + `</td>
-                <td class="forMobile">`+ element.DateOrder + `</td>
-                <td class="forMobile">`+ element.firstUnit + `</td>
-                <td class="forMobile">`+ secondUnit + `</td>
-                <td>`+ parseInt(element.PackAmount).toLocaleString("en-us") + `</td>
-                <td class="forMobile">0</td>
-                <td class="forMobile">`+ parseInt(element.Amount).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ parseInt(element.Fi / 10).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ parseInt(element.FiPack / 10).toLocaleString("en-us") + ` </td>
-                <td >`+ parseInt(element.totalPrice / 10).toLocaleString("en-us") + `</td>
-                <td class="forMobile">`+ element.DescRecord + `</td>
-                </tr>
-                `);
-            });
-
-            if (!($('.modal.in').length)) {
-                $('.modal-dialog').css({
-                    top: 0,
-                    left: 0
-                });
-            }
-            $('#orderEditingModal').modal({
-                backdrop: false,
-                show: true
-            });
-
-            $('.modal-dialog').draggable({
-                handle: ".modal-header"
-            });
-
-            $("#orderEditingModal").modal("show");
-        },
-        error: function (error) {
-        }
-    });
-});
 
 $("#distroyOrderBtn").on("click", () => {
     swal({
@@ -11043,10 +11340,9 @@ $("#editDeleteOrderItem").on("click", () => {
                 method: 'get',
                 async: true,
                 url: baseUrl + "/deleteOrderItem",
-                data: {
-                      
-                    orderSn: $("#editDeleteOrderItem").val(),
-                    hdsSn: $("#editOrderBtn").val()
+                data: { 
+                        orderSn: $("#editDeleteOrderItem").val(),
+                        hdsSn: $("#editOrderBtn").val()
                 },
                 success: function (respond) {
                     $("#editSalesOrdersItemsBody").empty();
@@ -11300,14 +11596,14 @@ $("#editEditOrderItem").on("click", function () {
             $("#editOrderKalaName").append(`<option selected value="` + element.GoodSn + `">` + element.GoodName + `</option>`);
             
             if (element.AmountUnit) {
-                for (let index = 1; index <= 40; index++) {
+                for (let index = 1; index <= 100; index++) {
                     if (index != parseInt(element.PackAmount)) {
                         $("#editOrderAmount").append(`<option value="` + (index * element.AmountUnit) + `">` + (index) + `  ` + element.secondUnit + ` معادل ` + index * element.AmountUnit
                             + ` ` + element.firstUnit + `</option>`);
                     }else{
                         $("#editOrderAmount").append(`<option selected value="` + (index * element.AmountUnit) + `">` + (index) + `  ` + element.secondUnit + ` معادل ` + index * element.AmountUnit
                         + ` ` + element.firstUnit + `</option>`);
-                    } 
+                    }
                 }
 
                 if (!isNaN(parseInt(response[1][0].Amount))) {

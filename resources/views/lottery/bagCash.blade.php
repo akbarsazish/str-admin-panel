@@ -429,12 +429,14 @@
   
     // Munculkan Alert
     setTimeout(function () {
+
       applause.play();
       swal(
         "تبریک",
         " شما برنده ای " +SelectedItem+ "شده اید",
         "success"
       );
+      remainedBonus -= 500;
       //برای ثبت تاریخچه
       $.ajax({
         method: 'get',
@@ -442,12 +444,11 @@
         data: {
             _token: "{{csrf_token()}}",
             customerId: {{Session::get('psn')}},
-            product:SelectedItem
+            product:SelectedItem,
+            remainedBonus:remainedBonus
         },
         async: true,
         success: function(data) {
-		
-          remainedBonus -= 500;
 
           if(remainedBonus<500){
         

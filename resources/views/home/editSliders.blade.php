@@ -55,8 +55,9 @@
                                         <div class="row p-0">
                                                 <div class='modal-body' style="display:flex;  justify-content: flex-end; float:right; margin-left:50px">
                                                     <div id='pslider' class='swiper-container swiper-container-horizontal swiper-container-rtl'>
-                                                        <div class='product-box swiper-wrapper' style="">
+                                                        <div class='product-box swiper-wrapper'>
                                                             @foreach ($picture as $pic)
+                                                            {{-- 1 --}}
                                                             @if($pic->firstPic)
                                                             <div class='product-item swiper-slide' style='width:30% !important; height:25vh !important;'>
                                                                 <input style="display:none" id="pic{{ $loop->iteration }}" value="{{$pic->firstPic}}"/>

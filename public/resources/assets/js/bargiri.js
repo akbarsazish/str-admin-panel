@@ -1,34 +1,9 @@
-var baseUrl = "http://192.168.10.33:8080";
-function getFactorOrders(element,factorSn){
-    $("tr").removeClass("selected");
-    $(element).addClass("selected");
-$.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
-    $("#FactorDetailBody").empty();
-    let i=0;
-    for (let element of respond) {
-        i=i+1;
-        $("#FactorDetailBody").append(`<tr>
-        <td> ${i} </td>
-        <td> ${element.GoodCode}</td>
-        <td style="width:160px;"> ${element.GoodName} </td>
-        <td> ${element.FirstUnit} </td>
-        <td> ${element.SecondUnit} </td>
-        <td> ${parseInt(element.PackAmnt||0).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.Amount).toLocaleString("en-us")} </td>
-        <td>  ${parseInt(element.CalcTakhfif).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.Fi).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.FiPack).toLocaleString("en-us")}</td>
-        <td> ${parseInt(element.Price).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.CalcTakhfif).toLocaleString("en-us")} </td>
-        <td> ${element.DescRecord} </td>
-        <td> وضعیت بارگیری </td>
-        <td> بار میکروبی </td>
-       </tr>`);
-    }
-})
-}
+
+var baseUrl = "http://192.168.10.21:8080";
+
 
 function openBargiriModal(){
+    setActiveTable("bargiriDriverListBody")
     $("#bargiriModal").modal("show");
 
     if (!$(".modal.in").length) {
@@ -45,69 +20,6 @@ function openBargiriModal(){
     $(".modal-dialog").draggable({
         handle: ".modal-header",
     });
-
-    let selectedRowBargiri = 0;
-localStorage.setItem("scrollTop",0);
-$(document).on("keydown",function(e){
-    if (e.which === 40 || e.which === 38) {
-        e.preventDefault();
-        let tableBody=$("#bargiriDriverTable");
-        let element;
-        let snFact;
-        Mousetrap.bind('down', function (e) {
-            var rowCount = $("#bargiriDriverListBody tr:last").index() + 1;
-            if (selectedRowBargiri >= 0) {
-                $("#bargiriDriverListBody tr").eq(selectedRowBargiri).css('background-color', '');
-            }
-            if(selectedRowBargiri!=0){
-                selectedRowBargiri = Math.min(selectedRowBargiri + 1, rowCount - 1); 
-                $("#bargiriDriverListBody tr").eq(selectedRowBargiri).css('background-color', "rgb(0,142,201)"); 
-            }else{
-                selectedRowBargiri = Math.min(1, rowCount - 1); 
-                $("#bargiriDriverListBody tr").eq(selectedRowBargiri).css('background-color', "rgb(0,142,201)"); 
-            }
-            element=$("#bargiriDriverListBody tr").eq(selectedRowBargiri)
-            snFact=$(element).find('input[type="radio"]').val();
-            getDriverFactors(element,snFact)
-            let topTr = $("#bargiriDriverListBody tr").eq(selectedRowBargiri).position().top;
-            let bottomTr =topTr+50;
-            let trHieght =50;
-            if(topTr > 0 && bottomTr < 450){
-            }else{
-                let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                tableBody.scrollTop(parseInt(newScrollTop));
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
-
-        Mousetrap.bind('up', function (e) {
-            if (selectedRowBargiri >= 0) {
-                $("#bargiriDriverListBody tr").eq(selectedRowBargiri).css('background-color','');
-            }
-            selectedRowBargiri = Math.max(selectedRowBargiri - 1, 0); 
-            $("#bargiriDriverListBody tr").eq(selectedRowBargiri).css('background-color', 'rgb(0,142,201)'); 
-            element=$("#bargiriDriverListBody tr").eq(selectedRowBargiri)
-            snFact=$(element).find('input[type="radio"]').val();
-            
-            getDriverFactors(element,snFact)
-            let topTr = $("#bargiriDriverListBody tr").eq(selectedRowBargiri).position().top;
-            let bottomTr =topTr+parseInt($("#bargiriDriverListBody tr").eq(selectedRowBargiri).height());
-            let trHieght =50;
-            if(topTr >117 && bottomTr < 450){
-            }else{
-                let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                tableBody.scrollTop(parseInt(newScrollTop));
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
-
-        Mousetrap.bind("enter",()=>{
-            $("#searchCustomerSabtBtn").trigger("click");
-            localStorage.setItem("scrollTop",0);
-        });
-    }
-})
-    
 }
 
 function getDriverFactors(element,snMasterBar){
@@ -173,23 +85,23 @@ function getDriverFactors(element,snMasterBar){
             if(element.joze<1){
                 joze=0;
             }
-         j+=1;
-         $("#bargiriKalaLisBody").append(`
-             <tr class="factorTablRow">
-                 <td> ${i} </td>
-                 <td> ${element.GoodCde} </td>
-                 <td> ${element.GoodName} </td>
-                 <td> ${parseInt(packAmnt).toLocaleString("en-us")} </td>
-                 <td> ${element.SecondUnitName} </td>
-                 <td> ${parseInt(joze).toLocaleString("en-us")} </td>
-                 <td> ${element.FirstUnitName} </td>
-                 <td> ${parseInt(element.allAmount).toLocaleString("en-us")} </td>
-                 <td> ${element.SumFewWeight} </td>
-                 <td> ${element.countFactor} </td>
-             </tr>`);
-         }
-    })
-}
+            j+=1;
+            $("#bargiriKalaLisBody").append(`
+                <tr class="factorTablRow">
+                    <td> ${j} </td>
+                    <td> ${element.GoodCde} </td>
+                    <td> ${element.GoodName} </td>
+                    <td> ${parseInt(packAmnt).toLocaleString("en-us")} </td>
+                    <td> ${element.SecondUnitName} </td>
+                    <td> ${parseInt(joze).toLocaleString("en-us")} </td>
+                    <td> ${element.FirstUnitName} </td>
+                    <td> ${parseInt(element.allAmount).toLocaleString("en-us")} </td>
+                    <td> ${element.SumFewWeight} </td>
+                    <td> ${element.countFactor} </td>
+                </tr>`);
+            }
+        })
+    }
 
 function addFactorToBargiri(){
     $.get(baseUrl+"/getDrivers",(respond,status)=>{
@@ -202,9 +114,11 @@ function addFactorToBargiri(){
     $.get(baseUrl+"/allBanks",(respond,status)=>{
         $("#allKartKhanBanks").empty();
         $("#allVarizBeHisabBanks").empty();
+        $("#allKartKhanBanks").append(`<option></option>`);
+        $("#allVarizBeHisabBanks").append(`<option></option>`);
         for (const element of respond.bankKarts) {
-            $("#allKartKhanBanks").append(`<option value="${element.SerialNoAcc}">${element.AccNo}</option>`);
-            $("#allVarizBeHisabBanks").append(`<option value="${element.SerialNoAcc}">${element.AccNo}</option>`);
+            $("#allKartKhanBanks").append(`<option value="${element.SerialNoAcc}">${element.bsn}</option>`);
+            $("#allVarizBeHisabBanks").append(`<option value="${element.SerialNoAcc}">${element.bsn}</option>`);
         }
     });
 
@@ -213,6 +127,7 @@ $("#addFactorToBargiriModal").modal("show");
 }
 function editFactorsOfBargiri(snMasterBar){
     $.get(baseUrl+"/getMasterBarInfo",{snMasterBar:snMasterBar},(respond,status)=>{
+
         $("#factorDriverEdit").empty();
         let selectedDriverSnDriver;
         let paperDate;
@@ -229,6 +144,7 @@ function editFactorsOfBargiri(snMasterBar){
         selectedDriverSnDriver=respond.masterInfo[0].SnDriver;
         paperDate=respond.masterInfo[0].DatePeaper;
         paperNo=respond.masterInfo[0].NoPaper;
+        
         $("#bargiriPaperDateEdit").val(paperDate);
         $("#bargiriPaperNoEdit").val(paperNo);
         $("#paperdescEdit").val(paperDesc);
@@ -283,18 +199,79 @@ function editFactorsOfBargiri(snMasterBar){
                 }
             }
         });
+
+        let serNoAccVariz=0;
+        let serNoAccKartKhan=0;
+        $("#KartKhan_SnAccBankEdit").val("");
+        $("#Variz_SnAccBankEdit").val("");
+        $("#Bargiri_NoPayanehEdit").val("");
+        $("#mashinNoEdit").val("")
+        if(respond.masterInfo[0].Bargiri_VarizSnAccBank){
+            serNoAccVariz=respond.masterInfo[0].Bargiri_VarizSnAccBank;
+        }
+        if(respond.masterInfo[0].Bargiri_SnAccBank){
+            serNoAccKartKhan=respond.masterInfo[0].Bargiri_SnAccBank;
+        }
+        if(respond.masterInfo[0].Bargiri_NoPayaneh){
+            $("#Bargiri_NoPayanehEdit").val(respond.masterInfo[0].Bargiri_NoPayaneh);
+        }
+
+        if(respond.masterInfo[0].BarMashinNo){
+            $("#mashinNoEdit").val(respond.masterInfo[0].BarMashinNo);
+        }
+
+
+    
+        $.get(baseUrl+"/allBanks",(respond,status)=>{
+            $("#allKartKhanBanksEdit").empty();
+            $("#allVarizBeHisabBanksEdit").empty();
+            $("#allKartKhanBanksEdit").append(`<option></option>`);
+            $("#allVarizBeHisabBanksEdit").append(`<option></option>`);
+            for (const element of respond.bankKarts) {
+                if(serNoAccKartKhan!=element.SerialNoAcc){
+                    $("#allKartKhanBanksEdit").append(`<option value="${element.SerialNoAcc}">${element.bsn}</option>`);
+                }else{
+                    $("#KartKhan_SnAccBankEdit").val(element.AccNo);
+                    $("#allKartKhanBanksEdit").append(`<option selected value="${element.SerialNoAcc}">${element.bsn}</option>`);
+                }
+                
+                if(serNoAccVariz!=element.SerialNoAcc){
+                    $("#allVarizBeHisabBanksEdit").append(`<option value="${element.SerialNoAcc}">${element.bsn}</option>`);
+                }else{
+                    $("#Variz_SnAccBankEdit").val(element.AccNo);
+                    $("#allVarizBeHisabBanksEdit").append(`<option selected value="${element.SerialNoAcc}">${element.bsn}</option>`);
+                }
+            }
+        });
+
     });
 
-    $.get(baseUrl+"/allBanks",(respond,status)=>{
-        $("#allKartKhanBanksEdit").empty();
-        $("#allVarizBeHisabBanksEdit").empty();
-        for (const element of respond.bankKarts) {
-            $("#allKartKhanBanksEdit").append(`<option value="${element.SerialNoAcc}">${element.AccNo}</option>`);
-            $("#allVarizBeHisabBanksEdit").append(`<option value="${element.SerialNoAcc}">${element.AccNo}</option>`);
-        }
-    });
+
     $("#editFactorsOfBargiriModal").modal("show");
 }
+
+$("#allVarizBeHisabBanksEdit").on("change",function(e){
+    $.get(baseUrl+"/getBankInfo",{bankSn:$(this).val()},function(respond,status){
+        $("#Variz_SnAccBankEdit").val(respond[0].AccNo);
+    })
+})
+
+$("#allKartKhanBanksEdit").on("change",function(e){
+    $.get(baseUrl+"/getBankInfo",{bankSn:$(this).val()},function(respond,status){
+        $("#KartKhan_SnAccBankEdit").val(respond[0].AccNo);
+    })
+})
+$("#allVarizBeHisabBanks").on("change",function(e){
+    $.get(baseUrl+"/getBankInfo",{bankSn:$(this).val()},function(respond,status){
+        $("#Variz_SnAccBank").val(respond[0].AccNo);
+    })
+})
+
+$("#allKartKhanBanks").on("change",function(e){
+    $.get(baseUrl+"/getBankInfo",{bankSn:$(this).val()},function(respond,status){
+        $("#KartKhan_SnAccBank").val(respond[0].AccNo);
+    })
+})
 
 function setFactorInfoForEdit(element){
     let snFact= $(element).find('input[type="checkbox"]').val();
@@ -394,6 +371,7 @@ $("#doEditBargiriFactorsForm").on("submit",function(e){
 
 function searchFactorForAddToBargiri(){
     $("#searchFoactorForAddToBargiriModal").modal("show");
+    setActiveTable("mantiqasFactorForBargiriBody")
     $.get(baseUrl+"/getMantiqasOfFactors",(respond,status)=>{
         $("#factorsMantiqasBodyList").empty();
         $("#mantiqasFactorForBargiriBody").empty();
@@ -641,6 +619,9 @@ function cancelAddingFactorToBargiri(){
             if(willAdd){
                 $("#factorsToAddToBargiriBody").empty();
                 $("#addFactorToBargiriModal").modal("hide");
+                setActiveTable("")
+            }else{
+                $("#addFactorToBargiriModal").modal("show");
             }
         });
 }
@@ -650,8 +631,14 @@ function cancelAddingSearchedFactorToBargiri(){
         icon: "warning",
         buttons: true,
         dangerMode: true,
-        }).then((willAdd) => {
-            $("#searchFoactorForAddToBargiriModal").modal("hide");
+        }).then((willCancel) => {
+            if(willCancel){
+                $("#searchFoactorForAddToBargiriModal").modal("hide");
+
+            }else{
+                $("#searchFoactorForAddToBargiriModal").modal("show");
+
+            }
         }); 
 }
 
@@ -661,8 +648,10 @@ function cancelAddingSearchedFactorToBargiriEdit(){
         icon: "warning",
         buttons: true,
         dangerMode: true,
-        }).then((willAdd) => {
-            $("#searchFoactorForAddToBargiriModalEdit").modal("hide");
+        }).then((willCancel) => {
+            if(willCancel){
+                $("#searchFoactorForAddToBargiriModalEdit").modal("hide");
+            }
         }); 
 }
 
@@ -683,26 +672,35 @@ $("#selectAllFactorsForBarigiCheckboxEdit").on("change",(respond,status)=>{
 })
 
 function selectFactorToBargiriEdit(element){
-    $("tr").removeClass("selected");
-    $(element).addClass("selected");
-    let radio=$(element).find('input:checkbox');
-    if($(radio).is(":checked")){
-        $(radio).prop("checked",false);
+    //$("#mantiqasFactorForBargiriBodyEdit tr").removeClass("selected");
+   //$(element).addClass("selected");
+    if($(element).hasClass("selected")){
+        $(element).removeClass("selected");
+    }else{
+        $(element).addClass("selected");
+    }
+    let checkBox=$(element).find('input:checkbox');
+    if($(checkBox).is(":checked")){
+        $(checkBox).prop("checked",false);
         $("#selectAllFactorsForBarigiCheckboxEdit").prop("checked",false);
     }else{
-        $(radio).prop("checked",true);
+        $(checkBox).prop("checked",true);
     }
 }
 
 function selectFactorToBargiri(element){
-    $("tr").removeClass("selected");
-    $(element).addClass("selected");
-    let radio=$(element).find('input:checkbox');
-    if($(radio).is(":checked")){
-        $(radio).prop("checked",false);
+    //$("#mantiqasFactorForBargiriBody tr").removeClass("selected");
+    if($(element).hasClass("selected")){
+        $(element).removeClass("selected");
+    }else{
+        $(element).addClass("selected");
+    }
+    let checkBox=$(element).find('input:checkbox');
+    if($(checkBox).is(":checked")){
+        $(checkBox).prop("checked",false);
         $("#selectAllFactorsForBarigiCheckbox").prop("checked",false);
     }else{
-        $(radio).prop("checked",true);
+        $(checkBox).prop("checked",true);
     }
 }
 
@@ -714,60 +712,60 @@ $("#bargiriPaperDate").persianDatepicker({
     endDate: "1440/05/05",
 });
 
-let selectedRow = 0;
-localStorage.setItem("scrollTop",0);
-$(document).on("keydown",function(e){
-    if (e.which === 40 || e.which === 38) {
-        e.preventDefault();
-        let tableBody=$("#factorTable");
-        Mousetrap.bind('down', function (e) {
-            var rowCount = $("#factorListBody tr:last").index() + 1;
-            if (selectedRow >= 0) {
-                $("#factorListBody tr").eq(selectedRow).css('background-color', 'rgb(232, 22, 144)');
-            }
-            if(selectedRow!=0){
-                selectedRow = Math.min(selectedRow + 1, rowCount - 1); 
-                $("#factorListBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
-            }else{
-                selectedRow = Math.min(1, rowCount - 1); 
-                $("#factorListBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
-            }
-            selectFactorForBargiri(133,$("#factorListBody tr").eq(selectedRow));
-            let topTr = $("#factorListBody tr").eq(selectedRow).position().top;
-            let bottomTr =topTr+50;
-            let trHieght =50;
-            if(topTr > 0 && bottomTr < 450){
-            }else{
-                let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                tableBody.scrollTop(parseInt(newScrollTop));
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
+// let selectedRow = 0;
+// localStorage.setItem("scrollTop",0);
+// $(document).on("keydown",function(e){
+//     if (e.which === 40 || e.which === 38) {
+//         e.preventDefault();
+//         let tableBody=$("#factorTable");
+//         Mousetrap.bind('down', function (e) {
+//             var rowCount = $("#factorListBody tr:last").index() + 1;
+//             if (selectedRow >= 0) {
+//                 $("#factorListBody tr").eq(selectedRow).css('background-color', 'rgb(232, 22, 144)');
+//             }
+//             if(selectedRow!=0){
+//                 selectedRow = Math.min(selectedRow + 1, rowCount - 1); 
+//                 $("#factorListBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
+//             }else{
+//                 selectedRow = Math.min(1, rowCount - 1); 
+//                 $("#factorListBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
+//             }
+//             selectFactorForBargiri(133,$("#factorListBody tr").eq(selectedRow));
+//             let topTr = $("#factorListBody tr").eq(selectedRow).position().top;
+//             let bottomTr =topTr+50;
+//             let trHieght =50;
+//             if(topTr > 0 && bottomTr < 450){
+//             }else{
+//                 let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+//                 tableBody.scrollTop(parseInt(newScrollTop));
+//                 localStorage.setItem("scrollTop",newScrollTop);
+//             }
+//         });
 
-        Mousetrap.bind('up', function (e) {
-            if (selectedRow >= 0) {
-                $("#factorListBody tr").eq(selectedRow).css('background-color','rgb(232, 22, 144)');
-            }
-            selectedRow = Math.max(selectedRow - 1, 0); 
-            $("#factorListBody tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-            selectFactorForBargiri(123,$("#factorListBody tr").eq(selectedRow));
-            let topTr = $("#factorListBody tr").eq(selectedRow).position().top;
-            let bottomTr =topTr+parseInt($("#factorListBody tr").eq(selectedRow).height());
-            let trHieght =50;
-            if(topTr >117 && bottomTr < 450){
-            }else{
-                let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                tableBody.scrollTop(parseInt(newScrollTop));
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
+//         Mousetrap.bind('up', function (e) {
+//             if (selectedRow >= 0) {
+//                 $("#factorListBody tr").eq(selectedRow).css('background-color','rgb(232, 22, 144)');
+//             }
+//             selectedRow = Math.max(selectedRow - 1, 0); 
+//             $("#factorListBody tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
+//             selectFactorForBargiri(123,$("#factorListBody tr").eq(selectedRow));
+//             let topTr = $("#factorListBody tr").eq(selectedRow).position().top;
+//             let bottomTr =topTr+parseInt($("#factorListBody tr").eq(selectedRow).height());
+//             let trHieght =50;
+//             if(topTr >117 && bottomTr < 450){
+//             }else{
+//                 let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
+//                 tableBody.scrollTop(parseInt(newScrollTop));
+//                 localStorage.setItem("scrollTop",newScrollTop);
+//             }
+//         });
 
-        Mousetrap.bind("enter",()=>{
-            $("#searchCustomerSabtBtn").trigger("click");
-            localStorage.setItem("scrollTop",0);
-        });
-    }
-})
+//         Mousetrap.bind("enter",()=>{
+//             $("#searchCustomerSabtBtn").trigger("click");
+//             localStorage.setItem("scrollTop",0);
+//         });
+//     }
+// })
   
 function selectFactorForBargiri(snFact,element){
     if(isNaN(element)){
@@ -780,4 +778,71 @@ function selectFactorForBargiri(snFact,element){
     // $("#searchCustomerSabtBtn").prop("disabled",false);
     // $("#searchCustomerSabtBtn").val(snFact);
 }
+
+let selectedRowDriver=0;
+$(document).keyup( (event) => {
+    switch(activeTable){
+        case "bargiriDriverListBody":
+            {
+                if(event.keyCode==40){
+                    event.preventDefault();
+                    var rowCount = $("#bargiriDriverListBody tr:last").index() + 1;
+                    let tableBody=$("#bargiriDriverListBody");
+                    if (selectedRowDriver >= 0) {
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', '');
+                    }
+                    if(selectedRowDriver!=0){
+                        selectedRowDriver = Math.min(selectedRowDriver + 1, rowCount - 1); 
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowDriver = Math.min(1, rowCount - 1); 
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#bargiriDriverListBody tr").eq(selectedRowDriver)
+                    snFact=$(element).find('input[type="radio"]').val();
+                    
+                    getDriverFactors(element,snFact)
+                    let topTr = $("#bargiriDriverListBody tr").eq(selectedRowDriver).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+
+                if(event.keyCode==38){
+                    event.preventDefault();
+                    var rowCount = $("#bargiriDriverListBody tr:last").index() + 1;
+                    let tableBody=$("#bargiriDriverListBody");
+                    if (selectedRowDriver >= 0) {
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', '');
+                    }
+                    if(selectedRowDriver!=0){
+                        selectedRowDriver = Math.max(selectedRowDriver  - 1, 0); 
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowDriver = Math.min(1, rowCount - 1); 
+                        $("#bargiriDriverListBody tr").eq(selectedRowDriver).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#bargiriDriverListBody tr").eq(selectedRowDriver)
+                    snFact=$(element).find('input[type="radio"]').val();
+                    
+                    getDriverFactors(element,snFact)
+                    let topTr = $("#bargiriDriverListBody tr").eq(selectedRowDriver).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+            }
+            break;
+        }
+})
 
