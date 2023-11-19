@@ -4,8 +4,9 @@
 
 body {
     background: #fff;
+    direction: rtl;
   }
-  
+ 
 .top-head,
 .top-head form {
     display: flex;
@@ -27,8 +28,8 @@ body {
 }
 
 .top-head>div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .top-head .logo {
@@ -4906,6 +4907,20 @@ table tfoot{display:none;}
 
 .bargeri-total-item span {
     font-size: 14px;
+}
+
+.checkboxStyle {
+  float: right !important;
+  margin-left: 0.4rem !important;
+  display: inline !important;
+}
+
+.checkboxLabelStyl {
+  display: inline !important;
+}
+
+.form-check-inline {
+  margin-right: 0px !important;
 }
 
 /* pardakht style */

@@ -53,70 +53,62 @@
                         <fieldset class="border rounded">
                             <form action="{{url("/filterFactors")}}" method="get" id="filterFactorsForm">
                                 @csrf
-                            <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="form-check px-1">
-                                            <input class="form-check-input float-start" type="checkbox" name="bargiryYes" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-4" for="sefNewOrderRadio"> بارگیری  شده </label>
-                                        </div>
-                                        <div class="form-check px-1">
-                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehYes" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-4" for="sefNewOrderRadio"> تسویه شده </label>
-                                        </div> 
+                               <div class="col-lg-12">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="bargiryYes" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> بارگیری  شده </label>
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="form-check px-1">
-                                            <input class="form-check-input float-start" type="checkbox" name="bargiryNo" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-4" for="sefNewOrderRadio">بارگیری نشده</label>
-                                        </div> 
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="tasviyehYes" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> تسویه شده </label>
+                                    </div> 
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="bargiryNo" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio">بارگیری نشده</label>
+                                    </div> 
 
-                                        <div class="form-check px-1">
-                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehNo" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-4" for="sefNewOrderRadio"> تسویه نشده </label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="tasviyehNo" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> تسویه نشده </label>
                                     </div>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
-                                    <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">ساعت ثبت  </span>
-                                    <input type="time" name="factTime1" class="form-control form-control-sm">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="time" name="factTime2" class="form-control form-control-sm">
-                                </div>
 
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">شماره فاکتور  </span>
-                                    <input type="text" name="factNo1" class="form-control form-control-sm">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" name="factNo2" class="form-control form-control-sm" >
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text">  خریدار </span>
-                                    <input  class="form-control form-control-sm" id="customerCode"  placeholder="کد ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text">  خریدار </span>
-                                    <input type="text" name="customerName" id="customerName" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text"> خریدار متفرقه </span>
-                                    <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
+                                        <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">ساعت ثبت  </span>
+                                        <input type="time" name="factTime1" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="time" name="factTime2" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">شماره فاکتور  </span>
+                                        <input type="text" name="factNo1" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems  d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="text" name="factNo2" class="form-control form-control-sm" >
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text">  خریدار </span>
+                                        <input  class="form-control form-control-sm" id="customerCode"  placeholder="کد ">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text">  خریدار </span>
+                                        <input type="text" name="customerName" id="customerName" class="form-control form-control-sm"  placeholder="نام ">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text"> خریدار متفرقه </span>
+                                        <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
+                                    </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  نحوه پرداخت </span>
                                     <select name="" id="" class="form-select">
@@ -137,15 +129,15 @@
                                     <span class="input-group-text">  توضحیات </span>
                                     <input type="text" name="factDesc" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text">  شرح کالا </span>
                                     <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> بازاریاب </span>
                                     <input type="text" name="bazaryabName" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> مشتری </span>
                                     <select name="" id="" class="form-select">
                                         <option></option>
@@ -156,7 +148,7 @@
                                         <option>حضوری</option>
                                     </select>
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> انبار </span>
                                     <select name="stockName" id="stockName" class="form-select">
                                         <option></option>
@@ -171,21 +163,18 @@
                             </div>
                         </form>
                         <div class="row">
-                            <div> 
-                            @if(hasPermission(Session::get("adminId"),"factorN") > 1)
-                                <button class="btn btn-sm text-warning btn-success mb-2" id="addFactorBtn"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
-                            @endif
-                            @if(hasPermission(Session::get("adminId"),"factorN") > 0)
-                                <button class="btn btn-sm text-warning btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
-                            @endif
-                            @if(hasPermission(Session::get("adminId"),"factorN") > 1)    
-                                <button class="btn btn-sm text-warning btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
-                            @endif
-                            </div>
-                            <div class="text-end">
-                            </div>
-                            <div class="text-end">
-                            </div>
+                           <div class="btn-group" role="group" aria-label="Basic mixed">
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 1)
+                                    <button class="btn btn-sm rounded ms-1 btn-success mb-2" id="addFactorBtn"  style="width: 100px;"> افزودن </button>
+                                @endif
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 0)
+                                    <button class="btn btn-sm rounded ms-1 btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش  </button>
+                                @endif
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 1)    
+                                    <button class="btn btn-sm rounded ms-1 btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف  </button>
+                                @endif
+                           </div>
+                           
                         </div>
                         </fieldset>
                     </span>
@@ -294,16 +283,18 @@
                 </table>
             </div>
             <div class="row contentFooter">
-                <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
+              <div class="col-lg-12 text-end">
+                  <div class="btn-group mt-2" role="group"> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
@@ -464,10 +455,11 @@
     </div>
   </div>
 
+
   <div class="modal" tabindex="1" id="addFactorToBargiriModal">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
-        <div class="modal-header py-2" style="background-color: #15573f">
+        <div class="modal-header py-2 bg-info">
           <button type="button" class="btn-close btn-danger bg-danger" data-dismiss="modal" aria-label="Close"></button>
           <h5 class="modal-title text-white"> افزودن بارگیری </h5>
         </div>
@@ -1044,7 +1036,7 @@
     <input type="hidden" id="factorRowTaker">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-            <div class="modal-header bg-info" >
+            <div class="modal-header bg-info py-2" >
                 <h5 class="modal-title text-end"> افزودن فاکتور </h5>
             </div>
             <div class="modal-body">
@@ -1052,8 +1044,10 @@
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-4">
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                            <div class="col-lg-6">
+                              <div class="row">
+                              <div class="col-lg-6">
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
                                     <input type="hidden" name="factType" value="3">
                                     <select name="stockAdd" id="stockAdd" class="form-select">
@@ -1066,25 +1060,27 @@
                                         @endif
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > تاریخ </span>
                                     <input type="text" class="form-control" name="FactDateAdd" id="FactDateAdd" required>
                                     <select name="customerForFactorAdd" id="customerForFactorAdd" style="display: none;">
                                     </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار </span>
                                     <input type="text" class="form-control" name="pCodeAdd" id="pCodeAdd">
                                     <input type="text" class="form-control" name="NameAdd" id="NameAdd">
                                     <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-info text-warning">گردش حساب</button>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
                                     <input type="text" class="form-control" name="bazaryabCodeAdd" id="bazaryabCodeAdd">
                                     <input type="text" class="form-control" name="bazaryabNameAdd" id="bazaryabNameAdd">
                                     <button  type="button" class="btn btn-info text-warning"> ... </button>
-                                </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار متفرقه </span>
                                     <input type="text" class="form-control" name="MotafariqahNameAdd" id="MotafariqahNameAdd">
@@ -1095,11 +1091,11 @@
                                         <input type="text" id="MotafariqahMobileAdd" class="form-control">
                                     </div>
                                 </div>
-                                <div  id="motafariqahfactorAddressDivAdd" style="display: none">
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div id="motafariqahfactorAddressDivAdd" style="display: none">
+                                  <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > آدرس </span>
                                     <input type="text" name="MotafariqahAddressAdd"  id="MotafariqahAddressAdd" class="form-control">
-                                </div>
+                                  </div>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > توضحیات </span>
@@ -1112,6 +1108,7 @@
                                         <option value="ersal"> ارسال به آدرس </option>
                                     </select>
                                 </div>
+                                
                                 <div  id="sendTimeDivAdd" style="display: none">
                                     <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text" >  زمان ارسال </span>
@@ -1141,88 +1138,95 @@
                                     <input type="text" id="tarabariDescFAdd" value=""  name="tarabariDescFAdd">
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div>
-                                <button type="button" class="btn btn-sm btn-success mb-2 text-warning" onclick="openKalaGardish()"> گردش کالا </button>
-                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
-                                    {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
-                                    <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
-                                    <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
-                                    <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
+                          </div>
+                         </div>
+
+                         <div class="col-lg-6 col-sm-6">
+                             <div class="row">
+                              <div class="col-lg-10 col-sm-10 px-0">
+                               <div class="btn-group" role="group" aria-label="Basic mixed">
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openKalaGardish()"> گردش کالا </button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-sm btn-success rounded ms-1"> گردش شخص </button>
+                               {{-- <button type="button" class="btn btn-sm btn-success rounded ms-1"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1"> اصلاح شخص </button> --}}
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openLastTenBuysModal()"> ده خرید آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openLastTenSalesModal()"> ده فروش آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openNotSentOrdersModal()"> سفارشات ارسال نشده </button>
+                                </div>
+                            
+                                <div class="col-lg-12 border-2 mt-1 rounded" style="background-color:#e0e0e0;">
+                                    <span class="description"> موجودی انبار : <b id="AddedToFactorExistInStock">0</b></span> <br>
+                                    <span class="description">  قیمت فروش : <b id="AddedToFactorPrice">0</b></span> <br>
+                                    <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddedToFactorLastPriceCustomer">0</b></span> <br>
+                                    <span class="description"> آخرین قیمت فروش :  <b id="AddedToFactorLastPrice">0</b> </span>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="text-end">
-                                    <label class="form-label"> کرایه دریافت شد </label>
-                                    <input type="checkbox" class="form-check-input" name="ّtakeKerayahAdd" id="ّtakeKerayahAdd">
-                                    <button type="submit" class="btn btn-sm btn-success text-warning mb-2"> ثبت </button>
-                                    <button type="button" onclick="cancelAddFactor()" class="btn btn-sm btn-danger  mb-2"> انصراف </button>
-                                </div>
-                                <div>
-                                    <div class="col-lg-12 border-2" style="background-color:#e0e0e0;">
-                                        <span class="description"> موجودی انبار : <b id="AddedToFactorExistInStock">0</b></span> <br>
-                                        <span class="description">  قیمت فروش : <b id="AddedToFactorPrice">0</b></span> <br>
-                                        <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddedToFactorLastPriceCustomer">0</b></span> <br>
-                                        <span class="description"> آخرین قیمت فروش :  <b id="AddedToFactorLastPrice">0</b> </span>
-                                    </div>
+
+                            <div class="col-lg-2 px-0">
+                                <button type="submit" class="btn btn-sm btn-success mb-2"> ثبت </button>
+                                <button type="button" onclick="cancelAddFactor()" class="btn btn-sm btn-danger mb-2"> انصراف </button>
+                                <div class="form-check form-check-inline ms-1">
+                                    <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> دریافت شد </label>
+                                    <input type="checkbox" class="form-check-input checkboxStyle" name="ّtakeKerayahAdd" id="ّtakeKerayahAdd">
                                 </div>
                             </div>
+                          </div>
                         </div>
+
                         <div class="row">
                             <table class="table table-striped table-bordered table-sm factorTable">
                                 <thead class="bg-success">
                                     <tr class="bg-success factorTableHeadTr">
-                                        <th> ردیف </th>
-                                        <th> کد کالا </th>
-                                        <th> نام کالا </th>
-                                        <th> واحد کالا </th>
-                                        <th> بسته بندی </th>
-                                        <th> مقدار کل </th>
-                                        <th> مقدار جز </th>
-                                        <th> مقدار اولیه </th>
-                                        <th> مقدار برگشتی </th>
-                                        <th> مقدار کالا </th>
-                                        <th> نرخ واحد </th>
-                                        <th> نرخ بسته </th>
-                                        <th> مبلغ </th>
-                                        <th> مبلغ بعد از تخفیف </th>
-                                        <th> شماره سفارش </th>
-                                        <th> تاریخ سفارش </th>
-                                        <th> شرح کالا </th>
-                                        <th> انبار </th>
-                                        <th> مالیات بر ارزش افزوده </th>
-                                        <th> وزن واحد </th>
-                                        <th> وزن کل </th>
-                                        <th> In Srvice </th>
-                                        <th> درصد مالیات </th>
+                                        <th id="addFactorTd-1"> ردیف </th>
+                                        <th id="addFactorTd-2"> کد کالا </th>
+                                        <th id="addFactorTd-3"> نام کالا </th>
+                                        <th id="addFactorTd-4"> واحد کالا </th>
+                                        <th id="addFactorTd-5"> بسته بندی </th>
+                                        <th id="addFactorTd-6"> مقدار کل </th>
+                                        <th id="addFactorTd-7"> مقدار جز </th>
+                                        <th id="addFactorTd-8"> مقدار اولیه </th>
+                                        <th id="addFactorTd-9"> مقدار برگشتی </th>
+                                        <th id="addFactorTd-10"> مقدار کالا </th>
+                                        <th id="addFactorTd-11"> نرخ واحد </th>
+                                        <th id="addFactorTd-12"> نرخ بسته </th>
+                                        <th id="addFactorTd-13"> مبلغ </th>
+                                        <th id="addFactorTd-14"> مبلغ بعد از تخفیف </th>
+                                        <th id="addFactorTd-15"> شماره سفارش </th>
+                                        <th id="addFactorTd-16"> تاریخ سفارش </th>
+                                        <th id="addFactorTd-17"> شرح کالا </th>
+                                        <th id="addFactorTd-18"> انبار </th>
+                                        <th id="addFactorTd-19"> مالیات بر ارزش افزوده </th>
+                                        <th id="addFactorTd-20"> وزن واحد </th>
+                                        <th id="addFactorTd-21"> وزن کل </th>
+                                        <th id="addFactorTd-22"> In Srvice </th>
+                                        <th id="addFactorTd-23"> درصد مالیات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="factorAddListBody">
                                     <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                                        <td class="td-part-input"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
+                                        <td class="addFactorTd-1"> </td>
+                                        <td class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+                                        <td class="addFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
+                                        <td class="addFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-6"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-10"> <input type="text" value="" class="td-input  td-AllAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+                                        <td class="addFactorTd-15"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
+                                        <td class="addFactorTd-16"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
+                                        <td class="addFactorTd-17"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
+                                        <td class="addFactorTd-18"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
+                                        <td class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+                                        <td class="addFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
+                                        <td class="addFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
+                                        <td class="addFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
                                     </tr>
                                 </tbody>
                             </table>

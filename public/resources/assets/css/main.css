@@ -21,7 +21,6 @@ a.footerOptions{
     z-index: 100;
     border-top: 1px solid rgb(190, 48, 48);
     border-radius: 8px 8px 0 0;
-
 }
 
 .bottomNav__item {
@@ -6453,7 +6452,7 @@ span.footerbasket {
     position: relative;
     clear: both;
     padding: 0;
-    *zoom: 1;
+    zoom: 1;
     zoom: 1;
 }
 
