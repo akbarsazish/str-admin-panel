@@ -131,7 +131,18 @@
                                                      دریافت ها 
                                                 </a>
                                             </li>
-                                        @endif
+                                          @endif
+                                          @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                            <li class="sidebarLi">
+                                                <a class="mySidenav__item" href="{{url('/pays')}}"> &nbsp;&nbsp; 
+                                                    <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                        @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                    </span>
+                                                    <i class="fa fa-cc-visa fa-lg"></i>
+                                                     پرداخت
+                                                </a>
+                                            </li>
+                                          @endif
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
                                             <li class="sidebarLi">
                                                 <a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; 
