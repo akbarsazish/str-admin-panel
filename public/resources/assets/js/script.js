@@ -121,8 +121,7 @@ $(document).ready(function () {
         $('.c-table-suppliers-more').removeClass('c-table-suppliers-hidden');
     });
 
-} // document-ready
-)
+})
 
 /// Backdrop menu ==============================
 const backdrop = document.querySelector('.menuBackdrop');

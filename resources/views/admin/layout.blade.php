@@ -5,11 +5,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title> Admin Panel </title>
+    <link rel="icon" type="image/png" href="{{ url('/resources/assets/images/part.png')}}">
+    
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-grid.rtl.min.css') }}">
     <link rel="stylesheet" href="{{ url('/resources/assets/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}"> -->
     <link rel="stylesheet" href="{{ url('/resources/assets/slicknav/slicknav.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mainAdmin.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mediaq.css')}}">
@@ -17,10 +20,6 @@
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-utilities.rtl.min.css')}}">
     <link rel="stylesheet" href="{{url('/resources/assets/js/persianDatepicker-master/css/persianDatepicker-default.css')}}" />
 	<link rel="stylesheet" href="{{ url('/resources/assets/css/jquery-ui.css')}}">
-    <link rel="icon" type="image/png" href="{{ url('/resources/assets/images/part.png')}}">
-
-    <script type="text/javascript" src="{{ url('/resources/assets/js/jquery.min.js')}}"></script>
-
 
 </head>
 <body>
@@ -155,9 +154,7 @@
     </header>
     @yield('content')
 
-   
-    
-
+    <script type="text/javascript" src="{{ url('/resources/assets/js/jquery.min.js')}}"></script>
     <script src="{{ url('/resources/assets/js/jquery-ui.min.js')}}"></script>
     <script src="{{url('/resources/assets/js/persianDatepicker-master/js/jquery-1.10.1.min.js')}}"></script>  
     <script src="{{url('/resources/assets/js/persianDatepicker-master/js/persianDatepicker.min.js')}}"></script> 
@@ -172,6 +169,7 @@
     <script src="{{url('/resources/assets/vendor/persianumber.min.js')}}"></script>
     <script src="{{url('/resources/assets/vendor/elevatezoom.js')}}"></script>
     <script src="{{url('/resources/assets/js/script.js') }}"></script>
+    <script src="{{url('/resources/assets/js/tableScript.js') }}"></script>
     
     <script src="{{url('/resources/assets/js/addNewOrder.js') }}"></script>
 
@@ -180,8 +178,7 @@
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-
+    
     <script>
         function goBack() {
             window.history.back();
@@ -196,5 +193,7 @@
         }
 
      </script>
+
+  
 </body>
 </html>
