@@ -867,6 +867,10 @@ a#mynavmenu {
     margin-top: 40px
 }
 
+.c-faq__list>li:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px
+}
 
 .c-faq__list>li {
     position: relative;
@@ -1197,6 +1201,9 @@ a#mynavmenu {
     background: #fff
 }
 
+.c-checkout__item:first-child {
+    border-top: none
+}
 
 .c-checkout__item {
     border-top: 1px solid #eaeaea
@@ -1428,6 +1435,8 @@ a#mynavmenu {
     flex-direction: column;
     align-items: right
 }
+
+
 
 .c-checkout__price {
     font-size: 1.7em;
@@ -1699,6 +1708,11 @@ header.shipping {
     display: none
 }
 
+.c-checkout-contact__item:first-child {
+    margin-top: 0;
+    margin-bottom: 5px
+}
+
 .c-checkout-contact__item--message,
 .c-checkout-contact__item--mobile {
     display: inline-block;
@@ -1961,6 +1975,8 @@ span.full-address {
     padding: 0
 }
 
+
+
 .c-checkout-paymethod__options {
     border-top: 1px solid #e2f2f4;
     padding: 18px 20px 24px;
@@ -2093,6 +2109,9 @@ span.full-address {
     margin-bottom: 29px
 }
 
+.c-checkout-order-summary__item:first-child {
+    margin-top: 0
+}
 
 .c-checkout-order-summary__item {
     border: 1px solid #e7e7e7;
@@ -2382,6 +2401,7 @@ span.full-address {
     font-size: 1em
 }
 
+
 .btn-order-traking {
     font-size: 1.071rem;
     line-height: 1.467;
@@ -2651,6 +2671,9 @@ span.full-address {
     text-align: center
 }
 
+.c-profile-box__tab:first-child {
+    border-left: 1px solid #ebebeb
+}
 
 .c-profile-box__tab {
     flex: 0 0 50%;
@@ -2784,6 +2807,15 @@ span.full-address {
     align-items: center
 }
 
+.c-profile-recent-fav,
+.private-info--table {
+    border: 1px solid #dedede;
+    margin-bottom: 23px;
+    padding-bottom: 43px;
+    height: calc(100% - 68px);
+    background-color: #fff;
+    box-shadow: 0 12px 12px 0 hsla(0, 0%, 71%, .1)
+}
 
 .user-main {
     display: flex;
@@ -2806,6 +2838,10 @@ span.full-address {
     flex-wrap: wrap;
     margin-right: 0;
     margin-left: 0
+}
+
+.private-info--col:first-child {
+    border-right: none
 }
 
 .private-info--col {
@@ -3570,6 +3606,13 @@ span.full-address {
     z-index: 2
 }
 
+.c-listing__header ul:first-child:before {
+    content: "\f0c9";
+    font-family: fontawesome;
+    right: 13px;
+    color: #cecece
+}
+
 .c-listing__sort {
     line-height: 34px;
     padding: 0;
@@ -4129,13 +4172,22 @@ span.full-address {
     font-weight: bold;
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    cursor: pointer;
+  }
+  
+::-webkit-scrollbar-track {
+    background: green;
+  }
+  
+::-webkit-scrollbar-thumb {
+    background: #b3e7da; 
+    border-radius: 15px;
+  }
 
-/* table styles */
-.resizableTable {
-    overflow-y: scroll !important;
-    display: block !important;
-    height: calc(100vh - 200px);
-}
+
 
 .tableHeader {
     position: sticky !important;
@@ -4144,6 +4196,15 @@ span.full-address {
     font-weight: bold;
     color: #dfa65f;
 }
+
+.tableBody {
+    height: calc(100vh - 222px);
+    overflow-y: scroll !important;
+    display: block !important;
+    font-size: 14px;
+    width: 100% !important;
+}
+
 
 th {
   cursor: col-resize; 
@@ -4154,30 +4215,12 @@ th:hover {
   background-color: #43bfa3;
 }
 
-/* table style end */
-
-.factorTablRow{
-  display:table-row !important; 
-}
-
-.factorTableHeadTr{
-  display:table-row!important;
-  font-size:medium;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-   background-color: #f0f0f0
-}
-
-
-.factorTableBody{
-  width:100%;
-    max-height: 233px !important;
-    overflow-y: scroll;
-}
-
-th:hover {
-  background-color: #43bfa3;
+/* table styles */
+.resizableTable {
+    overflow-y: scroll !important;
+    display: block;
+    font-size: 14px;
+    padding: 0px;
 }
 
 .resizableTable td {
@@ -4186,9 +4229,14 @@ th:hover {
   text-overflow: ellipsis;
 }
 
-.factorTablRow td input{
-    width: auto!important;
-    background-color: #fff!important;
+.resizableTable::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  cursor: pointer;
+}
+  
+.resizableTable::-webkit-scrollbar-track {
+  background: #fff;
 }
 
 .resizableTable::-webkit-scrollbar-thumb {
@@ -4438,6 +4486,12 @@ input:focus::placeholder {
     direction: rtl;
 }
 
+
+.dataTables_wrapper .dataTables_info {
+    font-size: 16px;
+}
+
+
 .chevronHover:hover {
     color: #2aa15d !important;
     font-weight: bold;
@@ -4520,33 +4574,9 @@ input:focus::placeholder {
 .box-check {
     padding: 5px !important;
 }
-.resizableTable {
-    overflow-y: scroll !important;
-    display: block;
-    font-size: 14px;
-    padding: 0px;
-}
 
-.resizableTable td {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-.resizableTable::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  cursor: pointer;
-}
-  
-.resizableTable::-webkit-scrollbar-track {
-  background: #fff;
-}
 
-.resizableTable::-webkit-scrollbar-thumb {
-  background: green; 
-  border-radius: 3px;
-}
 .prizeSettingTab {
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -4858,4 +4888,22 @@ table tfoot{display:none;}
 
 .td-inputFactEdit {
     width: 100%;
+}
+
+.bargeri-total-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.bargeri-total-item {
+  background-color: #9ad5be;
+  color: #000;
+  font-size: 1rem;
+  margin: 2px;
+  padding: 3px;
+  border-radius: 4px;
+}
+
+.bargeri-total-item span {
+    font-size: 14px;
 }
