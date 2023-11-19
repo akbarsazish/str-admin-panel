@@ -138,7 +138,7 @@ class Admin extends Controller{
         if($defineElementN = "on"){
             $defineElementN=1;
              $karbaranN = $request->post("karbaranN");
-                if($karbaranN="on"){
+                if($karbaranN=="on"){
                     $karbaranN=1;
                     $customersN = $request->post("customersN");
                     $deleteCustomersN = $request->post("deleteCustomersN");
@@ -146,11 +146,11 @@ class Admin extends Controller{
                     $seeCustomersN = $request->post("seeCustomersN");
 
                         if($customersN=="on"){
-                                if($deleteCustomersN="on"){
+                                if($deleteCustomersN=="on"){
                                     $customersN=2;
-                                }elseif($editCustomerN="on" &&  $deleteCustomersN!="on"){
+                                }elseif($editCustomerN=="on" &&  $deleteCustomersN!="on"){
                                     $customersN=1;    
-                                }elseif($seeCustomersN="on" && $editCustomerN!="on"){
+                                }elseif($seeCustomersN=="on" && $editCustomerN!="on"){
                                     $customersN=0;
                                 }else{
                                     $customersN=-1;
@@ -184,11 +184,13 @@ class Admin extends Controller{
         $kalaGroupN;
         $orderSalesN;
         $messageN;
+        $factorN;
+        $bargiriN;
 
-        if($operationN="on"){
+        if($operationN=="on"){
             $operationN=1;
                 $kalasN = $request->post("kalasN");
-                if($kalasN="on"){
+                if($kalasN=="on"){
                     $kalasN=1;
                     // چک کردن لیست کالا ها با سه تا عناصر اش
                         $kalaListsN=$request->post("kalaListsN");
@@ -197,11 +199,11 @@ class Admin extends Controller{
                         $seeKalaListN=$request->post("seeKalaListN");
 
                         if($kalaListsN=="on"){
-                                if($deleteKalaListN="on"){
+                                if($deleteKalaListN=="on"){
                                     $kalaListsN=2;
                                 }elseif($editKalaListN=="on" && $deleteKalaListN!="on"){
                                     $kalaListsN=1;
-                                }elseif($seeKalaListN="on" && $editKalaListN!="on"){
+                                }elseif($seeKalaListN=="on" && $editKalaListN!="on"){
                                     $kalaListsN=0;
                                 }else{
                                     $kalaListsN=-1;
@@ -218,11 +220,11 @@ class Admin extends Controller{
                         $seeRequestedKalaN=$request->post("seeRequestedKalaN");
 
                         if($requestedKalaN=="on"){
-                                if($deleteRequestedKalaN="on"){
+                                if($deleteRequestedKalaN=="on"){
                                     $requestedKalaN=2;
                                 }elseif($editRequestedKalaN=="on" && $deleteRequestedKalaN!="on"){
                                     $requestedKalaN=1;
-                                }elseif($seeRequestedKalaN="on" && $editRequestedKalaN!="on"){
+                                }elseif($seeRequestedKalaN=="on" && $editRequestedKalaN!="on"){
                                     $requestedKalaN=0;
                                 }else{
                                     $requestedKalaN=-1;
@@ -238,11 +240,11 @@ class Admin extends Controller{
                         $seeFastKalaN=$request->post("seeFastKalaN");
 
                         if($fastKalaN=="on"){
-                                if($deleteFastKalaN="on"){
+                                if($deleteFastKalaN=="on"){
                                     $fastKalaN=2;
                                 }elseif($editFastKalaN=="on" && $deleteFastKalaN!="on"){
                                     $fastKalaN=1;
-                                }elseif($seeFastKalaN="on" && $editFastKalaN!="on"){
+                                }elseif($seeFastKalaN=="on" && $editFastKalaN!="on"){
                                     $fastKalaN=0;
                                 }else{
                                     $fastKalaN=-1;
@@ -260,11 +262,11 @@ class Admin extends Controller{
                         $seePishKharidN=$request->post("seePishKharidN");
 
                         if($pishKharidN=="on"){
-                                if($deletePishKharidN="on"){
+                                if($deletePishKharidN=="on"){
                                     $pishKharidN=2;
                                 }elseif($editPishkharidN=="on" && $deletePishKharidN!="on"){
                                     $pishKharidN=1;
-                                }elseif($seePishKharidN="on" && $editPishkharidN!="on"){
+                                }elseif($seePishKharidN=="on" && $editPishkharidN!="on"){
                                     $pishKharidN=0;
                                 }else{
                                     $pishKharidN=-1;
@@ -281,11 +283,11 @@ class Admin extends Controller{
                         $seeBrandsN=$request->post("seeBrandsN");
 
                         if($brandsN=="on"){
-                                if($deleteBrandsN="on"){
+                                if($deleteBrandsN=="on"){
                                     $brandsN=2;
                                 }elseif($editBrandN=="on" && $deleteBrandsN!="on"){
                                     $brandsN=1;
-                                }elseif($seeBrandsN="on" && $editBrandN!="on"){
+                                }elseif($seeBrandsN=="on" && $editBrandN!="on"){
                                     $brandsN=0;
                                 }else{
                                     $brandsN=-1;
@@ -303,11 +305,11 @@ class Admin extends Controller{
                         $seeAlertedN=$request->post("seeAlertedN");
 
                         if($alertedN=="on"){
-                                if($deleteAlertedN="on"){
+                                if($deleteAlertedN=="on"){
                                     $alertedN=2;
                                 }elseif($editAlertedN=="on" && $deleteAlertedN!="on"){
                                     $alertedN=1;
-                                }elseif($seeAlertedN="on" && $editAlertedN!="on"){
+                                }elseif($seeAlertedN=="on" && $editAlertedN!="on"){
                                     $alertedN=0;
                                 }else{
                                     $alertedN=-1;
@@ -324,11 +326,11 @@ class Admin extends Controller{
                         $editKalaGroupN=$request->post("editKalaGroupN");
                         $seeKalaGroupN=$request->post("seeKalaGroupN");
                         if($kalaGroupN=="on"){
-                                if($deletKalaGroupN="on"){
+                                if($deletKalaGroupN=="on"){
                                     $kalaGroupN=2;
                                 }elseif($editKalaGroupN=="on" && $deletKalaGroupN!="on"){
                                     $kalaGroupN=1;
-                                }elseif($seeKalaGroupN="on" && $editKalaGroupN!="on"){
+                                }elseif($seeKalaGroupN=="on" && $editKalaGroupN!="on"){
                                     $kalaGroupN=0;
                                 }else{
                                     $kalaGroupN=-1;
@@ -344,11 +346,11 @@ class Admin extends Controller{
                         $editOrderSalesN=$request->post("editOrderSalesN");
                         $seeSalesOrderN=$request->post("seeSalesOrderN");
                         if($orderSalesN=="on"){
-                                if($deleteOrderSalesN="on"){
+                                if($deleteOrderSalesN=="on"){
                                     $orderSalesN=2;
                                 }elseif($editOrderSalesN=="on" && $deleteOrderSalesN!="on"){
                                     $orderSalesN=1;
-                                }elseif($seeSalesOrderN="on" && $editOrderSalesN!="on"){
+                                }elseif($seeSalesOrderN=="on" && $editOrderSalesN!="on"){
                                     $orderSalesN=0;
                                 }else{
                                     $orderSalesN=-1;
@@ -364,11 +366,11 @@ class Admin extends Controller{
                         $editMessageN=$request->post("editMessageN");
                         $seeMessageN=$request->post("seeMessageN");
                         if($messageN=="on"){
-                            if($deleteMessageN="on"){
+                            if($deleteMessageN=="on"){
                                 $messageN=2;
-                            }elseif($editOrderSalesN=="on" && $deleteMessageN!="on"){
+                            }elseif($editMessageN=="on" && $deleteMessageN!="on"){
                                 $messageN=1;
-                            }elseif($seeMessageN="on" && $editOrderSalesN!="on"){
+                            }elseif($seeMessageN=="on" && $editMessageN!="on"){
                                 $messageN=0;
                             }else{
                                 $messageN=-1;
@@ -377,6 +379,45 @@ class Admin extends Controller{
                         }else{
                             $messageN=-1;
                         }
+
+                    // چک کردن فاکتور فروش با سه تا عناصرش
+                    $factorN=$request->post("factorN");
+                    $deleteFactorN=$request->post("deleteFactorN");
+                    $editFactorN=$request->post("editFactorN");
+                    $seeFactorN=$request->post("seeFactorN");
+                    if($factorN=="on"){
+                        if($deleteFactorN=="on"){
+                            $factorN=2;
+                        }elseif($editFactorN=="on" && $deleteFactorN!="on"){
+                            $factorN=1;
+                        }elseif($seeFactorN=="on" && $editFactorN!="on"){
+                            $factorN=0;
+                        }else{
+                            $factorN=-1;
+                        }
+
+                    }else{
+                        $factorN=-1;
+                    }
+                    // چک کردن بارگیری با سه تا عناصرش
+                    $bargiriN=$request->post("bargiriN");
+                    $deleteBargiriN=$request->post("deleteBargiriN");
+                    $editBargiriN=$request->post("editBargiriN");
+                    $seeBargiriN=$request->post("seeBargiriN");
+                    if($bargiriN=="on"){
+                        if($deleteBargiriN=="on"){
+                            $bargiriN=2;
+                        }elseif($editBargiriN=="on" && $deleteBargiriN!="on"){
+                            $bargiriN=1;
+                        }elseif($seeBargiriN=="on" && $editBargiriN!="on"){
+                            $bargiriN=0;
+                        }else{
+                            $bargiriN=-1;
+                        }
+
+                    }else{
+                        $bargiriN=-1;
+                    }
                     }else{
                         $kalasN=-1;
                         $kalaListsN=-1;
@@ -387,6 +428,8 @@ class Admin extends Controller{
                         $alertedN=-1;
                         $orderSalesN=-1;
                         $messageN=-1;
+                        $bargiriN=-1;
+                        $factorN=-1;
                     }
                 }else{
                     $operationN =-1;
@@ -401,6 +444,8 @@ class Admin extends Controller{
                     $kalaGroupN=-1;
                     $orderSalesN=-1;
                     $messageN=-1;
+                    $bargiriN=-1;
+                    $factorN=-1;
                 }
 
         
@@ -426,11 +471,11 @@ class Admin extends Controller{
                     $editCustomerListN=$request->post("editCustomerListN");
                     $seeCustomerListN=$request->post("seeCustomerListN");
                     if($customerListN=="on"){
-                            if($deletCustomerListN="on"){
+                            if($deletCustomerListN=="on"){
                                 $customerListN=2;
                             }elseif($editCustomerListN=="on" && $deletCustomerListN!="on"){
                                 $customerListN=1;
-                            }elseif($seeCustomerListN="on" && $editCustomerListN!="on"){
+                            }elseif($seeCustomerListN=="on" && $editCustomerListN!="on"){
                                 $customerListN=0;
                             }else{
                                 $customerListN=-1;
@@ -446,11 +491,11 @@ class Admin extends Controller{
                     $editOfficialCustomerN=$request->post("editOfficialCustomerN");
                     $seeOfficialCustomerN=$request->post("seeOfficialCustomerN");
                     if($officialCustomerN=="on"){
-                        if($deleteOfficialCustomerN="on"){
+                        if($deleteOfficialCustomerN=="on"){
                             $officialCustomerN=2;
                         }elseif($editOfficialCustomerN=="on" && $deleteOfficialCustomerN!="on"){
                             $officialCustomerN=1;
-                        }elseif($seeOfficialCustomerN="on" && $editOfficialCustomerN!="on"){
+                        }elseif($seeOfficialCustomerN=="on" && $editOfficialCustomerN!="on"){
                             $officialCustomerN=0;
                         }else{
                             $officialCustomerN=-1;
@@ -469,7 +514,7 @@ class Admin extends Controller{
             // اگر گیم و لاتری روشن بود 
 
              $gameAndLotteryN = $request->post("gameAndLotteryN");
-             if($gameAndLotteryN="on"){
+             if($gameAndLotteryN=="on"){
                 $gameAndLotteryN=1;
                   // نتجه لاتری با سه تا عناصرش چک گردد 
                     $lotteryResultN=$request->post("kalaGroupN");
@@ -477,11 +522,11 @@ class Admin extends Controller{
                     $editLotteryResultN=$request->post("editLotteryResultN");
                     $seeLotteryResultN=$request->post("seeLotteryResultN");
                     if($lotteryResultN=="on"){
-                            if($deletLotteryResultN="on"){
+                            if($deletLotteryResultN=="on"){
                                 $lotteryResultN=2;
                             }elseif($editLotteryResultN=="on" && $deletLotteryResultN!="on"){
                                 $lotteryResultN=1;
-                            }elseif($seeLotteryResultN="on" && $editLotteryResultN!="on"){
+                            }elseif($seeLotteryResultN=="on" && $editLotteryResultN!="on"){
                                 $lotteryResultN=0;
                             }else{
                                 $lotteryResultN=-1;
@@ -497,11 +542,11 @@ class Admin extends Controller{
                     $editGamerListN=$request->post("editGamerListN");
                     $seeGamerListN=$request->post("seeGamerListN");
                     if($gamerListN=="on"){
-                            if($deletGamerListN="on"){
+                            if($deletGamerListN=="on"){
                                 $gamerListN=2;
                             }elseif($editGamerListN=="on" && $deletGamerListN!="on"){
                                 $gamerListN=1;
-                            }elseif($seeGamerListN="on" && $editGamerListN!="on"){
+                            }elseif($seeGamerListN=="on" && $editGamerListN!="on"){
                                 $gamerListN=0;
                             }else{
                                 $gamerListN=-1;
@@ -520,11 +565,11 @@ class Admin extends Controller{
                 $editOnlinePaymentN=$request->post("editOnlinePaymentN");
                 $seeOnlinePaymentN=$request->post("seeOnlinePaymentN");
                 if($onlinePaymentN=="on"){
-                        if($deleteOnlinePaymentN="on"){
+                        if($deleteOnlinePaymentN=="on"){
                             $onlinePaymentN=2;
                         }elseif($editOnlinePaymentN=="on" && $deleteOnlinePaymentN!="on"){
                             $onlinePaymentN=1;
-                        }elseif($seeOnlinePaymentN="on" && $editOnlinePaymentN!="on"){
+                        }elseif($seeOnlinePaymentN=="on" && $editOnlinePaymentN!="on"){
                             $onlinePaymentN=0;
                         }else{
                             $onlinePaymentN=-1;
@@ -582,6 +627,8 @@ class Admin extends Controller{
         ,'lotteryResultN'=>$lotteryResultN
         ,'gamerListN'=>$gamerListN
         ,'onlinePaymentN'=>$onlinePaymentN
+        ,'factorN'=>$factorN
+        ,'bargiriN'=>$bargiriN
     ]);
         return redirect("/listKarbaran");
     
@@ -728,7 +775,7 @@ class Admin extends Controller{
         if($defineElementED = "on"){
             $defineElementED=1;
              $karbaranED = $request->post("karbaranED");
-                if($karbaranED="on"){
+                if($karbaranED=="on"){
                     $karbaranED=1;
                     $customersED = $request->post("customersED");
                     $deleteCustomersED = $request->post("deleteCustomersED");
@@ -774,11 +821,13 @@ class Admin extends Controller{
         $kalaGroupED;
         $orderSalesED;
         $messageED;
+        $factorED;
+        $bargiriED;
 
-        if($operationED="on"){
+        if($operationED=="on"){
             $operationED=1;
                 $kalasED = $request->post("kalasED");
-                if($kalasED="on"){
+                if($kalasED=="on"){
                     $kalasED=1;
                     // چک کردن لیست کالا ها با سه تا عناصر اش
                         $kalaListsED=$request->post("kalaListsED");
@@ -969,6 +1018,47 @@ class Admin extends Controller{
                             $messageED=-1;
                         }
 
+                    // چک کردن فاکتور فروش با سه تا عناصرش
+                    $factorED=$request->post("factorED");
+                    $deleteFactorED=$request->post("deleteFactorED");
+                    $editFactorED=$request->post("editFactorED");
+                    $seeFactorED=$request->post("seeFactorED");
+                    
+                    if($factorED=="on"){
+                        if($deleteFactorED=="on"){
+                            $factorED=2;
+                        }elseif($editFactorED=="on" && $deleteFactorED!="on"){
+                            $factorED=1;
+                        }elseif($seeFactorED=="on" && $editFactorED!="on"){
+                            $factorED=0;
+                        }else{
+                            $factorED=-1;
+                        }
+
+                    }else{
+                        $factorED=-1;
+                    }
+
+                    // چک کردن بارگیری با سه تا عناصرش
+                    $bargiriED=$request->post("bargiriED");
+                    $deleteBargiriED=$request->post("deleteBargiriED");
+                    $editBargiriED=$request->post("editBargiriED");
+                    $seeBargiriED=$request->post("seeBargiriED");
+                    if($bargiriED=="on"){
+                        if($deleteBargiriED=="on"){
+                            $bargiriED=2;
+                        }elseif($editBargiriED=="on" && $deleteBargiriED!="on"){
+                            $bargiriED=1;
+                        }elseif($seeBargiriED=="on" && $editBargiriED!="on"){
+                            $bargiriED=0;
+                        }else{
+                            $bargiriED=-1;
+                        }
+
+                    }else{
+                        $bargiriED=-1;
+                    }
+
 
                 }else{
                     $kalasED=-1;
@@ -980,6 +1070,8 @@ class Admin extends Controller{
                     $alertedED=-1;
                     $orderSalesED=-1;
                     $messageED=-1;
+                    $factorED=-1;
+                    $bargiriED=-1;
                 }
 
         }else{
@@ -995,6 +1087,8 @@ class Admin extends Controller{
             $kalaGroupED=-1;
             $orderSalesED=-1;
             $messageED=-1;
+            $factorED=-1;
+            $bargiriED=-1;
         }
 
 
@@ -1062,7 +1156,7 @@ class Admin extends Controller{
             // اگر گیم و لاتری روشن بود 
 
              $gameAndLotteryED = $request->post("gameAndLotteryED");
-             if($gameAndLotteryED="on"){
+             if($gameAndLotteryED=="on"){
                 $gameAndLotteryED=1;
                   // نتجه لاتری با سه تا عناصرش چک گردد 
                     $lotteryResultED=$request->post("lotteryResultED");
@@ -1167,6 +1261,8 @@ class Admin extends Controller{
         ,'lotteryResultN'=>$lotteryResultED
         ,'gamerListN'=>$gamerListED
         ,'onlinePaymentN'=>$onlinePaymentED
+        ,'factorN'=>$factorED
+        ,'bargiriN'=>$bargiriED
     ]);
        return redirect("/listKarbaran"); 
     }

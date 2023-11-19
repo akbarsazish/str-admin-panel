@@ -32,14 +32,14 @@ class Customer extends Controller{
             return View('customer.addCustomerProfile', ['checkHaqiqiExist'=>$checkHaqiqiExist, 'haqiqiCustomers'=>$haqiqiCustomers,'exactHoqoqi'=>$exactHoqoqi, 'exacHaqiqi'=>$exacHaqiqi]);
         }
     public function listCustomers(Request $request) {
-        $withoutRestrictions=DB::select("SELECT * FROM Shop.dbo.Peopels WHERE Peopels.PSN NOT IN(SELECT customerId FROM NewStarfood.dbo.star_customerRestriction) AND CompanyNo=5 AND GroupCode IN ( ".implode(",",[291,297,299,312,313,314]).")");
+        $withoutRestrictions=DB::select("SELECT * FROM Shop.dbo.Peopels WHERE Peopels.PSN NOT IN(SELECT customerId FROM NewStarfood.dbo.star_customerRestriction) AND CompanyNo=5 AND isActive=1 AND GroupCode IN ( ".implode(",",[291,297,299,312,313,314]).")");
         if(count($withoutRestrictions)>0){
             foreach ($withoutRestrictions as $customer) {
             DB::insert("INSERT INTO NewStarfood.dbo.star_customerRestriction(pardakhtLive,minimumFactorPrice,exitButtonAllowance,manyMobile,customerId,forceExit,activeOfficialInfo)VALUES(1,0,0,1,".$customer->PSN.",0,0)");
             }
         }
         $withoutPassword=DB::select("SELECT distinct Peopels.PSN,Peopels.Name,Peopels.PeopelEghtesadiCode from Shop.dbo.Peopels
-        where Peopels.PSN not in(SELECT customerId FROM NewStarfood.dbo.star_CustomerPass  where customerId is not null) and Peopels.CompanyNo=5 and peopels.GroupCode IN ( 291,297,299,312,313,314) and Name!=''");
+        where Peopels.PSN not in(SELECT customerId FROM NewStarfood.dbo.star_CustomerPass  where customerId is not null) and Peopels.CompanyNo=5 AND Peopels.isActive=1 and peopels.GroupCode IN ( 291,297,299,312,313,314) and Name!=''");
         
         if(count($withoutPassword)>0){
             foreach ($withoutPassword as $customer) {
@@ -1597,10 +1597,11 @@ public function getInviteCodeApi(Request $request){
 
 		}
 
-        $introBonus=DB::select("SELECT introBonusAmount FROM NewStarfood.dbo.star_customerRestriction WHERE customerId=$customerId")[0]->introBonusAmount;
-
+        $customerRestrictionBonuses=DB::select("SELECT introBonusAmount,remainedBonus FROM NewStarfood.dbo.star_customerRestriction WHERE customerId=$customerId");
+        $introBonus=$customerRestrictionBonuses[0]->introBonusAmount;
+        $remainedBonus=$customerRestrictionBonuses[0]->remainedBonus;
         //محاسبه همه امتیازات
-        $allBonus=$aghlamComTgBonus+$monyComTgBonus+$installSelfBonus+$introBonus+$starBonus;
+        $allBonus=$aghlamComTgBonus+$monyComTgBonus+$installSelfBonus+$introBonus+$starBonus+$remainedBonus;
 
         return [$monyComTg,$aghlamComTg,$monyComTgBonus,$aghlamComTgBonus,$lotteryMinBonus,$allBonus];
     }
@@ -1841,11 +1842,10 @@ public function getInviteCodeApi(Request $request){
         if(strlen($searchByPhone)>0){
             $customers=DB::select("SELECT * FROM(
                 SELECT PSN,PCode, Name,0 as countBuy,0 as countSale,GroupCode,0 as chequeCountReturn,0 as chequeMoneyReturn,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,CompanyNo,IsActive
-                FROM Shop.dbo.Peopels)a WHERE PhoneStr LIKE '%$nameOrPhone%' and GroupCode in(291,297,299,312,313,314) AND CompanyNo=5 and IsActive=1");
-    
+                FROM Shop.dbo.Peopels)a WHERE PhoneStr LIKE '%$nameOrPhone%' AND CompanyNo=5 and IsActive=1");
         }else{
             $customers=DB::select("SELECT PSN,PCode, Name,0 as countBuy,CRM.dbo.getCustomerPhoneNumbers(PSN) as PhoneStr,0 as countSale,0 as chequeCountReturn,0 as chequeMoneyReturn
-                                    FROM Shop.dbo.Peopels WHERE Name LIKE '%$nameOrPhone%' and GroupCode in(291,297,299,312,313,314) AND CompanyNo=5 and IsActive=1");
+                                    FROM Shop.dbo.Peopels WHERE Name LIKE '%$nameOrPhone%' AND CompanyNo=5 and IsActive=1");
         }
     
         return Response::json($customers);
@@ -1872,6 +1872,11 @@ public function getInviteCodeApi(Request $request){
 			SELECT FactDate,CustomerSn,SerialNoHDS AS SnFactForTasviyeh,FiscalYear,'فاکتور برگشتی به شماره'+cast(FactNo as varchar)+' ('+FactDesc+')'  as FactDesc,'' as tasviyeh,NetPriceHDS bestankar,0 as bedehkar,0 state,iif(NewStarfood.dbo.getRemainedMoney(CustomerSn,SerialNoHDS)>0,1,0) bdbsState,NewStarfood.dbo.getRemainedPayedMoney(CustomerSn,SerialNoHDS) remain from Shop.dbo.FactorHDS where FactType=4)a  where a.PeopelHDS=$psn and FiscalYear=1402 order by DocDate,state asc
             ");
         return response()->json(['customerGardish'=>$customerGardish]);
+    }
+    function getCustomerInofByCode(Request $request) {
+        $pcode=$request->input("pcode");
+        $customers=DB::select("SELECT * FROM Shop.dbo.Peopels WHERE PCode=$pcode AND IsActive=1 and CompanyNo=5");
+        return Response::json($customers);
     }
     
     }

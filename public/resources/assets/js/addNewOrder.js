@@ -1,5 +1,6 @@
 var baseUrl = "http://192.168.10.26:8080";
 function openNewOrderModal(){
+    setActiveForm("addsefarishtbl");
     if (!($('.modal.in').length)) {
         $('.modal-dialog').css({
             top: 0,
@@ -271,17 +272,25 @@ $("#sendDateFromSefarishPage").persianDatepicker({
     formatDate: "YYYY/0M/0D",
 });
 
+$("#sendDateFromSefarishPageEdit").persianDatepicker({
+    cellWidth: 32,
+    cellHeight: 22,
+    fontSize: 14,
+    formatDate: "YYYY/0M/0D",
+});
+
 $(document).on("keyup",".td-inputCodeName", (e)=>{
     if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        setActiveTableOrder("kalaForAddToSefarish")
+        setActiveForm("")
         $("#rowTaker").val($(e.target).parents("tr").index()+1)
-
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
                 top: 0,
                 left: 0
             });
         }
-        $('#addOrderItem1').modal({
+        $('#searchGoodsModalAdd').modal({
             backdrop: false,
             show: true
         });
@@ -295,13 +304,12 @@ $(document).on("keyup",".td-inputCodeName", (e)=>{
         $("#searchKalaForAddToSefarishByName").val($(e.target).val());
         $("#searchKalaForAddToSefarishByCode").hide();
         $("#searchKalaForAddToSefarishByName").show();
-        $("#addOrderItem1").modal("show");
-        $('#addOrderItem1').on('shown.bs.modal', function() {
+        $("#searchGoodsModalAdd").modal("show");
+        $('#searchGoodsModalAdd').on('shown.bs.modal', function() {
         $("#searchKalaForAddToSefarishByName").focus();
         });
     }else{
         if(e.keyCode ==13 || e.keyCode ==9){
-            alert(e.keyCode)
             var $currentInput = $(e.target);
             var $nextInput = $currentInput.closest('td').next('td').find('input');
             if ($nextInput.length > 0) {
@@ -325,7 +333,6 @@ $(document).on("keyup",".td-inputSecondUnit", (e)=>{
     if(e.keyCode ==13 || e.keyCode ==9){
         var $currentInput = $(e.target);
         var $nextInput = $currentInput.closest('td').next('td').find('input');
-        
         if ($nextInput.length > 0) {
             $nextInput.focus();
         }
@@ -334,6 +341,9 @@ $(document).on("keyup",".td-inputSecondUnit", (e)=>{
 
 $(document).on('keyup', '#searchCustomerNameInput',function(e){
     if(((e.keyCode>=65 && e.keyCode<=90)|| (e.key).match(/[آ-ی]/)) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        
+        setActiveTableOrder("foundCusotmerForOrderBody")
+        setActiveForm("")
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
                 top: 0,
@@ -368,6 +378,20 @@ $("#customerForSefarishId").on("change",function(){
     })
 })
 
+$("#customerForSefarishIdEdit").on("change",function(){
+    $.get(baseUrl+"/getCustomerByID",{PSN:$(this).val()},function(data,status){
+        $("#customerAddressForSefarishEdit").empty();
+        let addressOptions=data.map(element=>{
+            if(element.AddressPeopel){
+                return `<option value="`+element.SnPeopelAddress+`_`+element.AddressPeopel+`">`+element.AddressPeopel+`</option>`
+            }else{
+                return `<option value="0_`+element.peopeladdress+`">`+element.peopeladdress+`</option>`   
+            }
+        })
+        $("#customerAddressForSefarishEdit").append(addressOptions);
+    })
+})
+
 $("#customerNameForOrder").on("keyup", function (event){
     let name=$("#customerNameForOrder").val();
     if(event.keyCode!=40){
@@ -387,7 +411,7 @@ $("#customerNameForOrder").on("keyup", function (event){
             i++;
             if(i!=1){
                 tableBody.append(`<tr onclick="selectCustomerForOrder(${customer.PSN},this)">
-                                                        <td> ${(i)} </td>
+                                                        <td> ${(i)}   <input type="radio" value="${customer.PSN}" class="d-none"/></td>
                                                         <td> ${customer.PCode} </td>
                                                         <td> ${customer.Name} </td>
                                                         <td> ${customer.countBuy} </td>
@@ -397,7 +421,7 @@ $("#customerNameForOrder").on("keyup", function (event){
                                                     </tr>`);
             }else{
                 tableBody.append(`<tr onclick="selectCustomerForOrder(${customer.PSN},this)">
-                    <td> ${(i)} </td>
+                    <td> ${(i)}   <input type="radio" value="${customer.PSN}" class="d-none"/></td>
                     <td> ${customer.PCode} </td>
                     <td> ${customer.Name} </td>
                     <td> ${customer.countBuy} </td>
@@ -410,56 +434,7 @@ $("#customerNameForOrder").on("keyup", function (event){
                 selectCustomerForOrder(selectedPSN,0)
             }
         }
-        let selectedRow = 0;
-        Mousetrap.bind('down', function (e) {
-            if (selectedRow >= 0) {
-                $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color', '');
-            }
-            if(selectedRow!=0){
-                selectedRow = Math.min(selectedRow + 1, data.length - 1); 
-                $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
-            }else{
-                selectedRow = Math.min(1, data.length - 1); 
-                $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color', "rgb(0,142,201)"); 
-            }
 
-            const selectedPSN = data[selectedRow].PSN;
-            selectCustomerForOrder(selectedPSN,selectedRow)
-            let topTr = $("#foundCusotmerForOrderBody tr").eq(selectedRow).position().top;
-            let bottomTr =topTr+50;
-            let tbodyHeight = tableBody.height();
-            let trHieght =50;
-            if(topTr > 0 && bottomTr < tbodyHeight){
-            }else{
-                let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                tableBody.scrollTop(newScrollTop);
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
-
-        Mousetrap.bind('up', function (e) {
-
-            if (selectedRow >= 0) {
-                $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color','');
-            }
-
-            selectedRow = Math.max(selectedRow - 1, 0); 
-            $("#foundCusotmerForOrderBody tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-            const selectedPSN = data[selectedRow].PSN;
-            selectCustomerForOrder(selectedPSN,selectedRow)
-            let topTr = $("#foundCusotmerForOrderBody tr").eq(selectedRow).position().top;
-            let bottomTr =topTr+parseInt($("#foundCusotmerForOrderBody tr").eq(selectedRow).height());
-            let tbodyHeight = tableBody.height();
-            let trHieght =50;
-            //alert(topTr)
-            if(topTr >117 && bottomTr < tbodyHeight){
-                
-            }else{
-                let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                tableBody.scrollTop(newScrollTop);
-                localStorage.setItem("scrollTop",newScrollTop);
-            }
-        });
 
         Mousetrap.bind("enter",()=>{
             $("#searchCustomerSabtBtn").trigger("click");
@@ -541,7 +516,8 @@ $("#searchCustomerCancelBtn").on("click",()=>{
 
 $(document).on("keyup",".td-inputCode", (e)=>{
     if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
-
+        setActiveTableOrder("kalaForAddToSefarish")
+        setActiveForm("")
         $("#rowTaker").val($(e.target).parents("tr").index()+1)
 
         if (!($('.modal.in').length)) {
@@ -551,7 +527,7 @@ $(document).on("keyup",".td-inputCode", (e)=>{
             });
         }
 
-        $('#addOrderItem1').modal({
+        $('#searchGoodsModalAdd').modal({
             backdrop: false,
             show: true
         });
@@ -565,8 +541,8 @@ $(document).on("keyup",".td-inputCode", (e)=>{
         $("#searchKalaForAddToSefarishByCode").val($(".td-inputCode").val());
         $("#searchKalaForAddToSefarishByName").hide();
         $("#searchKalaForAddToSefarishByCode").show();
-        $("#addOrderItem1").modal("show");
-        $('#addOrderItem1').on('shown.bs.modal', function() {
+        $("#searchGoodsModalAdd").modal("show");
+        $('#searchGoodsModalAdd').on('shown.bs.modal', function() {
             $("#searchKalaForAddToSefarishByCode").focus();
             $("#searchKalaForAddToSefarishByCode").select().trigger("keyup");
         });
@@ -603,76 +579,22 @@ $("#searchKalaForAddToSefarishByName").on("keyup",function(event){
                     for (const element of data) {
                         i++;
                         if(i!=1){
-                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                         }else{
-                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                             $("#kalaForAddToSefarish tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
                             const selectedGoodSn = data[0].GoodSn;
                             setAddedTosefarishKalaStuff(0,selectedGoodSn)
                         }
                     }
 
-                    let selectedRow = 0;
-                    Mousetrap.bind('down', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', '');
-                        }
-                    if(selectedRow!=0){
-                        selectedRow = Math.min(selectedRow + 1, data.length - 1); 
-                        $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                    }else{
-                        selectedRow = Math.min( 1, data.length - 1); 
-                        $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                    }
-                    const selectedGoodSn = data[selectedRow].GoodSn;
-                    setAddedTosefarishKalaStuff(selectedRow,selectedGoodSn)
-                    let topTr = $("#kalaForAddToSefarish tr").eq(selectedRow).position().top;
-                    let bottomTr =topTr+37;
-                    let tbodyHeight = tableBody.height();
-                    let trHieght =37;
-                    
-                    if(topTr > 0 && bottomTr < tbodyHeight){
-                        
-                    }else{
-                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                        tableBody.scrollTop(newScrollTop);
-                        localStorage.setItem("scrollTop",newScrollTop);
-                    }
-                    
-                    });
-
-                    Mousetrap.bind('up', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', '');
-                        }
-
-                        selectedRow = Math.max(selectedRow - 1, 0); 
-                        $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedTosefarishKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToSefarish tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+parseInt($("#kalaForAddToSefarish tr").eq(selectedRow).height());
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =39;
-
-                        if(topTr >276 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
-                    });
-
                     Mousetrap.bind("enter",()=>{
                         $("#selectKalaToSefarishBtn").trigger("click");
                     });
 
                     Mousetrap.bind("esc",()=>{
-                        $("#addOrderItem1").modal("hide");
+                        $("#searchGoodsModalAdd").modal("hide");
                     });
-
                 }
             })
     }else{
@@ -747,9 +669,9 @@ $("#searchKalaForAddToSefarishByCode").on("keyup", function (event) {
                     for (const element of data) {
                         i++;
                         if(i!=1){
-                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<inpu type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                         }else{
-                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedTosefarishKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<inpu type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                             
                             $("#kalaForAddToSefarish tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
                             const selectedGoodSn = data[0].GoodSn;
@@ -757,57 +679,9 @@ $("#searchKalaForAddToSefarishByCode").on("keyup", function (event) {
                         }
                     }
 
-                    let selectedRow = 0;
-                    Mousetrap.bind('down', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', '');
-                        }
-                        if(selectedRow!=0){
-                            selectedRow = Math.min(selectedRow + 1, data.length - 1); 
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                        }else{
-                            selectedRow = Math.min( 1, data.length - 1); 
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                        }
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedTosefarishKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToSefarish tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+37;
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =37;
-                        if(topTr > 0 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
+                
+
                     
-                    });
-
-                    Mousetrap.bind('up', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', '');
-                        }
-
-                        selectedRow = Math.max(selectedRow - 1, 0); 
-                        $("#kalaForAddToSefarish tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedTosefarishKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToSefarish tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+parseInt($("#kalaForAddToSefarish tr").eq(selectedRow).height());
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =39;
-
-                        if(topTr >276 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
-                    });
                     Mousetrap.bind("enter",()=>{
                         $("#selectKalaToSefarishBtn").trigger("click");
                     });
@@ -838,9 +712,9 @@ function setAddedTosefarishKalaStuff(element,goodSn){
     }else{
         $("tr").removeClass('selected');
     }
- $("#selectKalaToSefarishBtn").val(goodSn)
- if($("#selectKalaToFactorBtn")){
-    $("#selectKalaToFactorBtn").val(goodSn)
+    
+ if($("#selectKalaToSefarishBtn")){
+    $("#selectKalaToSefarishBtn").val(goodSn)
  }
  let customerSn=$("#customerForSefarishId").val();
  $.ajax({
@@ -854,45 +728,53 @@ function setAddedTosefarishKalaStuff(element,goodSn){
     },
     success: function (response) {
         if(response[0][0]){
-            $("#AddStockExistance").text(parseInt(response[0][0].Amount).toLocaleString("en-us"));
+            
             if (!isNaN(parseInt(response[0][0].Amount))) {
-                $("#AddExistInStock").text(parseInt(response[0][0].Amount).toLocaleString("en-us"));
+                let amount=0
+                if(response[0][0].Amount>1){
+                    amount=response[0][0].Amount;
+                }
+                $("#StockExistanceOrderAdd").text(parseInt(amount).toLocaleString("en-us"));
             } else {
-                $("#AddExistInStock").text('ندارد');
+                $("#StockExistanceOrderAdd").text(0);
             }
         }else {
-            $("#AddExistInStock").text('ندارد');
+            $("#StockExistanceOrderAdd").text(0);
         }
         if(response[1][0]){
-            $("#AddPrice").text(parseInt(response[1][0].Price3).toLocaleString("en-us"));
+
             if (!isNaN(parseInt(response[1][0].Price3))) {
-                $("#AddPrice").text(parseInt(response[1][0].Price3 / 10).toLocaleString("en-us"));
+                let price=0
+                if(response[1][0].Price3>1){
+                    price=response[1][0].Price3
+                }
+                $("#SalePriceOrderAdd").text(parseInt(price/ 10).toLocaleString("en-us"));
             } else {
-                $("#AddPrice").text('ندارد');
+                $("#SalePriceOrderAdd").text(0);
             }
         } else {
-            $("#AddPrice").text('ندارد');
+            $("#SalePriceOrderAdd").text(0);
         }
 
         if (response[2][0]) {
-            $("#AddPriceCustomer").text(parseInt(response[2][0].Fi).toLocaleString("en-us"));
+
             if (!isNaN(parseInt(response[2][0].Fi))) {
                 $("#AddLastPriceCustomer").text(parseInt(response[2][0].Fi / 10).toLocaleString("en-us"));
             } else {
-                $("#AddLastPriceCustomer").text('ندارد');
+                $("#AddLastPriceCustomer").text(0);
             }
         }else {
-            $("#AddLastPriceCustomer").text('ندارد');
+            $("#AddLastPriceCustomer").text(0);
         }
 
         if([3][0]){
             if (!isNaN(parseInt(response[3][0].Fi))) {
-                $("#AddLastPrice").text(parseInt(response[3][0].Fi / 10).toLocaleString("en-us"));
+                $("#PriceOrderAdd").text(parseInt(response[3][0].Fi / 10).toLocaleString("en-us"));
             } else {
-                $("#AddLastPrice").text('ندارد');
+                $("#PriceOrderAdd").text(0);
             }
         }else {
-            $("#AddLastPrice").text('ندارد');
+            $("#PriceOrderAdd").text(0);
         }
     },
     error: function (error) {
@@ -946,7 +828,7 @@ $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
         }
     });
 
-    $("#addOrderItem1").modal("hide");
+    $("#searchGoodsModalAdd").modal("hide");
 });
 
 $("#addNewOrderForm").on("keydown",function(event){
@@ -1005,9 +887,10 @@ $(document).on("keyup",".td-inputSecondUnitAmount", (e)=>{
     let amountUnit=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(14)').children('input')).val().replace(/,/g, '');
     let price=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(9)').children('input')).val().replace(/,/g, '');
     let allAmountUnit=(packAmount*amountUnit)+subPackUnits;
+
     if(allAmountUnit>parseInt($("#goodAmountInStock").text().replace(/,/g, ''))){
         swal({
-            text: "به این اندازه موجودی ندارد.",
+            title: "به این اندازه موجودی ندارد.",
             text:"میخواهید ثبت شود؟",
             icon: "warning",
             buttons: true,
@@ -1020,6 +903,15 @@ $(document).on("keyup",".td-inputSecondUnitAmount", (e)=>{
                     $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(11)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
                     $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
                     $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
+                    var $currentInput = $(e.target);
+                    var $currentTd = $currentInput.closest('td');
+                    var $nextTd = $currentTd.next('td');
+                    var $nextInput = $nextTd.find('input');
+                        $($nextInput).focus();
+                }else{
+                    var $currentInput = $(e.target);
+                    $($currentInput).focus();
+
                 }
             })
     }else{
@@ -1113,8 +1005,56 @@ $(document).on("keydown",".td-inputFirstUnitPrice", (e)=>{
             $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(packPrice);
         }
     if(e.keyCode==9 || e.keyCode==13){
-        let goodSn=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(15)').children('input').val());
-        let priceState=false;
+        let lastBuyFi=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(16)').children('input').val().replace(/,/g, ''));
+        
+        let givenFi=parseInt($(e.target).val().replace(/,/g, ''))
+        if(givenFi<lastBuyFi){
+            swal({
+                title: "توجه!",
+                text:"قیمت وارد شده نسبت به قیمت خرید بیشتر است. می خواهید ثبت کنید؟",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+                }).then(
+
+                (willAdd)=>{
+                    if(!willAdd){
+                        $(e.target).focus()
+                        if(($('#addsefarishtbl tr:nth-child('+$('#addsefarishtbl tr').length+') td:nth-child(2)').children('input').val().length)<1){
+                            $(`#addsefarishtbl tr:nth-child(`+$('#addsefarishtbl tr').length+`)`).replaceWith('');
+                        }
+                        let rowindex=$(e.target).parents("tr").index()+1
+                        let packAmount=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val().replace(/,/g, ''));
+                        let price=parseInt($(e.target).val().replace(/,/g, ''))
+                        let subPackUnits=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val().replace(/,/g, ''));
+                        let amountUnit=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(14)').children('input')).val().replace(/,/g, '');
+                        // let price=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(9)').children('input')).val();
+                        let allAmountUnit=(packAmount*amountUnit)+subPackUnits;
+                        let allPrice=allAmountUnit*price;
+                        let packPrice=amountUnit*price;
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(8)').children('input').val(allAmountUnit);
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(11)').children('input').val(allPrice);
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(packPrice);
+                    }else{
+                        let packAmount=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(6)').children('input').val().replace(/,/g, ''));
+                        let price=parseInt($(e.target).val().replace(/,/g, ''))
+                        let subPackUnits=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(7)').children('input').val().replace(/,/g, ''));
+                        let amountUnit=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(14)').children('input')).val().replace(/,/g, '');
+                        // let price=$($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(9)').children('input')).val();
+                        let allAmountUnit=(packAmount*amountUnit)+subPackUnits;
+                        let allPrice=allAmountUnit*price;
+                        let packPrice=amountUnit*price;
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(8)').children('input').val(allAmountUnit);
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(11)').children('input').val(allPrice);
+                        $('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(packPrice);
+                        var currentInput = $(e.target);
+                        var nextInput = currentInput.closest('td').next('td').find('input');
+                        
+                        $(nextInput).focus();
+                    }
+                }
+            )
+        }
         var $currentInput = $(e.target);
         var $nextInput = $currentInput.closest('td').next('td').find('input');
         if ($nextInput.length > 0) {
@@ -1235,28 +1175,61 @@ function checkAddedKalaToSefarishAmount(row){
             customerSn:customerSn,
             stockId: 23
         },(respond,status)=>{
-            
             if(respond[1][0]){
+                if(!isNaN(respond[1][0].Amount)){
+                    let amount=0;
+                    if(respond[1][0].Amount>=1){
+                        amount=respond[1][0].Amount
+                    }
+                    $("#goodAmountInStock").text(parseInt(amount).toLocaleString("en-us"));
 
-                $("#goodAmountInStock").text(parseInt(respond[1][0].Amount).toLocaleString("en-us"));
+                }else{
+                    $("#goodAmountInStock").text(0);
+
+                }
+
+            }else{
+                $("#goodAmountInStock").text(0);
 
             }
 
             if(respond[2][0]){
+                if(!isNaN(respond[2][0].Price3)){
+                    let price=0;
+                    if(respond[2][0].Price3>=1){
+                        price=respond[2][0].Price3;
+                    }
+                    $("#goodPriceAddSefarish").text(parseInt(price).toLocaleString("en-us"));
 
-                $("#goodPriceAddSefarish").text(parseInt(respond[2][0].Price3).toLocaleString("en-us"));
+                }else{
+                    $("#goodPriceAddSefarish").text(0);
+
+                }
+            }else{
+                $("#goodPriceAddSefarish").text(0);
 
             }
             if(respond[4][0]){
+                if(!isNaN(respond[4][0].Fi)){
+                    $("#lastSalePriceAddSefarish").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
 
-                $("#lastSalePriceAddSefarish").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
-                
+                }else{
+                    $("#lastSalePriceAddSefarish").text(0);
+
+                }
+            }else{
+                $("#lastSalePriceAddSefarish").text(0);
+
             }
 
             if(respond[3][0]){
-
-                $("#lastSalePriceToThisCustomerAddSefarish").text(parseInt(respond[3][0].Price3).toLocaleString("en-us"));
-
+                if(!isNaN(respond[3][0].Price3)){
+                    $("#lastSalePriceToThisCustomerAddSefarish").text(parseInt(respond[3][0].Price3).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceToThisCustomerAddSefarish").text(0);
+                }
+            }else{
+                $("#lastSalePriceToThisCustomerAddSefarish").text(0);
             }
             
 
@@ -1285,34 +1258,77 @@ function checkAddedKalaToSefarishAmountAfterAdd(goodSn){
     }
 
     let customerSn=$("#customerForSefarishId").val();
+
     if($("#checkExitanceForAddToSefarish").is(":checked")){
         $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
             goodSn: goodSn,
             customerSn:customerSn,
             stockId: 23
         },(respond,status)=>{
-            
+            console.log(respond)
             if(respond[1][0]){
+                if(!isNaN(respond[1][0].Amount)){
+                    let amount=0;
+                    if(respond[1][0].Amount>=1){
+                        amount=respond[1][0].Amount;
+                    }
+                    $("#goodAmountInStock").text(parseInt(amount).toLocaleString("en-us"));
 
-                $("#goodAmountInStock").text(parseInt(respond[1][0].Amount).toLocaleString("en-us"));
+                }else{
+                    $("#goodAmountInStock").text(0);
+
+                }
+
+            }else{
+                $("#goodAmountInStock").text(0);
 
             }
 
             if(respond[2][0]){
+                if(!isNaN(respond[2][0].Price3)){
+                    let price=0;
+                    if(respond[2][0].Price3>0){
+                        price=respond[2][0].Price3;
+                    }
+                    $("#goodPriceAddSefarish").text(parseInt(price).toLocaleString("en-us"));
 
-                $("#goodPriceAddSefarish").text(parseInt(respond[2][0].Price3).toLocaleString("en-us"));
+                }else{
+                    $("#goodPriceAddSefarish").text(0);
+
+                }
+            }else{
+                $("#goodPriceAddSefarish").text(0);
 
             }
             if(respond[4][0]){
+                if(!isNaN(respond[4][0].Fi)){
+                    let fi=0;
+                    if(respond[4][0].Fi>0){
+                        fi=respond[4][0].Fi;
+                    }
+                    $("#lastSalePriceAddSefarish").text(parseInt(fi).toLocaleString("en-us"));
 
-                $("#lastSalePriceAddSefarish").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
-                
+                }else{
+                    $("#lastSalePriceAddSefarish").text(0);
+
+                }
+            }else{
+                $("#lastSalePriceAddSefarish").text(0);
+
             }
 
             if(respond[3][0]){
-
-                $("#lastSalePriceToThisCustomerAddSefarish").text(parseInt(respond[3][0].Price3).toLocaleString("en-us"));
-
+                if(!isNaN(respond[3][0].Price3)){
+                    let price=0;
+                    if(respond[3][0].Price3>0){
+                        price=respond[3][0].Price3
+                    }
+                    $("#lastSalePriceToThisCustomerAddSefarish").text(parseInt(price).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceToThisCustomerAddSefarish").text(0);
+                }
+            }else{
+                $("#lastSalePriceToThisCustomerAddSefarish").text(0);
             }
             
 
@@ -1325,6 +1341,100 @@ function checkAddedKalaToSefarishAmountAfterAdd(goodSn){
         $("#lastSalePriceToThisCustomerAddSefarish").text(0);
 
         $("#lastSalePriceAddSefarish").text(0);
+    }
+    const previouslySelectedRow = document.querySelector('.selected');
+    if(previouslySelectedRow) {
+        previouslySelectedRow.classList.remove('selected');
+        //previouslySelectedRow.children().classList.remove('selected');
+    }
+}
+
+function checkAddedKalaAmountToSefarishEdit(goodSn){
+
+    if(!goodSn){
+        return
+    }
+
+    let customerSn=$("#customerForSefarishIdEdit").val();
+
+    if($("#checkExitanceForAddToSefarishEdit").is(":checked")){
+        $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
+            goodSn: goodSn,
+            customerSn:customerSn,
+            stockId: 23
+        },(respond,status)=>{
+            console.log(respond)
+            if(respond[1][0]){
+                if(!isNaN(respond[1][0].Amount)){
+                    let amount=0;
+                    if(respond[1][0].Amount<1){
+                        amount=0;
+                    }else{
+                        amount=respond[1][0].Amount;
+                    }
+                    $("#goodAmountInStockEdit").text(parseInt(amount).toLocaleString("en-us"));
+
+                }else{
+                    $("#goodAmountInStockEdit").text(0);
+
+                }
+
+            }else{
+                $("#goodAmountInStockEdit").text(0);
+
+            }
+
+            if(respond[2][0]){
+                if(!isNaN(respond[2][0].Price3)){
+                    let price=0;
+                    if(respond[2][0].Price3<1){
+                        price=0;
+                    }else{
+                        price=respond[2][0].Price3;
+                    }
+                    $("#goodPriceAddSefarishEdit").text(parseInt(price).toLocaleString("en-us"));
+                }else{
+                    $("#goodPriceAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#goodPriceAddSefarishEdit").text(0);
+            }
+            if(respond[4][0]){
+                if(!isNaN(respond[4][0].Fi)){
+                    $("#lastSalePriceAddSefarishEdit").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#lastSalePriceAddSefarishEdit").text(0);
+            }
+
+            if(respond[3][0]){
+                if(!isNaN(respond[3][0].Price3)){
+                    let price=0;
+                    if(respond[3][0].Price3<1){
+                        price=0;
+                    }else{
+                        price=respond[3][0].Price3;
+                    }
+                    $("#lastSalePriceToThisCustomerAddSefarishEdit").text(parseInt(price).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceToThisCustomerAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#lastSalePriceToThisCustomerAddSefarishEdit").text(0);
+            }
+            
+
+        })
+    }else{
+        $("#goodAmountInStockEdit").text(0);
+
+        $("#goodPriceAddSefarishEdit").text(0);
+
+        $("#lastSalePriceToThisCustomerAddSefarishEdit").text(0);
+
+        $("#lastSalePriceAddSefarishEdit").text(0);
     }
     const previouslySelectedRow = document.querySelector('.selected');
     if(previouslySelectedRow) {
@@ -1355,6 +1465,7 @@ function calculateNewOrderMoney(){
 $("#newOrderTakhfifInput").on("keyup",function(e){
     let moneyAfterTakhfif=(parseInt(calculateNewOrderMoney())-parseInt($("#newOrderTakhfifInput").val()))
     $("#sumAllRowMoneyAfterTakhfif").text(parseInt(moneyAfterTakhfif).toLocaleString("en-us"));
+    
 })
 
 
@@ -1367,11 +1478,52 @@ $("#editOrderBtn").on("click", () => {
             orderSn: $("#editOrderBtn").val()
         },
         success: function (response) {
+            setActiveForm("addsefarishtblEdit")
             $("#editFactorNo").val(response[1][0].OrderNo);
             $("#customerForSefarishIdEdit").empty();
             $("#customerForSefarishIdEdit").append(`<option value='${response[1][0].PSN}'>${response[1][0].Name}</option>`);
             $("#customerAddressForSefarishEdit").empty();
             $("#SnHDSEdit").val(response[1][0].SnOrder);
+
+            let amelInfo=response[9];
+            let allAmel=0;
+            amelInfo.forEach((element,index)=>{
+                allAmel+=parseInt(element.Price);
+                switch(element.SnAmel){
+                    case '142':
+                        {
+                            $("#hamlMoneyModalEdit").val(parseInt(element.Price).toLocaleString("en-us"));
+                            $("#hamlDescModalEdit").val(element.DescItem);
+                        }
+                        break;
+                    case '143':
+                        {
+                            $("#nasbMoneyModalEdit").val(parseInt(element.Price).toLocaleString("en-us"));
+                            $("#nasbDescModalEdit").val(element.DescItem);
+                        }
+                        break;
+                    case '144':
+                        {
+                            $("#motafariqaMoneyModalEdit").val(parseInt(element.Price).toLocaleString("en-us"));
+                            $("#motafariqaDescModalEdit").val(element.DescItem);
+                        }
+                        break;
+                    case '168':
+                        {
+                            $("#bargiriMoneyModalEdit").val(parseInt(element.Price).toLocaleString("en-us"));
+                            $("#bargiriDescModalEdit").val(element.DescItem);
+                        }
+                        break;
+                    case '188':
+                        {
+                            $("#tarabariMoneyModalEdit").val(parseInt(element.Price).toLocaleString("en-us"));
+                            $("#tarabariDescModalEdit").val(element.DescItem);
+                        }
+                        break;
+                }
+            });
+
+            $("#allAmelMoneyEdit").text(parseInt(allAmel).toLocaleString("en-us"))
 
             if(response[5].length>0){
                 response[5].forEach((element)=>{
@@ -1388,9 +1540,22 @@ $("#editOrderBtn").on("click", () => {
             $("#sendDateFromSefarishPageEdit").val(response[1][0].OrderDate);
             $("#customerCodeInputEdit").val(response[1][0].PCode);
             $("#searchCustomerNameInputEdit").val(response[1][0].Name);
-            $("#lastCustomerStatusEdit").text(response[1][0].CustomerStatus);
+            
+            let bdbsState=" تسویه "
+            let bdbsColor="white"
+            if(response[1][0].CustomerStatus>0){
+                bdbsState="  بستانکار"
+                bdbsColor="black"
+            }
+            if(response[1][0].CustomerStatus<0){
+                bdbsState="  بدهکار" 
+                bdbsColor="red"
+            }
+            $("#lastCustomerStatusEdit").text(parseInt(response[1][0].CustomerStatus).toLocaleString("en-us")+bdbsState);
+            $("#lastCustomerStatusEdit").css("color","red")
             $(`#addsefarishtblEdit`).empty();
             let totalMoney=0;
+            let takhfif=response[1][0].Takhfif;
             response[0].forEach((element,index) => {
                 totalMoney+=parseInt(element.PriceAfterTakhfif)
                 $("#addsefarishtblEdit").append(`<tr  onclick="checkAddedKalaOfOrderAmount(this)">
@@ -1418,12 +1583,13 @@ $("#editOrderBtn").on("click", () => {
                                             </tr>`)
                                     });
                 $("#allMoneyTillEndRowEdit").text(parseInt(totalMoney).toLocaleString("en-us"));
-               // checkAddedKalaToSefarishAmountAfterAdd(data[0].GoodSn);
+                $("#sumAllRowMoneyAfterTakhfifEdit").text(((parseInt(totalMoney)+parseInt(allAmel))-parseInt(takhfif)).toLocaleString("en-us"));
+                checkAddedKalaAmountToSefarishEdit(response[0][0].GoodSn);
                 },
                 error: function (error) {
                 }
             });
-
+            
             let hamlMoneyEdit=$("#hamlMoneyEdit").val();
             let nasbMoneyEdit=$("#nasbMoneyEdit").val();
             let motafariqaMoneyEdit=$("#motafariqaMoneyEdit").val();
@@ -1447,6 +1613,7 @@ $("#editOrderBtn").on("click", () => {
             $('.modal-dialog').draggable({
                 handle: ".modal-header"
             });
+            Mousetrap.bind("down")
         });
 $("#editNewOrderForm").on("keydown",function(e){
     if(e.keyCode==13){
@@ -1459,7 +1626,8 @@ $(document).on("keyup",".td-inputCodeEdit", (e)=>{
     if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
 
         $("#rowTaker").val($(e.target).parents("tr").index()+1)
-
+        setActiveTableOrder("kalaForAddToOrderEdit")
+        setActiveForm("")
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
                 top: 0,
@@ -1467,7 +1635,7 @@ $(document).on("keyup",".td-inputCodeEdit", (e)=>{
             });
         }
 
-        $('#addOrderItemEdit').modal({
+        $('#searchGoodsModalEdit').modal({
             backdrop: false,
             show: true
         });
@@ -1481,8 +1649,8 @@ $(document).on("keyup",".td-inputCodeEdit", (e)=>{
         $("#searchKalaForAddToSefarishByCodeEdit").val($(".td-inputCode").val());
         $("#searchKalaForAddToSefarishByNameEdit").hide();
         $("#searchKalaForAddToSefarishByCodeEdit").show();
-        $("#addOrderItemEdit").modal("show");
-        $('#addOrderItemEdit').on('shown.bs.modal', function() {
+        $("#searchGoodsModalEdit").modal("show");
+        $('#searchGoodsModalEdit').on('shown.bs.modal', function() {
             $("#searchKalaForAddToSefarishByCodeEdit").focus();
             $("#searchKalaForAddToSefarishByCodeEdit").select().trigger("keyup");
         });
@@ -1500,14 +1668,15 @@ $(document).on("keyup",".td-inputCodeEdit", (e)=>{
 $(document).on("keyup",".td-inputCodeNameEdit", (e)=>{
     if((e.keyCode>=65 && e.keyCode<=90) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
         $("#rowTaker").val($(e.target).parents("tr").index()+1)
-
+        setActiveTableOrder("kalaForAddToOrderEdit")
+        setActiveForm("")
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
                 top: 0,
                 left: 0
             });
         }
-        $('#addOrderItemEdit').modal({
+        $('#searchGoodsModalEdit').modal({
             backdrop: false,
             show: true
         });
@@ -1521,8 +1690,8 @@ $(document).on("keyup",".td-inputCodeNameEdit", (e)=>{
         $("#searchKalaForAddToSefarishByNameEdit").val($(e.target).val());
         $("#searchKalaForAddToSefarishByCodeEdit").hide();
         $("#searchKalaForAddToSefarishByNameEdit").show();
-        $("#addOrderItemEdit").modal("show");
-        $('#addOrderItemEdit').on('shown.bs.modal', function() {
+        $("#searchGoodsModalEdit").modal("show");
+        $('#searchGoodsModalEdit').on('shown.bs.modal', function() {
         $("#searchKalaForAddToSefarishByNameEdit").focus();
         });
     }else{
@@ -1612,19 +1781,28 @@ $(document).on("keyup",".td-inputSecondUnitAmountEdit",(e)=>{
 
     if(allAmountUnit>parseInt($("#goodAmountInStockEdit").text().replace(/,/g, ''))){
         swal({
-            text: "به این اندازه موجودی ندارد.",
+            title: "به این اندازه موجودی ندارد.",
             text:"میخواهید ثبت شود؟",
             icon: "warning",
             buttons: true,
             dangerMode: true,
-            }).then((willDelete) => {
-                if(willDelete){
+            }).then((willAdd) => {
+                if(willAdd){
                     let allPrice=allAmountUnit*price;
                     let packPrice=amountUnit*price;
                     $('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(8)').children('input').val(parseInt(allAmountUnit).toLocaleString("en-us"));
                     $('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(11)').children('input').val(parseInt(allPrice).toLocaleString("en-us"));
                     $('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(10)').children('input').val(parseInt(packPrice).toLocaleString("en-us"));
                     $('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(14) input[type="checkbox"]').val(GoodSn+'_'+packAmount+'_'+allAmountUnit+'_'+allPrice+'_'+packPrice+'_'+price);
+                    var $currentInput = $(e.target);
+                    var $currentTd = $currentInput.closest('td');
+                    var $nextTd = $currentTd.next('td');
+                    var $nextInput = $nextTd.find('input');
+                        $($nextInput).focus();
+                }else{
+                    var $currentInput = $(e.target);
+                    $($currentInput).focus();
+
                 }
             })
     }else{
@@ -1866,9 +2044,7 @@ function checkAddedKalaOfOrderAmount(row){
     let totalMoneyTillRow=0;
 
     for (let index = 1; index <=rowindex; index++) {
-
         totalMoneyTillRow+=parseInt($('#addsefarishtblEdit tr:nth-child('+index+') td:nth-child(11)').children('input').val().replace(/,/g, ''));
-    
     }
 
     let input = $(row).find('input:radio');
@@ -1878,6 +2054,7 @@ function checkAddedKalaOfOrderAmount(row){
     }
 
     let customerSn=$("#customerForSefarishIdEdit").val();
+
     $("#allMoneyTillThisRowEdit").text(parseInt(totalMoneyTillRow).toLocaleString("en-us"));
     if($("#checkExitanceForAddToSefarish").is(":checked")){
         $.get(baseUrl+"/getGoodInfoForAddOrderItem",{
@@ -1887,26 +2064,58 @@ function checkAddedKalaOfOrderAmount(row){
         },(respond,status)=>{
             
             if(respond[1][0]){
-
-                $("#goodAmountInStockEdit").text(parseInt(respond[1][0].Amount).toLocaleString("en-us"));
-
+                if(!isNaN(respond[1][0].Amount)){
+                    let amount=0;
+                    if(respond[1][0].Amount>=1){
+                        amount=respond[1][0].Amount
+                    }
+                    $("#goodAmountInStockEdit").text(parseInt(amount).toLocaleString("en-us"));
+                }else{
+                    $("#goodAmountInStockEdit").text(0);
+                }
+            }else{
+                $("#goodAmountInStockEdit").text(0);
             }
 
             if(respond[2][0]){
-
-                $("#goodPriceAddSefarishEdit").text(parseInt(respond[2][0].Price3).toLocaleString("en-us"));
-
+                if(!isNaN(respond[2][0].Price3)){
+                    let price=0;
+                    if(respond[2][0].Price3>=1){
+                        price=respond[2][0].Price3
+                    }
+                    $("#goodPriceAddSefarishEdit").text(parseInt(price).toLocaleString("en-us"));
+                }else{
+                    $("#goodPriceAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#goodPriceAddSefarishEdit").text(0);
             }
             if(respond[4][0]){
-
-                $("#lastSalePriceAddSefarishEdit").text(parseInt(respond[4][0].Fi).toLocaleString("en-us"));
-                
+                if(!isNaN(respond[4][0].Fi)){
+                    let fi=0;
+                    if(respond[4][0].Fi>=1){
+                        fi=respond[4][0].Fi;                       
+                    }
+                    $("#lastSalePriceAddSefarishEdit").text(parseInt(fi).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#lastSalePriceAddSefarishEdit").text(0);
             }
 
             if(respond[3][0]){
-
-                $("#lastSalePriceToThisCustomerAddSefarishEdit").text(parseInt(respond[3][0].Price3).toLocaleString("en-us"));
-
+                if(!isNaN(respond[3][0].Price3)){
+                    let price=0;
+                    if(respond[3][0].Price3>=1){
+                        price=respond[3][0].Price3
+                    }
+                    $("#lastSalePriceToThisCustomerAddSefarishEdit").text(parseInt(price).toLocaleString("en-us"));
+                }else{
+                    $("#lastSalePriceToThisCustomerAddSefarishEdit").text(0);
+                }
+            }else{
+                $("#lastSalePriceToThisCustomerAddSefarishEdit").text(0);
             }
             
 
@@ -1928,7 +2137,7 @@ function checkAddedKalaOfOrderAmount(row){
 }
 
 $("#searchKalaForAddToSefarishByNameEdit").on("keyup",function(event){
-    let tableBody=$("#kalaForAddToSefarishTbleEdit");
+    let tableBody=$("#kalaForAddToOrderEdit");
     if(event.keyCode!=40){
         if(event.keyCode!=13){
             $.get(baseUrl+'/getKalaByName',{name:$(this).val()},function (data,status) {
@@ -1938,75 +2147,18 @@ $("#searchKalaForAddToSefarishByNameEdit").on("keyup",function(event){
                     for (const element of data) {
                         i++;
                         if(i!=1){
-                            tableBody.append(`<tr onclick="setAddedToFactorEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedToOrderEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                         }else{
-                            tableBody.append(`<tr onclick="setAddedToFactorEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
-                            $("#kalaForAddToFactorEdit tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
+                            tableBody.append(`<tr onclick="setAddedToOrderEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            $("#kalaForAddToOrderEdit tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
                             const selectedGoodSn = data[0].GoodSn;
-                            setAddedToFactorEditKalaStuff(0,selectedGoodSn)
+                            setAddedToOrderEditKalaStuff(0,selectedGoodSn)
                         }
                     }
 
-                    let selectedRow = 0;
-                    Mousetrap.bind('down', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', '');
-                        }
-                    if(selectedRow!=0){
-                        selectedRow = Math.min(selectedRow + 1, data.length - 1); 
-                        $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                    }else{
-                        selectedRow = Math.min( 1, data.length - 1); 
-                        $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                    }
-                    const selectedGoodSn = data[selectedRow].GoodSn;
-                    setAddedToFactorEditKalaStuff(selectedRow,selectedGoodSn)
-                    let topTr = $("#kalaForAddToFactorEdit tr").eq(selectedRow).position().top;
-                    let bottomTr =topTr+37;
-                    let tbodyHeight = tableBody.height();
-                    let trHieght =37;
-                    
-                    if(topTr > 0 && bottomTr < tbodyHeight){
-                        
-                    }else{
-                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                        tableBody.scrollTop(newScrollTop);
-                        localStorage.setItem("scrollTop",newScrollTop);
-                    }
-                    
-                    });
-
-                    Mousetrap.bind('up', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', '');
-                        }
-
-                        selectedRow = Math.max(selectedRow - 1, 0); 
-                        $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedToFactorEditKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToFactorEdit tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+parseInt($("#kalaForAddToFactorEdit tr").eq(selectedRow).height());
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =39;
-
-                        if(topTr >276 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
-                    });
-
-                    Mousetrap.bind("enter",()=>{
-                        $("#selectKalaToFactorEditBtn").trigger("click");
-                    });
-
-                    Mousetrap.bind("esc",()=>{
-                        $("#addOrderItem1").modal("hide");
-                    });
+                    // Mousetrap.bind("enter",()=>{
+                    //     $("#selectKalaToFactorEditBtn").trigger("click");
+                    // });
 
                 }
             })
@@ -2024,7 +2176,7 @@ $("#searchKalaForAddToSefarishByCodeEdit").on("keyup", function (event) {
     if(event.keyCode!=40){
         if(event.keyCode!=13){
             let goodCode=$("#searchKalaForAddToSefarishByCodeEdit").val();
-            let tableBody=$("#kalaForAddToSefarishTbleEdit");
+            let tableBody=$("#kalaForAddToOrderEdit");
             $.get(baseUrl + '/searchKalaByCode', { code: goodCode }, function (data, status) {
                 if (status == 'success') {
                     tableBody.empty();
@@ -2032,78 +2184,27 @@ $("#searchKalaForAddToSefarishByCodeEdit").on("keyup", function (event) {
                     for (const element of data) {
                         i++;
                         if(i!=1){
-                            tableBody.append(`<tr onclick="setAddedToFactorEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedToOrderEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                         }else{
-                            tableBody.append(`<tr onclick="setAddedToFactorEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`</td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
+                            tableBody.append(`<tr onclick="setAddedToOrderEditKalaStuff(this,`+element.GoodSn+`)"> <td>`+(i)+`<input type="radio" value="${element.GoodSn}" class="d-none"/></td> <td> `+element.GoodCde+` </td><td> `+element.GoodName+`</td> <td>...</td> </tr>`);
                             
-                            $("#kalaForAddToFactorEdit tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
+                            $("#kalaForAddToOrderEdit tr").eq(0).css('background-color', 'rgb(0,142,201)'); 
                             const selectedGoodSn = data[0].GoodSn;
-                            setAddedToFactorEditKalaStuff(0,selectedGoodSn)
+                            setAddedToOrderEditKalaStuff(0,selectedGoodSn)
                         }
                     }
 
-                    let selectedRow = 0;
-                    Mousetrap.bind('down', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', '');
-                        }
-                        if(selectedRow!=0){
-                            selectedRow = Math.min(selectedRow + 1, data.length - 1); 
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                        }else{
-                            selectedRow = Math.min( 1, data.length - 1); 
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-                        }
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedToFactorEditKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToFactorEdit tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+37;
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =37;
-                        if(topTr > 0 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
-                    
-                    });
-
-                    Mousetrap.bind('up', function (e) {
-                        if (selectedRow >= 0) {
-                            $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', '');
-                        }
-
-                        selectedRow = Math.max(selectedRow - 1, 0); 
-                        $("#kalaForAddToFactorEdit tr").eq(selectedRow).css('background-color', 'rgb(0,142,201)'); 
-
-                        const selectedGoodSn = data[selectedRow].GoodSn;
-                        setAddedToFactorEditKalaStuff(selectedRow,selectedGoodSn)
-                        let topTr = $("#kalaForAddToFactorEdit tr").eq(selectedRow).position().top;
-                        let bottomTr =topTr+parseInt($("#kalaForAddToFactorEdit tr").eq(selectedRow).height());
-                        let tbodyHeight = tableBody.height();
-                        let trHieght =39;
-
-                        if(topTr >276 && bottomTr < tbodyHeight){
-                            
-                        }else{
-                            let newScrollTop = parseInt(localStorage.getItem("scrollTop"))-(trHieght);
-                            tableBody.scrollTop(newScrollTop);
-                            localStorage.setItem("scrollTop",newScrollTop);
-                        }
-                    });
                     Mousetrap.bind("enter",()=>{
-                        $("#selectKalaToFactorEditBtn").trigger("click");
+                        $("#selectKalaToSefarishBtn").trigger("click");
                     });
                 }
             });
         }else{
-            $("#selectKalaToFactorEditBtn").trigger("click");
+            $("#selectKalaToSefarishBtn").trigger("click");
         }
     }else{
         $(this).blur(); // Remove focus from the input
-        $("#kalaForAddToFactorEditTble").focus();
+        $("#kalaForAddToSefarishTble").focus();
     }
 });
 
@@ -2120,7 +2221,7 @@ $("#selectKalaToSefarishBtnEdit").on("click",function(){
     
 $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
     if(status=="success"){
-        let row=data.map((element,index)=> `<tr  onclick="checkAddedKalaToSefarishAmount(this)">
+        let row=data.map((element,index)=> `<tr  onclick="checkAddedKalaOfOrderAmount(this)">
                                                 <td style="width:30px!important;">`+($("#rowTaker").val())+`</td>
                                                 <td style="width:40px!important;" class="td-part-input"> <input type="checkbox" name="editables[]" class="d-none" value="${element.GoodSn}" checked/> <input  type="number" value="`+element.GoodCde+`" class="td-input td-inputCodeEdit form-control"></td>
                                                 <td style="width:130px!important;" class="td-part-input"><input type="text" value="`+element.GoodName+`" class="td-input td-inputCodeNameEdit form-control"></td>
@@ -2148,25 +2249,27 @@ $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
         $(`#addsefarishtblEdit tr:nth-child(`+$("#rowTaker").val()+`) td:nth-child(6) input`).select();
 
         
-        checkAddedKalaToSefarishAmountAfterAdd(data[0].GoodSn);
+        checkAddedKalaAmountToSefarishEdit(data[0].GoodSn);
         }
     });
 
-    $("#addOrderItemEdit").modal("hide");
+    $("#searchGoodsModalEdit").modal("hide");
 });
 
-function setAddedToFactorEditKalaStuff(element,goodSn){
+
+
+function setAddedToOrderEditKalaStuff(element,goodSn){
     
-        if(isNaN(element)){
-            $("tr").removeClass('selected');
-            $("#kalaForAddToSefarish tr").css('background-color', '');
-            $(element).addClass("selected")
-        }else{
-            $("tr").removeClass('selected');
-        }
+    if(isNaN(element)){
+        $("tr").removeClass('selected');
+        $("#kalaForAddToSefarish tr").css('background-color', '');
+        $(element).addClass("selected")
+    }else{
+        $("tr").removeClass('selected');
+    }
      $("#selectKalaToSefarishBtnEdit").val(goodSn)
-     if($("#selectKalaToFactorBtnEdit")){
-        $("#selectKalaToFactorBtnEdit").val(goodSn)
+     if($("#selectKalaToOrderBtnEdit")){
+        $("#selectKalaToOrderBtnEdit").val(goodSn)
      }
      let customerSn=$("#customerForSefarishIdEdit").val();
      $.ajax({
@@ -2180,45 +2283,42 @@ function setAddedToFactorEditKalaStuff(element,goodSn){
         },
         success: function (response) {
             if(response[0][0]){
-                $("#AddStockExistanceEdit").text(parseInt(response[0][0].Amount).toLocaleString("en-us"));
                 if (!isNaN(parseInt(response[0][0].Amount))) {
-                    $("#AddExistInStockEdit").text(parseInt(response[0][0].Amount).toLocaleString("en-us"));
+                    $("#StockExistanceOrderEdit").text(parseInt(response[0][0].Amount).toLocaleString("en-us"));
                 } else {
-                    $("#AddExistInStockEdit").text('ندارد');
+                    $("#StockExistanceOrderEdit").text(0);
                 }
             }else {
-                $("#AddExistInStockEdit").text('ندارد');
+                $("#StockExistanceOrderEdit").text(0);
             }
             if(response[1][0]){
-                $("#AddPriceEdit").text(parseInt(response[1][0].Price3).toLocaleString("en-us"));
                 if (!isNaN(parseInt(response[1][0].Price3))) {
-                    $("#AddPriceEdit").text(parseInt(response[1][0].Price3 / 10).toLocaleString("en-us"));
+                    $("#SalePriceOrderEdit").text(parseInt(response[1][0].Price3 / 10).toLocaleString("en-us"));
                 } else {
-                    $("#AddPriceEdit").text('ندارد');
+                    $("#SalePriceOrderEdit").text(0);
                 }
             } else {
-                $("#AddPriceEdit").text('ندارد');
+                $("#SalePriceOrderEdit").text(0);
             }
     
             if (response[2][0]) {
-                $("#AddPriceCustomerEdit").text(parseInt(response[2][0].Fi).toLocaleString("en-us"));
                 if (!isNaN(parseInt(response[2][0].Fi))) {
-                    $("#AddLastPriceCustomerEdit").text(parseInt(response[2][0].Fi / 10).toLocaleString("en-us"));
+                    $("#PriceOrderEdit").text(parseInt(response[2][0].Fi / 10).toLocaleString("en-us"));
                 } else {
-                    $("#AddLastPriceCustomerEdit").text('ندارد');
+                    $("#PriceOrderEdit").text(0);
                 }
             }else {
-                $("#AddLastPriceCustomerEdit").text('ندارد');
+                $("#PriceOrderEdit").text(0);
             }
     
             if([3][0]){
                 if (!isNaN(parseInt(response[3][0].Fi))) {
-                    $("#AddLastPriceEdit").text(parseInt(response[3][0].Fi / 10).toLocaleString("en-us"));
+                    $("#LastPriceCustomerOrderEdit").text(parseInt(response[3][0].Fi / 10).toLocaleString("en-us"));
                 } else {
-                    $("#AddLastPriceEdit").text('ندارد');
+                    $("#LastPriceCustomerOrderEdit").text(0);
                 }
             }else {
-                $("#AddLastPriceEdit").text('ندارد');
+                $("#LastPriceCustomerOrderEdit").text(0);
             }
         },
         error: function (error) {
@@ -2244,19 +2344,21 @@ $("#deleteOrderItemBtnEdit").on("click",function(e){
 $("#editNewOrderForm").on("submit",function(e){
     e.preventDefault();
     $.ajax({
-        method: $(this).attr('method'),
+        method:"POST",
         url: $(this).attr('action'),
-        data:$(this).serialize(),
+        data: new FormData(this),
         processData: false,
         contentType: false,
         success: function (respond) {
+            console.log(respond)
             if(respond=="done"){
                 $("#editOrder").modal("hide");
             }
         },
         error:function(error){
 
-        }});
+        }
+    });
 })
 
 function addAmelToSefarishEdit(){
@@ -2364,3 +2466,468 @@ $("#tarabariDescModalEdit").on("keyup",(e)=>{
         }
     }
 });
+
+$(document).on('keyup', '#searchCustomerNameInputEdit',function(e){
+    if(((e.keyCode>=65 && e.keyCode<=90)|| (e.key).match(/[آ-ی]/)) || ((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105))){
+        setActiveTableOrder("foundCusotmerForOrderBodyEdit")
+        setActiveForm("")
+        if (!($('.modal.in').length)) {
+            $('.modal-dialog').css({
+                top: 0,
+                left: 0
+            });
+        }
+        $('.modal-dialog').draggable({
+            handle: ".modal-header"
+        });
+        $("#customerForSefarishModalEdit").modal("show");
+        $("#customerNameForOrderEdit").val($('#searchCustomerNameInputEdit').val());
+        $("#customerNameForOrderEdit").focus();
+        $('#customerForSefarishModalEdit').on('shown.bs.modal', function() {
+            $(this).find('[autofocus]').focus();
+        });
+    }
+});
+
+
+$("#customerNameForOrderEdit").on("keyup", function (event){
+    let name=$("#customerNameForOrderEdit").val();
+    if(event.keyCode!=40){
+        if(event.keyCode!=13){
+    let searchByPhone="";
+    if($("#seachByPhoneNumberCheckBoxEdit").is(":checked")){
+        searchByPhone="on";
+    }else{
+        searchByPhone="";
+    }
+    $.get("/getCustomerForOrder",{namePhone:name,searchByPhone:searchByPhone},(data,status)=>{
+        localStorage.setItem("scrollTop",0);
+        $("#foundCusotmerForOrderBodyEdit").empty();
+        let tableBody=$("#foundCusotmerForOrderBodyEdit");
+        let i=0;
+        for (let customer of data){
+            i++;
+            if(i!=1){
+                tableBody.append(`<tr onclick="selectCustomerForOrderEdit(${customer.PSN},this)">
+                                                        <td> ${(i)} <input type="radio" value="${customer.PSN}" class="d-none"/> </td>
+                                                        <td> ${customer.PCode} </td>
+                                                        <td> ${customer.Name} </td>
+                                                        <td> ${customer.countBuy} </td>
+                                                        <td> ${customer.countSale} </td>
+                                                        <td> ${customer.chequeCountReturn} </td>
+                                                        <td> ${customer.chequeMoneyReturn} </td>
+                                                    </tr>`);
+            }else{
+                tableBody.append(`<tr onclick="selectCustomerForOrderEdit(${customer.PSN},this)">
+                    <td> ${(i)}  <input type="radio" value="${customer.PSN}" class="d-none"/></td>
+                    <td> ${customer.PCode} </td>
+                    <td> ${customer.Name} </td>
+                    <td> ${customer.countBuy} </td>
+                    <td> ${customer.countSale} </td>
+                    <td> ${customer.chequeCountReturn} </td>
+                    <td> ${customer.chequeMoneyReturn} </td>
+                </tr>`);
+                $("#foundCusotmerForOrderBodyEdit tr").eq(0).css("background-color", "rgb(0,142,201)"); 
+                const selectedPSN = data[0].PSN;
+                selectCustomerForOrder(selectedPSN,0)
+            }
+        }
+        Mousetrap.bind("enter",()=>{
+            $("#searchCustomerSabtBtnEdit").trigger("click");
+            localStorage.setItem("scrollTop",0);
+        });
+    })  
+    }else{
+        $("#searchCustomerSabtBtnEdit").trigger("click");
+        localStorage.setItem("scrollTop",0);
+    }
+}else{
+    $(this).blur();
+    $("#foundCusotmerForOrderTbleEdit").focus();
+    localStorage.setItem("scrollTop",0);
+} 
+});
+
+function selectCustomerForOrderEdit(psn,element){
+    
+    if(isNaN(element)){
+        $("tr").removeClass('selected');
+        $("#foundCusotmerForOrderBodyEdit tr").css('background-color', '');
+        $(element).addClass("selected")
+    }else{
+        $("tr").removeClass('selected');
+    }
+    $("#searchCustomerSabtBtnEdit").prop("disabled",false);
+    $("#searchCustomerSabtBtnEdit").val(psn);
+}
+
+function chooseCustomerForOrderEdit(psn){
+    $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
+        $("#customerForSefarishIdEdit").append(`<option selected value="${respond[0].PSN}"> ${respond[0].Name} </option>`);
+        $("#customerForSefarishIdEdit").trigger("change");
+        $("#searchCustomerNameInputEdit").val(respond[0].Name);
+        $("#customerCodeInputEdit").val(respond[0].PCode);
+        $("#lastCustomerStatusEdit").text(parseInt(respond[0].TotalPrice).toLocaleString("en-us")||0);
+    });
+    $("#customerForSefarishModalEdit").modal("hide");
+}
+let activeForm="";
+$(document).keydown((event)=>{
+    if(event.keyCode==40){
+        event.preventDefault();
+        switch (activeForm) {
+            case "addsefarishtblEdit":
+                {
+                    let rowindex=$(event.target).parents("tr").index()+1
+                    let goodSn=parseInt($('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(15)').children('input').val());
+                    
+                    if(goodSn==0){
+                        return
+                    }
+                    $("#addsefarishtblEdit").append(`<tr onclick="checkAddedKalaOfOrderAmount(this)">
+                        <td style="width:30px!important;">`+($(event.target).parents("tr").index()+1)+`</td>
+                        <td style="width:40px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputCodeEdit form-control"></td>
+                        <td style="width:130px!important;" class="td-part-input"> <input type="text" class="td-input td-inputCodeNameEdit form-control"></td>
+                        <td style="width:50px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputSecondUnitAmountEdit form-control"></td>
+                        <td style="width:50px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputEachFirstUnitAmountEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitAmountEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitPriceEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputSecondUnitPriceEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputAllPriceEdit form-control"></td>
+                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputErsalTypeEdit form-control"></td>
+                        <td style="width:52px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputDescriptionEdit form-control"></td>
+                        <td class="td-part-input d-none"><input type="text" value="1" class="td-input form-control"><input type="checkbox" name="orderBYSs[]" value="" class="td-input form-control" checked></td>
+                        <td  class="td-part-input d-none"><input type="text" value="0" class="td-input form-control"></td>
+                    </tr>`);
+                    $("#newSefarishTblEdit tr:last td:nth-child(2)").children('input').focus();
+                    $("#newSefarishTblEdit tr").removeClass("selected");
+                    $("#newSefarishTblEdit tr:last").addClass("selected");
+                }
+                break;
+            case "addsefarishtbl":
+                {
+                    let rowindex=$(event.target).parents("tr").index()+1
+                    let goodSn=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(15)').children('input').val());
+                    
+                    if(goodSn==0){
+                        return
+                    }
+                    $("#addsefarishtbl").append(`<tr onclick="checkAddedKalaToSefarishAmount(this)">
+                                        <td style="width:30px!important;">`+($(event.target).parents("tr").index()+1)+`</td>
+                                        <td style="width:40px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputCode form-control"></td>
+                                        <td style="width:130px!important;" class="td-part-input"> <input type="text" class="td-input td-inputCodeName form-control"></td>
+                                        <td style="width:50px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnit form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnit form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputSecondUnitAmount form-control"></td>
+                                        <td style="width:50px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputEachFirstUnitAmount form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitAmount form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputFirstUnitPrice form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputSecondUnitPrice form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputAllPrice form-control"></td>
+                                        <td style="width:70px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputErsalType form-control"></td>
+                                        <td style="width:52px!important;" class="td-part-input"> <input type="text"  class="td-input td-inputDescription form-control"></td>
+                                        <td class="td-part-input d-none"><input type="text" value="1" class="td-input form-control"><input type="checkbox" name="orderBYSs[]" value="" class="td-input form-control" checked></td>
+                                        <td  class="td-part-input d-none"><input type="text" value="0" class="td-input form-control"></td>
+                                    </tr>`);
+                    $("#newSefarishTbl tr:last td:nth-child(2)").children('input').focus();
+                    $("#newSefarishTbl tr").removeClass("selected");
+                    $("#newSefarishTbl tr:last").addClass("selected");
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    if(event.keyCode==38){
+        switch (activeForm) {
+            case "addsefarishtblEdit":
+                {
+                    let rowindex=$(event.target).parents("tr").index()
+                    let goodSn=parseInt($('#addsefarishtblEdit tr:nth-child('+rowindex+') td:nth-child(15)').children('input').val());
+                    if(goodSn==0){
+                        $("#newSefarishTblEdit tr:last").remove();
+                        $("#newSefarishTblEdit tr:last td:nth-child(2)").children('input').focus();
+                        $("#newSefarishTblEdit tr").removeClass("selected");
+                        $("#newSefarishTblEdit tr:last").addClass("selected");
+                    }
+                }
+                break;
+            case "addsefarishtbl":
+                {
+                    let rowindex=$(event.target).parents("tr").index()
+                    let goodSn=parseInt($('#addsefarishtbl tr:nth-child('+rowindex+') td:nth-child(15)').children('input').val());
+                    if(goodSn==0){
+                        $("#newSefarishTbl tr:last").remove();
+                        $("#newSefarishTbl tr:last td:nth-child(2)").children('input').focus();
+                        $("#newSefarishTbl tr").removeClass("selected");
+                        $("#newSefarishTbl tr:last").addClass("selected");
+                    }
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+});
+
+function setActiveForm(activeFormId){
+    activeForm=activeFormId;
+}
+
+let activeTableOrder="";
+let selectedRowOrder=0;
+$(document).keydown((event)=>{
+    if(event.keyCode==40){
+        event.preventDefault();
+        switch (activeTableOrder) {
+            case "foundCusotmerForOrderBody":
+                {
+                    var rowCount = $("#foundCusotmerForOrderBody tr:last").index() + 1;
+                    let tableBody=$("#foundCusotmerForOrderBody");
+                    if (selectedRowOrder >= 0) {
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.min(selectedRowOrder + 1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#foundCusotmerForOrderBody tr").eq(selectedRowOrder)
+                    let custerSn=$(element).find('input[type="radio"]').val();
+                    selectCustomerForOrder(custerSn,element)
+                    let topTr = $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "kalaForAddToSefarish":
+                {
+                    var rowCount = $("#kalaForAddToSefarish tr:last").index() + 1;
+                    let tableBody=$("#kalaForAddToSefarish");
+                    if (selectedRowOrder >= 0) {
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.min(selectedRowOrder + 1, rowCount - 1); 
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#kalaForAddToSefarish tr").eq(selectedRowOrder)
+                    let snOrder=$(element).find('input[type="radio"]').val();
+                    setAddedTosefarishKalaStuff(element,snOrder)
+                    let topTr = $("#kalaForAddToSefarish tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "foundCusotmerForOrderBodyEdit":
+                {
+                    var rowCount = $("#foundCusotmerForOrderBodyEdit tr:last").index() + 1;
+                    let tableBody=$("#foundCusotmerForOrderBodyEdit");
+                    if (selectedRowOrder >= 0) {
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.min(selectedRowOrder + 1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder)
+                    let custerSn=$(element).find('input[type="radio"]').val();
+                    
+                    selectCustomerForOrderEdit(custerSn,element)
+                    let topTr = $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "kalaForAddToOrderEdit":
+                {
+                    var rowCount = $("#kalaForAddToOrderEdit tr:last").index() + 1;
+                    let tableBody=$("#kalaForAddToOrderEdit");
+                    if (selectedRowOrder >= 0) {
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.min(selectedRowOrder + 1, rowCount - 1); 
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    
+                    element=$("#kalaForAddToOrderEdit tr").eq(selectedRowOrder)
+                    let goodSn=$(element).find('input[type="radio"]').val();
+                    setAddedToOrderEditKalaStuff(element,goodSn)
+                    
+                    let topTr = $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+        }
+    }
+    if(event.keyCode==38){
+        event.preventDefault();
+        switch (activeTableOrder) {
+            case "foundCusotmerForOrderBody":
+                {
+                    var rowCount = $("#foundCusotmerForOrderBody tr:last").index() + 1;
+                    let tableBody=$("#foundCusotmerForOrderBody");
+                    if (selectedRowOrder >= 0) {
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.max(selectedRowOrder  - 1, 0); 
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#foundCusotmerForOrderBody tr").eq(selectedRowOrder)
+                    let custerSn=$(element).find('input[type="radio"]').val();
+                    selectCustomerForOrderEdit(custerSn,element)
+                    let topTr = $("#foundCusotmerForOrderBody tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "kalaForAddToSefarish":
+                {
+                    var rowCount = $("#kalaForAddToSefarish tr:last").index() + 1;
+                    let tableBody=$("#kalaForAddToSefarish");
+                    if (selectedRowOrder >= 0) {
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.max(selectedRowOrder  - 1, 0); 
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#kalaForAddToSefarish tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#kalaForAddToSefarish tr").eq(selectedRowOrder)
+                    let snOrder=$(element).find('input[type="radio"]').val();
+                    setAddedTosefarishKalaStuff(element,snOrder)
+                    let topTr = $("#kalaForAddToSefarish tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "foundCusotmerForOrderBodyEdit":
+                {
+                    var rowCount = $("#foundCusotmerForOrderBodyEdit tr:last").index() + 1;
+                    let tableBody=$("#foundCusotmerForOrderBodyEdit");
+                    if (selectedRowOrder >= 0) {
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.max(selectedRowOrder  - 1, 0); 
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder)
+                    let custerSn=$(element).find('input[type="radio"]').val();
+                    selectCustomerForOrderEdit(custerSn,element)
+                    let topTr = $("#foundCusotmerForOrderBodyEdit tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+            case "kalaForAddToOrderEdit":
+                {
+                    var rowCount = $("#kalaForAddToOrderEdit tr:last").index() + 1;
+                    let tableBody=$("#kalaForAddToOrderEdit");
+                    if (selectedRowOrder >= 0) {
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', '');
+                    }
+                    if(selectedRowOrder!=0){
+                        selectedRowOrder = Math.min(selectedRowOrder - 1, 0); 
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }else{
+                        selectedRowOrder = Math.min(1, rowCount - 1); 
+                        $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).css('background-color', "rgb(0,142,201)"); 
+                    }
+                    element=$("#kalaForAddToOrderEdit tr").eq(selectedRowOrder)
+                    let goodSn=$(element).find('input[type="radio"]').val();
+                    setAddedToOrderEditKalaStuff(element,goodSn)
+                    let topTr = $("#kalaForAddToOrderEdit tr").eq(selectedRowOrder).position().top;
+                    let bottomTr =topTr+50;
+                    let trHieght =50;
+                    if(topTr > 0 && bottomTr < 450){
+                    }else{
+                        let newScrollTop =trHieght+ parseInt(localStorage.getItem("scrollTop"));
+                        tableBody.scrollTop(parseInt(newScrollTop));
+                        localStorage.setItem("scrollTop",newScrollTop);
+                    }
+                }
+                break;
+        
+            default:
+                break;
+        }
+    }
+});
+
+function setActiveTableOrder(orderTableId){
+    activeTableOrder=orderTableId;
+}
+
+
+

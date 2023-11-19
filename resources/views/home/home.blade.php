@@ -61,8 +61,8 @@
 
         <div class="row text-center my-2">
            <div class="round-menu rounded border">
-              <div class="round-menu-items" id="roundMenuItem">
-                  <div class="round-item">
+                <div class="round-menu-items" id="roundMenuItem">
+                    <div class="round-item">
                         <a href="{{url('wallet')}}" class="round-link">
                             <div class="round-menu-info" @if(count($attractions)>0) @if($attractions[0]->MoneyCase==1 and $attractions[0]->ViewJustDate==date('Y-m-d')) style="border:3px solid gray" @else style="border:2px solid red" @endif @endif>
                                 <img src="{{url('resources/assets/images/siteImage/wallet.png')}}" alt="star" class="round-menu-img"> <br>

@@ -2585,7 +2585,7 @@
   </div>
 </div>
     <!-- Modal for new order  -->
-<div class="modal fade dragAbleModal" id="addOrderItem1" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal fade dragAbleModal" id="searchGoodsModalAdd" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header text-white py-2" style="background-color:#045630;">
@@ -2609,11 +2609,11 @@
                             </div>
                         </div>
                         <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">
-                                <span class="description"> موجودی انبار : <b id="AddStockExistance">0 </b></span> <br>
-                                <span class="description">  قیمت فروش : <b id="AddSalePrice">0 </b></span> <br>
-                                <span class="description">  آخرین قیمت خرید: <b id="AddPrice">0 </b></span> <br>
-                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddLastPriceCustomer">0</b> </span> <br>
-                                <span class="description"> آخرین قیمت فروش :  <b id="AddLastPrice">0</b> </span>                      
+                                <span class="description"> موجودی انبار : <b id="StockExistanceOrderAdd">0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="SalePriceOrderAdd">0 </b></span> <br>
+                                <span class="description">  آخرین قیمت خرید: <b id="PriceOrderAdd">0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="LastPriceCustomerOrderAdd">0</b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="LastPriceOrderAdd">0</b> </span>                      
                         </div>
                         <div class="col-lg-2 text-center ">
                             <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success" id="selectKalaToSefarishBtn"> انتخاب  <i class="fa fa-history"></i> </button> 
@@ -2652,7 +2652,7 @@
                 <h5 class='modal-title text-white' id='exampleModalLongTitle'> ویرایش فروش </h5>
             </div>
             <div class='modal-body'>
-                <form action="{{url('/doUpdateOrder')}}" method="get" id="editNewOrderForm"> 
+                <form action="{{url('/doUpdateOrder')}}" id="editNewOrderForm" class="form" enctype="multipart/form-data" method="POST"> 
                     @csrf
                     <input type="text" name="SnHDS" class="d-none" id="SnHDSEdit">
                 <div class="row mb-3 mtn-3">
@@ -2798,7 +2798,7 @@
                             <span class="sumRow"> جمع هزینه ها  :  <b id="allAmelMoneyEdit">0</b></span><br> <br>
                             <div class="input-group input-group-sm mb-1">
                                 <span class="input-group-text" > مبلغ تخفیف </span>
-                                <input type="number" class="form-control" value="0" name="takhfif"  id="newOrderTakhfifInputEdit" required />
+                                <input type="text" class="form-control" value="0" name="takhfif"  id="newOrderTakhfifInputEdit" required />
                             </div> <hr>
                             <span class="sumRow"> مجموع : <b id="sumAllRowMoneyAfterTakhfifEdit"></b></span><br>
                         </div>
@@ -2811,7 +2811,7 @@
     </div>
 </div>
 <!---- add Item fro edit--->
-<div class="modal fade dragAbleModal" id="addOrderItemEdit" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal fade dragAbleModal" id="searchGoodsModalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header text-white py-2" style="background-color:#045630;">
@@ -2835,11 +2835,11 @@
                             </div>
                         </div>
                         <div class="col-lg-6 rounded-3" style="background-color:#76bda1;">
-                                <span class="description"> موجودی انبار : <b id="AddStockExistanceEdit">0 </b></span> <br>
-                                <span class="description">  قیمت فروش : <b id="AddSalePriceEdit">0 </b></span> <br>
-                                <span class="description">  آخرین قیمت خرید: <b id="AddPriceEdit">0 </b></span> <br>
-                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddLastPriceCustomerEdit">0</b> </span> <br>
-                                <span class="description"> آخرین قیمت فروش :  <b id="AddLastPriceEdit">0</b> </span>                      
+                                <span class="description"> موجودی انبار : <b id="StockExistanceOrderEdit">0 </b></span> <br>
+                                <span class="description">  قیمت فروش : <b id="SalePriceOrderEdit">0 </b></span> <br>
+                                <span class="description">  آخرین قیمت خرید: <b id="PriceOrderEdit">0 </b></span> <br>
+                                <span class="description"> اخرین قیمت فروش به این مشتری : <b id="LastPriceCustomerOrderEdit">0</b> </span> <br>
+                                <span class="description"> آخرین قیمت فروش :  <b id="LastPriceOrderEdit">0</b> </span>                      
                         </div>
                         <div class="col-lg-2 text-center ">
                             <button type="button" class="btn d-block w-100 mt-1 btn-sm btn-success" id="selectKalaToSefarishBtnEdit"> انتخاب  <i class="fa fa-history"></i> </button> 
@@ -2858,7 +2858,7 @@
                                     <th scope="col"> واحد کالا </th>
                                 </tr>
                             </thead>
-                            <tbody class="tableBody" id="kalaForAddToFactorEdit">
+                            <tbody class="tableBody" id="kalaForAddToOrderEdit">
                                 
                             </tbody>
                         </table>
@@ -2926,6 +2926,54 @@
         </div>
     </div>
   </div>
+</div>
+
+
+<div class='modal fade dragAbleModal' id='customerForSefarishModalEdit' data-backdrop="static" tabindex="-1" >
+    <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+            <div class='modal-header bg-success text-white py-2'>
+                <h5 class='modal-title text-white' > جستجوی مشتری </h5>
+            </div>
+            <div class='modal-body'>
+                <div class="row mb-3 mtn-3">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> نام شخص </span>
+                            <input type="text" class="form-control form-control-sm" id="customerNameForOrderEdit" autocomplete="off" autofocus/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"> بر اساس شماره تماس جستجو شود.</span>
+                            <input type="checkbox" class="form-input" name="searchByPhoneEdit" id="seachByPhoneNumberCheckBoxEdit">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <button type="button" disabled id="searchCustomerSabtBtnEdit" onclick="chooseCustomerForOrderEdit(this.value)"  class="btn btn-success btn-sm"> انتخاب <i class="fa fa-check"></i> </button>
+                        <button type="button" class="btn btn-danger btn-sm ms-3" id="searchCustomerCancelBtnEdit"> انصراف <i class="fa fa-trash"></i> </button>
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTbleEdit">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> کد   </th>
+                            <th> نام  </th>
+                            <th> خرید </th>
+                            <th> فروش </th>
+                            <th> تعداد چک برگشتی </th>
+                            <th> مبلغ چک های برگشتی </th>
+                        </tr>
+                    </thead>
+                    <tbody class="tableBody" id="foundCusotmerForOrderBodyEdit">
+                    </tbody>
+                </table> 
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script> 

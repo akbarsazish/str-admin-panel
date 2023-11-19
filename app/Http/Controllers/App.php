@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
 use BrowserDetect;
+use DateTime;
+use Response;
 use Carbon\Carbon;
 use \Morilog\Jalali\Jalalian;
 class App extends Controller{
@@ -189,12 +191,96 @@ class App extends Controller{
     }
 
     public function downloadApk(Request $request)
-{
-	$headers =  [ 
-        'Content-Type'=>'application/vnd.android.package-archive',
-        'Content-Disposition'=> 'attachment; filename="starfood001.apk"',
-        ];
+    {
+        $headers =  [ 
+            'Content-Type'=>'application/vnd.android.package-archive',
+            'Content-Disposition'=> 'attachment; filename="starfood001.apk"',
+            ];
 
-	return response()->file(base_path('resources\\assets\\apks\\starfood001.apk') , $headers);
-}
+        return response()->file(base_path('resources\\assets\\apks\\starfood001.apk') , $headers);
+    }
+    public function getAttractiveVisits(Request $request) {
+        $psn=$request->input("psn");
+        $attractions=DB::select("SELECT  *,CONVERT(DATE,ViewDate) AS ViewJustDate FROM NewStarfood.dbo.star_attractionVisit WHERE CustomerId=$psn");
+        return Response::json($attractions);
+    }
+
+    public function setAttractiveVisits(Request $request){
+        $customerSn=$request->input("psn");
+        $pageName=$request->input("attractionName");
+        $attractionVisit=DB::select("SELECT * FROM NewStarfood.dbo.star_attractionVisit WHERE CustomerId=$customerSn");
+        switch ($pageName) {
+            case 'Game':
+                {
+                    if(count($attractionVisit)<1){
+                        DB::table("NewStarfood.dbo.star_attractionVisit")->insert(["CustomerId" => $customerSn
+                                                                                ,"Game" => 1
+                                                                                ,"MoneyCase" => 0
+                                                                                ,"Discount" => 0
+                                                                                ,"StarfoodStar" => 0
+                                                                                ,"ViewDate" => new DateTime()]);
+                    }else{
+                        DB::table("NewStarfood.dbo.star_attractionVisit")
+                            ->where("CustomerId",$customerSn)
+                            ->update(["Game" => 1,"ViewDate" => new DateTime()]);
+            
+                    }
+                }
+                break;
+            
+                case 'MoneyCase':
+                    {
+                        if(count($attractionVisit)<1){
+                            DB::table("NewStarfood.dbo.star_attractionVisit")->insert(["CustomerId" => $customerSn
+                                                                                    ,"Game" => 0
+                                                                                    ,"MoneyCase" => 1
+                                                                                    ,"Discount" => 0
+                                                                                    ,"StarfoodStar" => 0
+                                                                                    ,"ViewDate" => new DateTime()]);
+                        }else{
+                            DB::table("NewStarfood.dbo.star_attractionVisit")
+                                ->where("CustomerId",$customerSn)
+                                ->update(["MoneyCase" => 1,"ViewDate" => new DateTime()]);
+                
+                        }
+                    }
+                    break;
+                case 'Discount':
+                    {
+                        if(count($attractionVisit)<1){
+                            DB::table("NewStarfood.dbo.star_attractionVisit")->insert(["CustomerId" => $customerSn
+                                                                                    ,"Game" => 0
+                                                                                    ,"MoneyCase" => 0
+                                                                                    ,"Discount" => 1
+                                                                                    ,"StarfoodStar" => 0
+                                                                                    ,"ViewDate" => new DateTime()]);
+                        }else{
+                            DB::table("NewStarfood.dbo.star_attractionVisit")
+                                ->where("CustomerId",$customerSn)
+                                ->update(["Discount" => 1,"ViewDate" => new DateTime()]);
+                
+                        }
+                    }
+                    break;
+                case 'StarfoodStar':
+                    {
+                        if(count($attractionVisit)<1){
+                            DB::table("NewStarfood.dbo.star_attractionVisit")->insert(["CustomerId" => $customerSn
+                                                                                    ,"Game" => 0
+                                                                                    ,"MoneyCase" => 0
+                                                                                    ,"Discount" => 0
+                                                                                    ,"StarfoodStar" => 1
+                                                                                    ,"ViewDate" => new DateTime()]);
+                        }else{
+                            DB::table("NewStarfood.dbo.star_attractionVisit")
+                                ->where("CustomerId",$customerSn)
+                                ->update(["StarfoodStar" => 1,"ViewDate" => new DateTime()]);
+                
+                        }
+                    }
+                    break;
+        }
+
+        return Response::json("done");
+    }
 }

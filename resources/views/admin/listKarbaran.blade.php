@@ -406,7 +406,7 @@
                                                 </div>
                                             </fieldset>
                                             <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
-                                                <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElementED form-check-input" id="messageED" name="messageED" /> پیام ها  </legend>
+                                                <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElementED form-check-input" id="messageED" name="messageED" /> پیام ها </legend>
                                                 
                                                 <div class="form-check admin-accesss-level">
                                                     <input class="superED form-check-input box-check" id="deleteMessageED" type="checkbox" name="deleteMessageED">
@@ -421,6 +421,39 @@
                                                     <label class="form-check-label">مشاهده</label>
                                                 </div>
                                             </fieldset>
+                                            <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
+                                                <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElementED form-check-input" id="factorED" name="factorED" /> فاکتور  </legend>
+                                                
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="superED form-check-input box-check" id="deleteFactorED" type="checkbox" name="deleteFactorED">
+                                                    <label class="form-check-label">حذف</label>
+                                                </div>
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="adminED form-check-input box-check" type="checkbox" id="editFactorED" name="editFactorED" >
+                                                    <label class="form-check-label">تغییر</label>
+                                                </div>
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="poshtibanED form-check-input box-check" type="checkbox" id="seeFactorED" name="seeFactorED" >
+                                                    <label class="form-check-label">مشاهده</label>
+                                                </div>
+                                            </fieldset>
+
+                                            <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
+                                                <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElementED form-check-input" id="bargiriED" name="bargiriED" /> بارگیری فاکتور  </legend>
+                                                
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="superED form-check-input box-check" id="deleteBargiriED" type="checkbox" name="deleteBargiriED">
+                                                    <label class="form-check-label">حذف</label>
+                                                </div>
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="adminED form-check-input box-check" type="checkbox" id="editBargiriED" name="editBargiriED" >
+                                                    <label class="form-check-label">تغییر</label>
+                                                </div>
+                                                <div class="form-check admin-accesss-level">
+                                                    <input class="poshtibanED form-check-input box-check" type="checkbox" id="seeBargiriED" name="seeBargiriED" >
+                                                    <label class="form-check-label">مشاهده</label>
+                                                </div>
+                                            </fieldset>
                                     </fieldset>
                                     </fieldset>
                                 </div>
@@ -429,7 +462,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
-                                            <legend  class="float-none w-auto forLegend first"><input type="checkbox" class="kalasED form-check-input" id="reportED" name="reportED"/>GHFH  گزارشات  </legend>
+                                            <legend  class="float-none w-auto forLegend first"><input type="checkbox" class="kalasED form-check-input" id="reportED" name="reportED"/>  گزارشات  </legend>
                                             <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
                                                 <legend  class="float-none w-auto firstLevel"><input type="checkbox" class="reportElementED form-check-input" id="reportCustomerED" name="reportCustomerED"/>  مشتریان </legend>
                                                 <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
@@ -849,6 +882,40 @@
                                                     </div>
                                                     <div class="form-check admin-accesss-level">
                                                         <input class="poshtibanN form-check-input box-check" type="checkbox" id="seeMessageN" name="seeMessageN" >
+                                                        <label class="form-check-label">مشاهده</label>
+                                                    </div>
+                                                </fieldset>
+
+                                                <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
+                                                    <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElement form-check-input" id="factorN" name="factorN" /> فاکتور  </legend>
+                                                    
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="superN form-check-input box-check" id="deleteFactorN" type="checkbox" name="deleteFactorN">
+                                                        <label class="form-check-label">حذف</label>
+                                                    </div>
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="adminN form-check-input box-check" type="checkbox" id="editFactorN" name="editFactorN" >
+                                                        <label class="form-check-label">تغییر</label>
+                                                    </div>
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="poshtibanN form-check-input box-check" type="checkbox" id="seeFactorN" name="seeFactorN" >
+                                                        <label class="form-check-label">مشاهده</label>
+                                                    </div>
+                                                </fieldset>
+
+                                                <fieldset class="border rounded-3" style="display: justify-content:flex-start; float: right;">
+                                                    <legend  class="float-none w-auto fs-6 secondLevel"> <input type="checkbox" class="kalaElement form-check-input" id="bargiriN" name="bargiriN" /> بارگیری فاکتور  </legend>
+                                                    
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="superN form-check-input box-check" id="deleteBargiriN" type="checkbox" name="deleteBargiriN">
+                                                        <label class="form-check-label">حذف</label>
+                                                    </div>
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="adminN form-check-input box-check" type="checkbox" id="editBargiriN" name="editBargiriN" >
+                                                        <label class="form-check-label">تغییر</label>
+                                                    </div>
+                                                    <div class="form-check admin-accesss-level">
+                                                        <input class="poshtibanN form-check-input box-check" type="checkbox" id="seeBargiriN" name="seeBargiriN" >
                                                         <label class="form-check-label">مشاهده</label>
                                                     </div>
                                                 </fieldset>

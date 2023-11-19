@@ -34,11 +34,11 @@ class Order extends Controller{
         $orderItems=DB::select("SELECT *,orderBYSS.Price as totalPrice,NewStarfood.dbo.getLastDateBuyFi(GoodSn)lastBuyFi,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,NewStarfood.dbo.getSecondUnitAmount(GoodSn)AmountUnit,NewStarfood.dbo.getFirstUnit(GoodSn) as firstUnit  from NewStarfood.dbo.orderBYSS join Shop.dbo.PubGoods on orderBYSS.SnGood=PubGoods.GoodSn
         where orderBYSS.SnHDS=".$orderSn);
 
-        $order=DB::select("SELECT *,Shop.dbo.FuncStatusCustomer(5,1402,PSN)CustomerStatus FROM NewStarfood.dbo.orderHDSS JOIN Shop.dbo.Peopels ON orderHDSS.CustomerSn=PSN
+        $order=DB::select("SELECT *,Shop.dbo.FuncStatusCustomer(5,1402,PSN)CustomerStatus,Takhfif FROM NewStarfood.dbo.orderHDSS JOIN Shop.dbo.Peopels ON orderHDSS.CustomerSn=PSN
                             JOIN (SELECT SnPeopel, STRING_AGG(PhoneStr, '-') AS PhoneStr
                             FROM Shop.dbo.PhoneDetail
                             GROUP BY SnPeopel)a on PSN=a.SnPeopel WHERE SnOrder=$orderSn");
-
+        $amelInfo=DB::select("SELECT * FROM NewStarfood.dbo.OrderAmelBYSS where SnOrder=$orderSn");
         $customerId=$order[0]->PSN;
 
         $notEffecientList=DB::select("SELECT * FROM(
@@ -62,7 +62,7 @@ class Order extends Controller{
         //جایزه لاتاری
         $lotteryResult=DB::select("SELECT wonPrize FROM NewStarfood.dbo.star_TryLottery WHERE customerId=$customerId AND isTaken=0");
         $passInfo=DB::select("SELECT customerId psn,customerPss password,userName username FROM NewStarfood.dbo.star_CustomerPass WHERE customerId=$customerId");
-        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult,$passInfo]);
+        return Response::json([$orderItems,$order,$notEffecientList,$costs,$totalAmount,$addresses,$takhfifCaseMoney,$lotteryResult,$passInfo,$amelInfo]);
     }
 
     public function orderView(Request $request){
@@ -1998,6 +1998,7 @@ public function addOrder(Request $request){
     }
     
     public function doUpdateOrder(Request $request) {
+        
         $snHDS=$request->input("SnHDS");
         $hamlMoney=$request->input("hamlMoneyEdit");
         $hamlSn=142;
@@ -2121,7 +2122,7 @@ public function addOrder(Request $request){
         $orderDate=$request->input("orderDateEdit");
         list($addressSn,$address)=explode("_",$request->input("customerAddressEdit"));
         $orderDescription=$request->input("orderDescriptionEdit");
-        $editablesGoods=$request->input("editables");        
+        $editablesGoods=$request->input("editables");  
         DB::update("UPDATE NewStarfood.dbo.OrderHDSS SET CustomerSn=$psn,Takhfif=$takhfif,OrderDate='$orderDate',OrderDesc='$orderDescription',OrderAddress='$address',OrderSnAddress=$addressSn WHERE SnOrder=$snHDS");
         DB::delete("DELETE FROM NewStarfood.dbo.OrderBYSS WHERE SnHDS=$snHDS AND SnGood not in( ".implode(",",$editablesGoods).")");
 
@@ -2170,8 +2171,8 @@ public function addOrder(Request $request){
                     ,"JozePack"=>$jozePack
                     ,"RealFi"=>$fi
                     ,"RealPrice"=>$price]);
-                }
             }
-        return Response::json("done");
+        }
+    return Response::json("done");
     }
 }   

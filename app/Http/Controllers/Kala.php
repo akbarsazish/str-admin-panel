@@ -2762,7 +2762,7 @@ public function appendSubGroupKalaApi(Request $request){
     $mainGrId=$request->get('mainGrId');
     $customerSn=$request->get('psn');
 
-     $listKala= DB::select("SELECT secondGroupId,firstGroupId,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
+     $listKala= DB::select("SELECT secondGroupId,firstGroupId,NewStarfood.dbo.getSecondUnitAmount(GoodSn)SecondUnitAmount,FiscalYear,CompanyNo,GoodSn,GoodName,NewStarfood.dbo.getFirstUnit(GoodSn) AS UName,Price3,Price4,SnGoodPriceSale,IIF(NewStarfood.dbo.isFavoritOrNot($customerSn,GoodSn)>0,'YES','NO') AS favorite,IIF(NewStarfood.dbo.isRequestedOrNot($customerSn,GoodSn)=0,0,1) as requested,IIF(zeroExistance=1,0,IIF(ISNULL(SnOrderBYS,0)=0,NewStarfood.dbo.getProductExistance(GoodSn),NewStarfood.dbo.getProductExistance(GoodSn))) Amount,IIF(ISNULL(SnOrderBYS,0)=0,'No','Yes') bought,callOnSale,SnOrderBYS,BoughtAmount,PackAmount,overLine,NewStarfood.dbo.getSecondUnit(GoodSn) as secondUnit,freeExistance,activeTakhfifPercent,activePishKharid FROM(
         SELECT firstGroupId,PubGoods.GoodSn,PubGoods.GoodName,PUBGoodUnits.UName,GoodPriceSale.Price3,GoodPriceSale.Price4,GoodPriceSale.SnGoodPriceSale,GoodPriceSale.FiscalYear
         ,E.zeroExistance,E.callOnSale,SnOrderBYS,BoughtAmount,PackAmount,E.overLine,freeExistance,activeTakhfifPercent,activePishKharid,PubGoods.CompanyNo,secondGroupId FROM Shop.dbo.PubGoods
         INNER JOIN NewStarfood.dbo.star_add_prod_group ON PubGoods.GoodSn=product_id
@@ -3004,7 +3004,7 @@ public function buySomethingApi(Request $request) {
 
         //
         //without stocks----------------------------------------
-        $listKala=DB::select("SELECT  GoodGroups.NameGRP,PubGoods.GoodCde,GoodPriceSale.FiscalYear,PubGoods.GoodSn,PubGoods.GoodName,GoodPriceSale.Price3,GoodPriceSale.Price4,PUBGoodUnits.UName as UNAME,A.Amount as AmountExist,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.freeExistance,star_GoodsSaleRestriction.activePishKharid  from Shop.dbo.PubGoods
+        $listKala=DB::select("SELECT  GoodGroups.NameGRP,NewStarfood.dbo.getSecondUnitAmount(GoodSn)SecondUnitAmount,PubGoods.GoodCde,GoodPriceSale.FiscalYear,PubGoods.GoodSn,PubGoods.GoodName,GoodPriceSale.Price3,GoodPriceSale.Price4,PUBGoodUnits.UName as UNAME,A.Amount as AmountExist,star_GoodsSaleRestriction.activeTakhfifPercent,star_GoodsSaleRestriction.freeExistance,star_GoodsSaleRestriction.activePishKharid  from Shop.dbo.PubGoods
                                 JOIN Shop.dbo.GoodGroups on GoodGroups.GoodGroupSn=PubGoods.GoodGroupSn
                                 LEFT JOIN Shop.dbo.GoodPriceSale on GoodPriceSale.SnGood=PubGoods.GoodSn
                                 LEFT JOIN Shop.dbo.PUBGoodUnits on PubGoods.DefaultUnit=PUBGoodUnits.USN

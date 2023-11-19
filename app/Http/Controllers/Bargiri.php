@@ -11,7 +11,7 @@ use \Morilog\Jalali\Jalalian;
 class Bargiri extends Controller {
     public function getMasterBarInfo(Request $request){
         $snMaster=$request->input("snMasterBar");
-        $masterBargiriInfo=DB::select("SELECT *,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.BargiryHDS H JOIN Shop.dbo.BargiryBYS B ON H.SnMasterBar=B.SnMaster JOIN Shop.dbo.FactorHDS F ON F.SerialNoHDS=B.SnFact JOIN Shop.dbo.Peopels P ON F.CustomerSn=P.PSN  WHERE H.CompanyNo=5 AND SnMasterBar=$snMaster");
+        $masterBargiriInfo=DB::select("SELECT *,H.MashinNo BarMashinNo,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.BargiryHDS H JOIN Shop.dbo.BargiryBYS B ON H.SnMasterBar=B.SnMaster JOIN Shop.dbo.FactorHDS F ON F.SerialNoHDS=B.SnFact JOIN Shop.dbo.Peopels P ON F.CustomerSn=P.PSN  WHERE H.CompanyNo=5 AND SnMasterBar=$snMaster");
         return Response::json(['masterInfo'=>$masterBargiriInfo,'status'=>"200 OK"]);
     }
     public function addFactorToBargiri(Request $request) {

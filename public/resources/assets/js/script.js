@@ -1027,6 +1027,10 @@ $("#operationN").on("change", () => {
         $("#messageN").prop("checked", true);
         $("#seeMessageN").prop("checked", true);
         $("#seeKalaGroupN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
 
     } else {
         $("#kalasN").prop("checked", false);
@@ -1070,6 +1074,10 @@ $("#operationN").on("change", () => {
         $("#seeKalaGroupN").prop("checked", false);
         $("#editOrderSalesN").prop("checked", false);
         $("#deleteOrderSalesN").prop("checked", false);
+        $("#factorN").prop("checked", false);
+        $("#seeFactorN").prop("checked", false);
+        $("#bargiriN").prop("checked", false);
+        $("#seeBargiriN").prop("checked", false);
     }
 })
 
@@ -1095,6 +1103,10 @@ $("#kalasN").on("change", () => {
         $("#seeSalesOrderN").prop("checked", true);
         $("#messageN").prop("checked", true);
         $("#seeMessageN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
 
     } else {
         $("#operationN").prop("checked", false);
@@ -1139,6 +1151,10 @@ $("#kalasN").on("change", () => {
         $("#seeKalaGroupN").prop("checked", false);
         $("#editOrderSalesN").prop("checked", false);
         $("#deleteOrderSalesN").prop("checked", false);
+        $("#factorN").prop("checked", false);
+        $("#seeFactorN").prop("checked", false);
+        $("#bargiriN").prop("checked", false);
+        $("#seeBargiriN").prop("checked", false);
     }
 })
 
@@ -1970,7 +1986,184 @@ $("#seeMessageN").on("change", () => {
     }
 })
 
+// new features
 
+$("#factorN").on("change", () => {
+    if ($("#factorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+
+    } else {
+        $("#factorN").prop("checked", false);
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#seeFactorN").prop("checked", false);
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+
+$("#deleteFactorN").on("change", () => {
+    if ($("#deleteFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+        $("#editFactorN").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+$("#editFactorN").on("change", () => {
+    if ($("#editFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+        $("#seeFactorN").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+
+
+$("#seeFactorN").on("change", () => {
+    if ($("#seeFactorN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#factorN").prop("checked", true);
+
+    } else {
+        $("#factorN").prop("checked", false);
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#seeFactorN").prop("checked", false);
+        $("#editFactorN").prop("checked", false);
+        $("#deleteFactorN").prop("checked", false);
+    }
+})
+// new bargiri
+
+$("#bargiriN").on("change", () => {
+    if ($("#bargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+
+    } else {
+        $("#bargiriN").prop("checked", false);
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#seeBargiriN").prop("checked", false);
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+
+$("#deleteBargiriN").on("change", () => {
+    if ($("#deleteBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+        $("#editBargiriN").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+$("#editBargiriN").on("change", () => {
+    if ($("#editBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+        $("#seeBargiriN").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
+
+
+$("#seeBargiriN").on("change", () => {
+    if ($("#seeBargiriN").is(":checked")) {
+        $("#operationN").prop("checked", true);
+        $("#kalasN").prop("checked", true);
+        $("#bargiriN").prop("checked", true);
+
+    } else {
+        $("#bargiriN").prop("checked", false);
+        if (!$(".kalaElement").is(":checked")) {
+            $("#operationN").prop("checked", false);
+            $("#kalasN").prop("checked", false);
+        } else {
+            $("#operationN").prop("checked", true);
+            $("#kalasN").prop("checked", true);
+        }
+        $("#seeBargiriN").prop("checked", false);
+        $("#editBargiriN").prop("checked", false);
+        $("#deleteBargiriN").prop("checked", false);
+    }
+})
 
 // گزارشات 
 
@@ -2851,7 +3044,10 @@ $("#operationED").on("change", () => {
         $("#messageED").prop("checked", true);
         $("#seeMessageED").prop("checked", true);
         $("#seeKalaGroupED").prop("checked", true);
-
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
     } else {
         $("#kalasED").prop("checked", false);
         $("#kalaListsED").prop("checked", false);
@@ -2894,6 +3090,10 @@ $("#operationED").on("change", () => {
         $("#seeKalaGroupED").prop("checked", false);
         $("#editOrderSalesED").prop("checked", false);
         $("#deleteOrderSalesED").prop("checked", false);
+        $("#factorED").prop("checked", false);
+        $("#seeFactorED").prop("checked", false);
+        $("#bargiriED").prop("checked", false);
+        $("#seeBargiriED").prop("checked", false);
     }
 })
 
@@ -2919,6 +3119,10 @@ $("#kalasED").on("change", () => {
         $("#seeSalesOrderED").prop("checked", true);
         $("#messageED").prop("checked", true);
         $("#seeMessageED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
 
     } else {
         $("#operationED").prop("checked", false);
@@ -2963,6 +3167,10 @@ $("#kalasED").on("change", () => {
         $("#seeKalaGroupED").prop("checked", false);
         $("#editOrderSalesED").prop("checked", false);
         $("#deleteOrderSalesED").prop("checked", false);
+        $("#factorED").prop("checked", false);
+        $("#seeFactorED").prop("checked", false);
+        $("#bargiriED").prop("checked", false);
+        $("#seeBargiriED").prop("checked", false);
     }
 })
 
@@ -3693,18 +3901,6 @@ $("#seeSalesOrderED").on("change", () => {
     }
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
 $("#messageED").on("change", () => {
     if ($("#messageED").is(":checked")) {
         $("#operationED").prop("checked", true);
@@ -3791,6 +3987,186 @@ $("#seeMessageED").on("change", () => {
         $("#seeMessageED").prop("checked", false);
         $("#editMessageED").prop("checked", false);
         $("#deleteMessageED").prop("checked", false);
+    }
+})
+
+// factor
+
+$("#factorED").on("change", () => {
+    if ($("#factorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+
+    } else {
+        $("#factorED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#seeFactorED").prop("checked", false);
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+
+$("#deleteFactorED").on("change", () => {
+    if ($("#deleteFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+        $("#editFactorED").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+$("#editFactorED").on("change", () => {
+    if ($("#editFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+        $("#seeFactorED").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+
+
+$("#seeFactorED").on("change", () => {
+    if ($("#seeFactorED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#factorED").prop("checked", true);
+
+    } else {
+        $("#factorED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#seeFactorED").prop("checked", false);
+        $("#editFactorED").prop("checked", false);
+        $("#deleteFactorED").prop("checked", false);
+    }
+})
+// bargiri
+$("#bargiriED").on("change", () => {
+    if ($("#bargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+
+    } else {
+        $("#bargiriED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#seeBargiriED").prop("checked", false);
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+
+$("#deleteBargiriED").on("change", () => {
+    if ($("#deleteBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+        $("#editBargiriED").prop("checked", true);
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+$("#editBargiriED").on("change", () => {
+    if ($("#editBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+        $("#seeBargiriED").prop("checked", true);
+
+    } else {
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
+    }
+})
+
+
+$("#seeBargiriED").on("change", () => {
+    if ($("#seeBargiriED").is(":checked")) {
+        $("#operationED").prop("checked", true);
+        $("#kalasED").prop("checked", true);
+        $("#bargiriED").prop("checked", true);
+
+    } else {
+        $("#bargiriED").prop("checked", false);
+
+        if (!$(".kalaElementED").is(":checked")) {
+            $("#operationED").prop("checked", false);
+            $("#kalasED").prop("checked", false);
+        } else {
+            $("#operationED").prop("checked", true);
+            $("#kalasED").prop("checked", true);
+        }
+        $("#seeBargiriED").prop("checked", false);
+        $("#editBargiriED").prop("checked", false);
+        $("#deleteBargiriED").prop("checked", false);
     }
 })
 
@@ -6401,6 +6777,31 @@ function openEditDashboard() {
                 case -1: $("#seeOnlinePaymentED").prop("checked", false).change();
                     break;
                 default: $("#seeOnlinePaymentED").prop("checked", false).change();
+                    break;
+            }
+
+            switch (parseInt(data.factorN)) {
+                case 2: $("#deleteFactorED").prop("checked", true).change();
+                    break;
+                case 1: $("#editFactorED").prop("checked", true).change();
+                    break;
+                case 0: $("#seeFactorED").prop("checked", true).change();
+                    break;
+                case -1: $("#seeFactorED").prop("checked", false).change();
+                    break;
+                default: $("#seeFactorED").prop("checked", false).change();
+                    break;
+            }
+            switch (parseInt(data.bargiriN)) {
+                case 2: $("#deleteBargiriED").prop("checked", true).change();
+                    break;
+                case 1: $("#editBargiriED").prop("checked", true).change();
+                    break;
+                case 0: $("#seeBargiriED").prop("checked", true).change();
+                    break;
+                case -1: $("#seeBargiriED").prop("checked", false).change();
+                    break;
+                default: $("#seeBargiriED").prop("checked", false).change();
                     break;
             }
 
