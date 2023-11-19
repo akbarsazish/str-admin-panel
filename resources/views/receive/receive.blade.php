@@ -579,7 +579,7 @@
                             <span class="input-group-text">
                                 شرح
                             </span>
-                            <input type="text" class="form-control">
+                            <input type="text" id="descChequeDar" class="form-control">
                         </div>
                     </div>
 
