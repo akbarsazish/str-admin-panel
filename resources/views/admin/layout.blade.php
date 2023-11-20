@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title> Admin Panel </title>
+    <link rel="icon" type="image/png" href="{{ url('/resources/assets/images/part.png')}}">
+    
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-grid.rtl.min.css') }}">
     <link rel="stylesheet" href="{{ url('/resources/assets/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}">
+    <!-- <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}"> -->
     <link rel="stylesheet" href="{{ url('/resources/assets/slicknav/slicknav.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mainAdmin.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mediaq.css')}}">
@@ -128,7 +131,18 @@
                                                      دریافت ها 
                                                 </a>
                                             </li>
-                                        @endif
+                                          @endif
+                                          @if(hasPermission(Session::get("adminId"),"orderSalesN") > -1)
+                                            <li class="sidebarLi">
+                                                <a class="mySidenav__item" href="{{url('/pays')}}"> &nbsp;&nbsp; 
+                                                    <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages">
+                                                        @if($imediatOrderCount){{$imediatOrderCount}} @else 0 @endif
+                                                    </span>
+                                                    <i class="fa fa-cc-visa fa-lg"></i>
+                                                     پرداخت
+                                                </a>
+                                            </li>
+                                          @endif
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
                                             <li class="sidebarLi">
                                                 <a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; 
@@ -195,9 +209,7 @@
     </header>
     @yield('content')
 
-   
-    
-
+    <script type="text/javascript" src="{{ url('/resources/assets/js/jquery.min.js')}}"></script>
     <script src="{{ url('/resources/assets/js/jquery-ui.min.js')}}"></script>
     <script src="{{url('/resources/assets/js/persianDatepicker-master/js/jquery-1.10.1.min.js')}}"></script>  
     <script src="{{url('/resources/assets/js/persianDatepicker-master/js/persianDatepicker.min.js')}}"></script> 
@@ -219,8 +231,7 @@
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-
+    
     <script>
         function goBack() {
             window.history.back();
@@ -235,5 +246,7 @@
         }
 
      </script>
+
+  
 </body>
 </html>

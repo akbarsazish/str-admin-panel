@@ -8,14 +8,16 @@
     width:100px;
 }
 .forLabel{
-    font-size:14px;
-    display:inline;
+  font-size:14px;
+  display:inline;
 }
+
 .grid-tableFooter {
-   display: grid;
-   grid-template-columns: auto auto auto;
-   color:#000; 
+  display: grid;
+  grid-template-columns: auto auto auto;
+  color:#000; 
 }
+
 .tableFooter-item {
   padding: 3px;
   font-size: 14px;
@@ -24,89 +26,89 @@
   margin:3px;
   background-color:#9ad5be;
 }
+
 .textContent {
 	font-size:13px;
 }
+
 .input-group>input.someInput {flex: 0 1 100px;}
+
+.thNowrap th {
+  max-width:100%;
+  white-space:nowrap;
+}
+
 </style>
 <div class="container-fluid containerDiv">
     <div class="row">
         <div class="col-lg-2 col-md-2 col-sm-2 sideBar">
             <fieldset class="border rounded mt-4 sidefieldSet">
                 <legend  class="float-none w-auto legendLabel mb-0">انتخاب</legend>
-                    @if(hasPermission(Session::get("adminId"),"orderSalesN") > 1)
-                    <button type="button" class="btn btn-success btn-sm topButton text-warning" onclick="openBargiriModal()">بارگیری فاکتور ها<i class="fa fa-send"></i> </button>
+                    @if(hasPermission(Session::get("adminId"),"bargiriN") > 1)
+                    <button type="button" class="btn btn-success btn-sm text-warning" onclick="openBargiriModal()">بارگیری فاکتور ها<i class="fa fa-send"></i> </button>
                     <input type="hidden" id="selectedGoodSn"/>
                     @endif
+                    @if(hasPermission(Session::get("adminId"),"factorN") > -1)
                     <span class="situation">
                         <fieldset class="border rounded">
                             <form action="{{url("/filterFactors")}}" method="get" id="filterFactorsForm">
                                 @csrf
-                                <input type="hidden" name="factType" value="3"/>
-                            <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="bargiryYes" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio"> بارگیری  شده </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehYes" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio"> تسویه شده </label>
-                                        </div> 
+                               <div class="col-lg-12">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="bargiryYes" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> بارگیری  شده </label>
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="bargiryNo" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio">بارگیری نشده</label>
-                                        </div> 
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="tasviyehYes" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> تسویه شده </label>
+                                    </div> 
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="bargiryNo" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio">بارگیری نشده</label>
+                                    </div> 
 
-                                        <div class="form-check">
-                                            <input class="form-check-input float-start" type="checkbox" name="tasviyehNo" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio"> تسویه نشده </label>
-                                        </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input checkboxStyle" type="checkbox" name="tasviyehNo" id="sefNewOrderRadio" checked>
+                                        <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> تسویه نشده </label>
                                     </div>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
-                                    <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">ساعت ثبت  </span>
-                                    <input type="time" name="factTime1" class="form-control form-control-sm">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="time" name="factTime2" class="form-control form-control-sm">
-                                </div>
 
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">شماره فاکتور  </span>
-                                    <input type="text" name="factNo1" class="form-control form-control-sm">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
-                                    <input type="text" name="factNo2" class="form-control form-control-sm" >
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text">  خریدار </span>
-                                    <input  class="form-control form-control-sm" id="customerCode"  placeholder="کد ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text">  خریدار </span>
-                                    <input type="text" name="customerName" id="customerName" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text"> خریدار متفرقه </span>
-                                    <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
+                                        <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">ساعت ثبت  </span>
+                                        <input type="time" name="factTime1" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="time" name="factTime2" class="form-control form-control-sm">
+                                    </div>
+
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm">شماره فاکتور  </span>
+                                        <input type="text" name="factNo1" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems  d-none">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
+                                        <input type="text" name="factNo2" class="form-control form-control-sm" >
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text">  خریدار </span>
+                                        <input  class="form-control form-control-sm" id="customerCode"  placeholder="کد ">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                        <span class="input-group-text">  خریدار </span>
+                                        <input type="text" name="customerName" id="customerName" class="form-control form-control-sm"  placeholder="نام ">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                        <span class="input-group-text"> خریدار متفرقه </span>
+                                        <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
+                                    </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  نحوه پرداخت </span>
                                     <select name="" id="" class="form-select">
@@ -127,15 +129,15 @@
                                     <span class="input-group-text">  توضحیات </span>
                                     <input type="text" name="factDesc" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text">  شرح کالا </span>
                                     <input type="text" name="" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> بازاریاب </span>
                                     <input type="text" name="bazaryabName" class="form-control form-control-sm"  placeholder="نام ">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> مشتری </span>
                                     <select name="" id="" class="form-select">
                                         <option></option>
@@ -146,7 +148,7 @@
                                         <option>حضوری</option>
                                     </select>
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems d-none">
                                     <span class="input-group-text"> انبار </span>
                                     <select name="stockName" id="stockName" class="form-select">
                                         <option></option>
@@ -156,23 +158,27 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success btn-sm topButton text-warning mb-2"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
+                            <div class="text-start">
+                                <button type="submit" class="btn btn-success btn-sm topButton text-warning mb-2 w-75"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
                             </div>
                         </form>
                         <div class="row">
-                            <div>
-                                <button class="btn btn-sm text-warning btn-success mb-2" id="addFactorBtn"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
-                                <button class="btn btn-sm text-warning btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
-                                <button class="btn btn-sm text-warning btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
-                            </div>
-                            <div class="text-end">
-                            </div>
-                            <div class="text-end">
-                            </div>
+                           <div class="btn-group" role="group" aria-label="Basic mixed">
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 1)
+                                    <button class="btn btn-sm rounded ms-1 btn-success mb-2" id="addFactorBtn"  style="width: 100px;"> افزودن </button>
+                                @endif
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 0)
+                                    <button class="btn btn-sm rounded ms-1 btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش  </button>
+                                @endif
+                                @if(hasPermission(Session::get("adminId"),"factorN") > 1)    
+                                    <button class="btn btn-sm rounded ms-1 btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف  </button>
+                                @endif
+                           </div>
+                           
                         </div>
                         </fieldset>
                     </span>
+                    @endif
             </fieldset>
         </div>
         <div class="col-sm-10 col-md-10 col-sm-10 contentDiv">
@@ -180,233 +186,282 @@
                 <div class="col-lg-12 text-end mt-1 actionButton">
                 </div>
             </div>
-            <div class="row mainContent table-responsive">
-                <table class="table table-hover table-bordered table-sm factorTable" id="factorTable">
-                    <thead style="width:100%;">
-                        <tr class="bg-success factorTableHeadTr">
-                            <th> ردیف </th>
-                            <th> شماره  </th>
-                            <th> تاریخ </th>
-                            <th> توضحیات </th>
-                            <th> کد مشتری </th>
-                            <th> نام مشتری </th>
-                            <th > مبلغ فاکتور </th>
-                            <th> مبلغ دریافتی </th>
-                            <th> تنظیم کننده </th>
-                            <th > نحوه پرداخت </th>
-                            <th> بازاریاب </th>
-                            <th> از انبار  </th>
-                            <th> تعداد چاپ </th>
-                            <th> پورسانت بازاریاب </th>
-                            <th> بارگیری </th>
-                            <th> مبلغ تخفیف </th>
-                            <th> واحد فروش  </th>
-                            <th> تاریخ اعلام به انبار </th>
-                            <th> ساعت اعلام به انبار  </th>
-                            <th> تاریخ بارگیری  </th>
-                            <th> ساعت بارگیری  </th>
-                            <th> شماره بار نامه  </th>
-                            <th> ساعت ثبت  </th>
-                            <th> از سفارش  </th>
-                            <th> شماره بارگیری </th>
-                            <th> تحویل به راننده </th>
-                            <th> نام راننده </th>
-                          
+            <div class="row mainContent">
+                <table class="resizableTable table table-hover table-bordered table-sm px-0 mb-0 thNowrap" id="factorTable"  style="height:calc(100vh - 400px); overflow-y:scroll; width: 100%;">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th style="width:111px;" id="factorTbl-1"> ردیف </th>
+                            <th style="width:111px;" id="factorTbl-2"> شماره  </th>
+                            <th style="width:111px;" id="factorTbl-3"> تاریخ </th>
+                            <th style="width:111px;" id="factorTbl-4"> توضحیات </th>
+                            <th style="width:111px;" id="factorTbl-5"> کد مشتری </th>
+                            <th style="width:111px;" id="factorTbl-6"> نام مشتری </th>
+                            <th style="width:111px;" id="factorTbl-7" > مبلغ فاکتور </th>
+                            <th style="width:111px;" id="factorTbl-8"> مبلغ دریافتی </th>
+                            <th style="width:111px;" id="factorTbl-9"> تنظیم کننده </th>
+                            <th style="width:111px;" id="factorTbl-10" > نحوه پرداخت </th>
+                            <th style="width:111px;" id="factorTbl-11"> بازاریاب </th>
+                            <th style="width:111px;" id="factorTbl-12"> از انبار  </th>
+                            <th style="width:111px;" id="factorTbl-13"> تعداد چاپ </th>
+                            <th style="width:111px;" id="factorTbl-14"> پورسانت بازاریاب </th>
+                            <th style="width:111px;" id="factorTbl-15"> بارگیری </th>
+                            <th style="width:111px;" id="factorTbl-16"> مبلغ تخفیف </th>
+                            <th style="width:111px;" id="factorTbl-17"> واحد فروش  </th>
+                            <th style="width:111px;" id="factorTbl-18"> تاریخ اعلام به انبار </th>
+                            <th style="width:111px;" id="factorTbl-19"> ساعت اعلام به انبار  </th>
+                            <th style="width:111px;" id="factorTbl-20"> تاریخ بارگیری  </th>
+                            <th style="width:111px;" id="factorTbl-21"> ساعت بارگیری  </th>
+                            <th style="width:111px;" id="factorTbl-22"> شماره بار نامه  </th>
+                            <th style="width:111px;" id="factorTbl-23"> ساعت ثبت  </th>
+                            <th style="width:111px;" id="factorTbl-24"> از سفارش  </th>
+                            <th style="width:111px;" id="factorTbl-25"> شماره بارگیری </th>
+                            <th style="width:111px;" id="factorTbl-26"> تحویل به راننده </th>
+                            <th style="width:111px;" id="factorTbl-27"> نام راننده </th>
                         </tr>
                     </thead>
-                    <tbody id="factorListBody" class="factorTableBody">
+                    <tbody id="factorListBody">
                         @foreach($factors as $factor)
-                            <tr ondblclick="openFactorViewModal({{$factor->SerialNoHDS}})" class="factorTablRow" @if(($factor->NetPriceHDS!=$factor->payedAmount)and($factor->NetPriceHDS>$factor->payedAmount)) style="background-color:rgb(232, 22, 144)" @endif onclick="getFactorOrders(this,{{$factor->SerialNoHDS}})">
-                                <td> {{$loop->iteration}}  <input type="radio" value="{{$factor->SerialNoHDS}}" class="d-none"/></td>
-                                <td> {{$factor->FactNo}} </td>
-                                <td> {{$factor->FactDate}} </td>
-                                <td> {{$factor->FactDesc}} </td>
-                                <td> {{$factor->PCode}} </td>
-                                <td> {{$factor->Name}} </td>
-                                <td> {{number_format($factor->NetPriceHDS)}} </td>
-                                <td> {{number_format($factor->payedAmount)}} </td>
-                                <td> {{$factor->setterName}} </td>
-                                <td> حضوری </td>
-                                <td>  </td>
-                                <td> {{$factor->stockName}} </td>
-                                <td> {{$factor->CountPrint}} </td>
-                                <td> {{number_format($factor->TotalPricePorsant)}} </td>
-                                <td> @if($factor->bargiriNo) شده @else نشده @endif  </td>
-                                <td> {{$factor->takhfif}} </td>
-                                <td> @if($factor->SnUnitSales>0) {{$factor->SnUnitSales}} @else  @endif </td>
-                                <td> {{$factor->DateEelamBeAnbar}} </td>
-                                <td> {{$factor->TimeEelamBeAnbar}} </td>
-                                <td> {{$factor->DateBargiri}} </td>
-                                <td> {{$factor->TimeBargiri}} </td>
-                                <td> {{$factor->BarNameNo}} </td>
-                                <td> {{$factor->FactTime}} </td>
-                                <td> خیر </td>
-                                <td> {{$factor->bargiriNo}} </td>
-                                <td> {{$factor->driverTahvilDate}} </td>
-                                <td> {{$factor->driverName}} </td>
+                            <tr ondblclick="openFactorViewModal({{$factor->SerialNoHDS}})" @if(($factor->NetPriceHDS!=$factor->payedAmount)and($factor->NetPriceHDS>$factor->payedAmount)) style="background-color:rgb(232, 22, 144)" @endif onclick="getFactorOrders(this,{{$factor->SerialNoHDS}})">
+                                <td class="factorTbl-1"> {{$loop->iteration}} <input type="radio" value="{{$factor->SerialNoHDS}}" class="d-none"/></td>
+                                <td class="factorTbl-2"> {{$factor->FactNo}} </td>
+                                <td class="factorTbl-3"> {{$factor->FactDate}} </td>
+                                <td class="factorTbl-4"> {{$factor->FactDesc}} </td>
+                                <td class="factorTbl-5"> {{$factor->PCode}} </td>
+                                <td class="factorTbl-6"> {{$factor->Name}} </td>
+                                <td class="factorTbl-7"> {{number_format($factor->NetPriceHDS)}} </td>
+                                <td class="factorTbl-8"> {{number_format($factor->payedAmount)}} </td>
+                                <td class="factorTbl-9"> {{$factor->setterName}} </td>
+                                <td class="factorTbl-10"> حضوری </td>
+                                <td class="factorTbl-11">  </td>
+                                <td class="factorTbl-12"> {{$factor->stockName}} </td>
+                                <td class="factorTbl-13"> {{$factor->CountPrint}} </td>
+                                <td class="factorTbl-14"> {{number_format($factor->TotalPricePorsant)}} </td>
+                                <td class="factorTbl-15"> @if($factor->bargiriNo) شده @else نشده @endif  </td>
+                                <td class="factorTbl-16"> {{$factor->takhfif}} </td>
+                                <td class="factorTbl-17"> @if($factor->SnUnitSales>0) {{$factor->SnUnitSales}} @else  @endif </td>
+                                <td class="factorTbl-18"> {{$factor->DateEelamBeAnbar}} </td>
+                                <td class="factorTbl-19"> {{$factor->TimeEelamBeAnbar}} </td>
+                                <td class="factorTbl-20"> {{$factor->DateBargiri}} </td>
+                                <td class="factorTbl-21"> {{$factor->TimeBargiri}} </td>
+                                <td class="factorTbl-22"> {{$factor->BarNameNo}} </td>
+                                <td class="factorTbl-23"> {{$factor->FactTime}} </td>
+                                <td class="factorTbl-24"> خیر </td>
+                                <td class="factorTbl-25"> {{$factor->bargiriNo}} </td>
+                                <td class="factorTbl-26"> {{$factor->driverTahvilDate}} </td>
+                                <td class="factorTbl-27"> {{$factor->driverName}} </td>
                             </tr>
                         @endforeach
                     </tbody>
-                </table> <hr>
-            
-                <table class="table table-hover table-bordered table-sm">
-                    <thead style="font-size:11px;">
+                </table>
+                <div class="bargeri-total-container">
+                    <div class="bargeri-total-item" > تعداد فاکتور : <span id="noOfFactor"> {{count($factors)}} </span> </div>
+                    <div class="bargeri-total-item"> مجموع مبلغ :  <span id="totalFactor"> {{number_format($factors[0]->allMoneyHDS)}} </span> </div>
+                    <div class="bargeri-total-item">  مبلغ دریافتی :  <span id="factorMoneyRecieved"> {{number_format($factors[0]->allPayed)}} </span> </div>
+                    <div class="bargeri-total-item">  مبلغ باقی مانده  : <span id="factorMoneyRemained"> {{number_format($factors[0]->allMoneyHDS - $factors[0]->allPayed)}} </span>  </div>
+                </div>
+                <table class="resizableTable table table-hover table-bordered table-sm thNowrap" id="factorTableDetails" style="height:200px">
+                    <thead class="tableHeader">
                         <tr>
-                         <th> ردیف </th>
-                         <th> کد کالا </th>
-                         <th style="width:160px;"> نام کالا </th>
-                         <th> واحد کالا </th>
-                         <th> بسته بندی </th>
-                         <th> مقدار بسته  </th>
-                         <th> مقدار کالا </th>
-                         <th>  تخفیف %  </th>
-                         <th> نرخ </th>
-                         <th> نرخ بسته </th>
-                         <th> مبلغ  </th>
-                         <th> مبلغ تخفیف  </th>
-                         <th> شرح کالا </th>
-                         <th> وضعیت بارگیری </th>
-                         <th> بار میکروبی </th>
+                         <th id="facTbleDetails-1"> ردیف </th>
+                         <th id="facTbleDetails-2"> کد کالا </th>
+                         <th id="facTbleDetails-3"> نام کالا </th>
+                         <th id="facTbleDetails-4"> واحد کالا </th>
+                         <th id="facTbleDetails-5"> بسته بندی </th>
+                         <th id="facTbleDetails-6"> مقدار بسته  </th>
+                         <th id="facTbleDetails-7"> مقدار کالا </th>
+                         <th id="facTbleDetails-8">  تخفیف %  </th>
+                         <th id="facTbleDetails-9"> نرخ </th>
+                         <th id="facTbleDetails-10"> نرخ بسته </th>
+                         <th id="facTbleDetails-11"> مبلغ  </th>
+                         <th id="facTbleDetails-12"> مبلغ تخفیف  </th>
+                         <th id="facTbleDetails-13"> شرح کالا </th>
+                         <th id="facTbleDetails-14"> وضعیت بارگیری </th>
+                         <th id="facTbleDetails-15"> بار میکروبی </th>
                         </tr>
                     </thead>
-                    <tbody id="FactorDetailBody" class="tableBody" style="height:188px ! important; overflow-y: scroll;">
-                    </tbody>
+                    <tbody id="FactorDetailBody">  </tbody>
                 </table>
             </div>
             <div class="row contentFooter">
-                <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
+              <div class="col-lg-12 text-end">
+                  <div class="btn-group mt-2" role="group"> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
 <div class="modal" tabindex="-1" id="bargiriModal">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
-        <div class="modal-header bg-info">
-            <button type="button" class="btn-close btn-danger" data-dismiss="modal" aria-label="Close"> </button>
-            <h5 class="modal-title"> بارگیری فاکتورها </h5>
+        <div class="modal-header py-2" style="background-color:#1a533f">
+            <button type="button" class="btn-close btn-danger text-white bg-danger" data-dismiss="modal" aria-label="Close"> </button>
+            <h5 class="modal-title text-white"> بارگیری فاکتورها </h5>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="bargiriModalBody">
           <div class="container-fluid">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="row" style="height: 40vh">
-                        <div>
-                        <button class="btn btn-sm btn-success text-warning"> نمایش کالاهای برگشتی </button>
-                        </div>
-                    </div>
-                    <div class="row" style="height: 40vh">
-                        <div>
+                <div class="col-md-2 rounded p-1 factorModal-sideBar notPrint" style="background-color:#43bfa3">
+                    <fieldset class="border rounded mt-2 sidefieldSet">
+                        <legend  class="float-none w-auto legendLabel mb-0">  بار گیری فاکتور ها  </legend>
+                        <button class="btn btn-sm btn-success text-warning mb-4"> نمایش کالاهای برگشتی </button>
                         <button onclick="addFactorToBargiri()" class="btn btn-sm btn-success mb-2 text-warning"> افزودن <i class="fa fa-add"></i></button>
                         <button disabled onclick="editFactorsOfBargiri(this.value)" id="editDriverFactorBtn" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح <i class="fa fa-edit"></i></button>
                         <button disabled onclick="deleteFactorsOfBargiri(this.value)" class="btn btn-sm btn-success mb-2 text-warning" id="deletDriverFactorBtn"> حذف <i class="fa fa-trash"></i></button>
-                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ لیست فاکتورها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ لیست کالاها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ تکی فاکتورها <i class="fa fa-print"></i></button>
-                        <button class="btn btn-sm btn-success mb-2 text-warning" style="width:200px;"> چاپ هرسه مورد بالا <i class="fa fa-print"></i></button>
-                        </div>
-                    </div>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" id="factorListPrint"> چاپ لیست فاکتورها <i class="fa fa-print"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" id="kalaListPrint"> چاپ لیست کالاها <i class="fa fa-print"></i></a>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" id="printIndividualFactor"> چاپ تکی فاکتورها <i class="fa fa-print"></i></button>
+                        <button class="btn btn-sm btn-success mb-2 text-warning" id="factorAndKalaList"> چاپ هرسه مورد بالا <i class="fa fa-print"></i></button>
+                  </fieldset>
                 </div>
+
                 <div class="col-md-10">
-                    <div class="row border p-2" id="driversDiv">
-                        <table class="table table-hover table-bordered table-sm factorBargiriTable" id="bargiriDriverTable">
-                            <thead style="width:100%;">
+                    <div class="row border p-2 notPrint" id="driversDiv">
+                        <table class="resizableTable table table-hover table-bordered table-sm" id="bargiriDriverTable" style="height:190px">
+                            <thead class="tableHeader">
                                 <tr>
-                                <th> ردیف </th>
-                                <th> شماره </th>
-                                <th> تاریخ </th>
-                                <th> نام راننده </th>
-                                <th> شماره ماشین </th>
-                                <th> توضحیات  </th>
+                                    <th id="bargeriTbl-1"> ردیف </th>
+                                    <th id="bargeriTbl-2"> شماره </th>
+                                    <th id="bargeriTbl-3"> تاریخ </th>
+                                    <th id="bargeriTbl-4"> نام راننده </th>
+                                    <th id="bargeriTbl-5"> شماره ماشین </th>
+                                    <th id="bargeriTbl-6"> توضحیات  </th>
                                 </tr>
                             </thead>
                             <tbody id="bargiriDriverListBody">
                                 @foreach($todayDrivers as $driver)
                                 <tr onclick="getDriverFactors(this,{{$driver->SnMasterBar}})">
-                                    <td> {{$loop->iteration}} </td>
-                                    <td> {{$driver->NoPaper}} </td>
-                                    <td> {{$driver->DatePeaper}} </td>
-                                    <td> {{$driver->driverName}} </td>
-                                    <td> {{$driver->MashinNo}} </td>
-                                    <td> {{$driver->DescPeaper}} <input type="radio" style="display:none" value="{{$driver->SnMasterBar}}"/>  </td>
-                                    </tr>
+                                    <td class="bargeriTbl-1"> {{$loop->iteration}} </td>
+                                    <td class="bargeriTbl-2"> {{$driver->NoPaper}} </td>
+                                    <td class="bargeriTbl-3"> {{$driver->DatePeaper}} </td>
+                                    <td class="bargeriTbl-4"> {{$driver->driverName}} </td>
+                                    <td class="bargeriTbl-5"> {{$driver->MashinNo}} </td>
+                                    <td class="bargeriTbl-6"> {{$driver->DescPeaper}} <input type="radio" style="display:none" value="{{$driver->SnMasterBar}}"/>  </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <hr/>
-                    <div class="row border p-2" id="factorsDiv">
-                        <div class="col">
-                            <table class="table  table-hover table-bordered table-sm factorBargiriTable">
-                                <thead style="width:100%;">
-                                    <tr  class="bg-success factorTableHeadTr">
-                                    <th> ردیف </th>
-                                    <th> شماره فاکتور  </th>
-                                    <th> تاریخ فاکتور </th>
-                                    <th> کد مشتری  </th>
-                                    <th> نام مشتری </th>
-                                    <th> مبلغ  </th>
-                                    <th> توضحیات  </th>
-                                    <th> نقد  </th>
-                                    <th> کارت </th>
-                                    <th> واریز به حساب </th>
-                                    <th> تخفیف </th>
-                                    <th> تفاوت  </th>
-                                    <th> آدرس </th>
-                                    <th> تلفن </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bargiriFactorLisBody">
-                                </tbody>
-                            </table> 
-                        </div>               
-                    </div>
-                    <hr/>
-                    <div class="row border p-2" id="goodsDiv">
-                        <div class="col">
-                            <table class="table  table-hover table-bordered table-responsive factorBargiriTable">
-                                <thead style="width:100%;">
-                                    <tr  class="bg-success factorTableHeadTr">
-                                    <th> ردیف </th>
-                                    <th> کد کالا   </th>
-                                    <th> نام کالا  </th>
-                                    <th> مقدار کل  </th>
-                                    <th>   نام واحد کل </th>
-                                    <th>  مقدار جزء </th>
-                                    <th> واحد جزء  </th>
-                                    <th> مقدار کالا  </th>
-                                    <th> وزن </th>
-                                    <th> تعداد فاکتور </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bargiriKalaLisBody">
-                                </tbody>
-                            </table> 
+
+                    <div class="row border p-2" id="factorsDiv" style="height:200px; display:block; overflow:auto">
+                        <div class="print-header" id="factorHeader">
+                            <div class="header-item"> 
+                                <div class="dataaLble"> شماره : <span class="text-bold" id="factorNo"> </span> </div> 
+                                <div class="dataLable"> تاریخ :  <span class="text-bold" id="factorDate"> </span> </div>
+                                <div class="dataLable"> راننده  :  <span class="text-bold" id="factorDriver"> </span>   </div>
+                                <div class="dataLable"> شماره ماشین :  <span class="text-bold" id="machinePalet"> </span>  </div>
+                            </div>
+
+                            <div class="header-item">
+                                 <h5> لیست فاکتور های استار فود </h5>
+                                 <div class="dataLable"> توضحیات :  <span id="description"> </span>  </div>
+                            </div>
+
+                            <div class="header-item" style="text-align:left;">
+                               <div class="dataLable" style="margin-top:22px;"> تاریخ چاپ :  <span class="text-bold" id="printDate"> </span>  </div>
+                                <div class="dataLable"> کاربر :  <span class="text-bold" id="userName"> </span>  </div>
+                            </div>
                         </div>
-                    </div>    
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-        </div>
+                        <table class="resizableTable table table-hover table-bordered table-sm" id="bargeriFactorTable">
+                            <thead class="tableHeader">
+                                <tr>
+                                    <th id="bargeri-details-1"> ردیف </th>
+                                    <th id="bargeri-details-2"> شماره فاکتور  </th>
+                                    <th class="notPrint"  id="bargeri-details-3"> تاریخ فاکتور </th>
+                                    <th class="notPrint" id="bargeri-details-4"> کد مشتری  </th>
+                                    <th id="bargeri-details-5"> نام مشتری </th>
+                                    <th id="bargeri-details-6"> مبلغ  </th>
+                                    <th class="notPrint" id="bargeri-details-7"> توضحیات  </th>
+                                    <th class="notPrint" id="bargeri-details-8"> نقد  </th>
+                                    <th class="notPrint" id="bargeri-details-9"> کارت </th>
+                                    <th class="notPrint" id="bargeri-details-10"> واریز به حساب </th>
+                                    <th class="notPrint" id="bargeri-details-11"> تخفیف </th>
+                                    <th class="notPrint" id="bargeri-details-12"> تفاوت  </th>
+                                    <th id="bargeri-details-13"> آدرس </th>
+                                    <th id="bargeri-details-14"> تلفن </th>
+                                </tr>
+                            </thead>
+                            <tbody id="bargiriFactorLisBody"> </tbody>
+                            <tfoot id="factorFooter">
+                              <tr>
+                                 <td style="width:166px !important;"> امضای اقای منصور ذکی </td>
+                                 <td> امضاً اقای حمید داو طلب </td>
+                                 <td> امضاً راننده </td>
+                                 <td> جمع مبلغ فاکتور ها </td>
+                                 <td class="KalaFactorTotal">  </td>
+                              </tr>
+                            </tfoot> 
+                        </table>
+                        
+                    </div> <br>
+
+                    <div class="row border p-2" id="goodsDiv" style="height:200px; display:block; overflow-y:scroll; z-index:999">
+                        <div class="print-header">
+                            <div class="header-item"> 
+                                <div class="dataaLble"> شماره : <span class="text-bold" id="kalaFactorNo"> </span> </div> 
+                                <div class="dataLable"> تاریخ :  <span class="text-bold" id="kalaFactorDate"> </span> </div>
+                                <div class="dataLable"> راننده  :  <span class="text-bold" id="kalaFactorDriver"> </span>   </div>
+                                <div class="dataLable"> شماره ماشین :  <span class="text-bold" id="kalaMachinePalet"> </span>  </div>
+                            </div>
+                            <div class="header-item">
+                                 <h5> لیست کالا های بار گیری </h5>
+                                 <div class="dataLable"> توضحیات :  <span id="kalaDescription"> </span>  </div>
+                            </div>
+                            <div class="header-item" style="text-align:left;">
+                            <div class="dataLable" style="margin-top:22px;"> تاریخ چاپ :  <span class="text-bold" id="kalaPrintDate"> </span>  </div>
+                            <div class="dataLable"> کاربر :  <span class="text-bold" id="kalaUserName"> </span>  </div>
+                            </div>
+                        </div>
+                            <table class="resizableTable table table-hover table-bordered" id="bargiriKalaLisTable">
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th id="bargerikalaTh-1"> ردیف </th>
+                                        <th id="bargerikalaTh-2"> کد کالا   </th>
+                                        <th id="bargerikalaTh-3"> نام کالا  </th>
+                                        <th id="bargerikalaTh-4"> مقدار کل  </th>
+                                        <th class="notPrint" id="bargerikalaTh-5">   نام واحد کل </th>
+                                        <th id="bargerikalaTh-6">  مقدار جزء </th>
+                                        <th class="notPrint" id="bargerikalaTh-7"> واحد جزء  </th>
+                                        <th id="bargerikalaTh-8"> مقدار کالا  </th>
+                                        <th class="notPrint" id="bargerikalaTh-9"> وزن </th>
+                                        <th id="bargerikalaTh-10"> تعداد فاکتور </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bargiriKalaLisBody"> </tbody>
+                                <tfoot>
+                                    <tr>
+                                      <td style="width:166px !important;"> امضای اقای منصور ذکی  </td>
+                                      <td> امضاً اقای حمید داو طلب </td>
+                                      <td> امضاً راننده </td>
+                                      <td> جمع مبلغ فاکتور ها </td>
+                                      <td class="KalaFactorTotal">  </td>
+                                    </tr>
+                                </tfoot> 
+                            </table>
+                     </div>    
+                 </div>
+             </div>
+           </div>
+         </div>
+        <div class="modal-footer"> </div>
       </div>
     </div>
   </div>
-  <div class="modal" tabindex="1" id="addFactorToBargiriModal" data-backdrop="static">
+
+
+  <div class="modal" tabindex="1" id="addFactorToBargiriModal">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
-        <div class="modal-header bg-info">
-          <button type="button" class="btn-close btn-danger" data-dismiss="modal" aria-label="Close"></button>
-          <h5 class="modal-title">بارگیری</h5>
+        <div class="modal-header py-2 bg-info">
+          <button type="button" class="btn-close btn-danger bg-danger" data-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title text-white"> افزودن بارگیری </h5>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
@@ -462,42 +517,42 @@
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> حساب بانکی واریز به حساب </span>
-                                    <input type="text" id="Variz_SnAccBank" name="Bargiri_VarizSnAccBank" class="form-control form-control-sm">
-                                    <select name="allVarizBeHisabBanks" id="allVarizBeHisabBanks" class="form-select">
+                                    <input type="text" name="Bargiri_VarizSnAccBank" class="form-control form-control-sm">
+                                    <select name="" id="allVarizBeHisabBanks" class="form-select">
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> حساب بانکی کارت خوان </span>
-                                    <input type="text" id="KartKhan_SnAccBank" name="Bargiri_SnAccBank" class="form-control form-control-sm">
-                                    <select name="allKartKhanBanks" id="allKartKhanBanks" class="form-select">
+                                    <input type="text" name="Bargiri_SnAccBank" class="form-control form-control-sm">
+                                    <select name="" id="allKartKhanBanks" class="form-select">
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> شماره پایانه </span>
-                                    <input type="text" id="Bargiri_NoPayaneh" name="Bargiri_NoPayaneh" class="form-control form-control-sm">
+                                    <input type="text" name="Bargiri_NoPayaneh" class="form-control form-control-sm">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <table class="table table-striped table-bordered table-sm">
-                        <thead class="bg-success">
-                            <tr class="bg-success factorTableHeadTr">
-                                <th > ردیف </th>
-                                <th > شماره فاکتور </th>
-                                <th > تاریخ فاکتور </th>
-                                <th > کد مشتری </th>
-                                <th > نام مشتری </th>
-                                <th > مبلغ </th>
-                                <th > نقد </th>
-                                <th > کارت خوان </th>
-                                <th > واریز به حساب </th>
-                                <th > تخفیف </th>
-                                <th > تفاوت دریافتی </th>
-                                <th > توضحیات </th>
-                                <th > آدرس </th>
-                                <th > تلفن </th>
+                    <table class="resizableTable table table-striped table-bordered table-sm" id="addBargeriFactorTbl" style="height:calc(100vh - 280px)">
+                        <thead class="tableHeader">
+                            <tr class="factorTableHeadTr">
+                                <th id="addBargerTr-1"> ردیف </th>
+                                <th id="addBargerTr-2"> شماره فاکتور </th>
+                                <th id="addBargerTr-3"> تاریخ فاکتور </th>
+                                <th id="addBargerTr-4"> کد مشتری </th>
+                                <th id="addBargerTr-5"> نام مشتری </th>
+                                <th id="addBargerTr-6"> مبلغ </th>
+                                <th id="addBargerTr-7"> نقد </th>
+                                <th id="addBargerTr-8"> کارت خوان </th>
+                                <th id="addBargerTr-9"> واریز به حساب </th>
+                                <th id="addBargerTr-10"> تخفیف </th>
+                                <th id="addBargerTr-11"> تفاوت دریافتی </th>
+                                <th id="addBargerTr-12"> توضحیات </th>
+                                <th id="addBargerTr-13"> آدرس </th>
+                                <th id="addBargerTr-14"> تلفن </th>
                             </tr>
                         </thead>
                         <tbody id="factorsToAddToBargiriBody">
@@ -513,11 +568,11 @@
     </div>
 </div>
 
-<div class="modal" tabindex="1" id="editFactorsOfBargiriModal" data-backdrop="static">
+<div class="modal" tabindex="1" id="editFactorsOfBargiriModal">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <h5 class="modal-title">بارگیری</h5>
+            <div class="modal-header py-2" style="background-color:#055438">
+                <h5 class="modal-title text-white"> اصلاح بارگیری </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -580,42 +635,42 @@
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
                                             <span class="input-group-text"> حساب بانکی واریز به حساب </span>
-                                            <input type="text" id="Variz_SnAccBankEdit"  name="Bargiri_VarizSnAccBank"  class="form-control form-control-sm">
-                                            <select name="allVarizBeHisabBanksEdit" id="allVarizBeHisabBanksEdit" class="form-select">
+                                            <input type="text"  name="Bargiri_VarizSnAccBank"  class="form-control form-control-sm">
+                                            <select name="" id="allVarizBeHisabBanksEdit" class="form-select">
                                             </select>
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
                                             <span class="input-group-text"> حساب بانکی کارت خوان </span>
-                                            <input type="text" id="KartKhan_SnAccBankEdit"  name="Bargiri_SnAccBank" class="form-control form-control-sm">
-                                            <select name="allKartKhanBanksEdit" id="allKartKhanBanksEdit" class="form-select">
+                                            <input type="text"  name="Bargiri_SnAccBank" class="form-control form-control-sm">
+                                            <select name="" id="allKartKhanBanksEdit" class="form-select">
                                             </select>
                                         </div>
                                         <div class="input-group input-group-sm mb-1 filterItems">
                                             <span class="input-group-text"> شماره پایانه </span>
-                                            <input type="text" id="Bargiri_NoPayanehEdit" name="Bargiri_NoPayaneh" class="form-control form-control-sm">
+                                            <input type="text" name="Bargiri_NoPayaneh" class="form-control form-control-sm">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <table class="table table-striped table-bordered table-sm factorTable">
+                            <table class="resizableTable table table-striped table-bordered table-sm factorTable" id="factorEditbargeriTbl">
                                 <thead class="bg-success">
                                     <tr class="bg-success factorTableHeadTr">
-                                        <th > ردیف </th>
-                                        <th > شماره فاکتور </th>
-                                        <th > تاریخ فاکتور </th>
-                                        <th > کد مشتری </th>
-                                        <th > نام مشتری </th>
-                                        <th > مبلغ </th>
-                                        <th > نقد </th>
-                                        <th > کارت خوان </th>
-                                        <th > واریز به حساب </th>
-                                        <th > تخفیف </th>
-                                        <th > تفاوت دریافتی </th>
-                                        <th > توضحیات </th>
-                                        <th > آدرس </th>
-                                        <th > تلفن </th>
+                                        <th id="editBargeri-1"> ردیف </th>
+                                        <th id="editBargeri-2"> شماره فاکتور </th>
+                                        <th id="editBargeri-3"> تاریخ فاکتور </th>
+                                        <th id="editBargeri-4"> کد مشتری </th>
+                                        <th id="editBargeri-5"> نام مشتری </th>
+                                        <th id="editBargeri-6"> مبلغ </th>
+                                        <th id="editBargeri-7"> نقد </th>
+                                        <th id="editBargeri-8"> کارت خوان </th>
+                                        <th id="editBargeri-9"> واریز به حساب </th>
+                                        <th id="editBargeri-10"> تخفیف </th>
+                                        <th id="editBargeri-11"> تفاوت دریافتی </th>
+                                        <th id="editBargeri-12"> توضحیات </th>
+                                        <th id="editBargeri-13"> آدرس </th>
+                                        <th id="editBargeri-14"> تلفن </th>
                                     </tr>
                                 </thead>
                                 <tbody id="factorsToAddToBargiriBodyEdit">
@@ -631,12 +686,12 @@
     </div>
 </div>
 
-<div class="modal" tabindex="1" id="searchFoactorForAddToBargiriModal" data-backdrop="static">
+<div class="modal" tabindex="1" id="searchFoactorForAddToBargiriModal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header bg-info">
-            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            <h5 class="modal-title"> جستجوی فاکتور </h5>
+        <div class="modal-header py-2 bg-success">
+            <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title text-white"> جستجوی فاکتور </h5>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
@@ -658,39 +713,35 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 border p-1">
                         <table class="table table-hover table-bordered table-sm factorBargiriTable" id="factorsMantiqaTable">
-                            <thead>
-                                <tr class="bg-success factorTableHeadTr">
+                            <thead class="tab">
+                                <tr>
                                     <th>شماره</th>
                                     <th>منطقه</th>
                                     <th>تعداد فاکتور</th>
                                 </tr>
                             </thead>
                             <tbody id="factorsMantiqasBodyList">
-                                <tr class="factorTablRow">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <tr class="factorTablRow">  </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-9">
-                        <table class="table table-hover table-bordered table-sm factorBargiriTable">
-                            <thead >
-                                <tr class="bg-success factorTableHeadTr">
-                                    <th> ردیف </th>
-                                    <th> شماره </th>
-                                    <th> تاریخ </th>
-                                    <th> کد مشتری </th>
-                                    <th> نام مشتری </th>
-                                    <th> مبلغ فاکتور </th>
-                                    <th> آدرس </th>
-                                    <th> تلفن </th>
-                                    <th> lat pers </th>
-                                    <th> lon pers </th>
-                                    <th> نام مسیر </th>
+                    <div class="col-md-9 border p-1">
+                        <table class="resizableTable table table-hover table-bordered table-sm" id="searchbBargerFactorTbl" style="height:calc(100vh - 300px)">
+                            <thead class="tableHeader">
+                                <tr>
+                                  <th id="searchFactor-1"> ردیف </th>
+                                  <th id="searchFactor-2"> شماره </th>
+                                  <th id="searchFactor-3"> تاریخ </th>
+                                  <th id="searchFactor-4"> کد مشتری </th>
+                                  <th id="searchFactor-5"> نام مشتری </th>
+                                  <th id="searchFactor-6"> مبلغ فاکتور </th>
+                                  <th id="searchFactor-7"> آدرس </th>
+                                  <th id="searchFactor-8"> تلفن </th>
+                                  <th id="searchFactor-9"> lat pers </th>
+                                  <th id="searchFactor-10"> lon pers </th>
+                                  <th id="searchFactor-11"> نام مسیر </th>
                                 </tr>
                             </thead>
                             <tbody id='mantiqasFactorForBargiriBody'>
@@ -706,7 +757,7 @@
     </div>
   </div>
   
-<div class="modal" tabindex="1" id="searchFoactorForAddToBargiriModalEdit" data-backdrop="static">
+  <div class="modal" tabindex="1" id="searchFoactorForAddToBargiriModalEdit" data-backdrop="static">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-info">
@@ -871,8 +922,8 @@
                             </div>
                             <div class="col-4">
                                 <div>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning" onclick="openKalaGardish()"> گردش کالا </button>
-                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForSefarishId').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
+                                <button type="button" class="btn btn-sm btn-success mb-2 text-warning" onclick="openKalaGardish()"> گردش کالا </button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorEdit').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
                                     {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
                                     <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
@@ -985,17 +1036,20 @@
     <input type="hidden" id="factorRowTaker">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-            <div class="modal-header bg-info" >
+            <div class="modal-header bg-info py-2" >
                 <h5 class="modal-title text-end"> افزودن فاکتور </h5>
             </div>
             <div class="modal-body">
-                <form action="{{url("/addFactor")}}" method="get" id="addFactorForm">
+                <form action="{{url('/addFactor')}}" method="get" id="addFactorForm">
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-4">
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                            <div class="col-lg-6">
+                              <div class="row">
+                              <div class="col-lg-6">
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > انبار </span>
+                                    <input type="hidden" name="factType" value="3">
                                     <select name="stockAdd" id="stockAdd" class="form-select">
                                         <option></option>
                                         @foreach($stocks as $stock)
@@ -1006,25 +1060,27 @@
                                         @endif
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > تاریخ </span>
                                     <input type="text" class="form-control" name="FactDateAdd" id="FactDateAdd" required>
                                     <select name="customerForFactorAdd" id="customerForFactorAdd" style="display: none;">
                                     </select>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار </span>
                                     <input type="text" class="form-control" name="pCodeAdd" id="pCodeAdd">
                                     <input type="text" class="form-control" name="NameAdd" id="NameAdd">
                                     <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-info text-warning">گردش حساب</button>
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                 </div>
+                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
                                     <input type="text" class="form-control" name="bazaryabCodeAdd" id="bazaryabCodeAdd">
                                     <input type="text" class="form-control" name="bazaryabNameAdd" id="bazaryabNameAdd">
                                     <button  type="button" class="btn btn-info text-warning"> ... </button>
-                                </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-6">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > خریدار متفرقه </span>
                                     <input type="text" class="form-control" name="MotafariqahNameAdd" id="MotafariqahNameAdd">
@@ -1035,11 +1091,11 @@
                                         <input type="text" id="MotafariqahMobileAdd" class="form-control">
                                     </div>
                                 </div>
-                                <div  id="motafariqahfactorAddressDivAdd" style="display: none">
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div id="motafariqahfactorAddressDivAdd" style="display: none">
+                                  <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > آدرس </span>
                                     <input type="text" name="MotafariqahAddressAdd"  id="MotafariqahAddressAdd" class="form-control">
-                                </div>
+                                  </div>
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > توضحیات </span>
@@ -1052,6 +1108,7 @@
                                         <option value="ersal"> ارسال به آدرس </option>
                                     </select>
                                 </div>
+                                
                                 <div  id="sendTimeDivAdd" style="display: none">
                                     <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text" >  زمان ارسال </span>
@@ -1081,88 +1138,95 @@
                                     <input type="text" id="tarabariDescFAdd" value=""  name="tarabariDescFAdd">
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning" id="openKalaGardishButton"> گردش کالا </button>
-                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
-                                    {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
-                                    <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
-                                    <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
-                                    <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
-                                    <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
+                          </div>
+                         </div>
+
+                         <div class="col-lg-6 col-sm-6">
+                             <div class="row">
+                              <div class="col-lg-10 col-sm-10 px-0">
+                               <div class="btn-group" role="group" aria-label="Basic mixed">
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openKalaGardish()"> گردش کالا </button>
+                                    <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorAdd').value)" class="btn btn-sm btn-success rounded ms-1"> گردش شخص </button>
+                               {{-- <button type="button" class="btn btn-sm btn-success rounded ms-1"> اصلاح کالا </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1"> اصلاح شخص </button> --}}
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openLastTenBuysModal()"> ده خرید آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openLastTenSalesModal()"> ده فروش آخر </button>
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openNotSentOrdersModal()"> سفارشات ارسال نشده </button>
+                                </div>
+                            
+                                <div class="col-lg-12 border-2 mt-1 rounded" style="background-color:#e0e0e0;">
+                                    <span class="description"> موجودی انبار : <b id="AddedToFactorExistInStock">0</b></span> <br>
+                                    <span class="description">  قیمت فروش : <b id="AddedToFactorPrice">0</b></span> <br>
+                                    <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddedToFactorLastPriceCustomer">0</b></span> <br>
+                                    <span class="description"> آخرین قیمت فروش :  <b id="AddedToFactorLastPrice">0</b> </span>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="text-end">
-                                    <label class="form-label"> کرایه دریافت شد </label>
-                                    <input type="checkbox" class="form-check-input" name="ّtakeKerayahAdd" id="ّtakeKerayahAdd">
-                                    <button type="submit" class="btn btn-sm btn-success text-warning mb-2"> ثبت </button>
-                                    <button type="button" onclick="cancelAddFactor()" class="btn btn-sm btn-danger  mb-2"> انصراف </button>
-                                </div>
-                                <div>
-                                    <div class="col-lg-12 border-2" style="background-color:#e0e0e0;">
-                                        <span class="description"> موجودی انبار : <b id="AddedToFactorExistInStock">0</b></span> <br>
-                                        <span class="description">  قیمت فروش : <b id="AddedToFactorPrice">0</b></span> <br>
-                                        <span class="description"> اخرین قیمت فروش به این مشتری : <b id="AddedToFactorLastPriceCustomer">0</b></span> <br>
-                                        <span class="description"> آخرین قیمت فروش :  <b id="AddedToFactorLastPrice">0</b> </span>
-                                    </div>
+
+                            <div class="col-lg-2 px-0">
+                                <button type="submit" class="btn btn-sm btn-success mb-2"> ثبت </button>
+                                <button type="button" onclick="cancelAddFactor()" class="btn btn-sm btn-danger mb-2"> انصراف </button>
+                                <div class="form-check form-check-inline ms-1">
+                                    <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> دریافت شد </label>
+                                    <input type="checkbox" class="form-check-input checkboxStyle" name="ّtakeKerayahAdd" id="ّtakeKerayahAdd">
                                 </div>
                             </div>
+                          </div>
                         </div>
+
                         <div class="row">
                             <table class="table table-striped table-bordered table-sm factorTable">
                                 <thead class="bg-success">
                                     <tr class="bg-success factorTableHeadTr">
-                                        <th> ردیف </th>
-                                        <th> کد کالا </th>
-                                        <th> نام کالا </th>
-                                        <th> واحد کالا </th>
-                                        <th> بسته بندی </th>
-                                        <th> مقدار کل </th>
-                                        <th> مقدار جز </th>
-                                        <th> مقدار اولیه </th>
-                                        <th> مقدار برگشتی </th>
-                                        <th> مقدار کالا </th>
-                                        <th> نرخ واحد </th>
-                                        <th> نرخ بسته </th>
-                                        <th> مبلغ </th>
-                                        <th> مبلغ بعد از تخفیف </th>
-                                        <th> شماره سفارش </th>
-                                        <th> تاریخ سفارش </th>
-                                        <th> شرح کالا </th>
-                                        <th> انبار </th>
-                                        <th> مالیات بر ارزش افزوده </th>
-                                        <th> وزن واحد </th>
-                                        <th> وزن کل </th>
-                                        <th> In Srvice </th>
-                                        <th> درصد مالیات </th>
+                                        <th id="addFactorTd-1"> ردیف </th>
+                                        <th id="addFactorTd-2"> کد کالا </th>
+                                        <th id="addFactorTd-3"> نام کالا </th>
+                                        <th id="addFactorTd-4"> واحد کالا </th>
+                                        <th id="addFactorTd-5"> بسته بندی </th>
+                                        <th id="addFactorTd-6"> مقدار کل </th>
+                                        <th id="addFactorTd-7"> مقدار جز </th>
+                                        <th id="addFactorTd-8"> مقدار اولیه </th>
+                                        <th id="addFactorTd-9"> مقدار برگشتی </th>
+                                        <th id="addFactorTd-10"> مقدار کالا </th>
+                                        <th id="addFactorTd-11"> نرخ واحد </th>
+                                        <th id="addFactorTd-12"> نرخ بسته </th>
+                                        <th id="addFactorTd-13"> مبلغ </th>
+                                        <th id="addFactorTd-14"> مبلغ بعد از تخفیف </th>
+                                        <th id="addFactorTd-15"> شماره سفارش </th>
+                                        <th id="addFactorTd-16"> تاریخ سفارش </th>
+                                        <th id="addFactorTd-17"> شرح کالا </th>
+                                        <th id="addFactorTd-18"> انبار </th>
+                                        <th id="addFactorTd-19"> مالیات بر ارزش افزوده </th>
+                                        <th id="addFactorTd-20"> وزن واحد </th>
+                                        <th id="addFactorTd-21"> وزن کل </th>
+                                        <th id="addFactorTd-22"> In Srvice </th>
+                                        <th id="addFactorTd-23"> درصد مالیات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="factorAddListBody">
                                     <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                                        <td class="td-part-input"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
-                                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
+                                        <td class="addFactorTd-1"> </td>
+                                        <td class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+                                        <td class="addFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
+                                        <td class="addFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-6"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-10"> <input type="text" value="" class="td-input  td-AllAmountAdd form-control"> </td>
+                                        <td class="addFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
+                                        <td class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+                                        <td class="addFactorTd-15"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
+                                        <td class="addFactorTd-16"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
+                                        <td class="addFactorTd-17"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
+                                        <td class="addFactorTd-18"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
+                                        <td class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+                                        <td class="addFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
+                                        <td class="addFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
+                                        <td class="addFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
+                                        <td class="addFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1568,15 +1632,15 @@
                       <tr>
                           <td> 5 </td>
                           <td> ترابری </td>
-                          <td><input type="text"  name="tarabariMoney" id="tarabariMoneyModalFEdit text-warning" class="td-input form-control"></td>
-                          <td><input type="text"  name="tarabariDesc" id="tarabariDescModalFEdit text-warning" class="td-input form-control"></td>
+                          <td><input type="text"  name="tarabariMoney" id="tarabariMoneyModalFEdit" class="td-input form-control"></td>
+                          <td><input type="text"  name="tarabariDesc" id="tarabariDescModalFEdit" class="td-input form-control"></td>
                       </tr>
                   </tbody>
               </table>
           </div>
           <div class="modal-footer">
-              <button type="button" id="cancelAmelButtonFEdit" class="btn btn-danger btn-sm  text-warning" data-dismiss="modal"> انصراف </button>
-              <button type="button" id="sabtAmelButtonFEdit" class="btn btn-success btn-sm  text-warning" onclick="addAmelToFactorFEdit()"> ذخیره </button>
+              <button type="button" id="cancelAmelButtonFEdit" class="btn btn-danger btn-sm" data-dismiss="modal"> انصراف </button>
+              <button type="button" id="sabtAmelButtonFEdit" class="btn btn-success btn-sm" onclick="addAmelToFactorFEdit()"> ذخیره </button>
           </div>
       </div>
     </div>
@@ -1769,6 +1833,8 @@
         
         </div>
     </div>
+  </div>
+  </div>
   </div>
 
   <div class="modal" tabindex="-1" id="addAmelModalFView" data-backdrop="static">
@@ -2044,4 +2110,79 @@
         </div>
     </div>
 </div>
+<script>
+
+$(document).ready(function () {
+    // چاپ لیست فاکتورها
+    $('#factorListPrint').on("click", function () {
+        $("#factorsDiv").css({
+            "max-height": "none",
+            "overflow": "visible"
+        });
+
+        $('#factorsDiv').printThis({
+            debug: false,
+            importCSS: true,
+            // loadCSS: "../../assets/css/print.css",
+        });
+
+        setTimeout(function() {
+        $("#factorsDiv").css({
+                "max-height": "",
+                "overflow-y": "scroll"
+            });
+        }, 2000);
+    });
+
+    // چاپ لیست کالا ها
+    $('#kalaListPrint').on("click", function () {
+        $("#goodsDiv").css({
+            "max-height": "none",
+            "overflow": "visible"
+        });
+
+        $('#goodsDiv').printThis({
+          debug: false,
+          importCSS: true,
+        }).css({
+            "max-height": "",
+            "overflow": ""
+        })
+
+        setTimeout(function() {
+           $("#factorsDiv").css({
+                "max-height": "",
+                "overflow-y": "scroll"
+            });
+        }, 2000);
+    });
+
+    // چاپ فاکتور ها و لیست کالا ها
+    $('#factorAndKalaList').on("click", function () {
+        $("#factorsDiv, #goodsDiv").css({
+            "overflow": "visible",
+        });
+
+        $('#factorsDiv').printThis({
+            importCSS: false,
+            debug: false,
+            importCSS: true,
+        });
+
+        setTimeout(() => {
+            $('#goodsDiv').printThis({
+                importCSS: false,
+                debug: false,
+                importCSS: true,
+        }, 2000);
+      });
+    });
+    
+});
+
+    window.onload = function() {
+        makeTableColumnsResizable("factorTable");
+    }
+</script>
+
 @endsection

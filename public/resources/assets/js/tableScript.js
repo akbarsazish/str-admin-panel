@@ -1,39 +1,45 @@
-document.addEventListener('DOMContentLoaded', () => {
 
-    const resizableTable = document.querySelector('.resizeAbleTable');
-    const resizableThs = resizableTable.querySelectorAll('.resizable');
+// ResizableTable.js
+window.makeTableColumnsResizable = function(tableId) {
 
-    resizableThs.forEach(th => {
-    const resizeHandle = document.createElement('div');
-    resizeHandle.classList.add('resize-handle');
-    th.appendChild(resizeHandle);
-
+  const resizableThs = document.querySelectorAll(`#${tableId} th`);
+  resizableThs.forEach((th) => {
+    const columnId = th.id;
+    const columnClass = `.${columnId}`;
     let startX;
     let startWidth;
 
-    resizeHandle.addEventListener('mousedown', (event) => {
-        startX = event.pageX;
-        startWidth = th.offsetWidth;
+    // Set the initial width for both <th> and <td>
+    const initialWidth = th.offsetWidth + 'px';
+    th.style.width = initialWidth;
 
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        });
+    const associatedTds = document.querySelectorAll(columnClass);
+    associatedTds.forEach((td) => {
+      td.style.width = initialWidth;
     });
 
-    function onMouseMove(event) {
-        const width = startWidth + (event.pageX - startX);
-        th.style.width = `${width}px`;
+    th.addEventListener('mousedown', (e) => {
+      startX = e.pageX;
+      startWidth = th.offsetWidth;
 
-        // Set the corresponding td's width
-        const columnIndex = Array.from(th.parentElement.children).indexOf(th);
-        const tds = Array.from(resizableTable.querySelectorAll(`td:nth-child(${columnIndex + 1})`));
-        tds.forEach(td => {
-        td.style.width = `${width}px`;
+      document.addEventListener('mousemove', handleMouseMove);
+      const isRTL = document.documentElement.dir === 'rtl';
+
+      function handleMouseMove(e) {
+        const offset = isRTL ? startX - e.pageX : e.pageX - startX;
+        const newWidth = startWidth - offset;
+        th.style.width = newWidth + 'px';
+
+        associatedTds.forEach((td) => {
+          td.style.width = newWidth + 'px';
         });
-    }
-    });
+      }
 
-});
+      document.addEventListener('mouseup', () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+      });
+    });
+  });
+}
 
 

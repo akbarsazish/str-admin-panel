@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.26:8080";
+    var baseUrl = "http://192.168.10.21:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,snGetAndPay){
         $("tr").removeClass("selected");
@@ -6,22 +6,23 @@
         $.get(baseUrl+"/getGetAndPayBYS",{snGetAndPay:snGetAndPay},function(respond,status){
             $("#receiveListBodyBYS").empty();
             respond.forEach((element,index) => {
-                $("#receiveListBodyBYS").append(` <tr>
-                                    <td> ${(index+1)} </td>
-                                    <td> ${element.docTypeName} </td>
-                                    <td> ${element.ChequeRecNo} </td>
-                                    <td> ${element.bankDesc} </td>
-                                    <td> ${parseInt(element.Price).toLocaleString("en-us")} </td>
-                                    <td> ${element.ChequeNo} </td>
-                                    <td> ${element.ChequeDate} </td>
-                                    <td> ${element.SnBank} </td>
-                                    <td> ${element.Branch} </td>
-                                    <td> ${element.AccBankno} </td>
-                                    <td> ${element.Owner} </td>
-                                    <td> ${element.DocDescBYS} </td>
-                                    <td> ${element.NoSayyadi} </td>
-                                    <td> ${element.NameSabtShode} </td>
-                                </tr>`);
+                $("#receiveListBodyBYS").append(`
+                   <tr>
+                    <td> ${(index+1)} </td>
+                    <td> ${element.docTypeName} </td>
+                    <td> ${element.ChequeRecNo} </td>
+                    <td> ${element.bankDesc} </td>
+                    <td> ${parseInt(element.Price).toLocaleString("en-us")} </td>
+                    <td> ${element.ChequeNo} </td>
+                    <td> ${element.ChequeDate} </td>
+                    <td> ${element.SnBank} </td>
+                    <td> ${element.Branch} </td>
+                    <td> ${element.AccBankno} </td>
+                    <td> ${element.Owner} </td>
+                    <td> ${element.DocDescBYS} </td>
+                    <td> ${element.NoSayyadi} </td>
+                    <td> ${element.NameSabtShode} </td>
+                </tr>`);
             });
         })
     }

@@ -18,6 +18,7 @@
   display:none;
 }
 
+
 </style>
 
 <div class="container-fluid containerDiv">
@@ -93,29 +94,28 @@
                 </div>
 
                 <div class="row mainContent">
-                  <table class='table table-hover table-bordered table-sm table-light' id='myTable'>
-                    <thead class="table bg-success text-white tableHeader">
-                      <tr>
-                        <th>ردیف</th>
-                        <th>سطر</th>
-                        <th>اولویت</th>
-                        <th>فعال</th>
-                        <th>انتخاب</th>
+                  <table class="table table-bordered resizableTable" id="myTable">
+                    <thead class="tableHeader">
+                     <tr>
+                        <th id="col1">ردیف</th>
+                        <th id="col2">سطر</th>
+                        <th id="col3">اولویت</th>
+                        <th id="col4">فعال</th>
+                        <th id="col5">انتخاب</th>
                       </tr>
                     </thead>
-                    <tbody class="tableBody" id="ctlMainPBody" style="height: calc(100vh - 200px);">
+                    <tbody>
                       @foreach ($parts as $part)
-                        <tr onclick="setMainPartStuff(this,{{$part->id}})" class="selected">
-                          <td  style="">{{ $loop->index+1 }}</td>
-                          <td >{{ $part->title }}</td>
-                          <td>@if($part->partType==3 or $part->partType==4)@else {{ $part->priority-2 }} @endif</td>
-                          <td>@if($part->partType==3)@else <input class='form-check-input' type='checkbox' disabled value='' id='flexCheck' @if($part->activeOrNot == 1 ) checked @endif /> @endif</td>
-                          <td><input type="radio" value="{{ $part->id . '_' . $part->priority . '_' . $part->partType. '_' . $part->title }}" class="mainGroups form-check-input" name="partId"></td>
+                        <tr onclick="setMainPartStuff(this,{{$part->id}})">
+                          <td class="col1"> {{ $loop->index+1 }}</td>
+                          <td class="col2">  {{ $part->title }} </td>
+                          <td class="col3">  @if($part->partType==3 or $part->partType==4)@else {{ $part->priority-2 }} @endif</td>
+                          <td class="col4">  @if($part->partType==3)@else <input class='form-check-input' type='checkbox' disabled value='' id='flexCheck' @if($part->activeOrNot == 1 ) checked @endif /> @endif</td>
+                          <td class="col5">  <input type="radio" value="{{ $part->id . '_' . $part->priority . '_' . $part->partType. '_' . $part->title }}" class="mainGroups form-check-input" name="partId"></td>
                         </tr>
                       @endforeach
                     </tbody>
                   </table>
-                  
                 <!-- تنظیمات اختصاصی  -->
             <div class='mb-2 specialSettings tab-design'>
                <div class="container-fluid px-1">
@@ -2120,8 +2120,5 @@ $("#secondOption").on("change",()=>{
 	     	$("#editLotteryPrizes").modal("show");
 	});
   </script>
-
-
-
   
 @endsection

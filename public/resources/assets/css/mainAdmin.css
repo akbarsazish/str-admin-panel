@@ -4,8 +4,9 @@
 
 body {
     background: #fff;
+    direction: rtl;
   }
-  
+ 
 .top-head,
 .top-head form {
     display: flex;
@@ -27,8 +28,8 @@ body {
 }
 
 .top-head>div {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .top-head .logo {
@@ -4187,13 +4188,7 @@ span.full-address {
     border-radius: 15px;
   }
 
-/* table styles */
-.resizableTable {
-    overflow-y: scroll !important;
-    display: block;
-    font-size: 14px;
-    padding: 0px;
-}
+
 
 .tableHeader {
     position: sticky !important;
@@ -4219,6 +4214,14 @@ th {
 
 th:hover {
   background-color: #43bfa3;
+}
+
+/* table styles */
+.resizableTable {
+    overflow-y: scroll !important;
+    display: block;
+    font-size: 14px;
+    padding: 0px;
 }
 
 .resizableTable td {
@@ -4572,33 +4575,9 @@ input:focus::placeholder {
 .box-check {
     padding: 5px !important;
 }
-.resizableTable {
-    overflow-y: scroll !important;
-    display: block;
-    font-size: 14px;
-    padding: 0px;
-}
 
-.resizableTable td {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-.resizableTable::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  cursor: pointer;
-}
-  
-.resizableTable::-webkit-scrollbar-track {
-  background: #fff;
-}
 
-.resizableTable::-webkit-scrollbar-thumb {
-  background: green; 
-  border-radius: 3px;
-}
 .prizeSettingTab {
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -4910,4 +4889,41 @@ table tfoot{display:none;}
 
 .td-inputFactEdit {
     width: 100%;
+}
+
+.bargeri-total-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.bargeri-total-item {
+  background-color: #9ad5be;
+  color: #000;
+  font-size: 1rem;
+  margin: 2px;
+  padding: 3px;
+  border-radius: 4px;
+}
+
+.bargeri-total-item span {
+    font-size: 14px;
+}
+
+.checkboxStyle {
+  float: right !important;
+  margin-left: 0.4rem !important;
+  display: inline !important;
+}
+
+.checkboxLabelStyl {
+  display: inline !important;
+}
+
+.form-check-inline {
+  margin-right: 0px !important;
+}
+
+/* pardakht style */
+.pardakht-btn {
+    font-size: 0.8rem;
 }

@@ -24,6 +24,7 @@ use App\Http\Controllers\Bank;
 use App\Http\Controllers\Masir;
 use App\Http\Controllers\Bargiri;
 use App\Http\Controllers\Box;
+use App\Http\Controllers\Payment;
 use App\Http\Controllers\Infors;
 Route::get('/messages',[Message::class,'messages'])->middleware('checkAdmin');
 Route::get('/getTakhfifCode',[TakhfifCode::class,'index'])->middleware('checkAdmin');
@@ -371,3 +372,5 @@ Route::get('/getFactorInfoBySnFactor', [Factor::class, 'getFactorInfoBySnFactor'
 Route::get('/getAllShobeBanks', [Bank::class, 'getAllShobeBanks'])->middleware("checkAdmin");
 Route::get('/getSandoghs', [Box::class, 'getSandoghs'])->middleware("checkAdmin");
 Route::post('/addDaryaft', [Box::class, 'addDaryaft'])->middleware("checkAdmin");
+
+Route::get("/pays",[Payment::class,'index'])->middleware("checkAdmin");

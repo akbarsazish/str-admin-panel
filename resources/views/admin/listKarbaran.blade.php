@@ -71,14 +71,14 @@
 					</div>
                 </div>
                 <div class="row mainContent">
-                    <table class="table table-bordered table-striped table-sm">
+                    <table class="table table-bordered table-striped table-sm" id="resizeAbleTable" data-resizable-columns-id="demo-table-v2">
                         <thead class="tableHeader">
                             <tr>
-                                <th>ردیف</th>
-                                <th>اسم</th>
-                                <th>فامیلی </th>
-                                <th>فعال </th>
-                                <th>انتخاب </th>
+                                <th  data-resizable-column-id="radif">ردیف</th>
+                                <th data-resizable-column-id="name">اسم</th>
+                                <th data-resizable-column-id="family">فامیلی </th>
+                                <th data-resizable-column-id="active">فعال </th>
+                                <th data-resizable-column-id="radif">انتخاب </th>
                             </tr>
                         </thead>
                         <tbody class="tableBody">
