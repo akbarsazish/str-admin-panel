@@ -1,5 +1,5 @@
 
-var baseUrl = "http://192.168.10.21:8080";
+var baseUrl = "http://192.168.10.21:8000";
 
 
 function openBargiriModal(){

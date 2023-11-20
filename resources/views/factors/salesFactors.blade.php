@@ -259,6 +259,7 @@
                     <div class="bargeri-total-item">  مبلغ دریافتی :  <span id="factorMoneyRecieved"> {{number_format($factors[0]->allPayed)}} </span> </div>
                     <div class="bargeri-total-item">  مبلغ باقی مانده  : <span id="factorMoneyRemained"> {{number_format($factors[0]->allMoneyHDS - $factors[0]->allPayed)}} </span>  </div>
                 </div>
+
                 <table class="resizableTable table table-hover table-bordered table-sm thNowrap" id="factorTableDetails" style="height:200px">
                     <thead class="tableHeader">
                         <tr>
@@ -296,7 +297,6 @@
     </div>
 </div>
 </div>
-
 
 <div class="modal" tabindex="-1" id="bargiriModal">
     <div class="modal-dialog modal-fullscreen">
@@ -1174,38 +1174,38 @@
                         </div>
 
                         <div class="row">
-                            <table class="table table-striped table-bordered table-sm factorTable">
-                                <thead class="bg-success">
-                                    <tr class="bg-success factorTableHeadTr">
-                                        <th id="addFactorTd-1"> ردیف </th>
-                                        <th id="addFactorTd-2"> کد کالا </th>
-                                        <th id="addFactorTd-3"> نام کالا </th>
-                                        <th id="addFactorTd-4"> واحد کالا </th>
-                                        <th id="addFactorTd-5"> بسته بندی </th>
-                                        <th id="addFactorTd-6"> مقدار کل </th>
-                                        <th id="addFactorTd-7"> مقدار جز </th>
-                                        <th id="addFactorTd-8"> مقدار اولیه </th>
-                                        <th id="addFactorTd-9"> مقدار برگشتی </th>
-                                        <th id="addFactorTd-10"> مقدار کالا </th>
-                                        <th id="addFactorTd-11"> نرخ واحد </th>
-                                        <th id="addFactorTd-12"> نرخ بسته </th>
-                                        <th id="addFactorTd-13"> مبلغ </th>
-                                        <th id="addFactorTd-14"> مبلغ بعد از تخفیف </th>
-                                        <th id="addFactorTd-15"> شماره سفارش </th>
-                                        <th id="addFactorTd-16"> تاریخ سفارش </th>
-                                        <th id="addFactorTd-17"> شرح کالا </th>
-                                        <th id="addFactorTd-18"> انبار </th>
-                                        <th id="addFactorTd-19"> مالیات بر ارزش افزوده </th>
-                                        <th id="addFactorTd-20"> وزن واحد </th>
-                                        <th id="addFactorTd-21"> وزن کل </th>
-                                        <th id="addFactorTd-22"> In Srvice </th>
-                                        <th id="addFactorTd-23"> درصد مالیات </th>
+                            <table class="resizableTable table table-striped table-bordered table-sm" id="addFactorTable">
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th style="width:55px" id="addFactorTd-1"> ردیف </th>
+                                        <th style="width:66px" id="addFactorTd-2"> کد کالا </th>
+                                        <th style="width:111px" id="addFactorTd-3"> نام کالا </th>
+                                        <th style="width:111px" id="addFactorTd-4"> واحد کالا </th>
+                                        <th style="width:111px" id="addFactorTd-5"> بسته بندی </th>
+                                        <th style="width:111px" id="addFactorTd-6"> مقدار کل </th>
+                                        <th style="width:111px" id="addFactorTd-7"> مقدار جز </th>
+                                        <th style="width:111px" id="addFactorTd-8"> مقدار اولیه </th>
+                                        <th style="width:111px" id="addFactorTd-9"> مقدار برگشتی </th>
+                                        <th style="width:111px" id="addFactorTd-10"> مقدار کالا </th>
+                                        <th style="width:111px" id="addFactorTd-11"> نرخ واحد </th>
+                                        <th style="width:111px" id="addFactorTd-12"> نرخ بسته </th>
+                                        <th style="width:111px" id="addFactorTd-13"> مبلغ </th>
+                                        <th style="width:166px" id="addFactorTd-14"> مبلغ بعد از تخفیف </th>
+                                        <th style="width:111px" id="addFactorTd-15"> شماره سفارش </th>
+                                        <th style="width:111px" id="addFactorTd-16"> تاریخ سفارش </th>
+                                        <th style="width:111px" id="addFactorTd-17"> شرح کالا </th>
+                                        <th style="width:111px" id="addFactorTd-18"> انبار </th>
+                                        <th style="width:199px" id="addFactorTd-19"> مالیات بر ارزش افزوده </th>
+                                        <th style="width:111px" id="addFactorTd-20"> وزن واحد </th>
+                                        <th style="width:111px" id="addFactorTd-21"> وزن کل </th>
+                                        <th style="width:111px" id="addFactorTd-22"> In Srvice </th>
+                                        <th style="width:111px" id="addFactorTd-23"> درصد مالیات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="factorAddListBody">
                                     <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                                        <td class="addFactorTd-1"> </td>
-                                        <td class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+                                        <td style="width:55px" class="addFactorTd-1"> </td>
+                                        <td style="width:66px" class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
                                         <td class="addFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
                                         <td class="addFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
                                         <td class="addFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
@@ -1217,12 +1217,12 @@
                                         <td class="addFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
                                         <td class="addFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
                                         <td class="addFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
-                                        <td class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+                                        <td style="width:166px"  class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
                                         <td class="addFactorTd-15"> <input type="text" value="" class="td-input td-inputSefarishNumAdd form-control"> </td>
                                         <td class="addFactorTd-16"> <input type="text" value="" class="td-input td-inputSefarishDateAdd form-control"> </td>
                                         <td class="addFactorTd-17"> <input type="text" value="" class="td-input td-inputSefarishDescAdd form-control"> </td>
                                         <td class="addFactorTd-18"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
-                                        <td class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+                                        <td style="width:199px" class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
                                         <td class="addFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
                                         <td class="addFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
                                         <td class="addFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
@@ -1243,8 +1243,8 @@
                             <div class="col-lg-4 col-md-4" style="background-color:#e0e0e0; boarder-radius:6px; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-5">
-                                        <button type="button" class="btn btn-sm btGroup btn-success deletOrderButton" id="deleteFactorItemBtnAdd"> حذف کالا <i class="fa fa-xmark"></i> </button>
-                                        <button type="button" class="btn btn-sm btGroup btn-success mb-3" onclick="showAmelModalFAdd()"> هزینه ها  <i class="fa fa-list"></i> </button> <br>
+                                        <button type="button" class="btn btn-sm btn-success d-block deletOrderButton" id="deleteFactorItemBtnAdd"> حذف کالا <i class="fa fa-xmark"></i> </button> <br>
+                                        <button type="button" class="btn btn-sm btn-success d-block mb-3" onclick="showAmelModalFAdd()"> هزینه ها  <i class="fa fa-list"></i> </button> <br>
                                         <span class="sumRow mt-4"> وزن     :  </span> <br>
                                         <span class="sumRow">  حجم  :  </span><br><br>
                                     </div>
@@ -1896,22 +1896,22 @@
   <div class="modal" tabindex="-1" id="customerGardishModal" data-backdrop="static">
     <div class="modal-dialog  modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <button class="btn btn-sm btn-danger m-2" id="closeCustomerGardishModalBtn"> <i class="fa fa-times"></i></button>
+            <div class="modal-header bg-info py-2">
+                <button class="btn btn-sm btn-danger" id="closeCustomerGardishModalBtn"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> گردش مشتری </h5>
             </div>
             <div class="modal-body">
                 <div class="text-end"></div>
-                <table class="table table-striped table-bordered table-sm factorTable">
-                    <thead>
-                        <tr  class="bg-success factorTableHeadTr">
-                            <th> تاریخ </th>
-                            <th> شرح عملیات </th>
-                            <th> تسویه با </th>
-                            <th> بستانکار </th>
-                            <th> بدهکار </th>
-                            <th> وضعیت </th>
-                            <th> مانده </th>
+                <table class="resizableTable table table-striped table-bordered table-sm" style="height:calc(100vh - 266px)" id="customerCirculationTable">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th id="customerCirculation-1"> تاریخ </th>
+                            <th id="customerCirculation-2"> شرح عملیات </th>
+                            <th id="customerCirculation-3"> تسویه با </th>
+                            <th id="customerCirculation-4"> بستانکار </th>
+                            <th id="customerCirculation-5"> بدهکار </th>
+                            <th id="customerCirculation-6"> وضعیت </th>
+                            <th id="customerCirculation-7"> مانده </th>
                         </tr>
                     </thead>
                     <tbody id="customerGardishListBody">
@@ -1935,29 +1935,29 @@
 <div class="modal" tabindex="-1" id="kalaGardishModal" data-backdrop="static">
     <div class="modal-dialog  modal-xl">
         <div class="modal-content">
-            <div class="modal-header bg-info">
-                <button class="btn btn-sm btn-danger m-2" onclick="closeGardishKalaModal()"> <i class="fa fa-times"></i></button>
+             <div class="modal-header bg-info py-2">
+                <button class="btn btn-sm btn-danger" onclick="closeGardishKalaModal()"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> گردش کالا </h5>
             </div>
             <div class="modal-body">
-                <table class="table table-striped table-bordered table-sm factorTable">
-                    <thead>
-                        <tr  class="bg-success factorTableHeadTr">
-                            <th> ردیف </th>
-                            <th> تاریخ </th>
-                            <th> شرح </th>
-                            <th> شماره </th>
-                            <th> صادره </th>
-                            <th> وارده </th>
-                            <th> موجودی </th>
-                            <th> انبار </th>
-                            <th> نام طرف حساب </th>
-                            <th> بسته بندی </th>
-                            <th> نرخ خرید/فروش </th>
-                            <th> کاربر </th>
-                            <th> زمان ثبت </th>
-                            <th> SerialNoBYS </th>
-                            <th> SerialNoHDS </th>
+                <table class="resizableTable table table-striped table-bordered table-sm" id="addFactorGardishKalaTable" style="height:calc(100vh - 266px)">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th id="addGardish-1"> ردیف </th>
+                            <th id="addGardish-2"> تاریخ </th>
+                            <th id="addGardish-3"> شرح </th>
+                            <th id="addGardish-4"> شماره </th>
+                            <th id="addGardish-5"> صادره </th>
+                            <th id="addGardish-6"> وارده </th>
+                            <th id="addGardish-7"> موجودی </th>
+                            <th id="addGardish-8"> انبار </th>
+                            <th id="addGardish-9"> نام طرف حساب </th>
+                            <th id="addGardish-10"> بسته بندی </th>
+                            <th id="addGardish-11"> نرخ خرید/فروش </th>
+                            <th id="addGardish-12"> کاربر </th>
+                            <th id="addGardish-13"> زمان ثبت </th>
+                            <th id="addGardish-14"> SerialNoBYS </th>
+                            <th id="addGardish-15"> SerialNoHDS </th>
                         </tr>
                     </thead>
                     <tbody id="kalaGardishListBody">
@@ -1971,25 +1971,25 @@
 <div class="modal" tabindex="-1" id="lastTenBuysModal" data-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-            <button class="btn btn-sm btn-danger m-2"  onclick="closeLastTenBuyModal()"> <i class="fa fa-times"></i></button>
+        <div class="modal-header py-2 bg-info">
+            <button class="btn btn-sm btn-danger"  onclick="closeLastTenBuyModal()"> <i class="fa fa-times"></i></button>
           <h5 class="modal-title"> ده خرید آخر </h5>
         </div>
         <div class="modal-body">
           <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-striped table-bordered table-sm factorTable">
-                        <thead>
-                            <tr class="bg-success factorTableHeadTr">
-                                <th> ردیف </th>
-                                <th> تاریخ </th>
-                                <th> شماره فاکتور </th>
-                                <th> فروشنده </th>
-                                <th> مقدار کالا </th>
-                                <th> نرخ (ریال) </th>
-                                <th> % </th>
-                                <th> توضحیات </th>
+                    <table class="resizableTabletable table-striped table-bordered table-sm" style="height:calc(100vh - 222px)">
+                        <thead class="tableHeader">
+                            <tr>
+                                <th id="tenLasthBuy-1"> ردیف </th>
+                                <th id="tenLasthBuy-2"> تاریخ </th>
+                                <th id="tenLasthBuy-3"> شماره فاکتور </th>
+                                <th id="tenLasthBuy-4"> فروشنده </th>
+                                <th id="tenLasthBuy-5"> مقدار کالا </th>
+                                <th id="tenLasthBuy-6"> نرخ (ریال) </th>
+                                <th id="tenLasthBuy-7"> % </th>
+                                <th id="tenLasthBuy-8"> توضحیات </th>
                             </tr>
                         </thead>
                         <tbody id="lastTenBuysListBody">
@@ -2026,21 +2026,21 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table class="table table-striped table-bordered table-sm factorTable">
-                                <thead>
-                                    <tr class="bg-success factorTableHeadTr">
-                                        <th> ردیف </th>
-                                        <th> تاریخ </th>
-                                        <th> شماره فاکتور </th>
-                                        <th> مشتری </th>
-                                        <th> مقدار کالا </th>
-                                        <th> نرخ (ریال) </th>
-                                        <th> % </th>
-                                        <th> توضحیات </th>
+                            <table class="resizableTabletable table-striped table-bordered table-sm" style="height:calc(100vh - 222px)" id="tenLastBuy">
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th id="tenLastBuy-1"> ردیف </th>
+                                        <th id="tenLastBuy-2"> تاریخ </th>
+                                        <th id="tenLastBuy-3"> شماره فاکتور </th>
+                                        <th id="tenLastBuy-4"> مشتری </th>
+                                        <th id="tenLastBuy-5"> مقدار کالا </th>
+                                        <th id="tenLastBuy-6"> نرخ (ریال) </th>
+                                        <th id="tenLastBuy-7"> % </th>
+                                        <th id="tenLastBuy-8"> توضحیات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="lastTenSalesListBody">
-                                    <tr class="factorTablRow">
+                                    <tr>
                                         <td>  </td>
                                         <td>  </td>
                                         <td>  </td>
@@ -2065,7 +2065,7 @@
 <div class="modal" tabindex="-1" id="unSentOrdersModal" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info py-2">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeUnsentOrderModal()"> <i class="fa fa-times"></i> </button>
                 <h5 class="modal-title"> سفارش ارسال نشده </h5>
             </div>
@@ -2073,22 +2073,22 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table class="table table-striped table-bordered table-sm factorTable">
-                                <thead>
-                                    <tr class="bg-success factorTableHeadTr">
-                                        <th> ردیف </th>
-                                        <th> شماره </th>
-                                        <th> تاریخ  </th>
-                                        <th> کد مشتری </th>
-                                        <th>  نام مشتری </th>
-                                        <th> کد کالا </th>
-                                        <th> نام کالا </th>
-                                        <th> واحد کالا </th>
-                                        <th> مقدار سفارش </th>
+                            <table class="resizableTabletable table-striped table-bordered table-sm" style="height:calc(100vh - 222px)" id="notSentOrderTable">
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th id="notSentOrder-1"> ردیف </th>
+                                        <th id="notSentOrder-2"> شماره </th>
+                                        <th id="notSentOrder-3"> تاریخ  </th>
+                                        <th id="notSentOrder-4"> کد مشتری </th>
+                                        <th id="notSentOrder-5">  نام مشتری </th>
+                                        <th id="notSentOrder-6"> کد کالا </th>
+                                        <th id="notSentOrder-7"> نام کالا </th>
+                                        <th id="notSentOrder-8"> واحد کالا </th>
+                                        <th id="notSentOrder-9"> مقدار سفارش </th>
                                     </tr>
                                 </thead>
                                 <tbody id="unSentOrdersListBody">
-                                    <tr class="factorTablRow">
+                                    <tr>
                                         <td>  </td>
                                         <td>  </td>
                                         <td>  </td>

@@ -74,7 +74,7 @@
                     <table class="table table-bordered table-striped table-sm" id="resizeAbleTable" data-resizable-columns-id="demo-table-v2">
                         <thead class="tableHeader">
                             <tr>
-                                <th  data-resizable-column-id="radif">ردیف</th>
+                                <th data-resizable-column-id="radif">ردیف</th>
                                 <th data-resizable-column-id="name">اسم</th>
                                 <th data-resizable-column-id="family">فامیلی </th>
                                 <th data-resizable-column-id="active">فعال </th>
