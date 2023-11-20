@@ -18,23 +18,25 @@ $.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
     let i=0;
     for (let element of respond) {
         i=i+1;
-        $("#FactorDetailBody").append(`<tr>
-        <td> ${i} </td>
-        <td> ${element.GoodCode}</td>
-        <td style="width:160px;"> ${element.GoodName} </td>
-        <td> ${element.FirstUnit} </td>
-        <td> ${element.SecondUnit} </td>
-        <td> ${parseInt(element.PackAmnt||0).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.Amount).toLocaleString("en-us")} </td>
-        <td>  ${parseInt(element.CalcTakhfif).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.Fi).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.FiPack).toLocaleString("en-us")}</td>
-        <td> ${parseInt(element.Price).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.CalcTakhfif).toLocaleString("en-us")} </td>
-        <td> ${element.DescRecord} </td>
-        <td> وضعیت بارگیری </td>
-        <td> بار میکروبی </td>
+        $("#FactorDetailBody").append(`
+        <tr>
+            <td class="facTbleDetails-1"> ${i} </td>
+            <td class="facTbleDetails-2"> ${element.GoodCode}</td>
+            <td class="facTbleDetails-3" style="width:160px;"> ${element.GoodName} </td>
+            <td class="facTbleDetails-4"> ${element.FirstUnit} </td>
+            <td class="facTbleDetails-5"> ${element.SecondUnit} </td>
+            <td class="facTbleDetails-6"> ${parseInt(element.PackAmnt||0).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-7"> ${parseInt(element.Amount).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-8">  ${parseInt(element.CalcTakhfif).toLocaleString("en-us")}  </td>
+            <td class="facTbleDetails-9"> ${parseInt(element.Fi).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-10"> ${parseInt(element.FiPack).toLocaleString("en-us")}</td>
+            <td class="facTbleDetails-11"> ${parseInt(element.Price).toLocaleString("en-us")}  </td>
+            <td class="facTbleDetails-12"> ${parseInt(element.CalcTakhfif).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-13"> ${element.DescRecord} </td>
+            <td class="facTbleDetails-14"> وضعیت بارگیری </td>
+            <td class="facTbleDetails-15"> بار میکروبی </td>
        </tr>`);
+      makeTableColumnsResizable("factorTableDetails")
     }
 })
 }
@@ -141,34 +143,35 @@ function factorHistory(historyWord) {
                 }
                 $("#factorListBody").append(`
                     <tr style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
-                        <td> ${index+1} </td>
-                        <td> ${element.FactNo} </td>
-                        <td> ${element.FactDate} </td>
-                        <td> ${element.FactDesc} </td>
-                        <td> ${element.PCode} </td>
-                        <td> ${element.Name} </td>
-                        <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
-                        <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
-                        <td> ${element.setterName} </td>
-                        <td> حضوری </td>
-                        <td> </td>
-                        <td> ${element.stockName} </td>
-                        <td> ${element.CountPrint} </td>
-                        <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
-                        <td> ${bargiriyState} </td>
-                        <td> ${element.takhfif} </td>
-                        <td>  </td>
-                        <td> ${element.DateEelamBeAnbar} </td>
-                        <td> ${element.TimeEelamBeAnbar} </td>
-                        <td> ${element.DateBargiri} </td>
-                        <td> ${element.TimeBargiri} </td>
-                        <td> ${element.BarNameNo} </td>
-                        <td> ${element.FactTime} </td>
-                        <td> خیر </td>
-                        <td> ${(element.bargiriNo||"")} </td>
-                        <td> ${(element.driverTahvilDate || "")} </td>
-                        <td> ${(element.driverName || "")} </td>
+                        <td class="factorTbl-1"> ${index+1} </td>
+                        <td class="factorTbl-2"> ${element.FactNo} </td>
+                        <td class="factorTbl-3"> ${element.FactDate} </td>
+                        <td class="factorTbl-4"> ${element.FactDesc} </td>
+                        <td class="factorTbl-5"> ${element.PCode} </td>
+                        <td class="factorTbl-6"> ${element.Name} </td>
+                        <td class="factorTbl-7"> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-8"> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-9"> ${element.setterName} </td>
+                        <td class="factorTbl-10"> حضوری </td>
+                        <td class="factorTbl-11"> </td>
+                        <td class="factorTbl-12"> ${element.stockName} </td>
+                        <td class="factorTbl-13"> ${element.CountPrint} </td>
+                        <td class="factorTbl-14"> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-15"> ${bargiriyState} </td>
+                        <td class="factorTbl-16"> ${element.takhfif} </td>
+                        <td class="factorTbl-17">  </td>
+                        <td class="factorTbl-18"> ${element.DateEelamBeAnbar} </td>
+                        <td class="factorTbl-19"> ${element.TimeEelamBeAnbar} </td>
+                        <td class="factorTbl-20"> ${element.DateBargiri} </td>
+                        <td class="factorTbl-21"> ${element.TimeBargiri} </td>
+                        <td class="factorTbl-22"> ${element.BarNameNo} </td>
+                        <td class="factorTbl-23"> ${element.FactTime} </td>
+                        <td class="factorTbl-24"> خیر </td>
+                        <td class="factorTbl-25"> ${(element.bargiriNo||"")} </td>
+                        <td class="factorTbl-26"> ${(element.driverTahvilDate || "")} </td>
+                        <td class="factorTbl-27"> ${(element.driverName || "")} </td>
                     </tr>`);
+                    makeTableColumnsResizable("factorTable");
             });
     })
 }
@@ -367,7 +370,6 @@ function openEditFactorModal(snFactor){
                     </td>
                 </tr>
             `);
-           
         })
         $("#editFactorModal").modal("show");
         makeTableColumnsResizable("factorEidtTable")
@@ -4327,35 +4329,35 @@ function factorHistoryRBuy(historyWord) {
                 payedAmount=element.payedMoney;
             }
             $("#factorRBListBody").append(`
-                                        <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
-                                            <td> ${index+1} </td>
-                                            <td> ${element.FactNo} </td>
-                                            <td> ${element.FactDate} </td>
-                                            <td> ${element.FactDesc} </td>
-                                            <td> ${element.PCode} </td>
-                                            <td> ${element.Name} </td>
-                                            <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
-                                            <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
-                                            <td> ${element.setterName} </td>
-                                            <td> حضوری </td>
-                                            <td> </td>
-                                            <td> ${element.stockName} </td>
-                                            <td> ${element.CountPrint} </td>
-                                            <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
-                                            <td> ${bargiriyState} </td>
-                                            <td> ${element.takhfif} </td>
-                                            <td>  </td>
-                                            <td> ${element.DateEelamBeAnbar} </td>
-                                            <td> ${element.TimeEelamBeAnbar} </td>
-                                            <td> ${element.DateBargiri} </td>
-                                            <td> ${element.TimeBargiri} </td>
-                                            <td> ${element.BarNameNo} </td>
-                                            <td> ${element.FactTime} </td>
-                                            <td> خیر </td>
-                                            <td> ${(element.bargiriNo||"")} </td>
-                                            <td> ${(element.driverTahvilDate || "")} </td>
-                                            <td> ${(element.driverName || "")} </td>
-                                        </tr>`);
+                    <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
+                        <td> ${index+1} </td>
+                        <td> ${element.FactNo} </td>
+                        <td> ${element.FactDate} </td>
+                        <td> ${element.FactDesc} </td>
+                        <td> ${element.PCode} </td>
+                        <td> ${element.Name} </td>
+                        <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                        <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                        <td> ${element.setterName} </td>
+                        <td> حضوری </td>
+                        <td> </td>
+                        <td> ${element.stockName} </td>
+                        <td> ${element.CountPrint} </td>
+                        <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                        <td> ${bargiriyState} </td>
+                        <td> ${element.takhfif} </td>
+                        <td>  </td>
+                        <td> ${element.DateEelamBeAnbar} </td>
+                        <td> ${element.TimeEelamBeAnbar} </td>
+                        <td> ${element.DateBargiri} </td>
+                        <td> ${element.TimeBargiri} </td>
+                        <td> ${element.BarNameNo} </td>
+                        <td> ${element.FactTime} </td>
+                        <td> خیر </td>
+                        <td> ${(element.bargiriNo||"")} </td>
+                        <td> ${(element.driverTahvilDate || "")} </td>
+                        <td> ${(element.driverName || "")} </td>
+                    </tr>`);
         });
     })
 }

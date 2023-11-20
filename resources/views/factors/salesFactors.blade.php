@@ -871,8 +871,9 @@
                                     <input type="text" class="form-control" name="NameEdit" id="NameEdit">
                                     <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorEdit').value)" class="btn btn-info text-warning">گردش حساب</button>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
+                             </div>
+
+                             <div class="col-lg-6">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
                                     <input type="text" class="form-control" name="bazaryabCodeEdit" id="bazaryabCodeEdit">
@@ -922,8 +923,8 @@
                                         </select>
                                     </div>
                                 </div>
+                              </div>
                              </div>
-                            </div>
                             </div>
 
                             <div class="col-lg-6">
@@ -937,24 +938,22 @@
                                     <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
                                     <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
                                 
-                                 <div class="border-2 rounded" style="background-color:#e0e0e0;">
-                                    <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
-                                    <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
-                                    <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
-                                    <span class="description"> آخرین قیمت فروش :  <b id="firstEditLastPrice">0</b> </span>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 px-0">
-                                <button type="submit" class="btn btn-sm d-inline btn-success"> ثبت </button>
-                                <button type="button" class="btn btn-sm d-inline btn-danger" onclick="cancelEditFactor()"> انصراف </button> <br> <br>
+                                   <div class="border-2 rounded" style="background-color:#e0e0e0;">
+                                      <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
+                                      <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
+                                      <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
+                                      <span class="description"> آخرین قیمت فروش :  <b id="firstEditLastPrice">0</b> </span>
+                                   </div>
+                                 </div>
+                                 <div class="col-lg-2 px-0">
+                                    <button type="submit" class="btn btn-sm d-inline btn-success"> ثبت </button>
+                                    <button type="button" class="btn btn-sm d-inline btn-danger" onclick="cancelEditFactor()"> انصراف </button> <br> <br>
  
-                                <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
-                                <label class="form-label fw-bold" style="font-size:12px"> کرایه دریافت شد </label>
-                            </div>
-                          </div>
-                        </div>
-
-                            <div class="d-none">
+                                   <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
+                                   <label class="form-label fw-bold" style="font-size:12px"> کرایه دریافت شد </label>
+                                 </div>
+                              </div>
+                              <div class="d-none">
                                 <input type="text" id="hamlMoneyFEdit" value="0" name="hamlMoneyFEdit">
                                 <input type="text" id="hamlDescFEdit" name="hamlDescFEdit">
                                 <input type="text" id="nasbMoneyFEdit" value="0"  name="nasbMoneyFEdit">
@@ -966,9 +965,11 @@
                                 <input type="text" id="tarabariMoneyFEdit" value="0"  name="tarabariMoneyFEdit">
                                 <input type="text" id="tarabariDescFEdit"  name="tarabariDescFEdit">
                             </div>
+                           </div>
                         </div>
+
                         <div class="row">
-                            <table class="resizableTable table table-striped table-bordered table-sm" id="factorEidtTable" >
+                            <table class="resizableTable table table-striped table-bordered table-sm" id="factorEidtTable" style="height:calc(100vh - 444px); overflow-y:auto">
                                 <thead class="tableHeader">
                                     <tr>
                                         <th style="width:55px" id="editFactorTd-1"> ردیف </th>
@@ -1038,6 +1039,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal" id="addFactorModal" tabindex="1" data-backdrop="static">
     <input type="hidden" id="factorRowTaker">
@@ -1179,6 +1181,7 @@
                             </div>
                           </div>
                         </div>
+                    </div>
 
                         <div class="row">
                             <table class="resizableTable table table-striped table-bordered table-sm" id="addFactorTable">
@@ -1774,9 +1777,9 @@
                     </div>
                 </div>
                 <div class="row">
-            <table class="table table-striped table-bordered table-sm factorTable">
-                <thead class="bg-success">
-                    <tr class="bg-success factorTableHeadTr">
+            <table class="table table-striped table-bordered table-sm">
+                <thead class="tableHeader">
+                    <tr>
                         <th> ردیف </th>
                         <th> کد کالا </th>
                         <th> نام کالا </th>
@@ -1976,7 +1979,7 @@
     </div>
 </div>
 <div class="modal" tabindex="-1" id="lastTenBuysModal" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header py-2 bg-info">
             <button class="btn btn-sm btn-danger"  onclick="closeLastTenBuyModal()"> <i class="fa fa-times"></i></button>
@@ -2022,11 +2025,12 @@
     </div>
   </div>
 
+
 <div class="modal" tabindex="-1" id="lastTenSalesModal" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="btn btn-sm btn-danger m-2" onclick="closeLastTenSalesModal()"> <i class="fa fa-times"></i></button>
+            <div class="modal-header py-2 bg-info">
+                <button class="btn btn-sm btn-danger" onclick="closeLastTenSalesModal()"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> ده فروش آخر </h5>
             </div>
             <div class="modal-body">
@@ -2070,7 +2074,7 @@
 </div>
 
 <div class="modal" tabindex="-1" id="unSentOrdersModal" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-info py-2">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeUnsentOrderModal()"> <i class="fa fa-times"></i> </button>
