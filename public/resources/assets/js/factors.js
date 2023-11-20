@@ -12,7 +12,7 @@ function getFactorOrders(element,factorSn){
         $("#editFactorButton").prop("disabled",false);
         $("#editFactorButton").val(factorSn);
     }
-    
+
 $.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
     $("#FactorDetailBody").empty();
     let i=0;
@@ -339,36 +339,38 @@ function openEditFactorModal(snFactor){
             }
             $("#factorEditListBody").append(`
                 <tr onclick="checkAddedKalaAmountOfFactor(this)">
-                    <td class="td-part-input"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
-                    <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeFEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
-                    <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}"  style="width:auto!important;" value="${element.NameGood}" class="td-input td-inputCodeNameFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorNumFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDateFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDescFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Fi2Weight${element.GoodSn}" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Amount2Weight${element.GoodSn}" value="${element.Amount2Weight}" class="td-input td-inputAllWeightFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatFEdit form-control" required> </td>
-                    <td class="td-part-input d-none"> 
+                    <td class="editFactorTd-1"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
+                    <td class="editFactorTd-2"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeFEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
+                    <td class="editFactorTd-3"> <input type="text" name="NameGood${element.GoodSn}"  style="width:auto!important;" value="${element.NameGood}" class="td-input td-inputCodeNameFEdit form-control" required> </td>
+                    <td class="editFactorTd-4"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-5"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-6"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-7"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-8"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-9"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-10"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-11"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-12"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-13"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-14"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control" required> </td>
+                    <td class="editFactorTd-15"> <input type="text" name="" value="0" class="td-input td-inputFactorNumFEdit form-control" required> </td>
+                    <td class="editFactorTd-16"> <input type="text" name="" value="0" class="td-input td-inputFactorDateFEdit form-control" required> </td>
+                    <td class="editFactorTd-17"> <input type="text" name="" value="0" class="td-input td-inputFactorDescFEdit form-control" required> </td>
+                    <td class="editFactorTd-18"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockFEdit form-control" required> </td>
+                    <td class="editFactorTd-19"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatFEdit form-control" required> </td>
+                    <td class="editFactorTd-20"> <input type="text" name="Fi2Weight${element.GoodSn}" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-21"> <input type="text" name="Amount2Weight${element.GoodSn}" value="${element.Amount2Weight}" class="td-input td-inputAllWeightFEdit form-control" required> </td>
+                    <td class="editFactorTd-22"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceFEdit form-control" required> </td>
+                    <td class="editFactorTd-23"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatFEdit form-control" required> </td>
+                    <td class="editFactorTd-24 d-none"> 
                         <input type="text" value="`+element.lastBuyFi+`" class="td-input form-control">
                     </td>
                 </tr>
             `);
+           
         })
         $("#editFactorModal").modal("show");
+        makeTableColumnsResizable("factorEidtTable")
     })
     
 }
@@ -3599,35 +3601,39 @@ $(document).keydown((event)=>{
                     if(isNaN(goodSn)){
                         return
                     }
-                    $("#factorEditListBody").append(`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                        <td class="td-part-input"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeFEdit form-control"> <input type="radio" style="display:none" value=""/> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorNumFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDateFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDescFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatFEdit form-control"> </td>
+                    $("#factorEditListBody").append(`
+                     <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
+                        <td class="editFactorTd-1"> </td>
+                        <td class="editFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeFEdit form-control"> <input type="radio" style="display:none" value=""/> </td>
+                        <td class="editFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameFEdit form-control"> </td>
+                        <td class="editFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-6"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-10"> <input type="text" value="" class="td-input  td-AllAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control"> </td>
+                        <td class="editFactorTd-15"> <input type="text" value="" class="td-input td-inputFactorNumFEdit form-control"> </td>
+                        <td class="editFactorTd-16> <input type="text" value="" class="td-input td-inputFactorDateFEdit form-control"> </td>
+                        <td class="editFactorTd-17"> <input type="text" value="" class="td-input td-inputFactorDescFEdit form-control"> </td>
+                        <td class="editFactorTd-18"> <input type="text" value="" class="td-input td-inputStockFEdit form-control"> </td>
+                        <td class="editFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatFEdit form-control"> </td>
+                        <td class="editFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightFEdit form-control"> </td>
+                        <td class="editFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceFEdit form-control"> </td>
+                        <td class="editFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatFEdit form-control"> </td>
                     </tr>`);
+
+                    makeTableColumnsResizable("factorEidtTable")
 
                 $("#factorEditListBody tr:last td:nth-child(2)").children('input').focus();
                 $("#factorEditListBody tr").removeClass("selected");
                 $("#factorEditListBody tr:last").addClass("selected");
+
                 }
                 break;
             case "factorAddListBody":

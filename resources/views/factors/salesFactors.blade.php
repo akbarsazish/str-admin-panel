@@ -834,7 +834,7 @@
     <input type="hidden" id="rowTaker">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
-            <div class="modal-header bg-info" >
+            <div class="modal-header bg-info py-2">
                 <h5 class="modal-title text-end"> اصلاح فاکتور </h5>
             </div>
             <div class="modal-body">
@@ -842,11 +842,12 @@
                     @csrf
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-lg-6">
+                              <div class="row">
+                              <div class="col-lg-6">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > شماره فاکتور </span>
                                     <input type="text"  name="FactNoEdit" id="FactNoEdit" class="form-control form-control-sm">
-                                    
                                 </div>
                                 <input type="text"  name="SerialNoHDSEdit" id="SerialNoHDSEdit" class="d-none">
                                 <div class="input-group input-group-sm mb-1 filterItems">
@@ -870,6 +871,8 @@
                                     <input type="text" class="form-control" name="NameEdit" id="NameEdit">
                                     <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorEdit').value)" class="btn btn-info text-warning">گردش حساب</button>
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" > بازاریاب </span>
                                     <input type="text" class="form-control" name="bazaryabCodeEdit" id="bazaryabCodeEdit">
@@ -919,34 +922,38 @@
                                         </select>
                                     </div>
                                 </div>
+                             </div>
                             </div>
-                            <div class="col-4">
-                                <div>
-                                <button type="button" class="btn btn-sm btn-success mb-2 text-warning" onclick="openKalaGardish()"> گردش کالا </button>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="row">
+                                 <div class="col-lg-10">
+                                   <button type="button" class="btn btn-sm btn-success mb-2 text-warning" onclick="openKalaGardish()"> گردش کالا </button>
                                     <button type="button" onclick="openCustomerGardishModal(document.querySelector('#customerForFactorEdit').value)" class="btn btn-sm btn-success mb-2 text-warning"> گردش شخص </button>
                                     {{-- <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح کالا </button>
                                     <button type="button" class="btn btn-sm btn-success mb-2 text-warning"> اصلاح شخص </button> --}}
                                     <button type="button" onclick="openLastTenBuysModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده خرید آخر </button>
                                     <button type="button" onclick="openLastTenSalesModal()" class="btn btn-sm btn-success mb-2 text-warning"> ده فروش آخر </button>
                                     <button type="button" onclick="openNotSentOrdersModal()" class="btn btn-sm btn-success mb-2 text-warning"> سفارشات ارسال نشده </button>
+                                
+                                 <div class="border-2 rounded" style="background-color:#e0e0e0;">
+                                    <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
+                                    <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
+                                    <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
+                                    <span class="description"> آخرین قیمت فروش :  <b id="firstEditLastPrice">0</b> </span>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="text-end">
-                                    <label class="form-label"> کرایه دریافت شد </label>
-                                    <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
-                                    <button type="submit" class="btn btn-sm btn-success text-warning mb-2"> ثبت </button>
-                                    <button type="button" onclick="cancelEditFactor()" class="btn btn-sm btn-danger  mb-2"> انصراف </button>
-                                </div>
-                                <div>
-                                    <div class="col-lg-12 border-2" style="background-color:#e0e0e0;">
-                                        <span class="description"> موجودی انبار : <b id="firstEditExistInStock">0</b></span> <br>
-                                        <span class="description">  قیمت فروش : <b id="firstEditPrice">0</b></span> <br>
-                                        <span class="description"> اخرین قیمت فروش به این مشتری : <b id="firstEditLastPriceCustomer">0</b></span> <br>
-                                        <span class="description"> آخرین قیمت فروش :  <b id="firstEditLastPrice">0</b> </span>
-                                    </div>
-                                </div>
+                            <div class="col-lg-2 px-0">
+                                <button type="submit" class="btn btn-sm d-inline btn-success"> ثبت </button>
+                                <button type="button" class="btn btn-sm d-inline btn-danger" onclick="cancelEditFactor()"> انصراف </button> <br>
+ 
+                                <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
+                                <label class="form-label fw-bold" style="font-size:12px"> کرایه دریافت شد </label>
                             </div>
+                          </div>
+                        </div>
+
                             <div class="d-none">
                                 <input type="text" id="hamlMoneyFEdit" value="0" name="hamlMoneyFEdit">
                                 <input type="text" id="hamlDescFEdit" name="hamlDescFEdit">
@@ -961,32 +968,32 @@
                             </div>
                         </div>
                         <div class="row">
-                            <table class="table table-striped table-bordered table-sm factorTable">
-                                <thead class="bg-success">
-                                    <tr class="bg-success factorTableHeadTr">
-                                        <th> ردیف </th>
-                                        <th> کد کالا </th>
-                                        <th> نام کالا </th>
-                                        <th> واحد کالا </th>
-                                        <th> بسته بندی </th>
-                                        <th> مقدار کل </th>
-                                        <th> مقدار جز </th>
-                                        <th> مقدار اولیه </th>
-                                        <th> مقدار برگشتی </th>
-                                        <th> مقدار کالا </th>
-                                        <th> نرخ واحد </th>
-                                        <th> نرخ بسته </th>
-                                        <th> مبلغ </th>
-                                        <th> مبلغ بعد از تخفیف </th>
-                                        <th> شماره سفارش </th>
-                                        <th> تاریخ سفارش </th>
-                                        <th> شرح کالا </th>
-                                        <th> انبار </th>
-                                        <th> مالیات بر ارزش افزوده </th>
-                                        <th> وزن واحد </th>
-                                        <th> وزن کل </th>
-                                        <th> In Srvice </th>
-                                        <th> درصد مالیات </th>
+                            <table class="resizableTable table table-striped table-bordered table-sm" id="factorEidtTable" >
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th style="width:55px" id="editFactorTd-1"> ردیف </th>
+                                        <th style="width:66px" id="editFactorTd-2"> کد کالا </th>
+                                        <th style="width:111px" id="editFactorTd-3"> نام کالا </th>
+                                        <th style="width:111px" id="editFactorTd-4"> واحد کالا </th>
+                                        <th style="width:111px" id="editFactorTd-5"> بسته بندی </th>
+                                        <th style="width:111px" id="editFactorTd-6"> مقدار کل </th>
+                                        <th style="width:111px" id="editFactorTd-7"> مقدار جز </th>
+                                        <th style="width:111px" id="editFactorTd-8"> مقدار اولیه </th>
+                                        <th style="width:111px" id="editFactorTd-9"> مقدار برگشتی </th>
+                                        <th style="width:111px" id="editFactorTd-10"> مقدار کالا </th>
+                                        <th style="width:111px" id="editFactorTd-11"> نرخ واحد </th>
+                                        <th style="width:111px" id="editFactorTd-12"> نرخ بسته </th>
+                                        <th style="width:111px" id="editFactorTd-13"> مبلغ </th>
+                                        <th style="width:166px" id="editFactorTd-14"> مبلغ بعد از تخفیف </th>
+                                        <th style="width:111px" id="editFactorTd-15"> شماره سفارش </th>
+                                        <th style="width:111px" id="editFactorTd-16"> تاریخ سفارش </th>
+                                        <th style="width:111px" id="editFactorTd-17"> شرح کالا </th>
+                                        <th style="width:111px" id="editFactorTd-18"> انبار </th>
+                                        <th style="width:199px" id="editFactorTd-19"> مالیات بر ارزش افزوده </th>
+                                        <th style="width:111px" id="editFactorTd-20"> وزن واحد </th>
+                                        <th style="width:111px" id="editFactorTd-21"> وزن کل </th>
+                                        <th style="width:111px" id="editFactorTd-22"> In Srvice </th>
+                                        <th style="width:111px" id="editFactorTd-23"> درصد مالیات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="factorEditListBody">
