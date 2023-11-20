@@ -855,7 +855,7 @@
                                     <select name="stockEdit" id="stockEdit" class="form-select">
                                         <option></option>
                                         @foreach($stocks as $stock)
-                                        <option>{{$stock->NameStock}}</option>
+                                          <option>{{$stock->NameStock}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -946,7 +946,7 @@
                             </div>
                             <div class="col-lg-2 px-0">
                                 <button type="submit" class="btn btn-sm d-inline btn-success"> ثبت </button>
-                                <button type="button" class="btn btn-sm d-inline btn-danger" onclick="cancelEditFactor()"> انصراف </button> <br>
+                                <button type="button" class="btn btn-sm d-inline btn-danger" onclick="cancelEditFactor()"> انصراف </button> <br> <br>
  
                                 <input type="checkbox" class="form-check-input" name="ّtakeKerayahEdit" id="ّtakeKerayahEdit">
                                 <label class="form-label fw-bold" style="font-size:12px"> کرایه دریافت شد </label>
@@ -1012,8 +1012,8 @@
                             <div class="col-lg-4 col-md-4" style="background-color:#e0e0e0; boarder-radius:6px; padding:15px;">
                                 <div class="row">
                                     <div class="col-lg-5">
-                                        <button type="button" class="btn btn-sm btGroup btn-success deletOrderButton" id="deleteFactorItemBtnFEdit"> حذف کالا <i class="fa fa-xmark"></i> </button>
-                                        <button type="button" class="btn btn-sm btGroup btn-success mb-3" onclick="showAmelModalFEdit()"> هزینه ها  <i class="fa fa-list"></i> </button> <br>
+                                        <button type="button" class="btn btn-sm btn-success d-block deletOrderButton" id="deleteFactorItemBtnFEdit"> حذف کالا <i class="fa fa-xmark"></i> </button> <br>
+                                        <button type="button" class="btn btn-sm btn-success d-block mb-3" onclick="showAmelModalFEdit()"> هزینه ها  <i class="fa fa-list"></i> </button> <br>
                                         <span class="sumRow mt-4"> وزن :  </span> <br>
                                         <span class="sumRow">  حجم :  </span><br><br>
                                     </div>
