@@ -229,7 +229,7 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-text"> تاریخ </span>
-                                            <input type="text" name="addDaryaftDate" id="addDaryaftDate" class="form-control" placeholder="">
+                                            <input type="text" name="addDaryaftDate" id="addDaryaftDate" class="form-control" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 border">
@@ -247,8 +247,8 @@
                                 </div>
                                 <div class="input-group pt-2">
                                     <span class="input-group-text"> مشتری </span>
-                                    <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control">
-                                    <input type="text" name="name" id="customerNameDaryaft" class="form-control">
+                                    <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control" required>
+                                    <input type="text" name="name" id="customerNameDaryaft" class="form-control" required>
                                     <input type="hidden" name="customerId" id="customerIdDaryaft">
                                     <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
                                 </div>
@@ -292,7 +292,7 @@
                             </div>
                             <div class="input-group mt-2">
                                 <span class="input-group-text"> توضحیات </span>
-                                <input type="text" name="daryaftHdsDesc" class="form-control">
+                                <input type="text" name="daryaftHdsDesc" class="form-control" required>
                                 <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
                             </div>
                         </div>
@@ -579,7 +579,7 @@
                             <span class="input-group-text">
                                 شرح
                             </span>
-                            <input type="text" class="form-control">
+                            <input type="text" id="descChequeDar" class="form-control">
                         </div>
                     </div>
 

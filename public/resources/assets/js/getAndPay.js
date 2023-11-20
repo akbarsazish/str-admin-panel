@@ -371,13 +371,26 @@
         let description=$("#descNaghdDar").val();
         var rowCount = $("#addedDaryaftListBody tr").length;
         $("#addedDaryaftListBody").append(` <tr ondblclick="editDaryaftItem('daryaftVajhNaghdModalEdit',this)">
-                                                <td> ${(rowCount+1)} </td>
+                                                <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${(rowCount+1)} </td>
                                                 <td> 0 </td>
                                                 <td> ${description} </td>
                                                 <td> ${parseInt(rials).toLocaleString("en-us")} </td>
                                                 <td>  </td>
                                                 <td>  </td>
                                                 <td>  </td>
+                                                <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="${rials}" name="Price${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="AccBankNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="${description}" name="DocDescBys${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
                                             </tr>`);
         $("#daryaftVajhNaghdModal").modal("hide")
         let netPriceHDS=0;
@@ -469,8 +482,8 @@
 
     function addChequeDar(){
         let chequeNoCheqeDar=$("#chequeNoCheqeDar").val();
-        let checkSarRasidDateDar=$("checkSarRasidDateDar").val();
-        let bankNameDar=$("bankNameDar").val();
+        let checkSarRasidDateDar=$("#checkSarRasidDateDar").val();
+        let bankNameDar=$("#bankNameDar").val();
         let moneyChequeDar=$("#moneyChequeDar").val();
         let shobeBankChequeDar=$("#shobeBankChequeDar").val();
         let hisabNoChequeDar=$("#hisabNoChequeDar").val();
@@ -480,15 +493,28 @@
         let repeateChequeDar=$("#repeateChequeDar").val();
         let distanceMonthChequeDar=$("#distanceMonthChequeDar").val();
         let distanceDarChequeDar=$("#distanceDarChequeDar").val();
+        let descChequeDar=$("#descChequeDar").val();
         let rowCount=$("#addedDaryaftListBody tr").length;
         $("#addedDaryaftListBody").append(`<tr  ondblclick="editDaryaftItem('chequeInfoModalEdit',this)">
-                                            <td> 1 </td>
+                                            <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> 1 </td>
                                             <td> ${chequeNoCheqeDar} </td>
                                             <td> بعدا اضافه شود </td>
                                             <td> ${parseInt(moneyChequeDar).toLocaleString("en-us")} </td>
                                             <td> 0 </td>
                                             <td> ${sayyadiNoChequeDar} </td>
                                             <td> ${sabtBeNameChequeDar} </td>
+                                            <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${moneyChequeDar}" name="Price${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${checkSarRasidDateDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${malikChequeDar}" name="Owener${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${bankNameDar}" name="SnBank${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${descChequeDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
                                         </tr>`);
         $("#chequeInfo").modal("hide");
 
@@ -510,13 +536,26 @@
         let discriptionHawalaDar=$("#discriptionHawalaDar").val();
         let rowCount=$("#addedDaryaftListBody tr").length;
         $("#addedDaryaftListBody").append(`<tr ondblclick="editDaryaftItem('hawalaInfoModalEdit',this)">
-                <td> 1 </td>
+                <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
                 <td> 0 </td>
                 <td> بعدا اضافه شود </td>
                 <td> ${parseInt(monyAmountHawalaDar).toLocaleString("en-us")} </td>
                 <td> 0 </td>
                 <td>  </td>
                 <td>  </td>
+                <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="${monyAmountHawalaDar}" name="Price${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="${hawalaDateHawalaDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="${bankAccNoHawalaDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="${discriptionHawalaDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="${payanehKartKhanNoHawalaDar}" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+                <td> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
             </tr>`);
         $("#hawalaInfoModal").modal("hide");
         let netPriceHDS=0;
@@ -544,13 +583,26 @@
         let discriptionTakhfifDar=$("#discriptionTakhfifDar").val();
         let rowCount=$("#addedDaryaftListBody tr").length;
         $("#addedDaryaftListBody").append(`<tr ondblclick="editDaryaftItem('takhfifModalEdit',this)">
-                                                <td> 1 </td>
+                                                <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
                                                 <td> 0 </td>
                                                 <td> بعدااضافه شود </td>
                                                 <td> ${takhfifMoneyDar} </td>
                                                 <td> 0 </td>
                                                 <td>  </td>
                                                 <td>  </td>
+                                                <td> <input type="text" value="4" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="${takhfifMoneyDar}" name="Price${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="AccBankNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="${discriptionTakhfifDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
                                             </tr>`);
         $("#takhfifModal").modal("hide");
         let netPriceHDS=0;
@@ -634,13 +686,26 @@ function addVarizToOtherHisab(){
     let discriptionOtherHisabDar=$("#discriptionOtherHisabDar").val();
     let rowCount=$("#addedDaryaftListBody tr").length;
     $("#addedDaryaftListBody").append(`<tr ondblclick="editDaryaftItem('varizToOthersHisbModalEdit',this)">
-                                            <td> 1 </td>
+                                            <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
                                             <td> 0 </td>
                                             <td> بعدااضافه شود </td>
                                             <td> ${moneyVarizToOtherHisabDar} </td>
                                             <td> 0 </td>
                                             <td>  </td>
                                             <td>  </td>
+                                            <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${moneyVarizToOtherHisabDar}" name="Price${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${cartNoVarizToOtherDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${discriptionOtherHisabDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="${varizBehisabDigariCustomerPSNDar}" name="SnPeopelPay${rowCount+1}" class=""/> </td>
                                         </tr>`);
     $("#varizToOthersHisbModal").modal("hide")
     let netPriceHDS=0;
@@ -675,8 +740,8 @@ function editDaryaftItem(modalId,element){
     switch (modalId) {
         case "daryaftVajhNaghdModalEdit":
             {
-                $("#rialNaghdDarEdit").val();
-                $("#descNaghdDarEdit").val();
+                $("#rialNaghdDarEdit").val($(element).find("td:eq(3)").text().replace(/,/g, ''))
+                $("#descNaghdDarEdit").val($(element).find("td:eq(2)").text());
             }
             break;
         case "chequeInfoModalEdit":
@@ -685,27 +750,39 @@ function editDaryaftItem(modalId,element){
                 $("#checkSarRasidDateDarEdit").val();
                 $("#daysAfterChequeDateDarEdit").val();
                 $("#shobeBankChequeDarEdit").val();
-                $("#").val();
-                $("#").val();
-                $("#").val();
-                $("#").val();
-                $("#").val();
-                $("#").val();
+                $("#bankNameDarEdit").select();
+                $("#moneyChequeDarEdit").val($(element).find("td:eq(3)").text().replace(/,/g, ''));
+                $("#sayyadiNoChequeDarEdit").val();
+                $("#sabtBeNameChequeDarEdit").val();
+                $("#malikChequeDarEdit").val();
             }
             break;
         case "hawalaInfoModalEdit":
             {
-
+                $("#hawalaNoHawalaDarEdit").val();
+                $("#payanehKartKhanNoHawalaDarEdit").val();
+                $("#bankJustAccNoHawalaDarEdit").val();
+                $("#bankAccNoHawalaDarEdit").select();
+                $("#monyAmountHawalaDarEdit").val($(element).find("td:eq(3)").text().replace(/,/g, ''));
+                $("#hawalaDateHawalaDarEdit").val();
+                $("#discriptionHawalaDarEdit").val();
             }
             break;
         case "takhfifModalEdit":
             {
-
+                $("#takhfifMoneyDarEdit").val($(element).find("td:eq(3)").text().replace(/,/g, ''))
+                $("#discriptionTakhfifDarEdit").val($(element).find("td:eq(2)").text())
             }
             break;
         case "varizToOthersHisbModalEdit":
             {
-
+                $("#moneyVarizToOtherHisabDarEdit").val($(element).find("td:eq(3)").text().replace(/,/g, ''));
+                $("#cartNoVarizToOtherDarEdit").val();
+                $("#varizBehisabDigariCustomerCodeDarEdit").val();
+                $("#varizBehisabDigariCustomerNameDarEdit").val();
+                $("#benamOtherHisabDarEdit").val();
+                $("#paygiriOtherHisabDarEdit").val();
+                $("#discriptionOtherHisabDarEdit").val($(element).find("td:eq(2)").text());
             }
             break;
         case "spentChequeModalEdit":
