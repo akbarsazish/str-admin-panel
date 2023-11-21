@@ -1,40 +1,46 @@
 
+<<<<<<< HEAD
 var baseUrl = "http://192.168.10.26:8080";
+=======
+var baseUrl = "http://192.168.10.21:8000";
+>>>>>>> b077253f0ce6314a0330a1924f6640afb2aaecc5
 function getFactorOrders(element,factorSn){
     $("tr").removeClass("selected");
     $(element).addClass("selected");
     if($("#deleteFactorBtn")){
         $("#deleteFactorBtn").prop("disabled",false);
         $("#deleteFactorBtn").val(factorSn);
-
     }
 
     if($("#editFactorButton")){
         $("#editFactorButton").prop("disabled",false);
         $("#editFactorButton").val(factorSn);
     }
+
 $.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
     $("#FactorDetailBody").empty();
     let i=0;
     for (let element of respond) {
         i=i+1;
-        $("#FactorDetailBody").append(`<tr>
-        <td> ${i} </td>
-        <td> ${element.GoodCode}</td>
-        <td style="width:160px;"> ${element.GoodName} </td>
-        <td> ${element.FirstUnit} </td>
-        <td> ${element.SecondUnit} </td>
-        <td> ${parseInt(element.PackAmnt||0).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.Amount).toLocaleString("en-us")} </td>
-        <td>  ${parseInt(element.CalcTakhfif).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.Fi).toLocaleString("en-us")} </td>
-        <td> ${parseInt(element.FiPack).toLocaleString("en-us")}</td>
-        <td> ${parseInt(element.Price).toLocaleString("en-us")}  </td>
-        <td> ${parseInt(element.CalcTakhfif).toLocaleString("en-us")} </td>
-        <td> ${element.DescRecord} </td>
-        <td> وضعیت بارگیری </td>
-        <td> بار میکروبی </td>
+        $("#FactorDetailBody").append(`
+        <tr>
+            <td class="facTbleDetails-1"> ${i} </td>
+            <td class="facTbleDetails-2"> ${element.GoodCode}</td>
+            <td class="facTbleDetails-3" style="width:160px;"> ${element.GoodName} </td>
+            <td class="facTbleDetails-4"> ${element.FirstUnit} </td>
+            <td class="facTbleDetails-5"> ${element.SecondUnit} </td>
+            <td class="facTbleDetails-6"> ${parseInt(element.PackAmnt||0).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-7"> ${parseInt(element.Amount).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-8">  ${parseInt(element.CalcTakhfif).toLocaleString("en-us")}  </td>
+            <td class="facTbleDetails-9"> ${parseInt(element.Fi).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-10"> ${parseInt(element.FiPack).toLocaleString("en-us")}</td>
+            <td class="facTbleDetails-11"> ${parseInt(element.Price).toLocaleString("en-us")}  </td>
+            <td class="facTbleDetails-12"> ${parseInt(element.CalcTakhfif).toLocaleString("en-us")} </td>
+            <td class="facTbleDetails-13"> ${element.DescRecord} </td>
+            <td class="facTbleDetails-14"> وضعیت بارگیری </td>
+            <td class="facTbleDetails-15"> بار میکروبی </td>
        </tr>`);
+      makeTableColumnsResizable("factorTableDetails")
     }
 })
 }
@@ -79,35 +85,36 @@ $("#filterFactorsForm").on("submit",function(e){
                 if(element.payedMoney>0){
                     payedAmount=element.payedMoney;
                 }
-                $("#factorListBody").append(`<tr class="factorTablRow"  ondblclick="openFactorViewModal(${element.SerialNoHDS})" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
-                                                <td> ${index+1} <input type="radio" value="${element.SerialNoHDS}" class="d-none"/></td>
-                                                <td> ${element.FactNo} </td>
-                                                <td> ${element.FactDate} </td>
-                                                <td> ${element.FactDesc} </td>
-                                                <td> ${element.PCode} </td>
-                                                <td> ${element.Name} </td>
-                                                <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
-                                                <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
-                                                <td> ${element.setterName} </td>
-                                                <td> حضوری </td>
-                                                <td> </td>
-                                                <td> ${element.stockName} </td>
-                                                <td> ${element.CountPrint} </td>
-                                                <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
-                                                <td> ${bargiriyState} </td>
-                                                <td> ${element.takhfif} </td>
-                                                <td>  </td>
-                                                <td> ${element.DateEelamBeAnbar} </td>
-                                                <td> ${element.TimeEelamBeAnbar} </td>
-                                                <td> ${element.DateBargiri} </td>
-                                                <td> ${element.TimeBargiri} </td>
-                                                <td> ${element.BarNameNo} </td>
-                                                <td> ${element.FactTime} </td>
-                                                <td> خیر </td>
-                                                <td> ${(element.bargiriNo||"")} </td>
-                                                <td> ${(element.driverTahvilDate || "")} </td>
-                                                <td> ${(element.driverName || "")} </td>
-                                            </tr>`);
+                $("#factorListBody").append(`
+                    <tr class="factorTablRow"  ondblclick="openFactorViewModal(${element.SerialNoHDS})" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
+                        <td> ${index+1} <input type="radio" value="${element.SerialNoHDS}" class="d-none"/></td>
+                        <td> ${element.FactNo} </td>
+                        <td> ${element.FactDate} </td>
+                        <td> ${element.FactDesc} </td>
+                        <td> ${element.PCode} </td>
+                        <td> ${element.Name} </td>
+                        <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                        <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                        <td> ${element.setterName} </td>
+                        <td> حضوری </td>
+                        <td> </td>
+                        <td> ${element.stockName} </td>
+                        <td> ${element.CountPrint} </td>
+                        <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                        <td> ${bargiriyState} </td>
+                        <td> ${element.takhfif} </td>
+                        <td>  </td>
+                        <td> ${element.DateEelamBeAnbar} </td>
+                        <td> ${element.TimeEelamBeAnbar} </td>
+                        <td> ${element.DateBargiri} </td>
+                        <td> ${element.TimeBargiri} </td>
+                        <td> ${element.BarNameNo} </td>
+                        <td> ${element.FactTime} </td>
+                        <td> خیر </td>
+                        <td> ${(element.bargiriNo||"")} </td>
+                        <td> ${(element.driverTahvilDate || "")} </td>
+                        <td> ${(element.driverName || "")} </td>
+                    </tr>`);
             });
             
         },
@@ -139,35 +146,36 @@ function factorHistory(historyWord) {
                     payedAmount=element.payedMoney;
                 }
                 $("#factorListBody").append(`
-                                            <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
-                                                <td> ${index+1} </td>
-                                                <td> ${element.FactNo} </td>
-                                                <td> ${element.FactDate} </td>
-                                                <td> ${element.FactDesc} </td>
-                                                <td> ${element.PCode} </td>
-                                                <td> ${element.Name} </td>
-                                                <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
-                                                <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
-                                                <td> ${element.setterName} </td>
-                                                <td> حضوری </td>
-                                                <td> </td>
-                                                <td> ${element.stockName} </td>
-                                                <td> ${element.CountPrint} </td>
-                                                <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
-                                                <td> ${bargiriyState} </td>
-                                                <td> ${element.takhfif} </td>
-                                                <td>  </td>
-                                                <td> ${element.DateEelamBeAnbar} </td>
-                                                <td> ${element.TimeEelamBeAnbar} </td>
-                                                <td> ${element.DateBargiri} </td>
-                                                <td> ${element.TimeBargiri} </td>
-                                                <td> ${element.BarNameNo} </td>
-                                                <td> ${element.FactTime} </td>
-                                                <td> خیر </td>
-                                                <td> ${(element.bargiriNo||"")} </td>
-                                                <td> ${(element.driverTahvilDate || "")} </td>
-                                                <td> ${(element.driverName || "")} </td>
-                                            </tr>`);
+                    <tr style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
+                        <td class="factorTbl-1"> ${index+1} </td>
+                        <td class="factorTbl-2"> ${element.FactNo} </td>
+                        <td class="factorTbl-3"> ${element.FactDate} </td>
+                        <td class="factorTbl-4"> ${element.FactDesc} </td>
+                        <td class="factorTbl-5"> ${element.PCode} </td>
+                        <td class="factorTbl-6"> ${element.Name} </td>
+                        <td class="factorTbl-7"> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-8"> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-9"> ${element.setterName} </td>
+                        <td class="factorTbl-10"> حضوری </td>
+                        <td class="factorTbl-11"> </td>
+                        <td class="factorTbl-12"> ${element.stockName} </td>
+                        <td class="factorTbl-13"> ${element.CountPrint} </td>
+                        <td class="factorTbl-14"> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                        <td class="factorTbl-15"> ${bargiriyState} </td>
+                        <td class="factorTbl-16"> ${element.takhfif} </td>
+                        <td class="factorTbl-17">  </td>
+                        <td class="factorTbl-18"> ${element.DateEelamBeAnbar} </td>
+                        <td class="factorTbl-19"> ${element.TimeEelamBeAnbar} </td>
+                        <td class="factorTbl-20"> ${element.DateBargiri} </td>
+                        <td class="factorTbl-21"> ${element.TimeBargiri} </td>
+                        <td class="factorTbl-22"> ${element.BarNameNo} </td>
+                        <td class="factorTbl-23"> ${element.FactTime} </td>
+                        <td class="factorTbl-24"> خیر </td>
+                        <td class="factorTbl-25"> ${(element.bargiriNo||"")} </td>
+                        <td class="factorTbl-26"> ${(element.driverTahvilDate || "")} </td>
+                        <td class="factorTbl-27"> ${(element.driverName || "")} </td>
+                    </tr>`);
+                    makeTableColumnsResizable("factorTable");
             });
     })
 }
@@ -337,37 +345,38 @@ function openEditFactorModal(snFactor){
                 packAmount=element.PackAmnt;
             }
             $("#factorEditListBody").append(`
-                <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                    <td class="td-part-input"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
-                    <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeFEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
-                    <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}"  style="width:auto!important;" value="${element.NameGood}" class="td-input td-inputCodeNameFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorNumFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDateFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDescFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Fi2Weight${element.GoodSn}" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Amount2Weight${element.GoodSn}" value="${element.Amount2Weight}" class="td-input td-inputAllWeightFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceFEdit form-control" required> </td>
-                    <td class="td-part-input"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatFEdit form-control" required> </td>
-                    <td class="td-part-input d-none"> 
+                <tr onclick="checkAddedKalaAmountOfFactor(this)">
+                    <td class="editFactorTd-1"> ${index+1} <input type="radio" value="${element.Amount}" style="display:none" /> </td>
+                    <td class="editFactorTd-2"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeFEdit form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="editableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
+                    <td class="editFactorTd-3"> <input type="text" name="NameGood${element.GoodSn}"  style="width:auto!important;" value="${element.NameGood}" class="td-input td-inputCodeNameFEdit form-control" required> </td>
+                    <td class="editFactorTd-4"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.FirstUnit}" class="td-input td-inputFirstUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-5"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.SecondUnit}" class="td-input td-inputSecondUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-6"> <input type="text" name="PackAmnt${element.GoodSn}" value="${parseInt(packAmount).toLocaleString("en-us")}" class="td-input  td-inputSecondUnitAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-7"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="${parseInt(element.Amount%element.AmountUnit).toLocaleString("en-us")}" class="td-input td-inputJozeAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-8"> <input type="text" name="FirstAmount${element.GoodSn}" value="${parseInt(firstAmount).toLocaleString("en-us")}" class="td-input td-inputFirstAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-9"> <input type="text" name="ReAmount${element.GoodSn}" value="${parseInt(reAmount).toLocaleString("en-us")}" class="td-input td-inputReAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-10"> <input type="text" name="Amount${element.GoodSn}" value="${parseInt(element.Amount).toLocaleString("en-us")}" class="td-input  td-AllAmountFEdit form-control" required> </td>
+                    <td class="editFactorTd-11"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Fi).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-12"> <input type="text" name="FiPack${element.GoodSn}" value="${parseInt(element.FiPack).toLocaleString("en-us")}" class="td-input td-inputSecondUnitPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-13"> <input type="text" sytle="width:100%!important;" size="" name="Price${element.GoodSn}" value="${parseInt(element.Price).toLocaleString("en-us")}" class="td-input td-inputAllPriceFEdit form-control" required> </td>
+                    <td class="editFactorTd-14"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="${parseInt(element.PriceAfterTakhfif).toLocaleString("en-us")}" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control" required> </td>
+                    <td class="editFactorTd-15"> <input type="text" name="" value="0" class="td-input td-inputFactorNumFEdit form-control" required> </td>
+                    <td class="editFactorTd-16"> <input type="text" name="" value="0" class="td-input td-inputFactorDateFEdit form-control" required> </td>
+                    <td class="editFactorTd-17"> <input type="text" name="" value="0" class="td-input td-inputFactorDescFEdit form-control" required> </td>
+                    <td class="editFactorTd-18"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockFEdit form-control" required> </td>
+                    <td class="editFactorTd-19"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="${element.Price3PercentMaliat}" class="td-input td-inputMaliatFEdit form-control" required> </td>
+                    <td class="editFactorTd-20"> <input type="text" name="Fi2Weight${element.GoodSn}" value="${element.Fi2Weight}" class="td-input td-inputWeightUnitFEdit form-control" required> </td>
+                    <td class="editFactorTd-21"> <input type="text" name="Amount2Weight${element.GoodSn}" value="${element.Amount2Weight}" class="td-input td-inputAllWeightFEdit form-control" required> </td>
+                    <td class="editFactorTd-22"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceFEdit form-control" required> </td>
+                    <td class="editFactorTd-23"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatFEdit form-control" required> </td>
+                    <td class="editFactorTd-24 d-none"> 
                         <input type="text" value="`+element.lastBuyFi+`" class="td-input form-control">
                     </td>
                 </tr>
             `);
         })
         $("#editFactorModal").modal("show");
+        makeTableColumnsResizable("factorEidtTable")
     })
     
 }
@@ -390,16 +399,20 @@ function openCustomerGardishModal(psn){
             if(element.remain!=0){
                 remain=element.remain;
             }
-            $("#customerGardishListBody").append(`<tr class="factorTablRow">
-                                                    <td> ${element.DocDate} </td>
-                                                    <td> ${element.FactDesc} </td>
-                                                    <td> ${element.tasviyeh} </td>
-                                                    <td> ${parseInt(bestankar).toLocaleString("en-us")} </td>
-                                                    <td> ${parseInt(bedehkar).toLocaleString("en-us")} </td>
-                                                    <td> ${element.bdbsState==0 ? 0 : "--"} </td>
-                                                    <td> ${parseInt(remain).toLocaleString("en-us")} </td>
-                                                </tr>`);
-        });
+
+            $("#customerGardishListBody").append(`
+                 <tr>
+                    <td class="customerCirculation-1"> ${element.DocDate} </td>
+                    <td class="customerCirculation-2"> ${element.FactDesc} </td>
+                    <td class="customerCirculation-3"> ${element.tasviyeh} </td>
+                    <td class="customerCirculation-4"> ${parseInt(bestankar).toLocaleString("en-us")} </td>
+                    <td class="customerCirculation-5"> ${parseInt(bedehkar).toLocaleString("en-us")} </td>
+                    <td class="customerCirculation-6"> ${element.bdbsState==0 ? 0 : "--"} </td>
+                    <td class="customerCirculation-7"> ${parseInt(remain).toLocaleString("en-us")} </td>
+                </tr>`);
+                makeTableColumnsResizable("customerCirculationTable")
+            });
+
         $("#customerGardishModal").modal("show");
     })
 }
@@ -426,42 +439,46 @@ function openKalaGardish(){
                 fi=element.Fi;
             }
             $("#kalaGardishListBody").append(`
-            <tr  class="factorTablRow">
-                <td> ${index+1} </td>
-                <td> ${element.FactDate} </td>
-                <td> ${element.DescRec} </td>
-                <td> ${element.FactNo} </td>
-                <td> ${parseFloat(exported).toLocaleString("en-us")} </td>
-                <td> ${parseFloat(imported).toLocaleString("en-us")} </td>
-                <td> ${element.Exist} </td>
-                <td> ${element.SnStockIn} </td>
-                <td> ${element.Name} </td>
-                <td> ${element.PackAmount} </td>
-                <td> ${parseInt(fi).toLocaleString("en-us")} </td>
-                <td> ${element.username} </td>
-                <td> ${element.TimeStamp} </td>
-                <td> ${element.SerialNoBYS} </td>
-                <td> ${element.SerialNoHDS} </td>
-        </tr>
-        `);
+               <tr>
+                <td class="addGardish-1"> ${index+1} </td>
+                <td class="addGardish-2"> ${element.FactDate} </td>
+                <td class="addGardish-3"> ${element.DescRec} </td>
+                <td class="addGardish-4"> ${element.FactNo} </td>
+                <td class="addGardish-5"> ${parseFloat(exported).toLocaleString("en-us")} </td>
+                <td class="addGardish-6"> ${parseFloat(imported).toLocaleString("en-us")} </td>
+                <td class="addGardish-7"> ${element.Exist} </td>
+                <td class="addGardish-8"> ${element.SnStockIn} </td>
+                <td class="addGardish-9"> ${element.Name} </td>
+                <td class="addGardish-10"> ${element.PackAmount} </td>
+                <td class="addGardish-11"> ${parseInt(fi).toLocaleString("en-us")} </td>
+                <td class="addGardish-12"> ${element.username} </td>
+                <td class="addGardish-13"> ${element.TimeStamp} </td>
+                <td class="addGardish-14"> ${element.SerialNoBYS} </td>
+                <td class="addGardish-15"> ${element.SerialNoHDS} </td>
+            </tr>  `);
+          makeTableColumnsResizable("addFactorGardishKalaTable");
+
         });
-        $("#kalaGardishListBody").append(`<tr class="factorTablRow">
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td> مجموع خروج </td>
-                                                <td> مجموع ورود </td>
-                                                <td> موجودی نهایی </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                                <td>  </td>
-                                            </tr>`);
+
+
+        $("#kalaGardishListBody").append(`
+            <tr>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td> مجموع خروج </td>
+                <td> مجموع ورود </td>
+                <td> موجودی نهایی </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+                <td>  </td>
+            </tr>`);
     })
     $("#kalaGardishModal").modal("show");
 }
@@ -473,16 +490,17 @@ function openLastTenBuysModal(){
     $("#lastTenBuysListBody").empty();
     $.get(baseUrl+"/getlastTenBuys",{goodSn:goodSn},(respond,status)=>{
         respond.forEach((element,index)=>{
-            $("#lastTenBuysListBody").append(`<tr class="factorTablRow">
-                                <td> ${ index+1 } </td>
-                                <td> ${ element.FactDate } </td>
-                                <td> ${ element.FactNo } </td>
-                                <td> ${ element.Name } </td>
-                                <td> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
-                                <td> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
-                                <td>  </td>
-                                <td> ${ element.DescRecord } </td>
-                            </tr>`);
+            $("#lastTenBuysListBody").append(`
+                <tr class="factorTablRow">
+                    <td id="tenLasthBuy-1"> ${ index+1 } </td>
+                    <td id="tenLasthBuy-2"> ${ element.FactDate } </td>
+                    <td id="tenLasthBuy-3"> ${ element.FactNo } </td>
+                    <td id="tenLasthBuy-4"> ${ element.Name } </td>
+                    <td id="tenLasthBuy-5"> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
+                    <td id="tenLasthBuy-6"> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
+                    <td id="tenLasthBuy-7">  </td>
+                    <td id="tenLasthBuy-8"> ${ element.DescRecord } </td>
+                </tr>`);
         })
     })
 }
@@ -492,16 +510,18 @@ function openLastTenSalesModal(){
     $("#lastTenSalesListBody").empty();
     $.get(baseUrl+"/getlastTenSales",{goodSn:goodSn},(respond,status)=>{
         respond.forEach((element,index)=>{
-            $("#lastTenSalesListBody").append(`<tr class="factorTablRow">
-                                <td> ${ index+1 } </td>
-                                <td> ${ element.FactDate } </td>
-                                <td> ${ element.FactNo } </td>
-                                <td> ${ element.Name } </td>
-                                <td> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
-                                <td> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
-                                <td>  </td>
-                                <td> ${ element.DescRecord } </td>
-                            </tr>`);
+            $("#lastTenSalesListBody").append(`
+                <tr >
+                    <td class="tenLastBuy-1"> ${ index+1 } </td>
+                    <td class="tenLastBuy-2"> ${ element.FactDate } </td>
+                    <td class="tenLastBuy-3"> ${ element.FactNo } </td>
+                    <td class="tenLastBuy-4"> ${ element.Name } </td>
+                    <td class="tenLastBuy-5"> ${ parseInt(element.Amount).toLocaleString("en-us") } </td>
+                    <td class="tenLastBuy-6"> ${ parseInt(element.Fi).toLocaleString("en-us") } </td>
+                    <td class="tenLastBuy-7">  </td>
+                    <td class="tenLastBuy-8"> ${ element.DescRecord } </td>
+                </tr>`);
+                makeTableColumnsResizable("tenLastBuy")
         })
 
         $("#lastTenSalesModal").modal("show");
@@ -516,17 +536,18 @@ function openNotSentOrdersModal(){
     $.get(baseUrl+"/getUnSentOrders",{goodSn:goodSn},(respond,status)=>{
         respond.forEach((element,index)=>{
             $("#unSentOrdersListBody").append(`
-                            <tr class="factorTablRow">
-                                <td> ${ index+1 } </td>
-                                <td> ${ element.OrderNo } </td>
-                                <td> ${ element.OrderDate } </td>
-                                <td> ${ element.PCode } </td>
-                                <td> ${ element.Name } </td>
-                                <td> ${ element.GoodCde } </td>
-                                <td> ${ element.GoodName } </td>
-                                <td> ${ element.secondUnit } </td>
-                                <td> ${ element.Amount } </td>
-                            </tr>`);
+                    <tr>
+                        <td class="notSentOrder-1"> ${ index+1 } </td>
+                        <td class="notSentOrder-2"> ${ element.OrderNo } </td>
+                        <td class="notSentOrder-3"> ${ element.OrderDate } </td>
+                        <td class="notSentOrder-4"> ${ element.PCode } </td>
+                        <td class="notSentOrder-5"> ${ element.Name } </td>
+                        <td class="notSentOrder-6"> ${ element.GoodCde } </td>
+                        <td class="notSentOrder-7"> ${ element.GoodName } </td>
+                        <td class="notSentOrder-8"> ${ element.secondUnit } </td>
+                        <td class="notSentOrder-9"> ${ element.Amount } </td>
+                    </tr>`);
+                    makeTableColumnsResizable("notSentOrderTable")
         })
         $("#unSentOrdersModal").modal("show");
     })
@@ -1766,8 +1787,9 @@ $("#MotafariqahNameEdit").on("keyup",function(e){
 })
 
 $("#addFactorBtn").on("click",function(e){
+    // makeTableColumnsResizable("addFactorTable");
     setActiveFormFactor("factorAddListBody")
-    $("#addFactorModal").modal("show")
+    $("#addFactorModal").modal("show");
 })
 $("#deleteFactorBtn").on("click",function(e){
     swal({
@@ -1974,53 +1996,56 @@ $("#MotafariqahNameAdd").on("keyup",function(e){
 $("#selectKalaToAddFactorBtn").on("click",function(){
     var rowCount = $("#factorAddListBody tr").length;
     for(let i=1;i<=rowCount;i++){
-       let rowGoodSn= $('#factorAddListBody tr:nth-child('+i+')').find('input:checkbox').val();
-       if(rowGoodSn==$(this).val()){
-        swal({title:"قبلا اضافه شده است",
-              text:"کالای انتخاب شده قبلا اضافه شده است",
-              icon:"warning",
-              buttons:true});
-        return
-       }
+        let rowGoodSn= $('#factorAddListBody tr:nth-child('+i+')').find('input:checkbox').val();
+        if(rowGoodSn==$(this).val()){
+            swal({title:"قبلا اضافه شده است",
+            text:"کالای انتخاب شده قبلا اضافه شده است",
+            icon:"warning",
+            buttons:true});
+            return
+        }
     }
     
+   
 $.get(baseUrl+"/searchKalaByID",{goodSn:$(this).val()},function(data,status){
     if(status=="success"){
         let row=data.map((element,index)=> `
-                                            <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactorItem(this)">
-                                            <td class="td-part-input"> ${index+1}</td>
-                                            <td class="td-part-input"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeAdd form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
-                                            <td class="td-part-input"> <input type="text" name="NameGood${element.GoodSn}" value="${element.GoodName}" class="td-input td-inputCodeNameAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.firstUnit}" class="td-input td-inputFirstUnitAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.secondUnit}" class="td-input td-inputSecondUnitAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="PackAmnt${element.GoodSn}" value="" class="td-input  td-inputSecondUnitAmountAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="" class="td-input td-inputJozeAmountAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="FirstAmount${element.GoodSn}" value="" class="td-input td-inputFirstAmountAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="ReAmount${element.GoodSn}" value="" class="td-input td-inputReAmountAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Amount${element.GoodSn}" value="" class="td-input  td-AllAmountAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Price3).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="FiPack${element.GoodSn}" value="" class="td-input td-inputSecondUnitPriceAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Price${element.GoodSn}" value="" class="td-input td-inputAllPriceAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorNumAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDateAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="" value="0" class="td-input td-inputFactorDescAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="0" class="td-input td-inputMaliatAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Fi2Weight${element.GoodSn}" value="0" class="td-input td-inputWeightUnitAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Amount2Weight${element.GoodSn}" value="0" class="td-input td-inputAllWeightAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceAdd form-control" required> </td>
-                                            <td class="td-part-input"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatAdd form-control" required> </td>
-                                            <td class="td-part-input d-none"> 
-                                                <input type="text" value="`+element.lastBuyFi+`" class="td-input form-control">
-                                            </td>
-                                        </tr>
-                                        `)
+                <tr onclick="checkAddedKalaAmountOfFactorItem(this)">
+                    <td class="addFactorTd-1"> ${index+1}</td>
+                    <td class="addFactorTd-2"> <input type="text" name="GoodCde${element.GoodSn}" value="${element.GoodCde}" class="td-input td-inputCodeAdd form-control" required> <input type="radio" value="`+element.AmountUnit+`" class="td-input form-control"> <input type="checkbox" name="addableGoods[]" checked style="display:none" value="${element.GoodSn}"/> </td>
+                    <td class="addFactorTd-3"> <input type="text" name="NameGood${element.GoodSn}" value="${element.GoodName}" class="td-input td-inputCodeNameAdd form-control" required> </td>
+                    <td class="addFactorTd-4"> <input type="text" name="FirstUnit${element.GoodSn}" value="${element.firstUnit}" class="td-input td-inputFirstUnitAdd form-control" required> </td>
+                    <td class="addFactorTd-5"> <input type="text" name="SecondUnit${element.GoodSn}" value="${element.secondUnit}" class="td-input td-inputSecondUnitAdd form-control" required> </td>
+                    <td class="addFactorTd-6"> <input type="text" name="PackAmnt${element.GoodSn}" value="" class="td-input  td-inputSecondUnitAmountAdd form-control" required> </td>
+                    <td class="addFactorTd-7"> <input type="text" name="JozeAmountEdit${element.GoodSn}" value="" class="td-input td-inputJozeAmountAdd form-control" required> </td>
+                    <td class="addFactorTd-8"> <input type="text" name="FirstAmount${element.GoodSn}" value="" class="td-input td-inputFirstAmountAdd form-control" required> </td>
+                    <td class="addFactorTd-9"> <input type="text" name="ReAmount${element.GoodSn}" value="" class="td-input td-inputReAmountAdd form-control" required> </td>
+                    <td class="addFactorTd-10"> <input type="text" name="Amount${element.GoodSn}" value="" class="td-input  td-AllAmountAdd form-control" required> </td>
+                    <td class="addFactorTd-11"> <input type="text" name="Fi${element.GoodSn}" value="${parseInt(element.Price3).toLocaleString("en-us")}" class="td-input td-inputFirstUnitPriceAdd form-control" required> </td>
+                    <td class="addFactorTd-12"> <input type="text" name="FiPack${element.GoodSn}" value="" class="td-input td-inputSecondUnitPriceAdd form-control" required> </td>
+                    <td class="addFactorTd-13"> <input type="text" name="Price${element.GoodSn}" value="" class="td-input td-inputAllPriceAdd form-control" required> </td>
+                    <td class="addFactorTd-14"> <input type="text" name="PriceAfterTakhfif${element.GoodSn}" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control" required> </td>
+                    <td class="addFactorTd-15"> <input type="text" name="" value="0" class="td-input td-inputFactorNumAdd form-control" required> </td>
+                    <td class="addFactorTd-16"> <input type="text" name="" value="0" class="td-input td-inputFactorDateAdd form-control" required> </td>
+                    <td class="addFactorTd-17"> <input type="text" name="" value="0" class="td-input td-inputFactorDescAdd form-control" required> </td>
+                    <td class="addFactorTd-18"> <input type="text" name="NameStock${element.GoodSn}" value="0" class="td-input td-inputStockAdd form-control" required> </td>
+                    <td class="addFactorTd-19"> <input type="text" name="Price3PercentMaliat${element.GoodSn}" value="0" class="td-input td-inputMaliatAdd form-control" required> </td>
+                    <td class="addFactorTd-20"> <input type="text" name="Fi2Weight${element.GoodSn}" value="0" class="td-input td-inputWeightUnitAdd form-control" required> </td>
+                    <td class="addFactorTd-21"> <input type="text" name="Amount2Weight${element.GoodSn}" value="0" class="td-input td-inputAllWeightAdd form-control" required> </td>
+                    <td class="addFactorTd-22"> <input type="text" name="Service${element.GoodSn}" value="0" class="td-input  td-inputInserviceAdd form-control" required> </td>
+                    <td class="addFactorTd-23"> <input type="text" name="PercentMaliat${element.GoodSn}" value="0" class="td-input  td-inputPercentMaliatAdd form-control" required> </td>
+                    <td class="addFactorTd-24 d-none"> 
+                        <input type="text" value="`+element.lastBuyFi+`" class="td-input form-control">
+                    </td>
+                </tr>
+                `);
+                            
         $(`#factorAddListBody tr:nth-child(`+$("#factorRowTaker").val()+`)`).replaceWith(row);
         $(`#factorAddListBody tr:nth-child(`+$("#factorRowTaker").val()+`) td:nth-child(6) input`).focus();
         $(`#factorAddListBody tr:nth-child(`+$("#factorRowTaker").val()+`) td:nth-child(6) input`).select();
         checkAddedKalaAmountOfFactorAdd(data[0].GoodSn);
         }
+        makeTableColumnsResizable("addFactorTable");
     });
 
     $("#searchGoodsModalAddFactor").modal("hide");
@@ -2726,29 +2751,29 @@ $(document).on("keyup",".td-inputPercentMaliatAdd",function(e){
     if((e.keyCode === 9 ||e.keyCode === 13)  && (($(e.target).parents("tr").index()+1)==$("#factorAddListBody tr").length) && goodSn>0){
         checkNumberInput(e);
         let row=`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactorItem(this)">
-        <td class="td-part-input"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAmountAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-AllAmountAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorNumAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDateAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDescAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
-        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
+        <td class="addFactorTd-1"> </td>
+        <td class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+        <td class="addFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
+        <td class="addFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
+        <td class="addFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
+        <td class="addFactorTd-6"> <input type="text" value="" class="td-input td-inputSecondUnitAmountAdd form-control"> </td>
+        <td class="addFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
+        <td class="addFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
+        <td class="addFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
+        <td class="addFactorTd-10"> <input type="text" value="" class="td-input td-AllAmountAdd form-control"> </td>
+        <td class="addFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
+        <td class="addFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
+        <td class="addFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
+        <td class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+        <td class="addFactorTd-15"> <input type="text" value="" class="td-input td-inputFactorNumAdd form-control"> </td>
+        <td class="addFactorTd-16"> <input type="text" value="" class="td-input td-inputFactorDateAdd form-control"> </td>
+        <td class="addFactorTd-17"> <input type="text" value="" class="td-input td-inputFactorDescAdd form-control"> </td>
+        <td class="addFactorTd-18"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
+        <td class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+        <td class="addFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
+        <td class="addFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
+        <td class="addFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
+        <td class="addFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
     </tr>`;
 $("#factorAddListBody").append(row);
 
@@ -3582,35 +3607,39 @@ $(document).keydown((event)=>{
                     if(isNaN(goodSn)){
                         return
                     }
-                    $("#factorEditListBody").append(`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
-                        <td class="td-part-input"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeFEdit form-control"> <input type="radio" style="display:none" value=""/> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-AllAmountFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorNumFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDateFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDescFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceFEdit form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatFEdit form-control"> </td>
+                    $("#factorEditListBody").append(`
+                     <tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactor(this)">
+                        <td class="editFactorTd-1"> </td>
+                        <td class="editFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeFEdit form-control"> <input type="radio" style="display:none" value=""/> </td>
+                        <td class="editFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameFEdit form-control"> </td>
+                        <td class="editFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-6"> <input type="text" value="" class="td-input  td-inputSecondUnitAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-10"> <input type="text" value="" class="td-input  td-AllAmountFEdit form-control"> </td>
+                        <td class="editFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceFEdit form-control"> </td>
+                        <td class="editFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifFEdit  form-control"> </td>
+                        <td class="editFactorTd-15"> <input type="text" value="" class="td-input td-inputFactorNumFEdit form-control"> </td>
+                        <td class="editFactorTd-16> <input type="text" value="" class="td-input td-inputFactorDateFEdit form-control"> </td>
+                        <td class="editFactorTd-17"> <input type="text" value="" class="td-input td-inputFactorDescFEdit form-control"> </td>
+                        <td class="editFactorTd-18"> <input type="text" value="" class="td-input td-inputStockFEdit form-control"> </td>
+                        <td class="editFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatFEdit form-control"> </td>
+                        <td class="editFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitFEdit form-control"> </td>
+                        <td class="editFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightFEdit form-control"> </td>
+                        <td class="editFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceFEdit form-control"> </td>
+                        <td class="editFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatFEdit form-control"> </td>
                     </tr>`);
+
+                    makeTableColumnsResizable("factorEidtTable")
 
                 $("#factorEditListBody tr:last td:nth-child(2)").children('input').focus();
                 $("#factorEditListBody tr").removeClass("selected");
                 $("#factorEditListBody tr:last").addClass("selected");
+
                 }
                 break;
             case "factorAddListBody":
@@ -3621,35 +3650,37 @@ $(document).keydown((event)=>{
                     if(goodSn==0){
                         return
                     }
-                    $("#factorAddListBody").append(`<tr class="factorTablRow" onclick="checkAddedKalaAmountOfFactorItem(this)">
-                        <td class="td-part-input"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitAmountAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-AllAmountAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorNumAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDateAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputFactorDescAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
-                        <td class="td-part-input"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
+                    $("#factorAddListBody").append(`
+                      <tr onclick="checkAddedKalaAmountOfFactorItem(this)">
+                        <td class="addFactorTd-1"> </td>
+                        <td class="addFactorTd-2"> <input type="text" value="" class="td-input td-inputCodeAdd form-control"> <input type="radio" style="display:none" value=""/> </td>
+                        <td class="addFactorTd-3"> <input type="text" value="" class="td-input td-inputCodeNameAdd form-control"> </td>
+                        <td class="addFactorTd-4"> <input type="text" value="" class="td-input td-inputFirstUnitAdd form-control"> </td>
+                        <td class="addFactorTd-5"> <input type="text" value="" class="td-input td-inputSecondUnitAdd form-control"> </td>
+                        <td class="addFactorTd-6"> <input type="text" value="" class="td-input td-inputSecondUnitAmountAdd form-control"> </td>
+                        <td class="addFactorTd-7"> <input type="text" value="" class="td-input td-inputJozeAmountAdd form-control"> </td>
+                        <td class="addFactorTd-8"> <input type="text" value="" class="td-input td-inputFirstAmountAdd form-control"> </td>
+                        <td class="addFactorTd-9"> <input type="text" value="" class="td-input td-inputReAmountAdd form-control"> </td>
+                        <td class="addFactorTd-10"> <input type="text" value="" class="td-input td-AllAmountAdd form-control"> </td>
+                        <td class="addFactorTd-11"> <input type="text" value="" class="td-input td-inputFirstUnitPriceAdd form-control"> </td>
+                        <td class="addFactorTd-12"> <input type="text" value="" class="td-input td-inputSecondUnitPriceAdd form-control"> </td>
+                        <td class="addFactorTd-13"> <input type="text" value="" class="td-input td-inputAllPriceAdd form-control"> </td>
+                        <td class="addFactorTd-14"> <input type="text" value="" class="td-input td-inputAllPriceAfterTakhfifAdd  form-control"> </td>
+                        <td class="addFactorTd-15"> <input type="text" value="" class="td-input td-inputFactorNumAdd form-control"> </td>
+                        <td class="addFactorTd-16"> <input type="text" value="" class="td-input td-inputFactorDateAdd form-control"> </td>
+                        <td class="addFactorTd-17"> <input type="text" value="" class="td-input td-inputFactorDescAdd form-control"> </td>
+                        <td class="addFactorTd-18"> <input type="text" value="" class="td-input td-inputStockAdd form-control"> </td>
+                        <td class="addFactorTd-19"> <input type="text" value="" class="td-input td-inputMaliatAdd form-control"> </td>
+                        <td class="addFactorTd-20"> <input type="text" value="" class="td-input td-inputWeightUnitAdd form-control"> </td>
+                        <td class="addFactorTd-21"> <input type="text" value="" class="td-input td-inputAllWeightAdd form-control"> </td>
+                        <td class="addFactorTd-22"> <input type="text" value="" class="td-input  td-inputInserviceAdd form-control"> </td>
+                        <td class="addFactorTd-23"> <input type="text" value="" class="td-input  td-inputPercentMaliatAdd form-control"> </td>
                     </tr>`);
-                
+
                     $("#newSefarishTbl tr:last td:nth-child(2)").children('input').focus();
                     $("#newSefarishTbl tr").removeClass("selected");
                     $("#newSefarishTbl tr:last").addClass("selected");
+
                 }
                 break;
         
@@ -4302,35 +4333,35 @@ function factorHistoryRBuy(historyWord) {
                 payedAmount=element.payedMoney;
             }
             $("#factorRBListBody").append(`
-                                        <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
-                                            <td> ${index+1} </td>
-                                            <td> ${element.FactNo} </td>
-                                            <td> ${element.FactDate} </td>
-                                            <td> ${element.FactDesc} </td>
-                                            <td> ${element.PCode} </td>
-                                            <td> ${element.Name} </td>
-                                            <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
-                                            <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
-                                            <td> ${element.setterName} </td>
-                                            <td> حضوری </td>
-                                            <td> </td>
-                                            <td> ${element.stockName} </td>
-                                            <td> ${element.CountPrint} </td>
-                                            <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
-                                            <td> ${bargiriyState} </td>
-                                            <td> ${element.takhfif} </td>
-                                            <td>  </td>
-                                            <td> ${element.DateEelamBeAnbar} </td>
-                                            <td> ${element.TimeEelamBeAnbar} </td>
-                                            <td> ${element.DateBargiri} </td>
-                                            <td> ${element.TimeBargiri} </td>
-                                            <td> ${element.BarNameNo} </td>
-                                            <td> ${element.FactTime} </td>
-                                            <td> خیر </td>
-                                            <td> ${(element.bargiriNo||"")} </td>
-                                            <td> ${(element.driverTahvilDate || "")} </td>
-                                            <td> ${(element.driverName || "")} </td>
-                                        </tr>`);
+                    <tr class="factorTablRow" style="${trStyle}" onclick="getFactorOrders(this,${element.SerialNoHDS})">
+                        <td> ${index+1} </td>
+                        <td> ${element.FactNo} </td>
+                        <td> ${element.FactDate} </td>
+                        <td> ${element.FactDesc} </td>
+                        <td> ${element.PCode} </td>
+                        <td> ${element.Name} </td>
+                        <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")} </td>
+                        <td> ${parseInt(payedAmount).toLocaleString("en-us")} </td>
+                        <td> ${element.setterName} </td>
+                        <td> حضوری </td>
+                        <td> </td>
+                        <td> ${element.stockName} </td>
+                        <td> ${element.CountPrint} </td>
+                        <td> ${parseInt(bazaryabPorsant).toLocaleString("en-us")} </td>
+                        <td> ${bargiriyState} </td>
+                        <td> ${element.takhfif} </td>
+                        <td>  </td>
+                        <td> ${element.DateEelamBeAnbar} </td>
+                        <td> ${element.TimeEelamBeAnbar} </td>
+                        <td> ${element.DateBargiri} </td>
+                        <td> ${element.TimeBargiri} </td>
+                        <td> ${element.BarNameNo} </td>
+                        <td> ${element.FactTime} </td>
+                        <td> خیر </td>
+                        <td> ${(element.bargiriNo||"")} </td>
+                        <td> ${(element.driverTahvilDate || "")} </td>
+                        <td> ${(element.driverName || "")} </td>
+                    </tr>`);
         });
     })
 }
