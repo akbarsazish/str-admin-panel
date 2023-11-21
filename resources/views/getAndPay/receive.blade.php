@@ -120,8 +120,8 @@
                         <div class="row">
                             <div>
                                 <button class="btn btn-sm text-warning btn-success mb-2" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
-                                <button class="btn btn-sm text-warning btn-info mb-2" disabled onclick="openEditFactorModal(this.value)" id="editFactorButton"  style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
-                                <button class="btn btn-sm text-warning btn-danger mb-2" disabled id="deleteFactorBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
+                                <button class="btn btn-sm text-warning btn-info mb-2"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
+                                <button class="btn btn-sm text-warning btn-danger mb-2"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
                             </div>
                             <div class="text-end">
                             </div>
@@ -155,7 +155,7 @@
                     </thead>
                     <tbody id="receiveListBody" class="factorTableBody">
                         @foreach($receives as $receive)
-                            <tr class="factorTablRow" onclick="getGetAndPayBYS(this,{{$receive->SerialNoHDS}})"  class="factorTablRow">
+                            <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'receiveListBodyBYS',{{$receive->SerialNoHDS}})"  class="factorTablRow">
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$receive->DocNoHDS}}  </td>
                                 <td> {{$receive->DocDate}} </td>
@@ -215,7 +215,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/addDaryaft')}}" method="post" id="addDaryaftForm">
+                    <form action="{{url('/addDaryaft')}}" method="POST" id="addDaryaftForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-4">  
@@ -236,11 +236,11 @@
                                         <div class="row pt-2">
                                             <div class="col-md-6">
                                                 <label for=""> شخص </label>
-                                                <input name="daryaftType" type="radio" value="0" class="form-check-input">
+                                                <input name="daryaftType" id="DocTypeCustomerHDSStateDar" type="radio" value="0" class="form-check-input" checked>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for=""> درآمد </label>
-                                                <input name="daryaftType" type="radio" value="1" class="form-check-input">
+                                                <input name="daryaftType" id="DocTypeDarAmadHDSStateDar" type="radio" value="1" class="form-check-input">
                                             </div>
                                         </div>       
                                     </div>
@@ -249,8 +249,8 @@
                                     <span class="input-group-text"> مشتری </span>
                                     <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control" required>
                                     <input type="text" name="name" id="customerNameDaryaft" class="form-control" required>
-                                    <input type="hidden" name="customerId" id="customerIdDaryaft">
-                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
+                                    <input type="text" name="customerId" id="customerIdDaryaft">
+                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="">
                                 </div>
                                 <div class="input-group pt-2">
                                     <span class="input-group-text"> بابت </span>
@@ -298,8 +298,8 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-2">
-                                <fieldset>
-                                    <legend>افزودن</legend>
+                                <fieldset class="border border-sm rounded">
+                                    <legend class="float-none w-auto legendLabel mb-0"> افزودن </legend>
                                     <div class="mt-2">
                                         <button class="btn-sm btn btn-success text-warning w-100" type="button" onclick="openDaryaftVajhNaghdModal()"> وجه نقد <i class="fa fa-plus"></i> </button>
                                     </div>
@@ -318,7 +318,7 @@
                                     <div class="mt-2">
                                         <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openVarizToOthersHisbModal()"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
                                     </div>
-                            </fieldset>
+                                </fieldset>
                             </div>
                             <div class="col-md-10 border border-2 border-secondary">
                                 <table class="table">
@@ -371,7 +371,196 @@
                                                 <div class="border border-2 border-secondary mt-2">
                                                     <div class="input-group">
                                                         <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDar">  </span> </span>
-                                                        <input type="text" name="netPriceHDS" id="totalNetPriceHDSDar" class="d-none">
+                                                        <input type="text" name="netPriceHDS" id="totalNetPriceHDSDar" class="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-end mt-2">
+                                        <label for="" class="form-label"> این دریافتی بابت چک برگشتی می باشد </label>
+                                        <input type="checkbox" name="becauseReturnCheque" class="from-check-input">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="daryaftEditModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button onclick="closeDaryaftEditModal()" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
+                <h5 class="modal-title"> دریافت </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form action="{{url('/editDaryaft')}}" method="POST" id="editDaryaftForm">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-4">  
+                                <div class="row">
+                                    <div>
+                                        <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
+                                        <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
+                                    </div>
+                                </div>
+                                <div class="row pt-2">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text"> تاریخ </span>
+                                            <input type="text" name="editDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 border">
+                                        <div class="row pt-2">
+                                            <div class="col-md-6">
+                                                <label for=""> شخص </label>
+                                                <input name="daryaftType" id="DocTypeCustomerHDSStateDarEdit" type="radio" value="0" class="form-check-input" checked>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for=""> درآمد </label>
+                                                <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
+                                            </div>
+                                        </div>       
+                                    </div>
+                                </div>
+                                <div class="input-group pt-2">
+                                    <span class="input-group-text"> مشتری </span>
+                                    <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
+                                    <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
+                                    <input type="text" name="customerId" id="customerIdDaryaftEdit">
+                                    <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="">
+                                </div>
+                                <div class="input-group pt-2">
+                                    <span class="input-group-text"> بابت </span>
+                                    <input type="text" id="inforTypeCodeDarEdit" class="form-control">
+                                    <select name="inforTypeDaryaft" id="inforTypeDaryaftEdit" class="form-select">
+                                        <option value=""> </option>
+                                        @foreach($infors as $infor)
+                                            <option value="{{$infor->SnInfor}}"> {{$infor->InforName}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="row text-end">
+                                    <div>
+                                        <button class="btn btn-success btn-sm" type="submit"> ذخیره <i class="fa fa-save"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row  border border-2 border-secondary mt-2">
+                                    <table class="table factorTable">
+                                        <thead class="bg-success text-warning">
+                                            <tr>
+                                                <th> شرح </th>
+                                                <th> مبلغ </th>
+                                                <th> وضعیت </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text"> توضحیات </span>
+                                <input type="text" name="daryaftHdsDesc" class="form-control" required>
+                                <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-2">
+                                <fieldset class="border border-sm rounded">
+                                    <legend class="float-none w-auto legendLabel mb-0"> افزودن </legend>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning w-100" type="button" onclick="openDaryaftVajhNaghdModal()"> وجه نقد <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openChequeInfoModal()"> چک <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openHawalaInfoModal()"> حواله <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openSpentChequeModal()"> چک خرج شده <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openTakhfifModal()"> تخفیف <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openVarizToOthersHisbModal()"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-10 border border-2 border-secondary">
+                                <table class="table">
+                                    <thead class="bg-success text-warning">
+                                        <tr>
+                                            <th>  ردیف  </th>
+                                            <th>  دریف چک  </th>
+                                            <th>  شرح  </th>
+                                            <th>  مبلغ  </th>
+                                            <th>  ردیف در دفتر چک  </th>
+                                            <th>  شماره صیادی  </th>
+                                            <th>  ثبت شده به نام   </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="addedDaryaftListBodyEdit">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="m-2">
+                                    <button class="btn-sm btn-info text-warning w-100"> ویرایش <i class="fa fa-edit"></i></button>
+                                </div>
+                                <div class="m-2">
+                                    <button class="btn-sm btn-danger text-white w-100"> حذف <i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-sm-9">
+                                                <div class="border border-2 border-secondary mt-2">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group">
+                                                                <span class="input-text">  مبلغ فاکتور:  </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group">
+                                                                <span class="input-text">  مبلغ مانده:  </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="border border-2 border-secondary mt-2">
+                                                    <div class="input-group">
+                                                        <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDar">  </span> </span>
+                                                        <input type="text" name="netPriceHDS" id="totalNetPriceHDSDarEdit" class="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -447,169 +636,168 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
-  <div class="modal" id="daryaftVajhNaghdModalEdit" tabindex="-1">
+<div class="modal" id="daryaftVajhNaghdModalEdit" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-success text-warning">
-            <button class="btn-danger btn-sm btn" onclick="closeDaryaftVajhNaghdModalEdit()"> <i class="fa fa-times"></i></button>
-          <h5 class="modal-title"> دریافت وجه نقد </h5>
-          
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text"> نوع ارز: </span>
-                        <input type="text" disabled id="arzTypeNaghdDarEdit" class="form-control">
-                    </div>
-                    <div class="input-group mb-2">
-                        <span class="input-group-text"> مبلغ ارز: </span>
-                        <input type="text" id="arzMoneyNaghdDarEdit" disabled class="form-control">
-                    </div>
-                    <div class="input-group mb-2">
-                        <span class="input-group-text"> مبلغ ریال: </span>
-                        <input type="text" id="rialNaghdDarEdit" class="form-control">
-                    </div>
-                    <div class="input-group mb-2">
-                        <span class="input-group-text"> شرح: </span>
-                        <input type="text" id="descNaghdDarEdit" class="form-control">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text"> نرخ ارز </span>
-                        <input type="text" disabled class="form-control">
-                    </div>
-                    <div class="text-end m-2">
-                        <button class="btn btn-sm btn-success" disabled> تعیین نرخ ارز روز <i class="fa-edit fa"></i></button>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="text-end m-2">
-                        <button class="btn btn-sm btn-success" onclick="addNaghdMoneyDarEdit()"><i class="fa-save fa"></i></button>
-                    </div>
+        <div class="modal-content">
+            <div class="modal-header bg-success text-warning">
+                <button class="btn-danger btn-sm btn" onclick="closeDaryaftVajhNaghdModalEdit()"> <i class="fa fa-times"></i></button>
+                <h5 class="modal-title"> دریافت وجه نقد </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> نوع ارز: </span>
+                                <input type="text" disabled id="arzTypeNaghdDarEdit" class="form-control">
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> مبلغ ارز: </span>
+                                <input type="text" id="arzMoneyNaghdDarEdit" disabled class="form-control">
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> مبلغ ریال: </span>
+                                <input type="text" id="rialNaghdDarEdit" class="form-control">
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> شرح: </span>
+                                <input type="text" id="descNaghdDarEdit" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> نرخ ارز </span>
+                                <input type="text" disabled class="form-control">
+                            </div>
+                            <div class="text-end m-2">
+                                <button class="btn btn-sm btn-success" disabled> تعیین نرخ ارز روز <i class="fa-edit fa"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="text-end m-2">
+                                <button class="btn btn-sm btn-success" onclick="addNaghdMoneyDarEdit()"><i class="fa-save fa"></i></button>
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
+            <div class="modal-footer">
+            
+            </div>
         </div>
-        <div class="modal-footer">
-        
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <div class="modal" id="chequeInfo" tabindex="-1">
+<div class="modal" id="chequeInfo" tabindex="-1">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-            <button class="btn btn-danger btn-sm text-warning" onclick="closeChequeInfoModal()"> <i class="fa fa-times"></i></button>
-          <h5 class="modal-title"> اطلاعات چک </h5>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group mb-2">
-                            <span class="input-group-text"> شماره چک </span>
-                            <input type="text" id="chequeNoCheqeDar" class="form-control">
-                        </div>
-                        <div class="input-group  mb-2">
-                            <span class="input-group-text"> تاریخ سر رسید </span>
-                            <input type="text" id="checkSarRasidDateDar" class="form-control">
-                        </div>
-                        <div class="input-group  mb-2">
-                            <span class="input-group-text">  نام بانک </span>
-                            <select name="" id="bankNameDar" class="form-select">
-                                @foreach($banks as $bank)
-                                    <option value="{{$bank->SerialNoBSN}}">{{$bank->NameBsn}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="input-group  mb-2">
-                            <span class="input-group-text"> مبلغ به ریال </span>
-                            <input type="text" id="moneyChequeDar" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="text-end">
-                            <button class="btn-sm btn-success btn" onclick="addChequeDar()" > ذخیره <i class="fa-save fa"></i> </button>
-                        </div>
-                        <div class="input-group mb-2">
-                            <span class="input-group-text"> تاریخ چک برای بعد </span>
-                            <input type="text" id="daysAfterChequeDateDar" class="form-control">
-                        </div>
-                        <div class="input-group mb-2">
-                            <span class="input-group-text"> شعبه </span>
-                            <input type="text" id="shobeBankChequeDar" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <span> مبلغ به حروف : <span id="moneyInLetters"></span> </span>
-                    </div>
-
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <button class="btn btn-danger btn-sm text-warning" onclick="closeChequeInfoModal()"> <i class="fa fa-times"></i></button>
+                <h5 class="modal-title"> اطلاعات چک </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-group mb-2">
-                                <span class="input-group-text"> شماره حساب </span>
-                                <input type="text" id="hisabNoChequeDar" class="form-control">
+                                <span class="input-group-text"> شماره چک </span>
+                                <input type="text" id="chequeNoCheqeDar" class="form-control">
                             </div>
-                            <div class="input-group mb-2">
-                                <span class="input-group-text"> شماره صیادی </span>
-                                <input type="text" id="sayyadiNoChequeDar" class="form-control">
+                            <div class="input-group  mb-2">
+                                <span class="input-group-text"> تاریخ سر رسید </span>
+                                <input type="text" id="checkSarRasidDateDar" class="form-control">
                             </div>
-                            <div class="input-group mb-2">
-                                <span class="input-group-text"> ثبت شده به نام </span>
-                                <input type="text" id="sabtBeNameChequeDar" class="form-control">
+                            <div class="input-group  mb-2">
+                                <span class="input-group-text">  نام بانک </span>
+                                <select name="" id="bankNameDar" class="form-select">
+                                    @foreach($banks as $bank)
+                                        <option value="{{$bank->SerialNoBSN}}">{{$bank->NameBsn}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="input-group  mb-2">
+                                <span class="input-group-text"> مبلغ به ریال </span>
+                                <input type="text" id="moneyChequeDar" class="form-control">
                             </div>
                         </div>
-                    
                         <div class="col-md-6">
-                            <div class="input-group mb-2">
-                                <span class="input-group-text"> مالک  </span>
-                                <input type="text" id="malikChequeDar" class="form-control">
+                            <div class="text-end">
+                                <button class="btn-sm btn-success btn" onclick="addChequeDar()" > ذخیره <i class="fa-save fa"></i> </button>
                             </div>
-                            <div><button class="btn-success btn-sm btn text-warning">استفاده از بارکد خوان</button></div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> تاریخ چک برای بعد </span>
+                                <input type="text" id="daysAfterChequeDateDar" class="form-control">
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> شعبه </span>
+                                <input type="text" id="shobeBankChequeDar" class="form-control">
+                            </div>
                         </div>
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">
-                                شرح
-                            </span>
-                            <input type="text" id="descChequeDar" class="form-control">
+                        <div class="row">
+                            <span> مبلغ به حروف : <span id="moneyInLetters"></span> </span>
                         </div>
-                    </div>
 
-                </div>
-                <div class="row">
-                    <div class="border border-2 border-secondary p-2">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text"> تعداد تکرار </span>
-                                    <input type="text" id="repeateChequeDar" class="form-control">
+                                    <span class="input-group-text"> شماره حساب </span>
+                                    <input type="text" id="hisabNoChequeDar" class="form-control">
                                 </div>
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text"> فاصله سررسید </span>
-                                    <input type="text" id="distanceMonthChequeDar" class="form-control">
-
-                                    <span class="input-group-text"> ماهه </span>
-                                    <input type="text" id="distanceDarChequeDar" class="form-control">
-                                    <span class="diplay-4"> روز </span>
+                                    <span class="input-group-text"> شماره صیادی </span>
+                                    <input type="text" id="sayyadiNoChequeDar" class="form-control">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> ثبت شده به نام </span>
+                                    <input type="text" id="sabtBeNameChequeDar" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
+                        
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> مالک  </span>
+                                    <input type="text" id="malikChequeDar" class="form-control">
+                                </div>
+                                <div><button class="btn-success btn-sm btn text-warning">استفاده از بارکد خوان</button></div>
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text">
+                                    شرح
+                                </span>
+                                <input type="text" id="descChequeDar" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="border border-2 border-secondary p-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"> تعداد تکرار </span>
+                                        <input type="text" id="repeateChequeDar" class="form-control">
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text"> فاصله سررسید </span>
+                                        <input type="text" id="distanceMonthChequeDar" class="form-control">
+
+                                        <span class="input-group-text"> ماهه </span>
+                                        <input type="text" id="distanceDarChequeDar" class="form-control">
+                                        <span class="diplay-4"> روز </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+            </div>
         </div>
-        <div class="modal-footer">
-        </div>
-      </div>
     </div>
   </div>
 
@@ -1488,7 +1676,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
   <div class="modal" tabindex="-1" id="rasDaryaftItemModal">
     <div class="modal-dialog modal-lg">
@@ -1773,5 +1961,5 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 @endsection

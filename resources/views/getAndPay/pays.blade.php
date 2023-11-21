@@ -100,18 +100,20 @@
                         </tr>
                     </thead>
                     <tbody id="pamentTableBody">
-                        <tr>
-                            <td class="pardakhtTd-1"> ردیف </td>
-                            <td class="pardakhtTd-2"> شماره  </td>
-                            <td class="pardakhtTd-3"> تاریخ </td>
-                            <td class="pardakhtTd-4"> دریافت کننده </td>
-                            <td class="pardakhtTd-5"> بابت </td>
-                            <td class="pardakhtTd-6" > مبلغ  </td>
-                            <td class="pardakhtTd-7"> زمان ثبت </td>
-                            <td class="pardakhtTd-8"> کاربر  </td>
-                            <td class="pardakhtTd-9" > صندوق </td>
-                            <td class="pardakhtTd-10"> توضحیات </td>
-                        </tr>
+                        @foreach($pays as $pay)
+                            <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'paysDetailsBody',{{$pay->SerialNoHDS}})"  class="factorTablRow">
+                                <td class="pardakhtTd-1"> {{$loop->iteration}} </td>
+                                <td class="pardakhtTd-2"> {{$pay->DocNoHDS}}  </td>
+                                <td class="pardakhtTd-3"> {{$pay->DocDate}} </td>
+                                <td class="pardakhtTd-4"> {{$pay->Name}}</td>
+                                <td class="pardakhtTd-5"> {{$pay->DocDescHDS}} </td>
+                                <td class="pardakhtTd-6"> {{number_format($pay->NetPriceHDS)}}  </td>
+                                <td class="pardakhtTd-7"> {{$pay->SaveTime}}</td>
+                                <td class="pardakhtTd-8"> {{$pay->userName}}  </td>
+                                <td class="pardakhtTd-9"> {{$pay->cashName}} </td>
+                                <td class="pardakhtTd-10"> {{$pay->DocDescHDS}} </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             
@@ -123,7 +125,7 @@
                          <th id="payDetailsTd-3"> ردیف چک </th>
                         </tr>
                     </thead>
-                    <tbody id="paymentDetailsTable">
+                    <tbody id="paysDetailsBody">
                        <tr>
                          <td class="payDetailsTd-1"> ردیف </td>
                          <td class="payDetailsTd-2"> نوع سند </td>

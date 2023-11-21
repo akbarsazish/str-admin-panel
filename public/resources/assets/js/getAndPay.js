@@ -1,30 +1,53 @@
-    var baseUrl = "http://192.168.10.21:8080";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
-    function getGetAndPayBYS(element,snGetAndPay){
+    function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
         $(element).addClass("selected");
         $.get(baseUrl+"/getGetAndPayBYS",{snGetAndPay:snGetAndPay},function(respond,status){
-            $("#receiveListBodyBYS").empty();
-            respond.forEach((element,index) => {
-                $("#receiveListBodyBYS").append(`
-                   <tr>
-                    <td> ${(index+1)} </td>
-                    <td> ${element.docTypeName} </td>
-                    <td> ${element.ChequeRecNo} </td>
-                    <td> ${element.bankDesc} </td>
-                    <td> ${parseInt(element.Price).toLocaleString("en-us")} </td>
-                    <td> ${element.ChequeNo} </td>
-                    <td> ${element.ChequeDate} </td>
-                    <td> ${element.SnBank} </td>
-                    <td> ${element.Branch} </td>
-                    <td> ${element.AccBankno} </td>
-                    <td> ${element.Owner} </td>
-                    <td> ${element.DocDescBYS} </td>
-                    <td> ${element.NoSayyadi} </td>
-                    <td> ${element.NameSabtShode} </td>
-                </tr>`);
-            });
+            if(tableBodyId=='receiveListBodyBYS'){
+                $("#"+tableBodyId).empty();
+                respond.forEach((element,index) => {
+                    $("#"+tableBodyId).append(`
+                        <tr>
+                            <td> ${(index+1)} </td>
+                            <td> ${element.docTypeName} </td>
+                            <td> ${element.ChequeRecNo} </td>
+                            <td> ${element.bankDesc} </td>
+                            <td> ${parseInt(element.Price).toLocaleString("en-us")} </td>
+                            <td> ${element.ChequeNo} </td>
+                            <td> ${element.ChequeDate} </td>
+                            <td> ${element.SnBank} </td>
+                            <td> ${element.Branch} </td>
+                            <td> ${element.AccBankno} </td>
+                            <td> ${element.Owner} </td>
+                            <td> ${element.DocDescBYS} </td>
+                            <td> ${element.NoSayyadi} </td>
+                            <td> ${element.NameSabtShode} </td>
+                        </tr>`);
+                    });
+                }else{
+                    $("#"+tableBodyId).empty();
+                respond.forEach((element,index) => {
+                    $("#"+tableBodyId).append(`
+                        <tr>
+                        <td>${index+1}</td>
+                        <td> ${element.docTypeName} </td>
+                        <td> ${element.ChequeRecNo} </td>
+                        </tr>`
+                    );
+                });
+            }
         })
+
+        
+
+        $("#deleteGetAndPayBYSBtn").prop("disabled",false);
+
+        $("#deleteGetAndPayBYSBtn").val(snGetAndPay);
+
+        $("#editGetAndPayBYSBtn").prop("disabled",false);
+        
+        $("#editGetAndPayBYSBtn").val(snGetAndPay);
     }
 
     $("#filterReceivesForm").on("submit",function(e){
@@ -38,7 +61,7 @@
             success: function (respond) {
                 $("#receiveListBody").empty();
                 respond.forEach((element,index) => {
-                    $("#receiveListBody").append(`<tr class="factorTablRow" onclick="getGetAndPayBYS(this,${element.SerialNoHDS})"  class="factorTablRow">
+                    $("#receiveListBody").append(`<tr class="factorTablRow" onclick="getGetAndPayBYS(this,'receiveListBodyBYS',${element.SerialNoHDS})"  class="factorTablRow">
                                                         <td> ${index+1} </td>
                                                         <td> ${element.DocNoHDS}  </td>
                                                         <td> ${element.DocDate} </td>
@@ -378,7 +401,7 @@
                                                 <td>  </td>
                                                 <td>  </td>
                                                 <td>  </td>
-                                                <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                                <td> <input type="text" value="1" name="DocTypeBys${rowCount+1}" class=""/> </td>
                                                 <td> <input type="text" value="${rials}" name="Price${rowCount+1}" class=""/> </td>
                                                 <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
                                                 <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
@@ -503,7 +526,7 @@
                                             <td> 0 </td>
                                             <td> ${sayyadiNoChequeDar} </td>
                                             <td> ${sabtBeNameChequeDar} </td>
-                                            <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="2" name="DocTypeBys${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value="${moneyChequeDar}" name="Price${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value="${checkSarRasidDateDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount+1}" class=""/> </td>
@@ -693,7 +716,7 @@ function addVarizToOtherHisab(){
                                             <td> 0 </td>
                                             <td>  </td>
                                             <td>  </td>
-                                            <td> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                                            <td> <input type="text" value="6" name="DocTypeBys${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value="${moneyVarizToOtherHisabDar}" name="Price${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
                                             <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
@@ -726,8 +749,7 @@ $("#addDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            console.info(data)
-            $("#")
+            window.location.reload();
         },
         error:function(error){}
     });
@@ -791,4 +813,108 @@ function editDaryaftItem(modalId,element){
             }
             break;
     }
+}
+
+
+$("#DocTypeCustomerHDSStateDar").on("change",()=>{
+    if($("#DocTypeCustomerHDSStateDar").is(":checked")){
+        enableCustomerInfo("customerCodeDaryaft","customerNameDaryaft","customerIdDaryaft")
+    }else{
+        disableCustomerInfo("customerCodeDaryaft","customerNameDaryaft","customerIdDaryaft");
+    }
+})
+
+$("#DocTypeDarAmadHDSStateDar").on("change",()=>{
+    if($("#DocTypeDarAmadHDSStateDar").is(":checked")){
+        disableCustomerInfo("customerCodeDaryaft","customerNameDaryaft","customerIdDaryaft")
+    }else{
+        enableCustomerInfo("customerCodeDaryaft","customerNameDaryaft","customerIdDaryaft");
+    }
+})
+
+function disableCustomerInfo(codeInputId,nameInputId,idInputId){
+
+    $("#"+codeInputId).val("");
+    $("#"+nameInputId).val("");
+    $("#"+idInputId).val("");
+
+    $("#"+codeInputId).prop("disabled",true);
+    $("#"+nameInputId).prop("disabled",true);
+    $("#"+idInputId).prop("disabled",true);
+
+}
+
+function enableCustomerInfo(codeInputId,nameInputId,idInputId){
+
+    $("#"+codeInputId).val("");
+    $("#"+nameInputId).val("");
+    $("#"+idInputId).val("");
+
+    $("#"+codeInputId).prop("disabled",false);
+    $("#"+nameInputId).prop("disabled",false);
+    $("#"+idInputId).prop("disabled",false);
+}
+
+$("#deleteGetAndPayBYSBtn").on("click",(e)=>{
+    deleteGetAndPays($("#deleteGetAndPayBYSBtn").val());
+})
+
+function deleteGetAndPays(snHDS){
+    swal({
+        title:" آیا می خواهید حذف کنید؟",
+        buttons:true
+    }).then((willDelete)=>{
+        if(willDelete){
+            $.get(baseUrl+"/deleteGetAndPays",{snHDS:snHDS},(respond,status)=>{
+                window.location.reload();
+            })
+        }
+    })
+}
+
+function openDaryaftEditModal(snGetAndPay){
+
+    $.get(baseUrl+"/getGetAndPayInfo",{snGetAndPay:snGetAndPay},(respond,status)=>{
+        if(respond.response[0].SnFactForTasviyeh>0){
+
+            swal({
+                text:` سند مورد نظر مربوط به فاکتور فروش به شماره xxx می باشد.
+                 قادر به اصلاح/حذف نمی باشید.
+                جهت اصلاح/حذف فقط کافیست مبالغ از داخل فاکتور مربوطه حذف کنید. `,
+                buttons:true
+            });
+
+        }else{
+            if(respond.response[0].StatusHDS>0){
+
+                swal({
+                    text:`به علت رسیدگی قادر به اصلاح نمی باشید!`,
+                    buttons:ture
+                });
+
+            }else{
+                if (!($('.modal.in').length)) {
+                    $('.modal-dialog').css({
+                        top: 0,
+                        left: 0
+                    });
+                }
+                $('#daryaftEditModal').modal({
+                    backdrop: false,
+                    show: true
+                });
+            
+                $('.modal-dialog').draggable({
+                    handle: ".modal-header"
+                });
+            }
+
+        }
+    });
+
+
+}
+
+function closeDaryaftEditModal(){
+    $("#daryaftEditModal").modal("hide")
 }
