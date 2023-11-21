@@ -399,22 +399,22 @@
     // console.log(Hasil[0]);
   
     // Ambil value item yang terpilih
-    if (FirstPrize.includes(Hasil[0]))  SelectedItem ="{{$products[0]->firstPrize}}";
-    if (secondPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->secondPrize}}";
-    if (thirdPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->thirdPrize}}";
-    if (fourthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->fourthPrize}}";
-    if (fifthPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->fifthPrize}}";
-    if (sixthPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->sixthPrize}}";
-    if (seventhPrize.includes(Hasil[0]))SelectedItem = "{{$products[0]->seventhPrize}}";
-    if (eightPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->eightthPrize}}";
-    if (ninthPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->ninethPrize}}";
-    if (teenthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->teenthPrize}}";
-    if (eleventhPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->eleventhPrize}}";
-    if (twelvthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->twelvthPrize}}";
+    if (FirstPrize.includes(Hasil[0]))      SelectedItem ="{{$products[0]->firstPrize}}";
+    if (secondPrize.includes(Hasil[0]))     SelectedItem = "{{$products[0]->secondPrize}}";
+    if (thirdPrize.includes(Hasil[0]))      SelectedItem = "{{$products[0]->thirdPrize}}";
+    if (fourthPrize.includes(Hasil[0]))     SelectedItem = "{{$products[0]->fourthPrize}}";
+    if (fifthPrize.includes(Hasil[0]))      SelectedItem = "{{$products[0]->fifthPrize}}";
+    if (sixthPrize.includes(Hasil[0]))      SelectedItem = "{{$products[0]->sixthPrize}}";
+    if (seventhPrize.includes(Hasil[0]))    SelectedItem = "{{$products[0]->seventhPrize}}";
+    if (eightPrize.includes(Hasil[0]))      SelectedItem = "{{$products[0]->eightthPrize}}";
+    if (ninthPrize.includes(Hasil[0]))      SelectedItem = "{{$products[0]->ninethPrize}}";
+    if (teenthPrize.includes(Hasil[0]))     SelectedItem = "{{$products[0]->teenthPrize}}";
+    if (eleventhPrize.includes(Hasil[0]))   SelectedItem = "{{$products[0]->eleventhPrize}}";
+    if (twelvthPrize.includes(Hasil[0]))    SelectedItem = "{{$products[0]->twelvthPrize}}";
     if (therteenthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->therteenthPrize}}";
     if (fourteenthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->fourteenthPrize}}";
-    if (fifteenthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->fifteenthPrize}}";
-    if (sixteenthPrize.includes(Hasil[0])) SelectedItem = "{{$products[0]->sixteenthPrize}}";
+    if (fifteenthPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->fifteenthPrize}}";
+    if (sixteenthPrize.includes(Hasil[0]))  SelectedItem = "{{$products[0]->sixteenthPrize}}";
     box.style.setProperty("transition", "all ease 5s");
 
     box.style.transform = "rotate(" + Hasil[0]+ "deg)";

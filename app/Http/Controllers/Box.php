@@ -15,7 +15,16 @@ class Box extends Controller{
         $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 AND TypeInfor=4");
         $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
         $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
-        return view('receive.receive', ['users'=>$users,'receives'=>$receives,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears])->render();
+        return view('getAndPay.receive', ['users'=>$users,'receives'=>$receives,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears])->render();
+    }
+
+  public function pays() {
+    $pays=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=2 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
+    $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
+    $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 AND TypeInfor=4");
+    $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
+    $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
+        return view('getAndPay.pays', ['users'=>$users,'pays'=>$pays,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears])->render();
     }
     function getGetAndPayBYS(Request $request) {
         $snGetAndPayHDS=$request->input("snGetAndPay");
@@ -76,15 +85,58 @@ class Box extends Controller{
     }
 
     function addDaryaft(Request $request) {
+       // return $request->all();
+        $cashMasterId=0;
+        $snPeopel=3609;
+        $daryaftType=0;
+
         $byss=$request->input("byss");
+
         $addDaryaftDate=$request->input("addDaryaftDate");
-        $snPeopel=$request->input("customerId");
+
+        if($request->input("customerId")){
+
+            $snPeopel=$request->input("customerId");
+
+        }
+
+        if($request->input("daryaftType")==1){
+
+            $daryaftType=$request->input("daryaftType");
+            $snPeopel=0;
+
+        }else{
+            $snPeopel=$request->input("customerId");
+        }
+
+        //return $addDaryaftDate;
+
         $daryaftHdsDesc=$request->input("daryaftHdsDesc");
-        $inforTypeDaryaft=$request->input("inforTypeDaryaft");
-        $netPriceHDS=$request->input("netPriceHDS");
-        $cashMasterId=$request->input("sandoghIdDar");
+
+        $inforTypeDaryaft=0;
+
+        if($request->input("inforTypeDaryaft")){
+            $inforTypeDaryaft=$request->input("inforTypeDaryaft");
+        }
+        
+        $netPriceHDS=0;
+
+        if($request->input("netPriceHDS")){
+
+            $netPriceHDS=$request->input("netPriceHDS");
+            
+        }
+
+
+        if($request->input("sandoghIdDar")){
+            $cashMasterId=$request->input("sandoghIdDar");
+
+        }
+
         $snHDS=0;
+
         $docNoHDS=0;
+
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
 
         DB::table("Shop.dbo.GetAndPayHDS")->insert(["CompanyNo"=>5
@@ -97,7 +149,7 @@ class Box extends Controller{
                                                     ,"FiscalYear"=>1402
                                                     ,"InForHDS"=>$inforTypeDaryaft
                                                     ,"NetPriceHDS"=>$netPriceHDS
-                                                    ,"DocTypeHDS"=>0
+                                                    ,"DocTypeHDS"=>$daryaftType
                                                     ,"SnCashMaster"=>$cashMasterId
                                                     ,"SnUser"=>12]);
         
@@ -194,7 +246,7 @@ class Box extends Controller{
                                                         ,"AccBankno"=>$accBankNo
                                                         ,"Owner"=>"$owener"
                                                         ,"SnBank"=>$snBank
-                                                        ,"Branch"=>""
+                                                        ,"Branch"=>""//should be added
                                                         ,"SnChequeBook"=>$snChequeBook
                                                         ,"FiscalYear"=>1402
                                                         ,"SnHDS"=>$snHDS
@@ -203,14 +255,25 @@ class Box extends Controller{
                                                         ,"SnAccBank"=>$snAccBank
                                                         ,"CashNo"=>$cashNo
                                                         ,"NoPayaneh_KartKhanBys"=>"$noPayanehKartKhanBYS"
-                                                        ,"KarMozdPriceBys"=>0 //should be add
-                                                        ,"NoSayyadi"=>""//should be add
-                                                        ,"NameSabtShode"=>"" //should be add
-                                                        ,"SnPeopelPay"=>0// should be add
+                                                        ,"KarMozdPriceBys"=>0 //should be added
+                                                        ,"NoSayyadi"=>""//should be added
+                                                        ,"NameSabtShode"=>"" //should be added
+                                                        ,"SnPeopelPay"=>0// should be added
                                                     ]);
 
         }
 
         return Response::json("added");
     }
+
+    function getGetAndPayInfo(Request $request){
+
+        $snGetAndPayHDS=$request->input("snGetAndPay");
+
+        $getAndPay=DB::select("SELECT * FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
+        
+        return Response::json(['response'=>$getAndPay]);
+    }
+
+
 }
