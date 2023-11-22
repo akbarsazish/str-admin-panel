@@ -142,7 +142,6 @@ $(document).ready(function () {
                     }));
 
 
-
                     // the following code assign Anbar to the left table 
                     $("#allstockOfList").empty();
 
@@ -154,8 +153,7 @@ $(document).ready(function () {
                         <td>
                         <input  class="addStockToList form-check-input" name="addedStockToList[]" type="checkbox" value="`+ element.SnStock + `">
                         </td>
-                    </tr>
-              `)
+                    </tr>`)
                     });
 
                     //for setting minimam saling of kala
@@ -175,7 +173,6 @@ $(document).ready(function () {
                             }
                         });
                     }));
-
 
 
                     //for setting maximam saling of kala

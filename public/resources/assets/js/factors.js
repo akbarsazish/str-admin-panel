@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 var baseUrl = "http://192.168.10.26:8080";
-=======
-var baseUrl = "http://192.168.10.21:8000";
->>>>>>> b077253f0ce6314a0330a1924f6640afb2aaecc5
 function getFactorOrders(element,factorSn){
     $("tr").removeClass("selected");
     $(element).addClass("selected");
