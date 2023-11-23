@@ -4881,8 +4881,8 @@ input:focus::placeholder {
 }
 
 .selected-row {
-    background-color: rgb(238, 215, 215);
-    color: #000;
+  background-color: rgb(238, 215, 215);
+  color: #000;
 }
 
 table tfoot{display:none;}

@@ -314,17 +314,17 @@ button:hover::after, button:focus::after {
 
 @media (max-width :920px) {
   .thirdRecordBoarder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 110px !important;
-    height: 110px !important;
-    border-radius:50% !important;
-    content: '';
-    background: linear-gradient(60deg, #bb955c, #d5824a, #c28b70, #baa88f,#d2783a);
-    animation: animatedgradient 3s ease alternate infinite;
-    background-size: 30% 30%; 
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 110px !important;
+      height: 110px !important;
+      border-radius:50% !important;
+      content: '';
+      background: linear-gradient(60deg, #bb955c, #d5824a, #c28b70, #baa88f,#d2783a);
+      animation: animatedgradient 3s ease alternate infinite;
+      background-size: 30% 30%; 
+  }
 }
 
 @keyframes animatedgradient {

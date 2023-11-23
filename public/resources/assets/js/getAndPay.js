@@ -30,23 +30,18 @@
                 respond.forEach((element,index) => {
                     $("#"+tableBodyId).append(`
                         <tr>
-                        <td>${index+1}</td>
-                        <td> ${element.docTypeName} </td>
-                        <td> ${element.ChequeRecNo} </td>
+                            <td>${index+1}</td>
+                            <td> ${element.docTypeName} </td>
+                            <td> ${element.ChequeRecNo} </td>
                         </tr>`
                     );
                 });
             }
         })
 
-        
-
         $("#deleteGetAndPayBYSBtn").prop("disabled",false);
-
         $("#deleteGetAndPayBYSBtn").val(snGetAndPay);
-
         $("#editGetAndPayBYSBtn").prop("disabled",false);
-        
         $("#editGetAndPayBYSBtn").val(snGetAndPay);
     }
 
@@ -61,22 +56,22 @@
             success: function (respond) {
                 $("#receiveListBody").empty();
                 respond.forEach((element,index) => {
-                    $("#receiveListBody").append(`<tr class="factorTablRow" onclick="getGetAndPayBYS(this,'receiveListBodyBYS',${element.SerialNoHDS})"  class="factorTablRow">
-                                                        <td> ${index+1} </td>
-                                                        <td> ${element.DocNoHDS}  </td>
-                                                        <td> ${element.DocDate} </td>
-                                                        <td> ${element.Name}</td>
-                                                        <td> ${element.DocDescHDS} </td>
-                                                        <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
-                                                        <td> ${element.SaveTime}</td>
-                                                        <td> ${element.userName}  </td>
-                                                        <td > ${element.cashName} </td>
-                                                        <td> ${element.DocDescHDS} </td>
-                                                    </tr>`);
+                    $("#receiveListBody").append(`
+                        <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'receiveListBodyBYS',${element.SerialNoHDS})"  class="factorTablRow">
+                            <td> ${index+1} </td>
+                            <td> ${element.DocNoHDS}  </td>
+                            <td> ${element.DocDate} </td>
+                            <td> ${element.Name}</td>
+                            <td> ${element.DocDescHDS} </td>
+                            <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                            <td> ${element.SaveTime}</td>
+                            <td> ${element.userName}  </td>
+                            <td > ${element.cashName} </td>
+                            <td> ${element.DocDescHDS} </td>
+                        </tr>`);
                 })
             },
             error:function(error){
-
             }
         });
     })
@@ -166,10 +161,8 @@
             $("#bankAccNoHawalaDar").empty();
             $("#bankAccNoHawalaDar").append(`<option></option>`);
             for (const element of respond.bankKarts) {
-                
-                    $("#bankJustAccNoHawalaDar").val(element.AccNo);
-                    $("#bankAccNoHawalaDar").append(`<option selected value="${element.AccNo}">${element.bsn}</option>`);
-                
+                $("#bankJustAccNoHawalaDar").val(element.AccNo);
+                $("#bankAccNoHawalaDar").append(`<option selected value="${element.AccNo}">${element.bsn}</option>`);
             }
         });
         $("#hawalaInfoModal").modal("show");
@@ -267,7 +260,6 @@
     });
 
 
-
     $("#customerCodeDaryaft").on("keyup",function(e){
         $.get(baseUrl+"/getCustomerInofByCode",{pcode:$("#customerCodeDaryaft").val()},function(respond,status){
             $("#customerNameDaryaft").val(respond[0].Name);
@@ -297,14 +289,15 @@
                     let i=1;
                     for (const element of respond) {
                         i+=1;
-                        $("#customerForDaryaftListBody").append(`<tr onclick="setDaryaftCustomerStuff(this,${element.PSN})">
-                                                                    <td>  ${i}  </td>
-                                                                    <td>  ${element.Name}  </td>
-                                                                    <td>  ${element.PhoneStr}  </td>
-                                                                    <td>    </td>
-                                                                    <td>    </td>
-                                                                    <td>    </td>
-                                                                </tr>`);
+                        $("#customerForDaryaftListBody").append(`
+                           <tr onclick="setDaryaftCustomerStuff(this,${element.PSN})">
+                                <td>  ${i}  </td>
+                                <td>  ${element.Name}  </td>
+                                <td>  ${element.PhoneStr}  </td>
+                                <td>    </td>
+                                <td>    </td>
+                                <td>    </td>
+                            </tr>`);
                     }
                 })
             }
@@ -338,14 +331,15 @@
             let i=1;
             for (const element of respond) {
                 i+=1;
-                $("#searchedFactorForDarListBody").append(`<tr onclick="selecFactorForAddToDar(this,${element.SerialNoHDS})">
-                                                                <td>${i}</td>
-                                                                <td>${element.FactType}</td>
-                                                                <td>${element.FactNo}</td>
-                                                                <td>${element.FactDate}</td>
-                                                                <td>${element.TotalPriceHDS}</td>
-                                                                <td>${element.FactDesc}</td>
-                                                            </tr>`);
+                $("#searchedFactorForDarListBody").append(`
+                    <tr onclick="selecFactorForAddToDar(this,${element.SerialNoHDS})">
+                        <td>${i}</td>
+                        <td>${element.FactType}</td>
+                        <td>${element.FactNo}</td>
+                        <td>${element.FactDate}</td>
+                        <td>${element.TotalPriceHDS}</td>
+                        <td>${element.FactDesc}</td>
+                    </tr>`);
             }
         })
     })
@@ -495,9 +489,11 @@
             $("#shobeBankChequeDarMadal").modal("show");
         })
     })
+
     function closeShobeBankChequeDarMadal(){
         $("#shobeBankChequeDarMadal").modal("hide");
     }
+
     function selectShobeBankForChequeDar(element,snbranch){
         $("#shobeBankChequeDarBody tr").removeClass("selected");
         $(element).addClass("selected")
@@ -605,7 +601,8 @@
         let takhfifMoneyDar=$("#takhfifMoneyDar").val();
         let discriptionTakhfifDar=$("#discriptionTakhfifDar").val();
         let rowCount=$("#addedDaryaftListBody tr").length;
-        $("#addedDaryaftListBody").append(`<tr ondblclick="editDaryaftItem('takhfifModalEdit',this)">
+        $("#addedDaryaftListBody").append(`
+                <tr ondblclick="editDaryaftItem('takhfifModalEdit',this)">
                                                 <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
                                                 <td> 0 </td>
                                                 <td> بعدااضافه شود </td>
@@ -663,19 +660,20 @@ $("#customerNameOtherHisabSearchDar").on("keyup",function(event){
                 let i=1;
                 for (const element of respond) {
                     i+=1;
-                    $("#customerForDaryaftOtherHisabVarizListBody").append(`<tr onclick="setDaryaftCustomerOtherHisabStuff(this,${element.PSN})">
-                                                                <td>  ${i}  </td>
-                                                                <td>  ${element.Name}  </td>
-                                                                <td>  ${element.PhoneStr}  </td>
-                                                                <td>    </td>
-                                                                <td>    </td>
-                                                                <td>    </td>
-                                                            </tr>`);
-                }
-            })
+                    $("#customerForDaryaftOtherHisabVarizListBody").append(`
+                       <tr onclick="setDaryaftCustomerOtherHisabStuff(this,${element.PSN})">
+                            <td>  ${i}  </td>
+                            <td>  ${element.Name}  </td>
+                            <td>  ${element.PhoneStr}  </td>
+                            <td>    </td>
+                            <td>    </td>
+                            <td>    </td>
+                        </tr>`);
+                    }
+               })
+            }
         }
-    }
-})
+    })
 
 function setDaryaftCustomerOtherHisabStuff(element,psn){
     $("#customerForDaryaftOtherHisabVarizListBody tr").removeClass("selected");
@@ -708,28 +706,29 @@ function addVarizToOtherHisab(){
     let paygiriOtherHisabDar=$("#paygiriOtherHisabDar").val();
     let discriptionOtherHisabDar=$("#discriptionOtherHisabDar").val();
     let rowCount=$("#addedDaryaftListBody tr").length;
-    $("#addedDaryaftListBody").append(`<tr ondblclick="editDaryaftItem('varizToOthersHisbModalEdit',this)">
-                                            <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-                                            <td> 0 </td>
-                                            <td> بعدااضافه شود </td>
-                                            <td> ${moneyVarizToOtherHisabDar} </td>
-                                            <td> 0 </td>
-                                            <td>  </td>
-                                            <td>  </td>
-                                            <td> <input type="text" value="6" name="DocTypeBys${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="${moneyVarizToOtherHisabDar}" name="Price${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="${cartNoVarizToOtherDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="${discriptionOtherHisabDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                                            <td> <input type="text" value="${varizBehisabDigariCustomerPSNDar}" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-                                        </tr>`);
+    $("#addedDaryaftListBody").append(`
+       <tr ondblclick="editDaryaftItem('varizToOthersHisbModalEdit',this)">
+            <td> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
+            <td> 0 </td>
+            <td> بعدااضافه شود </td>
+            <td> ${moneyVarizToOtherHisabDar} </td>
+            <td> 0 </td>
+            <td>  </td>
+            <td>  </td>
+            <td> <input type="text" value="6" name="DocTypeBys${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="${moneyVarizToOtherHisabDar}" name="Price${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="${cartNoVarizToOtherDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="${discriptionOtherHisabDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
+            <td> <input type="text" value="${varizBehisabDigariCustomerPSNDar}" name="SnPeopelPay${rowCount+1}" class=""/> </td>
+        </tr>`);
     $("#varizToOthersHisbModal").modal("hide")
     let netPriceHDS=0;
     for (let index = 1; index <= rowCount+1; index++) {
@@ -807,11 +806,10 @@ function editDaryaftItem(modalId,element){
                 $("#discriptionOtherHisabDarEdit").val($(element).find("td:eq(2)").text());
             }
             break;
-        case "spentChequeModalEdit":
-            {
+        case "spentChequeModalEdit":  {
 
-            }
-            break;
+         }
+        break;
     }
 }
 
@@ -833,19 +831,15 @@ $("#DocTypeDarAmadHDSStateDar").on("change",()=>{
 })
 
 function disableCustomerInfo(codeInputId,nameInputId,idInputId){
-
     $("#"+codeInputId).val("");
     $("#"+nameInputId).val("");
     $("#"+idInputId).val("");
-
     $("#"+codeInputId).prop("disabled",true);
     $("#"+nameInputId).prop("disabled",true);
     $("#"+idInputId).prop("disabled",true);
-
 }
 
 function enableCustomerInfo(codeInputId,nameInputId,idInputId){
-
     $("#"+codeInputId).val("");
     $("#"+nameInputId).val("");
     $("#"+idInputId).val("");
@@ -873,10 +867,8 @@ function deleteGetAndPays(snHDS){
 }
 
 function openDaryaftEditModal(snGetAndPay){
-
     $.get(baseUrl+"/getGetAndPayInfo",{snGetAndPay:snGetAndPay},(respond,status)=>{
         if(respond.response[0].SnFactForTasviyeh>0){
-
             swal({
                 text:` سند مورد نظر مربوط به فاکتور فروش به شماره xxx می باشد.
                  قادر به اصلاح/حذف نمی باشید.
@@ -908,13 +900,28 @@ function openDaryaftEditModal(snGetAndPay){
                     handle: ".modal-header"
                 });
             }
-
         }
     });
-
-
 }
 
 function closeDaryaftEditModal(){
     $("#daryaftEditModal").modal("hide")
+}
+
+function paysModal(){
+    if (!($('.modal.in').length)) {
+        $('.modal-dialog').css({
+            top: 0,
+            left: 10
+        });
+    }
+    $('#payModal').modal({
+        backdrop: false,
+        show: true
+    });
+
+    $('.modal-dialog').draggable({
+        handle: ".modal-header"
+    });
+    $("#payModal").modal("show")
 }
