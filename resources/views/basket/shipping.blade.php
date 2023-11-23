@@ -102,7 +102,7 @@
                                     <div class="select-add2">
                                         @if(count($addresses)>0)
                                                 <select name="customerAddress" class="form-select" >
-                                                        <option value="{{$customer->peopeladdress.'_0'}}" style="font-size:12px">{{$customer->peopeladdress}}</option>
+                                                    <option value="{{$customer->peopeladdress.'_0'}}" style="font-size:12px">{{$customer->peopeladdress}}</option>
                                                     @foreach($addresses as $address)
                                                         <option value="{{$address->AddressPeopel.'_'.$address->SnPeopelAddress}}" style="font-size:12px">{{$address->AddressPeopel}}</option>
                                                     @endforeach

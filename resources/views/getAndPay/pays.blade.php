@@ -7,7 +7,7 @@
             <fieldset class="border rounded mt-4 sidefieldSet">
                 <legend  class="float-none w-auto legendLabel mb-0">انتخاب</legend>
                   <span class="situation">
-                        <button class="btn btn-success btn-sm pardakht-btn"> تست راس آیتم های پرداختی </button>
+                        <button class="btn btn-success btn-sm pardakht-btn" data-toggle="modal" data-target="#payRasModal"> تست راس آیتم های پرداختی </button>
                          <form action="{{url("/filterGetPays")}}" method="get" id="filterReceivesForm">
                              @csrf
                             <div class="row">
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="row mainContent table-responsive">
-                <table class="resizableTable table table-hover table-bordered table-sm" id="paymentTable"  style="height:200px">
+                <table class="resizableTable table table-hover table-bordered table-sm" id="paymentTable"  style="height:222px">
                     <thead class="tableHeader">
                         <tr>
                             <th id="pardakhtTd-1"> ردیف </th>
@@ -101,7 +101,7 @@
                     </thead>
                     <tbody id="pamentTableBody">
                         @foreach($pays as $pay)
-                            <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'paysDetailsBody',{{$pay->SerialNoHDS}})"  class="factorTablRow">
+                            <tr onclick="getGetAndPayBYS(this,'paysDetailsBody',{{$pay->SerialNoHDS}})">
                                 <td class="pardakhtTd-1"> {{$loop->iteration}} </td>
                                 <td class="pardakhtTd-2"> {{$pay->DocNoHDS}}  </td>
                                 <td class="pardakhtTd-3"> {{$pay->DocDate}} </td>
@@ -117,7 +117,7 @@
                     </tbody>
                 </table>
             
-                <table class="resizableTable table table-hover table-bordered table-sm" id="paymentDetailsTable"  style="height:calc(100vh - 500px)">
+                <table class="resizableTable table table-hover table-bordered table-sm" id="paymentDetailsTable"  style="height:calc(100vh - 422px)">
                     <thead class="tableHeader">
                         <tr>
                          <th id="payDetailsTd-1"> ردیف </th>
@@ -126,27 +126,110 @@
                         </tr>
                     </thead>
                     <tbody id="paysDetailsBody">
-                       <tr>
-                         <td class="payDetailsTd-1"> ردیف </td>
-                         <td class="payDetailsTd-2"> نوع سند </td>
-                         <td class="payDetailsTd-3"> شرح </td>
-                        </tr>
+                
                     </tbody>
                 </table>
             </div>
             <div class="row contentFooter">
-              <div class="col-lg-12 text-end">
-                  <div class="btn-group mt-2" role="group"> 
+               <div class="col-lg-3 mt-2">
+                    <button class="btn btn-sm btn-success rounded ms-1" value="AFTERTOMORROW"> راس چک  </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" value="HUNDRED"> چاپ چک  </button>
+              </div>
+              <div class="col-lg-4 mt-2">
+                <div class="d-flex">
+                    <div class="p-2 flex-fill rasGeriTotal">  مجموع : </div> 
+                    <div class="p-2 flex-fill rasGeriTotal">  جمع آیتم های انتخابی : </div> 
+                    <div class="p-2 flex-fill rasGeriTotal">  تعداد : </div> 
+                    <div class="p-2 flex-fill rasGeriTotal">  مبلغ  : </div> 
+                </div>
+              </div>
+                
+              <div class="col-lg-5 text-end">
+                <div class="btn-group mt-2" role="group"> 
                     <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
                     <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
                     <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
                     <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
                     <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
                 </div>
-              </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="payRasModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-success py-2">
+          <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title" id="staticBackdropLabel"> راًس گیری  </h5>
+      </div>
+      <div class="modal-body">
+       <span class="card border my-1" >
+            <div class="d-flex bg-light">
+                <div class="p-2 flex-fill ">
+                    <div class="input-group input-group-sm mb-1 filterItems">
+                        <span class="input-group-text">  طرف حساب </span>
+                        <input  class="form-control form-control-sm" name="pCode" id="customerCode">
+                    </div>
+                </div>
+                <div class="p-2 flex-fill">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="p-2 flex-fill align-self-start"><button class="btn btn-sm btn-danger"> انصراف <i class="fa fa-xmark"> </i> </button> </div>
+            </div>
+
+            <div class="d-flex align-items-center bg-light rounded">
+                <div class="p-2 flex-fill">  <button type="button" class="btn btn-success btn-sm align-self-end"> محاسبه راس بدهی شخصی  </button> </div>
+                <div class="p-2 flex-fill">راس بدهی </div>
+                <div class="p-2 flex-fill">روز </div>
+                <div class="p-2 flex-fill"> : راً بدهی تا تاریخ </div>
+                <div class="p-2 flex-fill"> 
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text"> مبنای تاریخ راًس گیر  </span>
+                        <input type="text" name="" class="form-control form-control-sm">
+                    </div>
+                </div>
+            </div>
+     </span>
+     
+        <table class="resizableTable table table-hover table-bordered table-sm" id=""  style="height: 222px">
+            <thead class="tableHeader">
+                <tr>
+                    <th> ردیف </th>
+                    <th>  تاریخ  </th>
+                    <th>  بدهکاری </th>
+                </tr>
+            </thead>
+            <tbody>
+        
+            </tbody>
+        </table>
+      <div class="modal-footer py-1">
+           <div class="flex-fill justify-content-start">
+               <button type="button" class="btn btn-danger btn-sm align-self-end" data-dismiss="modal"> حذف  <i class="fa fa-xmark"></i> </button>
+            </div>
+            <div class="flex-fill justify-content-start">
+                <span class="ras-result"> جمع کل: </span>
+                <span class="ras-result"> جمع کل: </span>
+                <span class="ras-result"> جمع کل: </span>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    window.onload =()=>{
+        makeTableColumnsResizable("paymentTable");
+    }
+</script>
 @endsection
