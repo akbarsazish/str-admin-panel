@@ -1613,20 +1613,16 @@ public function getInviteCodeApi(Request $request){
         $bonus=$request->input("bonus");
 
 		$isExist=DB::select("SELECT * FROM NewStarfood.dbo.star_presentCycle WHERE $currentDay=0 and CustomerId=$customerId");
-		 if(count($isExist)>0){
+		if(count($isExist)>0){
 		 	DB::table("NewStarfood.dbo.star_presentCycle")->where("CustomerId",$customerId)->update(["$currentDay"=>1]);
 		 	$presentInfo=DB::select("SELECT * FROM NewStarfood.dbo.star_presentCycle WHERE CustomerId=$customerId");
-				$allCycleHistory=DB::table("NewStarfood.dbo.star_weeklyPresentHistory")
-					->where("CustomerSn",$customerId)
-					->where("isUsed",0)->get();
-				
-				if(count($allCycleHistory)<1){
-					DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->insert(["bonus"=>5
-						  ,"isUsed"=>0
-						  ,"CustomerSn"=>$customerId]);
-				}else{
-					DB::update("update NewStarfood.dbo.star_weeklyPresentHistory SET bonus +=$bonus WHERE CustomerSn=$customerId AND isUsed=0");
-				}
+            $allCycleHistory=DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->where("CustomerSn",$customerId)->where("isUsed",0)->get();
+            
+            if(count($allCycleHistory)<1){
+                DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->insert(["bonus"=>5,"isUsed"=>0,"CustomerSn"=>$customerId]);
+            }else{
+                DB::update("update NewStarfood.dbo.star_weeklyPresentHistory SET bonus +=$bonus WHERE CustomerSn=$customerId AND isUsed=0");
+            }
 		 }
 
        return Response::json(1);

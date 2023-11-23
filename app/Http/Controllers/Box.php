@@ -270,9 +270,17 @@ class Box extends Controller{
 
         $snGetAndPayHDS=$request->input("snGetAndPay");
 
-        $getAndPay=DB::select("SELECT * FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
+        $getAndPay=DB::select("SELECT *,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
+        $getAndPayBYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
+        $getAndPay[0]->BYS=$getAndPayBYS;
         
         return Response::json(['response'=>$getAndPay]);
+    }
+
+    function deleteGetAndPayBYSBtn(Request $request) {
+
+        $snHDS=$request->input("snHDS");
+        
     }
 
 

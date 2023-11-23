@@ -481,7 +481,7 @@
                             </div>
                             <div class="input-group mt-2">
                                 <span class="input-group-text"> توضحیات </span>
-                                <input type="text" name="daryaftHdsDesc" class="form-control" required>
+                                <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
                                 <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
                             </div>
                         </div>
@@ -530,10 +530,10 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="m-2">
-                                    <button class="btn-sm btn-info text-warning w-100"> ویرایش <i class="fa fa-edit"></i></button>
+                                    <button class="btn-sm btn-info text-warning w-100" type="button" onclick="openEditAddedGetAndPay(this.value)" id="editaddedGetAndPayBtn" disabled> ویرایش <i class="fa fa-edit"></i></button>
                                 </div>
                                 <div class="m-2">
-                                    <button class="btn-sm btn-danger text-white w-100"> حذف <i class="fa fa-trash"></i></button>
+                                    <button class="btn-sm btn-danger text-white w-100" type="button" onclick="deleteEditAddedGetAndPay(this.value)" id="deleteaddedGetAndPayBtn" disabled> حذف <i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -545,12 +545,12 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ فاکتور:  </span>
+                                                                <span class="input-text">  مبلغ فاکتور:   <span id="">  </span></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ مانده:  </span>
+                                                                <span class="input-text">  مبلغ مانده:   <span id="">  </span></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -558,11 +558,16 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="border border-2 border-secondary mt-2">
-                                                    <div class="input-group">
-                                                        <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDar">  </span> </span>
-                                                        <input type="text" name="netPriceHDS" id="totalNetPriceHDSDarEdit" class="">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group">
+                                                                <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDarEdit">  </span> </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <input type="text" name="netPriceHDS" id="totalNetPriceHDSDarEdit" class="d-none">
+
                                             </div>
                                         </div>
                                     </div>

@@ -875,24 +875,66 @@ function deleteGetAndPays(snHDS){
 function openDaryaftEditModal(snGetAndPay){
 
     $.get(baseUrl+"/getGetAndPayInfo",{snGetAndPay:snGetAndPay},(respond,status)=>{
-        if(respond.response[0].SnFactForTasviyeh>0){
+        let getAndPay=respond.response[0];
+        if(getAndPay.StatusHDS==0){
 
             swal({
-                text:` سند مورد نظر مربوط به فاکتور فروش به شماره xxx می باشد.
-                 قادر به اصلاح/حذف نمی باشید.
-                جهت اصلاح/حذف فقط کافیست مبالغ از داخل فاکتور مربوطه حذف کنید. `,
+                text:`به علت رسیدگی قادر به اصلاح نمی باشید!`,
                 buttons:true
             });
 
         }else{
-            if(respond.response[0].StatusHDS>0){
+            if(getAndPay.SnFactForTasviyeh>0){
 
                 swal({
-                    text:`به علت رسیدگی قادر به اصلاح نمی باشید!`,
-                    buttons:ture
+                    text:` سند مورد نظر مربوط به فاکتور فروش به شماره xxx می باشد.
+                     قادر به اصلاح/حذف نمی باشید.
+                    جهت اصلاح/حذف فقط کافیست مبالغ از داخل فاکتور مربوطه حذف کنید. `,
+                    buttons:true
                 });
 
             }else{
+                $("#editDaryaftDate").val(getAndPay.DocDate);
+                if(getAndPay.DocTypeHDS==0){
+                    $("#DocTypeCustomerHDSStateDarEdit").prop("checked",true);
+                }else{
+                    $("#DocTypeDarAmadHDSStateDarEdit").prop("checked",true);
+                }
+                $("#customerCodeDaryaftEdit").val(getAndPay.PCode);
+                $("#customerNameDaryaftEdit").val(getAndPay.Name);
+                $("#customerIdDaryaftEdit").val(getAndPay.PeopelHDS);
+                alert(getAndPay.INforCode)
+                $("#inforTypeDaryaftEdit").val(getAndPay.InforHDS);
+                $("#inforTypeCodeDarEdit").val(getAndPay.INforCode);
+                $("#daryaftHdsDescEdit").val(getAndPay.DocDescHDS);
+                $("#totalNetPriceHDSDarEdit").val(getAndPay.NetPriceHDS);
+                $("#netPriceDarEdit").text(parseInt(getAndPay.NetPriceHDS).toLocaleString('en-us'));
+                $("#addedDaryaftListBodyEdit").empty();
+                getAndPay.BYS.forEach((element,index)=>{
+                    $("#addedDaryaftListBodyEdit").append(`<tr onclick="setAddedDaryaftItemStuff(this,${element.SerialNoBYS})" ondblclick="editAddedDaryaftItem(this,${element.DocTypeBYS},${element.SerialNoBYS})">
+                                                            <td>${index+1}</td>
+                                                            <td>${element.ChequeNo}</td>
+                                                            <td>${element.bankDesc}</td>
+                                                            <td>${parseInt(element.Price).toLocaleString('en-us')}</td>
+                                                            <td>${element.RadifInDaftarCheque}</td>
+                                                            <td>${element.NoSayyadi}</td>
+                                                            <td>${element.NameSabtShode}</td>
+                                                            <td class="d-none"> <input type="text" value="${element.DocTypeBYS}" name="DocTypeBys${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.Price}" name="Price${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.ChequeDate}" name="ChequeDate${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.ChequeNo}" name="ChequeNo${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.AccBankno}" name="AccBankNo${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.Owner}" name="Owener${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.SnBank}" name="SnBank${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.SnChequeBook}" name="SnChequeBook${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.DocDescBYS}" name="DocDescBys${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.SnAccBank}" name="SnAccBank${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.CashNo}" name="CashNo${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.NoPayaneh_KartKhanBys}" name="NoPayanehKartKhanBYS${index+1}"/> </td>
+                                                            <td class="d-none"> <input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${index+1}"/> </td>
+                                                        </tr>`);
+                })
+
                 if (!($('.modal.in').length)) {
                     $('.modal-dialog').css({
                         top: 0,
@@ -917,4 +959,27 @@ function openDaryaftEditModal(snGetAndPay){
 
 function closeDaryaftEditModal(){
     $("#daryaftEditModal").modal("hide")
+}
+
+function setAddedDaryaftItemStuff(element,bysSn){
+    $("#addedDaryaftListBodyEdit tr").removeClass("selected");
+    $(element).addClass("selected");
+    $("#editaddedGetAndPayBtn").prop("disabled",false)
+    $("#deleteaddedGetAndPayBtn").prop("disabled",false)
+    $("#editaddedGetAndPayBtn").val(bysSn);
+    $("#deleteaddedGetAndPayBtn").val(bysSn);
+}
+
+function openEditAddedGetAndPay(bysSn){
+    alert(bysSn)
+}
+
+function deleteEditAddedGetAndPay(bysSn){
+    alert(bysSn)
+}
+
+function editAddedDaryaftItem(element,bysType,bysSn){
+    $("#addedDaryaftListBodyEdit tr").removeClass("selected");
+    $(element).addClass("selected");
+    alert(`should open addedEdit modal with type ${bysType} and id ${bysSn}`);
 }
