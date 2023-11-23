@@ -375,9 +375,17 @@
                               <input class="form-control form-control-sm mb-2" id="teenthPrize" value="{{number_format($settings->teenthPrize)}}" name="teenthPrize">
                               </div>
                               <div class="col-sm-2"> 
-                              <label class="tanzimat-label">جایزه مقام دهم</label>
-                              <input class="form-control form-control-sm mb-2" id="teenthPrize" value="{{number_format($settings->teenthPrize)}}" name="teenthPrize">
-                          </div>
+                                <div class="input-group mt-2">
+                                  <span class="input-group-text">
+                                    بازی فعال 
+                                  </span>
+                                  <select name="gameId" class="form-select">
+                                    <option value="0"> نجات زمین </option>
+                                    <option value="1"> رنگ بازی </option>
+                                    <option value="2"> برج سازی </option>
+                                  </select>
+                                </div>
+                              </div>
                           <div class="col-sm-2 mt-4 text-end">
                               <a href="{{url('/emptyGame')}}" onclick="if (confirm('می خواهید نتایج بازی را تخلیه کنید؟?')){return true;}else{event.stopPropagation(); event.preventDefault();};">
                               <button type="button" class="btn btn-success btn-sm btn-md btn-lg">تخلیه بازی  <i class="fa fa-icon-remove"></i> </button></a>

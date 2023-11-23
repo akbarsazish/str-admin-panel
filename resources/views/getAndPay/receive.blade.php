@@ -206,7 +206,7 @@
         </div>
     </div>
 </div>
-<div class="modal" id="daryaftModal" tabindex="-1">
+<div class="modal" id="addDaryaftModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -215,7 +215,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/addDaryaft')}}" method="POST" id="addDaryaftForm">
+                    <form action="{{url('/addDaryaft')}}" method="GET" id="addDaryaftForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-4">  
@@ -341,10 +341,10 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="m-2">
-                                    <button class="btn-sm btn-info text-warning w-100"> ویرایش <i class="fa fa-edit"></i></button>
+                                    <button type="button" class="btn-sm btn-info text-warning w-100" > ویرایش <i class="fa fa-edit"></i></button>
                                 </div>
                                 <div class="m-2">
-                                    <button class="btn-sm btn-danger text-white w-100"> حذف <i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn-sm btn-danger text-white w-100"> حذف <i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -394,6 +394,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal" id="daryaftEditModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
@@ -481,7 +482,7 @@
                             </div>
                             <div class="input-group mt-2">
                                 <span class="input-group-text"> توضحیات </span>
-                                <input type="text" name="daryaftHdsDesc" class="form-control" required>
+                                <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
                                 <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
                             </div>
                         </div>
@@ -530,10 +531,10 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="m-2">
-                                    <button class="btn-sm btn-info text-warning w-100"> ویرایش <i class="fa fa-edit"></i></button>
+                                    <button class="btn-sm btn-info text-warning w-100" type="button" onclick="openEditAddedGetAndPay(this.value)" id="editaddedGetAndPayBtn" disabled> ویرایش <i class="fa fa-edit"></i></button>
                                 </div>
                                 <div class="m-2">
-                                    <button class="btn-sm btn-danger text-white w-100"> حذف <i class="fa fa-trash"></i></button>
+                                    <button class="btn-sm btn-danger text-white w-100" type="button" onclick="deleteEditAddedGetAndPay(this.value)" id="deleteaddedGetAndPayBtn" disabled> حذف <i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -545,12 +546,12 @@
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ فاکتور:  </span>
+                                                                <span class="input-text">  مبلغ فاکتور:   <span id="">  </span></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ مانده:  </span>
+                                                                <span class="input-text">  مبلغ مانده:   <span id="">  </span></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -558,11 +559,16 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="border border-2 border-secondary mt-2">
-                                                    <div class="input-group">
-                                                        <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDar">  </span> </span>
-                                                        <input type="text" name="netPriceHDS" id="totalNetPriceHDSDarEdit" class="">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="input-group">
+                                                                <span class="input-text">  مجموع : <span name="netPriceDar" id="netPriceDarEdit">  </span> </span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <input type="text" name="netPriceHDS" id="totalNetPriceHDSDarEdit" class="d-none">
+
                                             </div>
                                         </div>
                                     </div>
@@ -584,7 +590,7 @@
     </div>
 </div>
 
-<div class="modal" id="daryaftVajhNaghdModal" tabindex="-1">
+<div class="modal" id="addDaryaftVajhNaghdModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success text-warning">
@@ -627,6 +633,60 @@
                         <button class="btn btn-sm btn-success" onclick="addNaghdMoneyDar()"><i class="fa-save fa"></i></button>
                     </div>
 
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal" id="addDaryaftVajhNaghdEidtModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-warning">
+            <button class="btn-danger btn-sm btn" onclick=""> <i class="fa fa-times"></i></button>
+          <h5 class="modal-title"> دریافت وجه نقد </h5>
+          
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"> نوع ارز: </span>
+                        <input type="text" disabled id="arzTypeNaghdEiditDar" class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"> مبلغ ارز: </span>
+                        <input type="text" id="arzMoneyNaghdEditDar" disabled class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"> مبلغ ریال: </span>
+                        <input type="text" id="rialNaghdEditDar" class="form-control">
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"> شرح: </span>
+                        <input type="text" id="descNaghdEditDar" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"> نرخ ارز </span>
+                        <input type="text" disabled class="form-control">
+                    </div>
+                    <div class="text-end m-2">
+                        <button class="btn btn-sm btn-success" disabled> تعیین نرخ ارز روز <i class="fa-edit fa"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="text-end m-2">
+                        <button class="btn btn-sm btn-success" onclick=""><i class="fa-save fa"></i></button>
+                    </div>
                 </div>
             </div>
           </div>
@@ -691,7 +751,7 @@
     </div>
 </div>
 
-<div class="modal" id="chequeInfo" tabindex="-1">
+<div class="modal" id="daryafAddChequeInfo" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -911,7 +971,7 @@
     </div>
   </div>
 
-  <div class="modal" id="hawalaInfoModal" tabindex="-1">
+  <div class="modal" id="daryafAddHawalaInfoModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header bg-success">
@@ -972,7 +1032,7 @@
     </div>
   </div>
 
-<div class="modal" id="hawalaInfoModalEdit" tabindex="-1">
+<div class="modal" id="daryaftHawalaInfoModalEdit" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -1033,7 +1093,7 @@
     </div>
 </div>
 
-<div class="modal" id="spentChequeModal" tabindex="-1">
+<div class="modal" id="addSpentChequeModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -1173,7 +1233,7 @@
     </div>
 </div>
 
-<div class="modal" id="takhfifModal" tabindex="-1">
+<div class="modal" id="daryaftAddTakhfifModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-warning">
@@ -1277,7 +1337,7 @@
     </div>
 </div>
 
-<div class="modal" id="varizToOthersHisbModal" tabindex="-1">
+<div class="modal" id="daryaftAddVarizToOthersHisbModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
@@ -1962,4 +2022,6 @@
       </div>
     </div>
 </div>
+
+
 @endsection

@@ -79,6 +79,7 @@ class App extends Controller{
             $eightthPrize=str_replace(",", "",$request->post("eightthPrize"));
             $ninthPrize=str_replace(",", "",$request->post("ninthPrize"));
             $teenthPrize=str_replace(",", "",$request->post("teenthPrize"));
+            $gameId=$request->input("gameId");
 
 
             if($apk){
@@ -162,7 +163,8 @@ class App extends Controller{
 			showDeleteNotification=$showNotificationMSG,
 		    startTimeImediatOrder='$startImediatOrder',
 			endTimeImediatOrder='$endImediatOrder',
-			enamadOther=$enamadOther"
+			enamadOther=$enamadOther,
+            gameId=$gameId"
         );
             $specialSettings=DB::select("SELECT * FROM NewStarfood.dbo.star_webSpecialSetting");
             $settings=[];

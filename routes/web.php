@@ -371,6 +371,6 @@ Route::get('/getFactorInfoByFactNo', [Factor::class, 'getFactorInfoByFactNo'])->
 Route::get('/getFactorInfoBySnFactor', [Factor::class, 'getFactorInfoBySnFactor'])->middleware("checkAdmin");
 Route::get('/getAllShobeBanks', [Bank::class, 'getAllShobeBanks'])->middleware("checkAdmin");
 Route::get('/getSandoghs', [Box::class, 'getSandoghs'])->middleware("checkAdmin");
-Route::post('/addDaryaft', [Box::class, 'addDaryaft'])->middleware("checkAdmin");
+Route::get('/addDaryaft', [Box::class, 'addDaryaft'])->middleware("checkAdmin");
 Route::get('/getGetAndPayInfo', [Box::class, 'getGetAndPayInfo'])->middleware("checkAdmin");
 Route::get("/pays",[Box::class,'pays'])->middleware("checkAdmin");
