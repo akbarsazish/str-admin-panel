@@ -1540,6 +1540,7 @@ $("#editOrderBtn").on("click", () => {
             $("#sendDateFromSefarishPageEdit").val(response[1][0].OrderDate);
             $("#customerCodeInputEdit").val(response[1][0].PCode);
             $("#searchCustomerNameInputEdit").val(response[1][0].Name);
+            $("#phoneStrInputEdit").val(response[1][0].PhoneStr);
             
             let bdbsState=" تسویه "
             let bdbsColor="white"

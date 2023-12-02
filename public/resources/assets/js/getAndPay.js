@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -38,8 +38,6 @@
                 });
             }
         })
-
-        
 
         $("#deleteGetAndPayBYSBtn").prop("disabled",false);
 
@@ -241,10 +239,6 @@
         $("#searchFactorModal").modal("hide")
     }
 
-    function openCustomerGardishModal(){
-        $("#customerGardishModal").modal("show")
-    }
-
     function closeCustomerGardishModal(){
         $("#customerGardishModal").modal("hide")
     }
@@ -316,6 +310,8 @@
         $(element).addClass("selected")
         $("#selectCustomerForDaryaftBtn").val(psn)
     }
+
+
 
     function chooseCustomerForDaryaft(psn){
         $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
@@ -982,4 +978,90 @@ function editAddedDaryaftItem(element,bysType,bysSn){
     $("#addedDaryaftListBodyEdit tr").removeClass("selected");
     $(element).addClass("selected");
     alert(`should open addedEdit modal with type ${bysType} and id ${bysSn}`);
+}
+
+function showCustomerGardish(element,elementId){
+        if(element.checked){
+            switch (elementId) {
+                case "showFromLastZeroRemainReportRadio":
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        let showTrState="show";
+                        for (let index = (rows.length)-1; index >=0; index--) {
+                            let lastTdValue=1;
+                            if(!isNaN(parseInt(rows[index].querySelector('td:last-child').textContent.trim()))){
+                                lastTdValue = parseInt(rows[index].querySelector('td:last-child').textContent.trim());
+                            }
+                            if(showTrState=="hide"){
+                                
+                                rows[index].style.setProperty('display', 'none', 'important');
+                               
+                            }
+
+                            if(lastTdValue===0){
+                                showTrState="hide"
+                            }
+
+                        }
+
+                    }
+                    break;
+                case "showFromLastControlledReportRadio":
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        let showTrState="show";
+                        for (let index = (rows.length)-1; index >=0; index--) {
+                            let lastTdValue=2;
+                            if(!isNaN(parseInt(rows[index].querySelector('td:nth-child(7)').textContent.trim()))){
+                                lastTdValue = parseInt(rows[index].querySelector('td:nth-child(7)').textContent.trim());
+                            }
+
+                            if(showTrState=="hide"){
+                                
+                                rows[index].style.setProperty('display', 'none', 'important');
+                               
+                            }else{
+                                rows[index].style.setProperty('display', '', 'important');
+
+                            }
+
+                            if(lastTdValue===1){
+                                showTrState="hide"
+                            }
+
+                        }
+                    }
+                    break;
+                default:
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        for (let index = rows.length-1; index >=0; index--) {
+                        
+                           rows[index].style.setProperty('display', '', 'important');
+                              
+                        }
+                    }
+                    break;
+            }
+        }else{
+            switch (elementId) {
+                case value:
+                    {
+
+                    }
+                    break;
+                case value:
+                    {
+                        
+                    }
+                    break;
+                
+            
+                default:
+                    break;
+            }
+        }
 }
