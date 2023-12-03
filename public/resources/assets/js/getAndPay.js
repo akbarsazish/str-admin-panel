@@ -1205,6 +1205,7 @@ function editAddedDaryaftItem(element,bysType,bysSn){
     alert(`should open addedEdit modal with type ${bysType} and id ${bysSn}`);
 }
 
+
 // get the DocTypeBys and add the value type to Edit button
 function addEditDaryaftItem(element){
     $("tr").removeClass("selected");
@@ -1392,4 +1393,90 @@ function editAddChequeDar() {
 }
 
 
+
+function showCustomerGardish(element,elementId){
+        if(element.checked){
+            switch (elementId) {
+                case "showFromLastZeroRemainReportRadio":
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        let showTrState="show";
+                        for (let index = (rows.length)-1; index >=0; index--) {
+                            let lastTdValue=1;
+                            if(!isNaN(parseInt(rows[index].querySelector('td:last-child').textContent.trim()))){
+                                lastTdValue = parseInt(rows[index].querySelector('td:last-child').textContent.trim());
+                            }
+                            if(showTrState=="hide"){
+                                
+                                rows[index].style.setProperty('display', 'none', 'important');
+                               
+                            }
+
+                            if(lastTdValue===0){
+                                showTrState="hide"
+                            }
+
+                        }
+
+                    }
+                    break;
+                case "showFromLastControlledReportRadio":
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        let showTrState="show";
+                        for (let index = (rows.length)-1; index >=0; index--) {
+                            let lastTdValue=2;
+                            if(!isNaN(parseInt(rows[index].querySelector('td:nth-child(7)').textContent.trim()))){
+                                lastTdValue = parseInt(rows[index].querySelector('td:nth-child(7)').textContent.trim());
+                            }
+
+                            if(showTrState=="hide"){
+                                
+                                rows[index].style.setProperty('display', 'none', 'important');
+                               
+                            }else{
+                                rows[index].style.setProperty('display', '', 'important');
+
+                            }
+
+                            if(lastTdValue===1){
+                                showTrState="hide"
+                            }
+
+                        }
+                    }
+                    break;
+                default:
+                    {
+                        let rows=document.querySelectorAll("#customerGardishListBody tr");
+                        //rows.style.display="none"
+                        for (let index = rows.length-1; index >=0; index--) {
+                        
+                           rows[index].style.setProperty('display', '', 'important');
+                              
+                        }
+                    }
+                    break;
+            }
+        }else{
+            switch (elementId) {
+                case value:
+                    {
+
+                    }
+                    break;
+                case value:
+                    {
+                        
+                    }
+                    break;
+                
+            
+                default:
+                    break;
+            }
+        }
+}
 
