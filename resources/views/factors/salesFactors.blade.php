@@ -72,11 +72,11 @@
                                         <label class="form-check-label checkboxLabelStyl" for="sefNewOrderRadio"> تسویه نشده </label>
                                     </div>
 
-                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
                                         <input type="text" name="factDate1" class="form-control form-control-sm" id="sefFirstDate">
                                     </div>
-                                    <div class="input-group input-group-sm mb-1 filterItems d-none">
+                                    <div class="input-group input-group-sm mb-1 filterItems">
                                         <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
                                         <input type="text" name="factDate2" class="form-control form-control-sm" id="sefSecondDate">
                                     </div>
@@ -1847,101 +1847,63 @@
   </div>
   </div>
 
-  <div class="modal" tabindex="-1" id="addAmelModalFView" data-backdrop="static">
+<div class="modal" tabindex="-1" id="addAmelModalFView" data-backdrop="static">
     <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" id="sabtAmelButtonFView" class="btn btn-success btn-sm text-warning" onclick="closeAmelView()"> بستن <i class="fa fa-cross"></i></button>
-              <h5 class="modal-title"> افزودن هزینه به فاکتور </h5>
-          </div>
-          <div class="modal-body">
-              <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTbleFView">
-                  <thead class="tableHeader">
-                      <tr>
-                          <th> ردیف </th>
-                          <th> هزینه </th>
-                          <th> افزوده به فاکتور </th>
-                          <th> توضیح </th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td> 1 </td>
-                          <td> هزینه حمل </td>
-                          <td><input type="text" name="hamlMoney" id="hamlMoneyModalFView" class="td-input form-control"></td>
-                          <td><input type="text" name="hamlDesc" id="hamlDescModalFView"  class="td-input form-control"></td>
-                      </tr>
-                      <tr>
-                          <td> 2 </td>
-                          <td> هزینه های نصب </td>
-                          <td><input type="text"  name="nasbMoney" id="nasbMoneyModalFView" class="td-input form-control"></td>
-                          <td><input type="text"  name="nasbDesc" id="nasbDescModalFView" class="td-input form-control"></td>
-                      </tr>
-                      <tr>
-                          <td> 3 </td>
-                          <td> هزینه های متفرقه </td>
-                          <td><input type="text"  name="motafariqaMoney" id="motafariqaMoneyModalFView" class="td-input form-control"></td>
-                          <td><input type="text"  name="motafariqaDesc" id="motafariqaDescModalFView" class="td-input form-control"></td>
-                      </tr>
-                      <tr>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="sabtAmelButtonFView" class="btn btn-success btn-sm text-warning" onclick="closeAmelView()"> بستن <i class="fa fa-cross"></i></button>
+                <h5 class="modal-title"> افزودن هزینه به فاکتور </h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered table-sm" id="foundCusotmerForOrderTbleFView">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف </th>
+                            <th> هزینه </th>
+                            <th> افزوده به فاکتور </th>
+                            <th> توضیح </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> 1 </td>
+                            <td> هزینه حمل </td>
+                            <td><input type="text" name="hamlMoney" id="hamlMoneyModalFView" class="td-input form-control"></td>
+                            <td><input type="text" name="hamlDesc" id="hamlDescModalFView"  class="td-input form-control"></td>
+                        </tr>
+                        <tr>
+                            <td> 2 </td>
+                            <td> هزینه های نصب </td>
+                            <td><input type="text"  name="nasbMoney" id="nasbMoneyModalFView" class="td-input form-control"></td>
+                            <td><input type="text"  name="nasbDesc" id="nasbDescModalFView" class="td-input form-control"></td>
+                        </tr>
+                        <tr>
+                            <td> 3 </td>
+                            <td> هزینه های متفرقه </td>
+                            <td><input type="text"  name="motafariqaMoney" id="motafariqaMoneyModalFView" class="td-input form-control"></td>
+                            <td><input type="text"  name="motafariqaDesc" id="motafariqaDescModalFView" class="td-input form-control"></td>
+                        </tr>
+                        <tr>
                           <td> 4 </td>
                           <td> بارگیری </td>
                           <td><input type="text"  name="bargiriMoney" id="bargiriMoneyModalFView" class="td-input form-control"></td>
                           <td><input type="text"  name="bargiriDesc" id="bargiriDescModalFView" class="td-input form-control"></td>
-                      </tr>
-                      <tr>
-                          <td> 5 </td>
-                          <td> ترابری </td>
-                          <td><input type="text"  name="tarabariMoney" id="tarabariMoneyModalFView" class="td-input form-control"></td>
-                          <td><input type="text"  name="tarabariDesc" id="tarabariDescModalFView" class="td-input form-control"></td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-          <div class="modal-footer">
-          </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal" tabindex="-1" id="customerGardishModal" data-backdrop="static">
-    <div class="modal-dialog  modal-xl">
-        <div class="modal-content">
-            <div class="modal-header bg-info py-2">
-                <button class="btn btn-sm btn-danger" id="closeCustomerGardishModalBtn"> <i class="fa fa-times"></i></button>
-                <h5 class="modal-title"> گردش مشتری </h5>
-            </div>
-            <div class="modal-body">
-                <div class="text-end"></div>
-                <table class="resizableTable table table-striped table-bordered table-sm" style="height:calc(100vh - 266px)" id="customerCirculationTable">
-                    <thead class="tableHeader">
-                        <tr>
-                            <th id="customerCirculation-1"> تاریخ </th>
-                            <th id="customerCirculation-2"> شرح عملیات </th>
-                            <th id="customerCirculation-3"> تسویه با </th>
-                            <th id="customerCirculation-4"> بستانکار </th>
-                            <th id="customerCirculation-5"> بدهکار </th>
-                            <th id="customerCirculation-6"> وضعیت </th>
-                            <th id="customerCirculation-7"> مانده </th>
                         </tr>
-                    </thead>
-                    <tbody id="customerGardishListBody">
                         <tr>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
+                            <td> 5 </td>
+                            <td> ترابری </td>
+                            <td><input type="text"  name="tarabariMoney" id="tarabariMoneyModalFView" class="td-input form-control"></td>
+                            <td><input type="text"  name="tarabariDesc" id="tarabariDescModalFView" class="td-input form-control"></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="modal-footer">
-                </div>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+@include('repititiveparts/customerGardishModal')
 <div class="modal" tabindex="-1" id="kalaGardishModal" data-backdrop="static">
     <div class="modal-dialog  modal-xl">
         <div class="modal-content">

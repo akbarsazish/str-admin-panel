@@ -374,3 +374,4 @@ Route::get('/getSandoghs', [Box::class, 'getSandoghs'])->middleware("checkAdmin"
 Route::post('/addDaryaft', [Box::class, 'addDaryaft'])->middleware("checkAdmin");
 Route::get('/getGetAndPayInfo', [Box::class, 'getGetAndPayInfo'])->middleware("checkAdmin");
 Route::get("/pays",[Box::class,'pays'])->middleware("checkAdmin");
+Route::get('/getFiscalYears', [App::class, 'getFiscalYears'])->middleware("checkAdmin");

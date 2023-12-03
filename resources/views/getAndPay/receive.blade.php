@@ -1767,146 +1767,11 @@
     </div>
   </div>
 
-  <div class="modal" id="customerGardishModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <div class="modal-header bg-success">
-            <button class="btn-sm btn btn-danger text-warning" onclick="closeCustomerGardishModal()"><i class="fa-times fa"></i></button>
-          <h5 class="modal-title"> گردش حساب طرف حساب </h5>
-        </div>
-        <div class="modal-body">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-10">
-                        <fieldset class="border rounded">
-                            <legend class="float-none w-auto legendLabel mb-0"> شرایط گزارش </legend>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"> طرف حساب </span>
-                                        <input type="text" class="form-control">
-                                        <select name="" id="" class="form-select"></select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text"> سال مالی </span>
-                                        <select name="" id="" class="form-select"></select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-5">
-                                    <div class="row">
-                                        <div class="input-group mb-2">
-                                            <span class="input-group-text"> تاریخ </span>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                        <div class="input-group mb-2">
-                                            <span class="input-group-text"> الی: </span>
-                                            <input type="text" class="form-control">
-                                        </div>
-                                    </div>
+@include('repititiveparts/customerGardishModal')
 
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="mb-2 text-start">
-                                                <input type="checkbox" name="" id="" class="form-check-input"> &nbsp; &nbsp;
-                                                <span> ریز اسناد خرید </span>&nbsp;
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="mb-2 text-start">
-                                                <input type="checkbox" name="" id="" class="form-check-input"> &nbsp; &nbsp;
-                                                <span> ریز اسناد فروش </span>&nbsp;
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="mb-2 text-start">
-                                                <input type="checkbox" name="" id="" class="form-check-input"> &nbsp; &nbsp;
-                                                <span> ریز اسناد دریافت </span>&nbsp;
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="mb-2 text-start">
-                                                <input type="checkbox" name="" id="" class="form-check-input"> &nbsp; &nbsp;
-                                                <span> ریز اسناد پرداخت </span>&nbsp;
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-5">
-                                    <div class="border rounded p-2 text-start">
-                                        <div class="mb-2">
-                                            <input type="radio" name="" class="form-check-input" id=""> &nbsp;
-                                            <span> نمایش کامل گزارش </span>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" name="" id="" class="form-check-input"> &nbsp;
-                                            <span> نمایش گزارش از آخرین مانده صفر به بعد </span>
-                                        </div>
-                                        <div class="mb-2">
-                                            <input type="radio" name="" id="" class="form-check-input"> &nbsp;
-                                            <span>نمایش گزارش از آخرین رکورد کنترل شده به بعد</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="text-end">
-                                        <button class="btn-sm btn btn-success text-warning"> اجرا <i class="fa-history fa"></i> </button>
-                                        <button class="btn-sm btn btn-success text-warning"><i class="fa-print fa"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="text-end">
-                            <button class="btn-sm btn btn-danger text-warning"> حذف تمامی کنترل های انجام شده <i class="fa-trash fa"></i> </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <table class="table">
-                        <thead class="bg-success">
-                            <tr>
-                                <th> ردیف </th>
-                                <th> تاریخ </th>
-                                <th> شرح عملیات </th>
-                                <th> تسویه با </th>
-                                <th> بدهکار </th>
-                                <th> بستانکار </th>
-                                <th> وضعیت </th>
-                                <th> مانده </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-
-        </div>
-      </div>
-    </div>
-</div>
-
-  <div class="modal" tabindex="-1" id="rasDaryaftItemModal">
+<div class="modal" tabindex="-1" id="rasDaryaftItemModal">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header bg-success">
             <button class="btn-sm btn-sm btn-danger text-warning" onclick="closeRasDaryaftItemModal()"><i class="fa-times fa"></i></button>
           <h5 class="modal-title"> راس گیری </h5>
@@ -1975,7 +1840,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 <div class="modal" id="searchCustomerDaryaftModal" tabindex="-1">
     <div class="modal-dialog modal-lg">

@@ -379,45 +379,7 @@ function openEditFactorModal(snFactor){
     
 }
 
-function openCustomerGardishModal(psn){
-    
-    $.get(baseUrl+"/getCustomerGardish",{psn:psn},function(respond,status){
-        $("#customerGardishListBody").empty();
 
-        respond.customerGardish.forEach((element,index)=>{
-            let bestankar=0;
-            let bedehkar=0;
-            let remain=0;
-            if(element.bestankar>0){
-                bestankar=element.bestankar;
-            }
-            if(element.bedehkar>0){
-                bedehkar=element.bedehkar;
-            }
-            if(element.remain!=0){
-                remain=element.remain;
-            }
-
-            $("#customerGardishListBody").append(`
-                 <tr>
-                    <td class="customerCirculation-1"> ${element.DocDate} </td>
-                    <td class="customerCirculation-2"> ${element.FactDesc} </td>
-                    <td class="customerCirculation-3"> ${element.tasviyeh} </td>
-                    <td class="customerCirculation-4"> ${parseInt(bestankar).toLocaleString("en-us")} </td>
-                    <td class="customerCirculation-5"> ${parseInt(bedehkar).toLocaleString("en-us")} </td>
-                    <td class="customerCirculation-6"> ${element.bdbsState==0 ? 0 : "--"} </td>
-                    <td class="customerCirculation-7"> ${parseInt(remain).toLocaleString("en-us")} </td>
-                </tr>`);
-                makeTableColumnsResizable("customerCirculationTable")
-            });
-
-        $("#customerGardishModal").modal("show");
-    })
-}
-
-$("#closeCustomerGardishModalBtn").on("click",function(){
-    $("#customerGardishModal").modal("hide");
-})
 
 function openKalaGardish(){
     

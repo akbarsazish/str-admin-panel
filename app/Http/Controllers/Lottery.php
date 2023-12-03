@@ -364,38 +364,38 @@ class Lottery extends Controller
         DB::table("NewStarfood.dbo.star_webSpecialSetting")->update(['lotteryMinBonus'=>$lotteryMinBonus,'useIntroBonus'=>$introductionBonus]);
         if($isFilledPrizes>0){
             DB::table("NewStarfood.dbo.star_lotteryPrizes")->where('id',1)->update(
-                ['firstPrize'=>"".$firstPrize.""
-                ,'secondPrize'=>"".$secondPrize.""
-                ,'thirdPrize'=>"".$thirdPrize.""
-                ,'fourthPrize'=>"".$fourthPrize.""
-                ,'fifthPrize'=>"".$fifthPrize.""
-                ,'sixthPrize'=>"".$sixthPrize.""
-                ,'seventhPrize'=>"".$seventhPrize.""
-                ,'eightthPrize'=>"".$eightthPrize.""
-                ,'ninethPrize'=>"".$ninethPrize.""
-                ,'teenthPrize'=>"".$teenthPrize.""
-                ,'eleventhPrize'=>"".$eleventhPrize.""
-                ,'twelvthPrize'=>"".$twelvthPrize.""
-                ,'therteenthPrize'=>"".$therteenthPrize.""
-                ,'fourteenthPrize'=>"".$fourteenthPrize.""
-                ,'fifteenthPrize'=>"".$fifteenthPrize.""
-                ,'sixteenthPrize'=>"".$sixteenthPrize.""
-            ,'showfirstPrize'=>$showfirstPrize
-            ,'showsecondPrize'=>$showsecondPrize
-            ,'showthirdPrize'=>$showthirdPrize
-            ,'showfourthPrize'=>$showfourthPrize
-            ,'showfifthPrize'=>$showfifthPrize
-            ,'showsixthPrize'=>$showsixthPrize
-            ,'showseventhPrize'=>$showseventhPrize
-            ,'showeightthPrize'=>$showeightthPrize
-            ,'showninethPrize'=>$showninethPrize
-            ,'showteenthPrize'=>$showteenthPrize
-            ,'showeleventhPrize'=>$showeleventhPrize
-            ,'showtwelvthPrize'=>$showtwelvthPrize
-            ,'showtherteenthPrize'=>$showtherteenthPrize
-            ,'showfourteenthPrize'=>$showfourteenthPrize
-            ,'showfifteenthPrize'=>$showfifteenthPrize
-            ,'showsixteenthPrize'=>$showsixteenthPrize
+			['firstPrize'=>"".$firstPrize.""
+			,'secondPrize'=>"".$secondPrize.""
+			,'thirdPrize'=>"".$thirdPrize.""
+			,'fourthPrize'=>"".$fourthPrize.""
+			,'fifthPrize'=>"".$fifthPrize.""
+			,'sixthPrize'=>"".$sixthPrize.""
+			,'seventhPrize'=>"".$seventhPrize.""
+			,'eightthPrize'=>"".$eightthPrize.""
+			,'ninethPrize'=>"".$ninethPrize.""
+			,'teenthPrize'=>"".$teenthPrize.""
+			,'eleventhPrize'=>"".$eleventhPrize.""
+			,'twelvthPrize'=>"".$twelvthPrize.""
+			,'therteenthPrize'=>"".$therteenthPrize.""
+			,'fourteenthPrize'=>"".$fourteenthPrize.""
+			,'fifteenthPrize'=>"".$fifteenthPrize.""
+			,'sixteenthPrize'=>"".$sixteenthPrize.""
+			,'showfirstPrize'=>$showfirstPrize
+			,'showsecondPrize'=>$showsecondPrize
+			,'showthirdPrize'=>$showthirdPrize
+			,'showfourthPrize'=>$showfourthPrize
+			,'showfifthPrize'=>$showfifthPrize
+			,'showsixthPrize'=>$showsixthPrize
+			,'showseventhPrize'=>$showseventhPrize
+			,'showeightthPrize'=>$showeightthPrize
+			,'showninethPrize'=>$showninethPrize
+			,'showteenthPrize'=>$showteenthPrize
+			,'showeleventhPrize'=>$showeleventhPrize
+			,'showtwelvthPrize'=>$showtwelvthPrize
+			,'showtherteenthPrize'=>$showtherteenthPrize
+			,'showfourteenthPrize'=>$showfourteenthPrize
+			,'showfifteenthPrize'=>$showfifteenthPrize
+			,'showsixteenthPrize'=>$showsixteenthPrize
         ]);
 
         }else{

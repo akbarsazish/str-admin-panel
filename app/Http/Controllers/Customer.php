@@ -272,7 +272,7 @@ class Customer extends Controller{
     public function getCustomerByID(Request $request)
     {
         $psn=$request->get("PSN");
-        $customerAddresses=DB::select("SELECT AddressPeopel,SnPeopelAddress,peopeladdress FROM Shop.dbo.Peopels LEFT JOIN Shop.dbo.PeopelAddress ON PSN=PeopelAddress.SnPeopel WHERE PSN=$psn");
+        $customerAddresses=DB::select("SELECT AddressPeopel,SnPeopelAddress,peopeladdress,Name,PSN,PCode FROM Shop.dbo.Peopels LEFT JOIN Shop.dbo.PeopelAddress ON PSN=PeopelAddress.SnPeopel WHERE PSN=$psn");
         return Response::json($customerAddresses);
     }
 
@@ -1617,7 +1617,7 @@ public function getInviteCodeApi(Request $request){
 		 	DB::table("NewStarfood.dbo.star_presentCycle")->where("CustomerId",$customerId)->update(["$currentDay"=>1]);
 		 	$presentInfo=DB::select("SELECT * FROM NewStarfood.dbo.star_presentCycle WHERE CustomerId=$customerId");
             $allCycleHistory=DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->where("CustomerSn",$customerId)->where("isUsed",0)->get();
-            
+
             if(count($allCycleHistory)<1){
                 DB::table("NewStarfood.dbo.star_weeklyPresentHistory")->insert(["bonus"=>5,"isUsed"=>0,"CustomerSn"=>$customerId]);
             }else{
@@ -1726,7 +1726,6 @@ public function getInviteCodeApi(Request $request){
 
     public function addMoneyToCaseApi(Request $request)
     {
-        
         $customerSn=$request->input("psn");
         $takhfif=$request->input("takhfif");
         $takhfifPercent=0;
@@ -1849,7 +1848,7 @@ public function getInviteCodeApi(Request $request){
     public function getInfoOfOrderCustomer(Request $request){
 
         $psn=$request->input("psn");
-        $exactCustomer=DB::select("SELECT * FROM(SELECT * FROM Shop.dbo.Peopels WHERE PSN=$psn)a 
+        $exactCustomer=DB::select("SELECT * FROM(SELECT *,CRM.dbo.getCustomerPhoneNumbers(PSN)PhoneStr FROM Shop.dbo.Peopels WHERE PSN=$psn)a 
                                     LEFT JOIN(SELECT * FROM Shop.dbo.ViewStatusPeopel  WHERE FiscalYear=1402)b ON a.PSN=b.CustomerSn");
         return Response::json($exactCustomer);
     }
@@ -1862,17 +1861,34 @@ public function getInviteCodeApi(Request $request){
 
     public function getCustomerGardish(Request $request) {
         $psn=$request->input("psn");
-        $customerGardish=DB::select("SELECT * FROM(
-            SELECT DocDate,PeopelHDS,SnFactForTasviyeh,FiscalYear,'دریافت شماره'+cast (DocNoHDS AS varchar)++' ('+DocDescHDS+')' as FactDesc,'' tasviyeh,NetPriceHDS bestankar,0 bedehkar,1 state,iif(NewStarfood.dbo.getRemainedMoney(PeopelHDS,SnFactForTasviyeh)>0,1,0) bdbsState,NewStarfood.dbo.[getRemainedPayedMoney](PeopelHDS,SnFactForTasviyeh) remain from Shop.dbo.GetAndPayHDS union
-            SELECT FactDate,CustomerSn,SerialNoHDS AS SnFactForTasviyeh,FiscalYear,'فاکتور فروش به شماره'+cast(FactNo as varchar)+' ('+FactDesc+')'  as FactDesc,'' as tasviyeh,0 bestankar,NetPriceHDS as bedehkar,0 state,iif(NewStarfood.dbo.getRemainedMoney(CustomerSn,SerialNoHDS)>0,1,0) bdbsState,NewStarfood.dbo.getRemainedFactorMoney(CustomerSn,SerialNoHDS) remain from Shop.dbo.FactorHDS where FactType=3 union
-			SELECT FactDate,CustomerSn,SerialNoHDS AS SnFactForTasviyeh,FiscalYear,'فاکتور برگشتی به شماره'+cast(FactNo as varchar)+' ('+FactDesc+')'  as FactDesc,'' as tasviyeh,NetPriceHDS bestankar,0 as bedehkar,0 state,iif(NewStarfood.dbo.getRemainedMoney(CustomerSn,SerialNoHDS)>0,1,0) bdbsState,NewStarfood.dbo.getRemainedPayedMoney(CustomerSn,SerialNoHDS) remain from Shop.dbo.FactorHDS where FactType=4)a  where a.PeopelHDS=$psn and FiscalYear=1402 order by DocDate,state asc
-            ");
+        $firstDate="1396/01/01";
+        $secondDate="1500/01/01";
+        $fiscallYear=$request->input("fiscalYear");
+        if($request->input("firstDate")){
+            if(strlen($request->input("firstDate"))>3){
+                $firstDate=$request->input("firstDate");
+
+            }
+
+        }
+        if($request->input("secondDate")){
+            if(strlen($request->input("secondDate"))>3){
+                $secondDate=$request->input("secondDate");
+
+            }
+
+        }
+        $customerGardish=DB::select("exec NewStarfood.dbo.getCustomerGardishProc $psn,$fiscallYear,'$firstDate','$secondDate'");
         return response()->json(['customerGardish'=>$customerGardish]);
     }
     function getCustomerInofByCode(Request $request) {
         $pcode=$request->input("pcode");
         $customers=DB::select("SELECT * FROM Shop.dbo.Peopels WHERE PCode=$pcode AND IsActive=1 and CompanyNo=5");
         return Response::json($customers);
+    }
+
+    function renewCustomerGardish(Request $request) {
+        
     }
     
     }

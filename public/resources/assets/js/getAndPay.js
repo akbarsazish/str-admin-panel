@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -246,10 +246,6 @@
         $("#searchFactorModal").modal("hide")
     }
 
-    function openCustomerGardishModal(){
-        $("#customerGardishModal").modal("show")
-    }
-
     function closeCustomerGardishModal(){
         $("#customerGardishModal").modal("hide")
     }
@@ -322,6 +318,8 @@
         $(element).addClass("selected")
         $("#selectCustomerForDaryaftBtn").val(psn)
     }
+
+
 
     function chooseCustomerForDaryaft(psn){
         $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{

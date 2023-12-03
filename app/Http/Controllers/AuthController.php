@@ -156,7 +156,7 @@ public function login (Request $request){
                             //show introducer Modal
                             return response()->json([
                                 'status' =>200,
-                                'browser'=>BrowserDetect::browserFamily(),
+                                'browser'=>$browser,
                                 'username' =>$user->userName,
                                 'token' =>$sessionKeyId,
                                 'introducerCode'=>1,
@@ -257,8 +257,7 @@ public function login (Request $request){
                             ]);
                             
                         }
-
-
+                        
                         return response()->json([
                             'status' =>200,
                             'username' =>$user->userName,
