@@ -22,7 +22,7 @@
                                 <div class="col-sm-6">
                                     <div class="input-group mb-2">
                                         <span class="input-group-text"> سال مالی </span>
-                                        <select name="" id="" class="form-select"></select>
+                                        <select name="fiscalYear" id="fiscalYearCustomerGardish" class="form-select"></select>
                                     </div>
                                 </div>
                             </div>
@@ -104,18 +104,19 @@
                         <thead class="tableHeader">
                             <tr>
                                 <th id="customerCirculation-1"> تاریخ </th>
-                                <th id="customerCirculation-1" class=" RizAsnad"> کد کالا </th>
-                                <th id="customerCirculation-2"> شرح عملیات </th>
-                                <th id="customerCirculation-2" class=" RizAsnad"> واحد کالا </th>
-                                <th id="customerCirculation-2" class=" RizAsnad">  تعداد </th>
-                                <th id="customerCirculation-2" class=" RizAsnad">  نرخ </th>
-                                <th id="customerCirculation-2" class=" RizAsnad">  % </th>
-                                <th id="customerCirculation-2">  مبلغ </th>
-                                <th id="customerCirculation-3"> تسویه با </th>
-                                <th id="customerCirculation-4"> بستانکار </th>
-                                <th id="customerCirculation-5"> بدهکار </th>
-                                <th id="customerCirculation-6"> وضعیت </th>
-                                <th id="customerCirculation-7"> مانده </th>
+                                <th id="customerCirculation-2" class=" RizAsnad"> کد کالا </th>
+                                <th id="customerCirculation-3"> شرح عملیات </th>
+                                <th id="customerCirculation-4" class=" RizAsnad"> واحد کالا </th>
+                                <th id="customerCirculation-5" class=" RizAsnad">  تعداد </th>
+                                <th id="customerCirculation-6" class=" RizAsnad">  نرخ </th>
+                                <th id="customerCirculation-7" class=" RizAsnad">  % </th>
+                                <th id="customerCirculation-8">  مبلغ </th>
+                                <th id="customerCirculation-9"> تسویه با </th>
+                                <th id="customerCirculation-10"> بستانکار </th>
+                                <th id="customerCirculation-11"> بدهکار </th>
+                                <th id="customerCirculation-12"> وضعیت </th>
+                                <th id="customerCirculation-13" class=" d-none"> وضعیت </th>
+                                <th id="customerCirculation-14"> مانده </th>
                             </tr>
                         </thead>
                         <tbody id="customerGardishListBody" class="">

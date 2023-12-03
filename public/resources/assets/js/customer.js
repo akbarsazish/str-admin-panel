@@ -1,9 +1,11 @@
+
 var baseUrl = "http://192.168.10.26:8080";
 function renewCustomerGardish(){
     let psn=document.querySelector("#customerIdGardish").value;
     let firstDate=document.querySelector("#firstDateCustomerGardish").value;
     let secondDate=document.querySelector("#secondDateCustomerGardish").value;
-    $.get(baseUrl+"/getCustomerGardish",{psn:psn,firstDate:firstDate,secondDate:secondDate},function(respond,status){
+    let fiscalYear=document.querySelector("#fiscalYearCustomerGardish").value;
+    $.get(baseUrl+"/getCustomerGardish",{psn:psn,firstDate:firstDate,secondDate:secondDate,fiscalYear:fiscalYear},function(respond,status){
         
         $("#customerGardishListBody").empty();
         
@@ -50,19 +52,19 @@ function renewCustomerGardish(){
             $("#customerGardishListBody").append(`
                  <tr class="${trClass}">
                     <td class="customerCirculation-1"> ${element.DocDate}  </td>
-                    <td class="customerCirculation-1 RizAsnad"> ${element.GoodCde||''}  </td>
-                    <td class="customerCirculation-2"> ${element.FactDesc} </td>
-                    <td class="customerCirculation-2 RizAsnad"> ${element.GoodUnit} </td>
-                    <td class="customerCirculation-2 RizAsnad"> ${parseInt(amountUnit).toLocaleString("en-us")} </td>
-                    <td class="customerCirculation-2 RizAsnad"> ${parseInt(fi).toLocaleString("en-us")} </td>
-                    <td class="customerCirculation-2 RizAsnad"> ${''} </td>
-                    <td class="customerCirculation-2"> ${parseInt(NetPriceHDS).toLocaleString("en-us")} </td>
-                    <td class="customerCirculation-3"> ${element.tasviyeh} </td>
-                    <td class="customerCirculation-4"> ${bestankar>0?parseInt(bestankar).toLocaleString("en-us"):''} </td>
-                    <td class="customerCirculation-5"> ${bedehkar>0?parseInt(bedehkar).toLocaleString("en-us"):''} </td>
-                    <td class="customerCirculation-6"> ${element.bdbsState=='bidehkar' ? 'بد' : (element.bdbsState=='bidstankar' ? 'بس':(element.bdbsState=='tasviyah'? '--':''))} </td>
-                    <td class="customerCirculation-7 d-none"> ${element.StatusHDS} </td>
-                    <td class="customerCirculation-7"> ${remain!=1?parseInt(remain).toLocaleString('en-us'):''} </td>
+                    <td class="customerCirculation-2 RizAsnad"> ${element.GoodCde||''}  </td>
+                    <td class="customerCirculation-3"> ${element.FactDesc} </td>
+                    <td class="customerCirculation-4 RizAsnad"> ${element.GoodUnit} </td>
+                    <td class="customerCirculation-5 RizAsnad"> ${parseInt(amountUnit).toLocaleString("en-us")} </td>
+                    <td class="customerCirculation-6 RizAsnad"> ${parseInt(fi).toLocaleString("en-us")} </td>
+                    <td class="customerCirculation-7 RizAsnad"> ${''} </td>
+                    <td class="customerCirculation-8"> ${parseInt(NetPriceHDS).toLocaleString("en-us")} </td>
+                    <td class="customerCirculation-9"> ${element.tasviyeh} </td>
+                    <td class="customerCirculation-10"> ${bestankar>0?parseInt(bestankar).toLocaleString("en-us"):''} </td>
+                    <td class="customerCirculation-11"> ${bedehkar>0?parseInt(bedehkar).toLocaleString("en-us"):''} </td>
+                    <td class="customerCirculation-12"> ${element.bdbsState=='bidehkar' ? 'بد' : (element.bdbsState=='bidstankar' ? 'بس':(element.bdbsState=='tasviyah'? '--':''))} </td>
+                    <td class="customerCirculation-13 d-none"> ${element.StatusHDS} </td>
+                    <td class="customerCirculation-14"> ${remain!=1?parseInt(remain).toLocaleString('en-us'):''} </td>
                 </tr>`);
                 makeTableColumnsResizable("customerCirculationTable")
             });
@@ -73,100 +75,134 @@ function renewCustomerGardish(){
             let payListCheckBox=document.querySelector("#rizAsnadPardakhtCheckBox");
             if(getListCheckBox.checked){
                 const trDetails=document.querySelectorAll(".daryaft");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', '', 'important');
+                if(trDetails.length>0){
+                    for (let index = 0; index < trDetails.length; index++) {
+                        trDetails[index].style.setProperty('display', '', 'important');
+                    }
                 }
             }else{
                 const trDetails=document.querySelectorAll(".daryaft");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', 'none', 'important');
+                if(trDetails.length>0){
+                    for (let index = 0; index < trDetails.length; index++) {
+                        trDetails[index].style.setProperty('display', 'none', 'important');
+                    }
                 }
+
             }
             if(payListCheckBox.checked){
                 const trDetails=document.querySelectorAll(".pardakht");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', '', 'important');
+                if(trDetails.length>0){
+                    for (let index = 0; index < trDetails.length; index++) {
+                        trDetails[index].style.setProperty('display', '', 'important');
+                    }
                 }
             }else{
                 const trDetails=document.querySelectorAll(".pardakht");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', 'none', 'important');
+                if(trDetails.length>0){
+                    for (let index = 0; index < trDetails.length; index++) {
+                        trDetails[index].style.setProperty('display', 'none', 'important');
+                    }
                 }
             }
 
             if(salesListCheckBox.checked){
-                const tdList = document.querySelectorAll('td.RizAsnad');
-                const thList =document.querySelectorAll('th.RizAsnad');
                 const trDetails=document.querySelectorAll(".sales");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', '', 'important');
-                }
-                for (let i = 0; i < thList.length; i++) {
-                    thList[i].style.setProperty('display', '', 'important');
-                }
-
+                const tdList =document.querySelectorAll('td.RizAsnad');
                 for (let i = 0; i < tdList.length; i++) {
                     tdList[i].style.setProperty('display', '', 'important');
                 }
+                if(trDetails.length>0){
+                    for (let index = 0; index < trDetails.length; index++) {
+                        trDetails[index].style.setProperty('display', '', 'important');
+                    }
+                }
             }else{
-                const tdList = document.querySelectorAll('td.RizAsnad');
-                const thList =document.querySelectorAll('th.RizAsnad');
                 const trDetails=document.querySelectorAll(".sales");
+                const tdList =document.querySelectorAll('td.RizAsnad');
+                for (let i = 0; i < tdList.length; i++) {
+                    tdList[i].style.setProperty('display', '', 'important');
+                }
                 for (let index = 0; index < trDetails.length; index++) {
                     trDetails[index].style.setProperty('display', 'none', 'important');
-                }
-                for (let i = 0; i < thList.length; i++) {
-                    thList[i].style.setProperty('display', 'none', 'important');
-                }
-
-                for (let i = 0; i < tdList.length; i++) {
-                    tdList[i].style.setProperty('display', 'none', 'important');
                 }
             }
 
             if(buyListCheckBox.checked){
-                const tdList = document.querySelectorAll('td.RizAsnad');
-                const thList =document.querySelectorAll('th.RizAsnad');
                 const trDetails=document.querySelectorAll(".buy");
+                const tdList =document.querySelectorAll('td.RizAsnad');
+                for (let i = 0; i < tdList.length; i++) {
+                    tdList[i].style.setProperty('display', '', 'important');
+                }
                 for (let index = 0; index < trDetails.length; index++) {
                     trDetails[index].style.setProperty('display', '', 'important');
                 }
+            }else{
+                const trDetails=document.querySelectorAll(".buy");
+                const tdList =document.querySelectorAll('td.RizAsnad');
+                for (let i = 0; i < tdList.length; i++) {
+                    tdList[i].style.setProperty('display', '', 'important');
+                }
+                for (let index = 0; index < trDetails.length; index++) {
+                    trDetails[index].style.setProperty('display', 'none', 'important');
+                }
+            }
+
+            if(buyListCheckBox.checked || salesListCheckBox.checked){
+                const thList =document.querySelectorAll('th.RizAsnad');
+                const tdList =document.querySelectorAll('td.RizAsnad');
                 for (let i = 0; i < thList.length; i++) {
                     thList[i].style.setProperty('display', '', 'important');
                 }
-
                 for (let i = 0; i < tdList.length; i++) {
                     tdList[i].style.setProperty('display', '', 'important');
                 }
             }else{
-                const tdList = document.querySelectorAll('td.RizAsnad');
                 const thList =document.querySelectorAll('th.RizAsnad');
-                const trDetails=document.querySelectorAll(".buy");
-                for (let index = 0; index < trDetails.length; index++) {
-                    trDetails[index].style.setProperty('display', 'none', 'important');
-                }
+                const tdList =document.querySelectorAll('td.RizAsnad');
+
                 for (let i = 0; i < thList.length; i++) {
                     thList[i].style.setProperty('display', 'none', 'important');
                 }
-
                 for (let i = 0; i < tdList.length; i++) {
                     tdList[i].style.setProperty('display', 'none', 'important');
                 }
+
             }
     })
 }
 
 function openCustomerGardishModal(psn){
 
+    fetch(baseUrl+"/getFiscalYears")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((fiscalYearList) => {
+        let selectYear=document.querySelector("#fiscalYearCustomerGardish");
+        selectYear.innerHTML='';
+        for (const element of fiscalYearList) {
+            const option = document.createElement('option');
+            option.selected=true;
+            option.value = element.FiscalYear; // Set the value attribute
+            option.text = element.FiscalYear;  // Set the text content
+            selectYear.appendChild(option);
+        }
+    })
+    .catch(error => {
+      // Handle errors
+      console.error('Error:', error);
+    });
+
     $.get(baseUrl+"/getCustomerByID",{PSN:psn},(respond,status)=>{ 
-
         document.querySelector("#customerIdGardish").value=respond[0].PSN;
-
         document.querySelector("#customerNameGardish").value=respond[0].Name;
         document.querySelector("#customerCodeGardish").value=respond[0].PCode;
+        renewCustomerGardish(psn);
+        $("#customerGardishModal").modal("show");
     })
-    renewCustomerGardish(psn);
-    $("#customerGardishModal").modal("show");
     
 }
 

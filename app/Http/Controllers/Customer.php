@@ -1863,6 +1863,7 @@ public function getInviteCodeApi(Request $request){
         $psn=$request->input("psn");
         $firstDate="1396/01/01";
         $secondDate="1500/01/01";
+        $fiscallYear=$request->input("fiscalYear");
         if($request->input("firstDate")){
             if(strlen($request->input("firstDate"))>3){
                 $firstDate=$request->input("firstDate");
@@ -1877,7 +1878,7 @@ public function getInviteCodeApi(Request $request){
             }
 
         }
-        $customerGardish=DB::select("exec NewStarfood.dbo.getCustomerGardishProc $psn,1402,'$firstDate','$secondDate'");
+        $customerGardish=DB::select("exec NewStarfood.dbo.getCustomerGardishProc $psn,$fiscallYear,'$firstDate','$secondDate'");
         return response()->json(['customerGardish'=>$customerGardish]);
     }
     function getCustomerInofByCode(Request $request) {

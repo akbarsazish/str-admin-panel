@@ -285,4 +285,9 @@ class App extends Controller{
 
         return Response::json("done");
     }
+
+    function getFiscalYears() {
+        $fiscallYears=DB::select("select * from Shop.dbo.FiscalYearList WHERE CompanyNo=5");
+        return response()->json($fiscallYears, 200);
+    }
 }
