@@ -291,6 +291,7 @@ function openEditFactorModal(snFactor){
                     break;
             }
         });
+
         $("#allAmelMoneyFEdit").text(allAmel.toLocaleString("en-us"));
         let bdbsState=" تسویه "
         let bdbsColor="white"
@@ -302,6 +303,7 @@ function openEditFactorModal(snFactor){
             bdbsState="  بدهکار" 
             bdbsColor="red"
         }
+
         $("#lastCustomerStatusFEdit").text(parseInt(respond.factorInfo[0].CustomerStatus).toLocaleString("en-us")+bdbsState);
         $("#allMoneyTillEndRowFEdit").text(parseInt(respond.factorInfo[0].NetPriceHDS).toLocaleString("en-us"));
         $("#newOrderTakhfifInputFEdit").val(parseInt(respond.factorInfo[0].Takhfif).toLocaleString("en-us"))
@@ -2332,6 +2334,7 @@ $(document).on("keyup",".td-inputJozeAmountAdd",function(e){
     }else{
         allAmountUnit=subPackUnits;
     }
+    
     packAmount=parseInt(allAmountUnit/amountUnit);
     subPackUnits=allAmountUnit%amountUnit;
     let allPrice=allAmountUnit*price;

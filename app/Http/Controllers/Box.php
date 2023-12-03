@@ -84,14 +84,17 @@ class Box extends Controller{
         return response()->json($sandoghes, 200);
     }
 
+
     function addDaryaft(Request $request) {
-       // return $request->all();
+        $sn=$request->input("byss");
+
+        
+
         $cashMasterId=0;
         $snPeopel=3609;
         $daryaftType=0;
 
         $byss=$request->input("byss");
-
         $addDaryaftDate=$request->input("addDaryaftDate");
 
         if($request->input("customerId")){
@@ -99,10 +102,8 @@ class Box extends Controller{
         }
 
         if($request->input("daryaftType")==1){
-
             $daryaftType=$request->input("daryaftType");
             $snPeopel=0;
-
         }else{
             $snPeopel=$request->input("customerId");
         }
@@ -116,27 +117,22 @@ class Box extends Controller{
         if($request->input("inforTypeDaryaft")){
             $inforTypeDaryaft=$request->input("inforTypeDaryaft");
         }
-        
         $netPriceHDS=0;
-
         if($request->input("netPriceHDS")){
-
             $netPriceHDS=$request->input("netPriceHDS");
-            
         }
-
 
         if($request->input("sandoghIdDar")){
             $cashMasterId=$request->input("sandoghIdDar");
 
         }
-
+        
         $snHDS=0;
 
         $docNoHDS=0;
 
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
-
+       //return Response::json($request->all());
         DB::table("Shop.dbo.GetAndPayHDS")->insert(["CompanyNo"=>5
                                                     ,"GetOrPayHDS"=>1
                                                     ,"DocNoHDS"=>($docNoHDS+1)
@@ -146,13 +142,13 @@ class Box extends Controller{
                                                     ,"PeopelHDS"=>$snPeopel
                                                     ,"FiscalYear"=>1402
                                                     ,"InForHDS"=>$inforTypeDaryaft
-                                                    ,"NetPriceHDS"=>$netPriceHDS
+                                                    ,"NetPriceHDS"=>0
                                                     ,"DocTypeHDS"=>$daryaftType
                                                     ,"SnCashMaster"=>$cashMasterId
                                                     ,"SnUser"=>12]);
-        
-        $snHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
 
+        $snHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
+        
         foreach ($byss as $bysNumber) {
             $accBankNo=0;
             $cashNo=0;
@@ -170,72 +166,57 @@ class Box extends Controller{
             $statusBYS=0;
 
             if($request->input("AccBankNo".$bysNumber)){
-
                 $accBankNo=$request->input("AccBankNo".$bysNumber);
-
             }
 
             if($request->input("CashNo".$bysNumber)){
-
                 $cashNo=$request->input("CashNo".$bysNumber);
-
             }
+
             if($request->input("ChequeDate".$bysNumber)){
-
                 $chequeDate=$request->input("ChequeDate".$bysNumber);
-
             }
+
             if($request->input("ChequeNo".$bysNumber)){
-
                 $chequeNo=$request->input("ChequeNo".$bysNumber);
-
             }
+
             if($request->input("DocDescBys".$bysNumber)){
-
                 $docDescBys=$request->input("DocDescBys".$bysNumber);
-
             }
+
             if($request->input("DocTypeBys".$bysNumber)){
-
                 $docTypeBys=$request->input("DocTypeBys".$bysNumber);
-
             }
+
             if($request->input("NoPayanehKartKhanBYS".$bysNumber)){
-
                 $noPayanehKartKhanBYS=$request->input("NoPayanehKartKhanBYS".$bysNumber);
-
             }
+
             if($request->input("Owener".$bysNumber)){
-
                 $owener=$request->input("Owener".$bysNumber);
-
             }
+
             if($request->input("Price".$bysNumber)){
-
                 $price=$request->input("Price".$bysNumber);
-
             }
+
             if($request->input("SnAccBank".$bysNumber)){
-
                 $snAccBank=$request->input("SnAccBank".$bysNumber);
-
             }
+
             if($request->input("SnBank".$bysNumber)){
-
                 $snBank=$request->input("SnBank".$bysNumber);
-
             }
+
             if($request->input("SnChequeBook".$bysNumber)){
-
                 $snChequeBook=$request->input("SnChequeBook".$bysNumber);
-
             }
+            
             if($request->input("SnPeopelPay".$bysNumber)){
-
                 $snPeopelPay=$request->input("SnPeopelPay".$bysNumber);
-
             }
-
+            
             DB::table("Shop.dbo.GetAndPayBYS")->insert(["CompanyNo"=>5
                                                         ,"DocTypeBYS"=>$docTypeBys
                                                         ,"Price"=>$price
