@@ -365,7 +365,7 @@ Route::get("/returnedBuyFactors",[Factor::class,"buyReturnedFactors"])->middlewa
 Route::get("/receives",[Box::class,'index'])->middleware("checkAdmin");
 Route::get("/getGetAndPayBYS",[Box::class,'getGetAndPayBYS'])->middleware("checkAdmin");
 Route::get("/filterGetPays",[Box::class,'filterGetPays'])->middleware("checkAdmin");
-Route::get('/getCustomerInofByCode', [Customer::class, 'getCustomerInofByCode'])->middleware("checkAdmin");
+Route::get('/getCustomerInfoByCode', [Customer::class, 'getCustomerInfoByCode'])->middleware("checkAdmin");
 Route::get('/getInforTypeInfo', [Infors::class, 'getInforTypeInfo'])->middleware("checkAdmin");
 Route::get('/getFactorInfoByFactNo', [Factor::class, 'getFactorInfoByFactNo'])->middleware("checkAdmin");
 Route::get('/getFactorInfoBySnFactor', [Factor::class, 'getFactorInfoBySnFactor'])->middleware("checkAdmin");
