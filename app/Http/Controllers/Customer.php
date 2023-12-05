@@ -1881,7 +1881,7 @@ public function getInviteCodeApi(Request $request){
         $customerGardish=DB::select("exec NewStarfood.dbo.getCustomerGardishProc $psn,$fiscallYear,'$firstDate','$secondDate'");
         return response()->json(['customerGardish'=>$customerGardish]);
     }
-    function getCustomerInofByCode(Request $request) {
+    function getCustomerInfoByCode(Request $request) {
         $pcode=$request->input("pcode");
         $customers=DB::select("SELECT * FROM Shop.dbo.Peopels WHERE PCode=$pcode AND IsActive=1 and CompanyNo=5");
         return Response::json($customers);
