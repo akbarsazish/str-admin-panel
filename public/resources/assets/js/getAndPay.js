@@ -4,6 +4,14 @@
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
         $(element).addClass("selected");
+        const editPayInput=document.getElementById("EditPayInput");
+        if(editPayInput){
+            editPayInput.value=snGetAndPay;
+        }
+        const editGetInput=document.getElementById("EditGetInput");
+        if(editGetInput){
+            editGetInput.value=snGetAndPay;
+        }
         $.get(baseUrl+"/getGetAndPayBYS",{snGetAndPay:snGetAndPay},function(respond,status){
             if(tableBodyId=='receiveListBodyBYS'){
                 $("#"+tableBodyId).empty();
@@ -1531,7 +1539,7 @@ if(customerCodePayInput){
                     if(respond.length>0){
                         let customer = respond[0];
                         $("#customerNamePayInput").val(customer.Name);
-                        $("#customerIdPayInput").val(customer.Id);
+                        $("#customerIdPayInput").val(customer.PSN);
                     }
                 },
                 error:function(error){
@@ -1764,4 +1772,68 @@ function closeAddPayTakhfifAddModal(){
     $("#AddPayTakhfifAddModal").hide();
 }
 
+function openAddPayHawalaFromBoxAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBoxAddModal'));
+    modal.show();
+}
+function closeAddPayHawalaFromBoxAddModal(){
+    $("#AddPayHawalaFromBoxAddModal").hide();
+}
+function openAddPayHawalaFromBankAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBankAddModal'));
+    modal.show();
+}
+function closeAddPayHawalaFromBankAddModal(){
+    $("#AddPayHawalaFromBankAddModal").hide();
+}
+function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
+    params=new URLSearchParams();
+    params.append("historyFlag",historyFlag);
+    params.append("getOrPay",getOrPay);
+    fetch(baseUrl+`/getAndPayHistory?${params.toString()}`).then(response=>response.json()).then((data)=>{
+        
+        $("#"+tableBodyId).empty();
+        data.forEach((element,index) => {
+            $("#"+tableBodyId).append(`
+                <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'`+bysTableBodyId+`',${element.SerialNoHDS})"  class="factorTablRow">
+                    <td> ${index+1} </td>
+                    <td> ${element.DocNoHDS}  </td>
+                    <td> ${element.DocDate} </td>
+                    <td> ${element.Name}</td>
+                    <td> ${element.DocDescHDS} </td>
+                    <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                    <td> ${element.SaveTime}</td>
+                    <td> ${element.userName}  </td>
+                    <td > ${element.cashName} </td>
+                    <td> ${element.DocDescHDS} </td>
+                </tr>`);
+        })
+    })
+}
+function openEditPayModal(snGetAndPayHDS){
+    params=new URLSearchParams();
+    params.append("snGetAndPay",snGetAndPayHDS);
+    
+    fetch(baseUrl+`/getGetAndPayInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
+        let payOrGet=data.response[0];
+        $("#editPayModal").find("#editPayDocNoHDS").val(payOrGet.FactNo);
+        $("#editPayModal").find("#editPayDocDate").val(payOrGet.DocDate);
+        $("#editPayModal").find("#editPayName").val(payOrGet.Name);
+        $("#editPayModal").find("#editPayCode").val(payOrGet.PCode);
+        $("#editPayModal").find("#editPayPSN").val(payOrGet.PSN);
+        $("#editPayModal").find("#editPayNetPriceHDS").val(payOrGet.NetPriceHDS);
+        $("#editPayModal").find("#editPayDocDescHDS").val(payOrGet.DocDescHDS);
+        $("#editPayModal").find("#editPaySerialNoHDS").val(payOrGet.SerialNoHDS);
+        $("#editPayModal").find("#editPayCashName").val(payOrGet.cashName);
+        $("#editPayModal").find("#editPayUserName").val(payOrGet.userName);
+        // $("#editPayModal").find("#editPayDocNoHDS").attr("disabled",true);
+        // $("#editPayModal").find("#editPayDocDate").attr("disabled",true);
+        // $("#editPayModal").find("#editPayName").attr("disabled",true);
+        // $("#editPayModal").find("#editPayNetPriceHDS").attr("disabled",true);
+        const modal = new bootstrap.Modal(document.getElementById('editPayModal'));
+        modal.show();})
+}
+function closeEditPayModal(){
+    $("#editPayModal").hide();
+}
 

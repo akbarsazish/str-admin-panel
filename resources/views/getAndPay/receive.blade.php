@@ -194,11 +194,11 @@
             </div>
             <div class="row contentFooter">
                 <div class="col-sm-12 mt-2 text-center"> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
-                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="getAndPayHistory('YESTERDAY','receiveListBody','receiveListBodyBYS',1)" value="YESTERDAY"> دیروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="getAndPayHistory('TODAY','receiveListBody','receiveListBodyBYS',1)" value="TODAY"> امروز </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="getAndPayHistory('TOMORROW','receiveListBody','receiveListBodyBYS',1)" value="TOMORROW"> فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="getAndPayHistory('AFTERTOMORROW','receiveListBody','receiveListBodyBYS',1)" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="sefOrderBtn btn btn-sm btn-success text-warning" onclick="getAndPayHistory('HUNDRED','receiveListBody','receiveListBodyBYS',1)" value="HUNDRED"> صد تای آخر </button>
                 </div>
             </div>
         </div>
