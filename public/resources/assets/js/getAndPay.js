@@ -522,25 +522,25 @@
     }
   
        
-    var distanceMonth = document.getElementById('distanceMonthChequeDar');
-    var distanceDay = document.getElementById('distanceDarChequeDar');
+    // var distanceMonth = document.getElementById('distanceMonthChequeDar');
+    // var distanceDay = document.getElementById('distanceDarChequeDar');
 
-    let monthValue;
-    let dayValue;
+    // let monthValue;
+    // let dayValue;
 
-    distanceMonth.addEventListener('input', () => {
-        if (distanceMonth.value.length > 0) {
-            distanceDay.value = 0;
-            monthValue = parseInt(distanceMonth.value);
-        }
-    });
+    // distanceMonth.addEventListener('input', () => {
+    //     if (distanceMonth.value.length > 0) {
+    //         distanceDay.value = 0;
+    //         monthValue = parseInt(distanceMonth.value);
+    //     }
+    // });
 
-    distanceDay.addEventListener('input', () => {
-        if (distanceDay.value.length > 0) {
-            dayValue = parseInt(distanceDay.value);
-            distanceMonth.value = 0;
-        }
-    });
+    // distanceDay.addEventListener('input', () => {
+    //     if (distanceDay.value.length > 0) {
+    //         dayValue = parseInt(distanceDay.value);
+    //         distanceMonth.value = 0;
+    //     }
+    // });
 
     function addChequeDar(){
         let checkSarRasidDateDar = $("#checkSarRasidDateDar").val();
@@ -1564,5 +1564,287 @@ function showCustomerGardish(element,elementId){
         }
 }
 
+$("#filterPaysForm").on("submit",function(e){
+    e.preventDefault();
+    $.ajax({
+        method: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data:$(this).serialize(),
+        processData: false,
+        contentType: false,
+        success: function (respond) {
+            $("#paysListBody").empty();
+            respond.forEach((element,index) => {
+                $("#paysListBody").append(`
+                    <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'paysDetailsBody',${element.SerialNoHDS})"  class="factorTablRow">
+                        <td> ${index+1} </td>
+                        <td> ${element.DocNoHDS}  </td>
+                        <td> ${element.DocDate} </td>
+                        <td> ${element.Name}</td>
+                        <td> ${element.DocDescHDS} </td>
+                        <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                        <td> ${element.SaveTime}</td>
+                        <td> ${element.userName}  </td>
+                        <td > ${element.cashName} </td>
+                        <td> ${element.DocDescHDS} </td>
+                    </tr>`);
+            })
+        },
+        error:function(error){
+        }
+    });
+})
+
+function openPaysModal() {
+    const modal = new bootstrap.Modal(document.getElementById('payModal'));
+    modal.show();
+}
+
+let customerCodePayInput = document.getElementById('customerCodePayInput');
+if(customerCodePayInput){
+    customerCodePayInput.addEventListener('keyup', function(e) {
+        
+        let customerCode = customerCodePayInput.value;
+        if(customerCode.length>0){
+            $.ajax({
+                method: "GET",
+                url: baseUrl+"/getCustomerInfoByCode",
+                data: {pcode:customerCode},
+                success: function (respond) {
+                    if(respond.length>0){
+                        let customer = respond[0];
+                        $("#customerNamePayInput").val(customer.Name);
+                        $("#customerIdPayInput").val(customer.Id);
+                    }
+                },
+                error:function(error){
+                    console.log(error)
+                }
+            });
+        }else{
+            $("#customerNamePayInput").val("");
+            $("#customerIdPayInput").val("");
+            $("#customerCodePayInput").val("");
+        }
+    })
+}
+const babatPayInput=document.getElementById("babatPayInput");
+if(babatPayInput){
+    babatPayInput.addEventListener('change', function(e) {
+        let babat = babatPayInput.value;
+        if(babat.length>0){
+            $.ajax({
+                method: "GET",
+                url: baseUrl+"/getInforTypeInfo",
+                data: {SnInfor:babat},
+                success: function (respond) {
+                    if(respond.length>0){
+                        let infor = respond[0];
+                        $("#babatCodePay").val(infor.InforCode);
+                        $("#babatIdPayInput").val(infor.SnInfor);
+                    }
+                },
+                error:function(error){
+                }
+            });
+        }else{
+            $("#babatIdPayInput").val("");
+            $("#babatCodePay").val(infor.InforCode);
+        }
+    })
+}
+
+const personalPaysRadio=document.getElementById("personalPaysRadio");
+if(personalPaysRadio){
+    personalPaysRadio.addEventListener('change', function(e) {
+        let personalPays = personalPaysRadio.checked;
+
+        if(personalPays==false){
+            $("#customerCodePayInput").prop("disabled", true);
+            $("#customerNamePayInput").prop("disabled", true);
+            $("#customerIdPayInput").prop("disabled", true);
+            $("#customerCodePayInput").val("");
+            $("#customerNamePayInput").val("");
+            $("#customerIdPayInput").val("");
+        }else{
+            $("#customerCodePayInput").prop("disabled", false);
+            $("#customerNamePayInput").prop("disabled", false);
+            $("#customerIdPayInput").prop("disabled", false);
+        }
+    })
+}
+
+const hazinaPaysRadio=document.getElementById("hazinahPaysRadio");
+if(hazinaPaysRadio){
+    hazinaPaysRadio.addEventListener('change', function(e) {
+        let hazinaPays = hazinaPaysRadio.checked;
+        if(hazinaPays==true){
+            $("#customerCodePayInput").prop("disabled", true);
+            $("#customerNamePayInput").prop("disabled", true);
+            $("#customerIdPayInput").prop("disabled", true);
+            $("#customerCodePayInput").val("");
+            $("#customerNamePayInput").val("");
+            $("#customerIdPayInput").val("");
+        }else{
+            $("#customerCodePayInput").prop("disabled", false);
+            $("#customerNamePayInput").prop("disabled", false);
+            $("#customerIdPayInput").prop("disabled", false);
+            $("#customerCodePayInput").val("");
+            $("#customerNamePayInput").val("");
+            $("#customerIdPayInput").val("");
+        }
+    })
+}
+
+const sadirDatePaysInput=document.getElementById("sadirDatePaysInput");
+if(sadirDatePaysInput){
+    $("#sadirDatePaysInput").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",});
+}
+
+const customerNamePayInput=document.getElementById("customerNamePayInput");
+if(customerNamePayInput){
+    customerNamePayInput.addEventListener('keyup', function(e) {
+        let customerName = customerNamePayInput.value;
+        if(customerName.length>0){
+            openSearchCustomerForPayModal(customerName);
+        }
+    })
+}
+
+function openSearchCustomerForPayModal(customerName){
+    const customerNameSearchPayInput=document.getElementById("customerNameSearchPay");
+    customerNameSearchPayInput.value=customerName;
+    const modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayModal'));
+    modal.show();
+    customerNameSearchPayInput.focus();
+}
+function closeSearchCustomerPaysModal(){
+    if($("#searchCustomerForPayModal")){
+        $("#searchCustomerForPayModal").hide();
+    }
+
+}
+const customerNameSearchPayInput=document.getElementById("customerNameSearchPay");
+if(customerNameSearchPayInput){
+    customerNameSearchPayInput.addEventListener('keyup', function(e) {
+        let customerName = customerNameSearchPayInput.value;
+        const params = new URLSearchParams();
+        params.append('namePhone', customerName);
+        const byPhoneSearchPayInput=document.getElementById("byPhoneSearchPay");
+        if(byPhoneSearchPayInput.checked==true){
+            params.append('searchByPhone', 'on');
+        }else{
+            params.append('searchByPhone', '');
+        }
+        
+        if(customerName.length>0){
+            fetch(baseUrl+`/getCustomerForOrder?${params.toString()}`, {
+                method: 'GET',
+              }).then(response => response.json()).then(data => {
+                if(data.length>0){
+                    console.log(data)
+                    let customers = data;
+                    let customersHtml = "";
+                    customers.forEach((customer,index) => {
+                        customersHtml += `
+                        <tr onclick="selectCustomerForPay('${customer.PSN}',this)">
+                        <td>  ${customer.PCode}  </td>
+                        <td>  ${customer.Name}  </td>
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
+                        <td>    </td>
+                        </tr>
+                        `;
+                    });
+                    $("#customerForPaysListBody").html(customersHtml);
+                }else{
+                     $("#customerForPaysListBody").html("");
+                }
+              });
+        }else{
+            $("#customersForPay").html("");
+        }
+    })
+}
+
+function selectCustomerForPay(customerId,element){
+    $("#selectCustomerForPaysBtn").val(customerId);
+    $("tr").removeClass("selected");
+    $(element).addClass("selected");
+}
+
+function chooseCustomerForPay(customerId) {
+    params = new URLSearchParams();
+    params.append('PSN', customerId);
+    fetch(baseUrl+`/getCustomerByID?${params.toString()}`, {
+        method: 'GET',
+      }).then(response => response.json()).then(data => {
+        if(data.length>0){
+            let customer = data[0];
+            $("#customerCodePayInput").val(customer.PCode);
+            $("#customerNamePayInput").val(customer.Name);
+            $("#customerIdPayInput").val(customer.PSN);
+            $("#searchCustomerForPayModal").hide();
+        }
+    });
+}
+
+function openAddPayVajhNaghdAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdAddModal'));
+    modal.show();
+}
+function closeAddPayVajhNaghdAddModal(){
+    $("#addPayVajhNaghdAddModal").hide();
+}
+
+function openAddPayChequeInfoAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoAddModal'));
+    modal.show();
+}
+function closAddPayChequeInfoAddModal(){
+    $("#addPayChequeInfoAddModal").hide();  
+}
+function openaddSpentChequeAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addSpentChequeAddModal'));
+    modal.show();
+}
+function closeAddSpentChequeAddModal(){
+    $("#addSpentChequeAddModal").hide();
+}
+function openAddPayVajhNaghdEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
+    modal.show();
+}
+function closeAddPayVajhNaghdEditModal(){
+    $("#addPayVajhNaghdEditModal").hide();
+}
+function openAddPayChequeInfoEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoEditModal'));
+    modal.show();
+}
+function closeAddPayChequeInfoEditModal(){
+    $("#addPayChequeInfoEditModal").hide();
+}
+function openaddSpentChequeEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addSpentChequeAddModal'));
+    modal.show();
+}
+function closeAddSpentChequeAddModal(){
+    $("#addSpentChequeAddModal").hide();
+}
+
+function openAddPayTakhfifAddModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayTakhfifAddModal'));
+    modal.show();
+}
+function closeAddPayTakhfifAddModal(){
+    $("#AddPayTakhfifAddModal").hide();
+}
 
 
