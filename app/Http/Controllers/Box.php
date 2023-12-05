@@ -248,7 +248,7 @@ class Box extends Controller{
         $snGetAndPayHDS=$request->input("snGetAndPay");
         // return Response::json($request->all());
 
-        $getAndPay=DB::select("SELECT *,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
+        $getAndPay=DB::select("SELECT *,NewStarfood.dbo.getFactNo(SnFactForTasviyeh)FactNo,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
         $getAndPayBYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
         $getAndPay[0]->BYS=$getAndPayBYS;
         
@@ -259,6 +259,44 @@ class Box extends Controller{
 
         $snHDS=$request->input("snHDS");
         
+    }
+    function getAndPayHistory(Request $request)  {
+        $historyFlag=$request->input("historyFlag");
+        $getOrPay=$request->input("getOrPay");
+        $getAndPays=array();
+        switch ($historyFlag) {
+            case 'YESTERDAY':
+                {
+                    $getAndPays=DB::select("SELECT * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE GetOrPayHDS=$getOrPay AND DocDate=Format(dateadd(day,-1,GetDate()),'yyyy/MM/dd','fa-ir')");
+                    
+                }
+                break;
+            case 'TODAY':
+                {
+                    $getAndPays=DB::select("SELECT * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE GetOrPayHDS=$getOrPay AND DocDate=Format(GetDate(),'yyyy/MM/dd','fa-ir')");
+                }
+                break;
+            case 'TOMORROW':
+                {
+                    $getAndPays=DB::select("SELECT * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE GetOrPayHDS=$getOrPay AND DocDate=Format(dateadd(day,1,GetDate()),'yyyy/MM/dd','fa-ir')");
+                    
+                }
+                break;
+            case 'AFTERTOMORROW':
+                {
+                    $getAndPays=DB::select("SELECT * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE GetOrPayHDS=$getOrPay AND DocDate=Format(dateadd(day,2,GetDate()),'yyyy/MM/dd','fa-ir')");
+
+                }
+                break;
+            case 'HUNDRED':
+                {
+                    $getAndPays=DB::select("SELECT TOP 100 * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE GetOrPayHDS=$getOrPay order by DocDate desc");
+                    
+                }
+            break;
+        }
+        return response()->json($getAndPays);
+
     }
 
 

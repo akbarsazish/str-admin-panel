@@ -71,7 +71,7 @@
                         </form>
                         <div class="btn-group" role="group" aria-label="Basic mixed">
                             <button type="button" class="btn btn-sm ms-1 rounded btn-success" onclick="openPaysModal()"> افزودن  </button>
-                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning"> ویرایش  </button>
+                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning" id="EditPayInput" onclick="openEditPayModal(this.value)"> ویرایش  </button>
                             <button type="button" class="btn btn-sm ms-1 rounded btn-danger"> حذف </button>
                         </div>
                      </div>
@@ -146,11 +146,11 @@
                 
               <div class="col-lg-5 text-end">
                 <div class="btn-group mt-2" role="group"> 
-                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('YESTERDAY')" value="YESTERDAY"> دیروز </button> 
-                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TODAY')" value="TODAY"> امروز </button> 
-                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('TOMORROW')" value="TOMORROW"> فردا </button> 
-                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('AFTERTOMORROW')" value="AFTERTOMORROW"> پس فردا </button> 
-                    <button class="btn btn-sm btn-success rounded ms-1" onclick="factorHistory('HUNDRED')" value="HUNDRED"> صد تای آخر </button>
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="getAndPayHistory('YESTERDAY','paysListBody','paysDetailsBody',2)" value="YESTERDAY"> دیروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="getAndPayHistory('TODAY','paysListBody','paysDetailsBody',2)" value="TODAY"> امروز </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="getAndPayHistory('TOMORROW','paysListBody','paysDetailsBody',2)" value="TOMORROW"> فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="getAndPayHistory('AFTERTOMORROW','paysListBody','paysDetailsBody',2)" value="AFTERTOMORROW"> پس فردا </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="getAndPayHistory('HUNDRED','paysListBody','paysDetailsBody',2)" value="HUNDRED"> صد تای آخر </button>
                 </div>
                 </div>
             </div>
@@ -306,7 +306,7 @@
             <div class="d-flex justify-content-start">
                 <div class="btn-group mt-2" role="group"> 
                     <button class="btn btn-sm btn-success rounded ms-1"> راس آیتم های پرداختی </button> 
-                    <button class="btn btn-sm btn-success rounded ms-1"> گردش حساب </button> 
+                    <button class="btn btn-sm btn-success rounded ms-1" onclick="openCustomerGardishModal(document.querySelector('#customerIdPayInput').value)"> گردش حساب </button> 
                     <button class="btn btn-sm btn-success rounded ms-1"> ثبت  </button> 
                     <button class="btn btn-sm btn-danger rounded ms-1"> انصراف  </button> 
                 </div>
@@ -335,10 +335,15 @@
             <legend  class="float-none w-auto legendLabel"> افزودن </legend>
                 <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayVajhNaghdAddModal()"> وجه نقد  </button> 
                 <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayChequeInfoAddModal()">  چک   </button> 
-                <button class="btn btn-sm btn-success w-75 mt-1"> حواله از صندوق  </button> 
+                <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayHawalaFromBoxAddModal()"> حواله از صندوق  </button> 
                 <button class="btn btn-sm btn-success w-75 mt-1" onclick="openaddSpentChequeAddModal()"> خرج چک  </button> 
                 <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayTakhfifAddModal()">   تخفیف  </button> 
-                <button class="btn btn-sm btn-success w-75 mt-1">  حواله از بانک  </button> 
+                <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayHawalaFromBankAddModal()">  حواله از بانک  </button> 
+                
+                <div class="flex-fill justify-content-start">
+                    <button class="btn btn-sm btn-success mt-1">  اصلاح  </button> 
+                    <button class="btn btn-sm btn-danger mt-1"> حذف  </button> 
+                </div>
           </fieldset>
         </div>
         <div class="col-lg-10 col-md-2 col-sm-2">
@@ -362,10 +367,7 @@
      </div>
        
       <div class="modal-footer py-1">
-           <div class="flex-fill justify-content-start">
-                <button class="btn btn-sm btn-success mt-1">  اصلاح  </button> 
-                <button class="btn btn-sm btn-danger mt-1"> حذف  </button> 
-            </div>
+
             <div class="p-1 flex-fill ">
                 <div class="input-group input-group-sm mb-1 filterItems">
                     <span class="input-group-text"> مالیات بر ارزش افزوده </span>
@@ -747,4 +749,354 @@
         </div>
     </div>
 </div>
+<div class="modal" id="AddPayHawalaFromBoxAddModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-warning py-1">
+                <button class="btn-danger btn-sm btn" onclick="closeAddPayHawalaFromBoxAddModal()"> <i class="fa fa-times"></i></button>
+                <h5 class="modal-title"> افزودن حواله از صندوق </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> شماره حواله: </span>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-end">
+                                <button class="btn btn-sm btn-success" onclick="addHawalaFromBoxBtnAddPayAdd()"> ثبت <i class="fa-save fa"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span>تاریخ حواله (حواله قابل اصلاح نمی باشد) </span>
+                            <input type="text" id="pay_hawala_from_box_add_modal_input_box_id" class="form-control">
+                            <span>توجه : تاریخ حواله می بایست حتما با تاریخ پرداخت برابر باشد.</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> مبلغ : </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> کارمزد: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    <fieldset class="border rounded mt-4">
+                        <legend class="float-none w-auto legendLabel mb-0">  حواله به </legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> شماره حساب: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> نام بانک: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> نام دارنده حساب: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">  شعبه: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> شرح: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="modal" id="AddPayHawalaFromBankAddModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-warning py-1">
+                <button class="btn-danger btn-sm btn" onclick="closeAddPayHawalaFromBankAddModal()"> <i class="fa fa-times"></i></button>
+                <h5 class="modal-title"> افزودن حواله از بانک </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> از شماره حساب : </span>
+                                <input type="text" id="" class="form-control">
+                                <select name="" id="" class="form-select">
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> شماره حواله </span>
+                                <input type="text" class="form-control">
+                                <span class="input-gorup-text"> مانده </span>
+                                <span class="">1234</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-end">
+                                <button class="btn btn-sm btn-success"> <i class="fa fa-save"></i> ثبت </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span > تاریخ حواله (قابل اصلاح نمی باشد) </span>
+                            <input type="text" class="form-control">
+                            <span> توجه: تاریخ حواله حتما می بایست با تاریخ پرداخت برابر باشد. </span>
+
+                        </div>
+                    </div>
+                    <fieldset class="border rounded mt-4">
+                        <legend class="float-none w-auto legendLabel mb-0">  حواله به </legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> شماره حساب: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> نام بانک: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> نام دارنده حساب: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">  شعبه: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"> شرح: </span>
+                                    <input type="text" id="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="editPayModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="paymodal" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header bg-success py-2">
+            <button type="button" class="btn-close bg-danger" data-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title text-white" id="paymodal">  پرداخت   </h5>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="d-flex">
+                        <div class="p-1 flex-fill ">
+                            <div class="input-group input-group-sm mb-1">
+                                <span class="input-group-text"> شماره فاکتور خرید  </span>
+                                <input  class="form-control form-control-sm" name="editPayDocNoHDS" id="editPayDocNoHDS">
+                            </div>
+                        </div>
+                        <div class="p-1 flex-fill"> 
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text d-inline"> تاریخ صدور </span>
+                                <input type="text" name="editPayDocDate" id="editPayDocDate" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="p-1 flex-fill">
+                            <div class="form-check form-check-inline d-flex">
+                                <label class="form-check-label ms-1" for="inlineRadio1" > شخص  </label>
+                                <input class="form-check-input" type="radio" name="payType" name="person" id="personalPaysRadio" checked value="1">
+                            </div>
+                        </div>
+                        <div class="p-1 flex-fill">
+                            <div class="form-check form-check-inline d-flex">
+                                <label class="form-check-label ms-1" for="inlineRadio2"> هزینه  </label>
+                            <input class="form-check-input" type="radio" name="payType" id="hazinahPaysRadio" value="0">
+                            </div>
+                        </div>
+                    </div>
+  
+                <div class="d-flex">
+                    <div class="p-1 flex-fill"> 
+                        <div class="input-group input-group-sm ">
+                            <span class="input-group-text d-inline"> طرف حساب  </span>
+                            <input type="text" name="editPayCode" id="editPayCode" class="form-control form-control-sm">
+                            <input type="text" name="editPayName" id="editPayName" class="form-control form-control-sm"> <span class="border px-2 pe-auto"> ... </span>
+                            <input type="text" name="editPayPSN" id="editPayPSN" class="form-control form-control-sm d-none">
+                        </div>
+                    </div>
+                    <div class="p-1 flex-fill"> 
+                        <div class="input-group input-group-sm ">
+                            <span class="input-group-text d-inline"> بابت </span>
+                            <input type="text" name="editBabatCodePay" id="editBabatCodePay" class="form-control form-control-sm">
+                            <input type="text" id="editBabatIdPay" class="d-none">
+                            <select class="form-select form-select-sm" id="editBabatIdPaySelect" name="editBabatIdPaySelect" aria-label=".form-select-sm example">
+                                @foreach ($infors as $infor)
+                                    <option value="{{$infor->SnInfor}}">{{$infor->InforName}}</option>
+                                @endforeach
+                            </select>
+                            <span class="border px-2 pe-auto"> ... </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="p-1 flex-fill"> 
+                        <div class="input-group input-group-sm ">
+                            <span class="input-group-text d-inline"> توضیحات </span>
+                            <input type="text" name="editPayDocDescHDS" id="editPayDocDescHDS" class="form-control form-control-sm">
+                            <button class="btn btn-sm btn-success"> فاکتورهای مربوطه </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
+            <div class="col-lg-5 text-end">
+                <div class="d-flex justify-content-start">
+                    <div class="btn-group mt-2" role="group"> 
+                      <button class="btn btn-sm btn-success rounded ms-1"> راس آیتم های پرداختی </button> 
+                      <button class="btn btn-sm btn-success rounded ms-1" onclick="openCustomerGardishModal(document.querySelector('#customerIdPayInput').value)"> گردش حساب </button> 
+                      <button class="btn btn-sm btn-success rounded ms-1"> ثبت  </button> 
+                      <button class="btn btn-sm btn-danger rounded ms-1"> انصراف  </button> 
+                    </div>
+                </div>
+                <table class="resizableTable table table-hover table-bordered table-sm mt-1" id=""  style="height: 111px">
+                    <thead class="tableHeader">
+                        <tr>
+                            <th> ردیف  </th>
+                            <th> شرح  </th>
+                            <th> وضعیت </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> شرح  </td>
+                            <td> مبلغ  </td>
+                            <td> وضعیت </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       <div class="row">
+       <div class="col-lg-2 col-md-2 col-sm-2 text-center">
+            <fieldset class="border rounded">
+              <legend  class="float-none w-auto legendLabel"> افزودن </legend>
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayVajhNaghdEditModal()"> وجه نقد  </button> 
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayChequeInfoEditModal()">  چک   </button> 
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayHawalaFromBoxEditModal()"> حواله از صندوق  </button> 
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openaddSpentChequeEditModal()"> خرج چک  </button> 
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayTakhfifEditModal()">   تخفیف  </button> 
+                  <button class="btn btn-sm btn-success w-75 mt-1" onclick="openAddPayHawalaFromBankEditModal()">  حواله از بانک  </button> 
+                  
+                  <div class="flex-fill justify-content-start">
+                      <button class="btn btn-sm btn-success mt-1">  اصلاح  </button> 
+                      <button class="btn btn-sm btn-danger mt-1"> حذف  </button> 
+                  </div>
+            </fieldset>
+          </div>
+          <div class="col-lg-10 col-md-2 col-sm-2">
+             <fieldset class="border rounded">
+               <legend  class="float-none w-auto legendLabel"> </legend>
+                  <table class="resizableTable table table-hover table-bordered table-sm" id=""  style="height: 222px">
+                      <thead class="tableHeader">
+                          <tr>
+                              <th> ردیف  </th>
+                              <th> شرح  </th>
+                              <th> مبلغ </th>
+                              <th> ردیف در دفتر چک </th>
+                              <th> شماره صیادی </th>
+                          </tr>
+                      </thead>
+                      <tbody id="payEditTableBodyBys">
+                        <tr>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                            <td>  </td>
+                        </tr>
+                      </tbody>
+                  </table>
+              </fieldset>
+          </div>
+       </div>
+         
+        <div class="modal-footer py-1">
+  
+              <div class="p-1 flex-fill ">
+                  <div class="input-group input-group-sm mb-1 filterItems">
+                      <span class="input-group-text"> مالیات بر ارزش افزوده </span>
+                      <input  class="form-control form-control-sm" name="pCode" id="customerCode">
+                  </div>
+              </div>
+              
+              <div class="flex-fill justify-content-start">
+                  <span class="ras-result"> راس چک ها : </span>
+                  <span class="ras-result"> راس همه آیتم ها : </span>
+                  <span class="ras-result"> جمع کل: </span>
+              </div>
+              <div class="flex-fill justify-content-start">
+                  <span class="bordered">  0 مبلغ فاکتور </span>
+                  <span class="bordered"> مانده (50000) </span>
+              </div>
+              <div class="flex-fill justify-content-start">
+                  <span class="bordered">  5000 مجموع  </span>
+              </div>
+              <div class="flex-fill justify-content-start">
+              <div class="form-check">
+                  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                  <label class="form-check-label" for="flexRadioDefault1">
+                      این پرداخت بابت چک پرداختی میباشد!
+                  </label>
+              </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+@include('repititiveparts/customerGardishModal')
+
+
 @endsection
