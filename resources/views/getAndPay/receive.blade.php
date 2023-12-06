@@ -205,8 +205,6 @@
     </div>
 </div>
 
-
-
 <div class="modal" id="addDaryaftModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
@@ -222,10 +220,9 @@
                             <div class="col-md-7">  
                                   <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
                                   <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
-                               
                                 <div class="row pt-2">
                                     <div class="col-md-6">
-                                        <div class="input-group">
+                                        <div class="input-group input-group-sm">
                                             <span class="input-group-text"> تاریخ </span>
                                             <input type="text" name="addDaryaftDate" id="addDaryaftDate" class="form-control form-control-sm" placeholder="" required>
                                         </div>
@@ -233,25 +230,26 @@
                                     <div class="col-md-6 border">
                                         <div class="row pt-2">
                                             <div class="col-md-6">
-                                                <label for=""> شخص </label>
+                                                <label class="form-check-label" for=""> شخص </label>
                                                 <input name="daryaftType" id="DocTypeCustomerHDSStateDar" type="radio" value="0" class="form-check-input" checked>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for=""> درآمد </label>
+                                                <label class="form-check-label" for=""> درآمد </label>
                                                 <input name="daryaftType" id="DocTypeDarAmadHDSStateDar" type="radio" value="1" class="form-check-input">
                                             </div>
                                         </div>       
                                     </div>
                                 </div>
 
-                                <div class="input-group pt-2">
+                                <div class="input-group input-group-sm pt-2">
                                     <span class="input-group-text"> مشتری </span>
                                     <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="name" id="customerNameDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="customerId" id="customerIdDaryaft" class="d-none">
                                     <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
                                 </div>
-                                <div class="input-group pt-2">
+
+                                <div class="input-group input-group-sm pt-2">
                                     <span class="input-group-text"> بابت </span>
                                     <input type="text" id="inforTypeCodeDar" class="form-control">
                                     <select name="inforTypeDaryaft" id="inforTypeDaryaft" class="form-control form-control-sm">
@@ -261,12 +259,12 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="input-group mt-2">
+
+                                <div class="input-group input-group-sm mt-2">
                                   <span class="input-group-text">  توضحیات </span>
                                   <input type="text" name="daryaftHdsDesc" class="form-control form-control-sm" required>
                                   <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
                                 </div>
-
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-4">
@@ -386,7 +384,6 @@
                         </div>
                     </form>
                 </div>
-
             </div>
             <div class="modal-footer">  </div>
         </div>
@@ -395,93 +392,84 @@
 
 
 <div class="modal" id="daryaftEditModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header bg-success py-1">
                 <button onclick="closeDaryaftEditModal()" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
-                <h5 class="modal-title"> دریافت </h5>
+                <h5 class="modal-title text-white"> ویرایش دریافت </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/editDaryaft')}}" method="POST" id="editDaryaftForm">
+                    <form action="{{url('/editDaryaft')}}" method="GET" id="editDaryaftForm">
                         @csrf
                         <div class="row">
-                            <div class="col-md-4">  
-                                <div class="row">
-                                    <div>
-                                        <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
-                                        <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
-                                    </div>
-                                </div>
-                                <div class="row pt-2">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
+                            <div class="col-lg-8 border-1 rounded"> 
+                                    <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
+                                    <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                          <div class="input-group">
                                             <span class="input-group-text"> تاریخ </span>
                                             <input type="text" name="editDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-6 border">
+                                            <div class="row pt-2">
+                                                <div class="col-md-6">
+                                                    <label class="form-check-label" for="person"> شخص </label>
+                                                    <input name="daryaftType" id="DocTypeCustomerHDSStateDarEdit" type="radio" value="0" class="form-check-input" checked>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-check-label" for="income"> درآمد </label>
+                                                    <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
+                                                </div>
+                                            </div>       
                                         </div>
                                     </div>
-                                    <div class="col-md-6 border">
-                                        <div class="row pt-2">
-                                            <div class="col-md-6">
-                                                <label for=""> شخص </label>
-                                                <input name="daryaftType" id="DocTypeCustomerHDSStateDarEdit" type="radio" value="0" class="form-check-input" checked>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for=""> درآمد </label>
-                                                <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
-                                            </div>
-                                        </div>       
+                                    <div class="row">
+                                        <div class="input-group pt-2">
+                                            <span class="input-group-text"> مشتری </span>
+                                            <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
+                                            <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
+                                            <input type="text" name="customerIdEdit" id="customerIdDaryaftEdit" class="d-none">
+                                            <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="d-none">
+                                        </div>
+                                        <div class="input-group pt-2">
+                                            <span class="input-group-text"> بابت </span>
+                                            <input type="text" id="inforTypeCodeDarEdit" class="form-control">
+                                            <select name="inforTypeDaryaft" id="inforTypeDaryaftEdit" class="form-select">
+                                                <option value=""> </option>
+                                                @foreach($infors as $infor)
+                                                    <option value="{{$infor->SnInfor}}"> {{$infor->InforName}} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <span class="input-group-text"> توضحیات </span>
+                                            <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
+                                            <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="input-group pt-2">
-                                    <span class="input-group-text"> مشتری </span>
-                                    <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
-                                    <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
-                                    <input type="text" name="customerIdEdit" id="customerIdDaryaftEdit">
-                                    <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="">
-                                </div>
-                                <div class="input-group pt-2">
-                                    <span class="input-group-text"> بابت </span>
-                                    <input type="text" id="inforTypeCodeDarEdit" class="form-control">
-                                    <select name="inforTypeDaryaft" id="inforTypeDaryaftEdit" class="form-select">
-                                        <option value=""> </option>
-                                        @foreach($infors as $infor)
-                                            <option value="{{$infor->SnInfor}}"> {{$infor->InforName}} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
                             </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-4">
-                                <div class="row text-end">
-                                    <div>
-                                        <button class="btn btn-success btn-sm" type="submit"> ذخیره <i class="fa fa-save"></i></button>
-                                    </div>
-                                </div>
-                                <div class="row  border border-2 border-secondary mt-2">
-                                    <table class="table factorTable">
-                                        <thead class="bg-success text-warning">
-                                            <tr>
-                                                <th> شرح </th>
-                                                <th> مبلغ </th>
-                                                <th> وضعیت </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="input-group mt-2">
-                                <span class="input-group-text"> توضحیات </span>
-                                <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
-                                <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
+                           
+                            <div class="col-lg-4 border-1 rounded">
+                                <button class="btn btn-success btn-sm" type="submit"> ذخیره <i class="fa fa-save"></i></button>
+                                <table class="table table-bordered table-striped mt-2" style="height:122px">
+                                    <thead class="bg-success text-warning">
+                                        <tr>
+                                            <th> شرح </th>
+                                            <th> مبلغ </th>
+                                            <th> وضعیت </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -508,9 +496,9 @@
                                     </div>
                                 </fieldset>
                             </div>
-                            <div class="col-md-10 border border-2 border-secondary">
-                                <table class="table">
-                                    <thead class="bg-success text-warning">
+                            <div class="col-md-10 border border-1 rounded border-secondary px-0">
+                                <table class="resizableTable table table-bordered table-striped" style="height:188px">
+                                    <thead class="tableHeader">
                                         <tr>
                                             <th>  ردیف  </th>
                                             <th>  دریف چک  </th>
@@ -540,7 +528,7 @@
                                     <div class="col-md-9">
                                         <div class="row">
                                             <div class="col-sm-9">
-                                                <div class="border border-2 border-secondary mt-2">
+                                                <div class="border border-1 rounded border-secondary mt-2">
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
@@ -556,7 +544,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
-                                                <div class="border border-2 border-secondary mt-2">
+                                                <div class="border border-1 rounded border-secondary mt-2">
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
@@ -1496,9 +1484,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-            
-            </div>
+            <div class="modal-footer">  </div>
         </div>
     </div>
 </div>
@@ -1506,16 +1492,16 @@
 <div class="modal" id="daryaftAddVarizToOthersHisbModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header bg-success py-1">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeVarizToOthersHisbModal()"><i class="fa-times fa"></i></button>
-            <h5 class="modal-title"> واریز به حساب دیگران </h5>
+                <h5 class="modal-title"> واریز به حساب دیگران </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row mb-1">
                         <div class="text-end">
                             <div class="text-end">
-                                <button class="btn btn-sm btn-success" onclick="addVarizToOtherHisab()"> <i class="fa-save fa"></i> </button>
+                                <button class="btn btn-sm btn-success" onclick="addVarizToOtherHisab()"> ثبت <i class="fa-save fa"></i> </button>
                             </div>
                         </div>
                     </div>
@@ -1524,11 +1510,9 @@
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
                                 <input type="text" id="moneyVarizToOtherHisabDar" class="form-control">
-                                
                             </div>    
                         </div>    
 
-                            
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شماره کارت/ شبا/ حساب </span>
@@ -1577,19 +1561,20 @@
     </div>
 </div>
 
+
 <div class="modal" id="varizToOthersHisbModalEdit" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header bg-success py-1">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeVarizToOthersHisbModalEdit()"><i class="fa-times fa"></i></button>
-            <h5 class="modal-title"> واریز به حساب دیگران </h5>
+            <h5 class="modal-title"> ویرایش واریز به حساب دیگران </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row mb-1">
                         <div class="text-end">
                             <div class="text-end">
-                                <button class="btn btn-sm btn-success" onclick="addVarizToOtherHisabEdit()"> <i class="fa-save fa"></i> </button>
+                                <button class="btn btn-sm btn-success" onclick="addVarizToOtherHisabEdit()"> ذخیره  <i class="fa-save fa"></i> </button>
                             </div>
                         </div>
                     </div>
@@ -1598,10 +1583,8 @@
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
                                 <input type="text" id="moneyVarizToOtherHisabDarEdit" class="form-control">
-                                
                             </div>    
-                        </div>    
-
+                        </div>
                             
                         <div class="col-md-6">
                             <div class="input-group mb-2">

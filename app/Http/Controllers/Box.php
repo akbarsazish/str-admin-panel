@@ -83,54 +83,52 @@ class Box extends Controller{
         $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!='' AND SNCash<920");
         return response()->json($sandoghes, 200);
     }
-
-
+    
+    
     function addDaryaft(Request $request) {
         $sn=$request->input("byss");
-
-        
-
         $cashMasterId=0;
         $snPeopel=3609;
         $daryaftType=0;
 
+        
         $byss=$request->input("byss");
         $addDaryaftDate=$request->input("addDaryaftDate");
-
+        
         if($request->input("customerId")){
             $snPeopel=$request->input("customerId");
         }
-
+        
         if($request->input("daryaftType")==1){
             $daryaftType=$request->input("daryaftType");
             $snPeopel=0;
         }else{
             $snPeopel=$request->input("customerId");
         }
-
-        //return $addDaryaftDate;
-
+    
+        
         $daryaftHdsDesc=$request->input("daryaftHdsDesc");
-
         $inforTypeDaryaft=0;
+        
 
         if($request->input("inforTypeDaryaft")){
             $inforTypeDaryaft=$request->input("inforTypeDaryaft");
         }
+        
         $netPriceHDS=0;
         if($request->input("netPriceHDS")){
             $netPriceHDS=$request->input("netPriceHDS");
         }
-
+        
         if($request->input("sandoghIdDar")){
             $cashMasterId=$request->input("sandoghIdDar");
-
         }
         
         $snHDS=0;
-
+        
         $docNoHDS=0;
-
+        
+       
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
        //return Response::json($request->all());
         DB::table("Shop.dbo.GetAndPayHDS")->insert(["CompanyNo"=>5
@@ -242,12 +240,13 @@ class Box extends Controller{
 
         }
 
-        return Response::json("added");
+        return Response::json("دیتا موفقانه ثبت شد!");
     }
 
     function getGetAndPayInfo(Request $request){
 
         $snGetAndPayHDS=$request->input("snGetAndPay");
+        // return Response::json($request->all());
 
         $getAndPay=DB::select("SELECT *,NewStarfood.dbo.getFactNo(SnFactForTasviyeh)FactNo,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
         $getAndPayBYS=DB::select("SELECT *,concat(NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS),NewStarfood.dbo.getAccBankInfo(SnAccBank),' '+ ChequeDate)bankDesc FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");

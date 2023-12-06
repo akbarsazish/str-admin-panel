@@ -40,6 +40,8 @@ $.get(baseUrl+"/getFactorBYSInfo",{snFact:factorSn},(respond,status)=>{
     }
 })
 }
+
+
 function selectCustomerForFactor(psn,element){
     if(isNaN(element)){
         $("tr").removeClass('selected');
@@ -51,6 +53,7 @@ function selectCustomerForFactor(psn,element){
     $("#addCustomerFactSabtBtn").prop("disabled",false);
     $("#addCustomerFactSabtBtn").val(psn);
 }
+
 $("#filterFactorsForm").on("submit",function(e){
     e.preventDefault();
     $.ajax({
