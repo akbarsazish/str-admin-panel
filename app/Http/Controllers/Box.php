@@ -249,7 +249,7 @@ class Box extends Controller{
         // return Response::json($request->all());
 
         $getAndPay=DB::select("SELECT *,NewStarfood.dbo.getFactNo(SnFactForTasviyeh)FactNo,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
-        $getAndPayBYS=DB::select("SELECT * , concat(NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS),NewStarfood.dbo.getAccBankInfo(SnAccBank),' '+ ChequeDate)bankDesc FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
+        $getAndPayBYS=DB::select("SELECT *,concat(NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS),NewStarfood.dbo.getAccBankInfo(SnAccBank),' '+ ChequeDate)bankDesc FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
         $getAndPay[0]->BYS=$getAndPayBYS;
         
         return Response::json(['response'=>$getAndPay]);
@@ -298,6 +298,9 @@ class Box extends Controller{
         return response()->json($getAndPays);
 
     }
-
-
+    public function getBYSInfo(Request $request) {
+        $snBYS=$request->input("SerialNoBYS");
+        $BYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SerialNoBYS=$snBYS");
+        return Response::json(['response'=>$BYS]);
+    }
 }

@@ -2361,36 +2361,10 @@ function openaddSpentChequeAddModal(){
 function closeAddSpentChequeAddModal(){
     $("#addSpentChequeAddModal").hide();
 }
-function openAddPayVajhNaghdEditModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
-    modal.show();
-}
-function closeAddPayVajhNaghdEditModal(){
-    $("#addPayVajhNaghdEditModal").hide();
-}
-function openAddPayChequeInfoEditModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoEditModal'));
-    modal.show();
-}
-function closeAddPayChequeInfoEditModal(){
-    $("#addPayChequeInfoEditModal").hide();
-}
-function openaddSpentChequeEditModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addSpentChequeAddModal'));
-    modal.show();
-}
-function closeAddSpentChequeAddModal(){
-    $("#addSpentChequeAddModal").hide();
-}
-
 function openAddPayTakhfifAddModal(){
     const modal = new bootstrap.Modal(document.getElementById('AddPayTakhfifAddModal'));
     modal.show();
 }
-function closeAddPayTakhfifAddModal(){
-    $("#AddPayTakhfifAddModal").hide();
-}
-
 function openAddPayHawalaFromBoxAddModal(){
     const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBoxAddModal'));
     modal.show();
@@ -2405,6 +2379,144 @@ function openAddPayHawalaFromBankAddModal(){
 function closeAddPayHawalaFromBankAddModal(){
     $("#AddPayHawalaFromBankAddModal").hide();
 }
+function closeAddPayTakhfifAddModal(){
+    $("#AddPayTakhfifAddModal").hide();
+}
+function openAddPayVajhNaghdEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
+    modal.show();
+}
+function closeAddPayVajhNaghdEditModal(){
+    $("#addPayVajhNaghdEditModal").hide();
+}
+function openAddPayChequeInfoEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoEditModal'));
+    modal.show();
+}
+function closAddPayChequeInfoEditModal(){
+    
+    $("#addPayChequeInfoEditModal").hide();
+}
+function openaddSpentChequeEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addSpentChequeEditModal'));
+    modal.show();
+}
+function closeAddSpentChequeEditModal(){
+    $("#addSpentChequeEditModal").hide();
+}
+function openAddPayTakhfifEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayTakhfifEditModal'));
+    modal.show();
+}
+function closeAddPayTakhfifEditModal(){
+    $("#AddPayTakhfifEditModal").hide();
+}
+
+function openAddPayHawalaFromBoxEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBoxEditModal'));
+    modal.show();
+}
+function closeAddPayHawalaFromBoxEditModal(){
+    $("#AddPayHawalaFromBoxEditModal").hide();
+}
+function openAddPayHawalaFromBankEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBankEditModal'));
+    modal.show();
+}
+function closeAddPayHawalaFromBankEditModal(){
+    $("#AddPayHawalaFromBankEditModal").hide();
+}
+// add edit edit 
+function openAddEditPayVajhNaghdEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayVajhNaghdEditModal'));
+    modal.show();
+}
+function closeAddEditPayVajhNaghdEditModal(){
+    $("#addEditPayVajhNaghdEditModal").hide();
+}
+function openAddEditPayChequeInfoEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayChequeInfoEditModal'));
+    modal.show();
+}
+function closAddEditPayChequeInfoEditModal(){
+    
+    $("#addEditPayChequeInfoEditModal").hide();
+}
+function openAddEditSpentChequeEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditSpentChequeEditModal'));
+    modal.show();
+}
+function closeAddEditSpentChequeEditModal(){
+    $("#addEditSpentChequeEditModal").hide();
+}
+function openAddEditPayTakhfifEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayTakhfifEditModal'));
+    modal.show();
+}
+function closeAddEditPayTakhfifEditModal(){
+    $("#addEditPayTakhfifEditModal").hide();
+}
+
+function openAddEditPayHawalaFromBoxEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayHawalaFromBoxEditModal'));
+    modal.show();
+}
+function closeAddEditPayHawalaFromBoxEditModal(){
+    $("#addEditPayHawalaFromBoxEditModal").hide();
+}
+function openAddEditPayHawalaFromBankEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayHawalaFromBankEditModal'));
+    modal.show();
+}
+function closeAddEditPayHawalaFromBankEditModal(){
+    $("#addEditPayHawalaFromBankEditModal").hide();
+}
+// edit edit edit modal
+function openEditEditPayVajhNaghdEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditPayVajhNaghdEditModal'));
+    modal.show();
+}
+function closeEditEditPayVajhNaghdEditModal(){
+    $("#editEditPayVajhNaghdEditModal").hide();
+}
+function openEditEditPayChequeInfoEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditPayChequeInfoEditModal'));
+    modal.show();
+}
+function closEditEditPayChequeInfoEditModal(){
+    
+    $("#editEditPayChequeInfoEditModal").hide();
+}
+function openEditEditSpentChequeEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditSpentChequeEditModal'));
+    modal.show();
+}
+function closeEditEditSpentChequeEditModal(){
+    $("#editEditSpentChequeEditModal").hide();
+}
+function openEditEditPayTakhfifEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditPayTakhfifEditModal'));
+    modal.show();
+}
+function closeEditEditPayTakhfifEditModal(){
+    $("#editEditPayTakhfifEditModal").hide();
+}
+
+function openEditEditPayHawalaFromBoxEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBoxEditModal'));
+    modal.show();
+}
+function closeEditEditPayHawalaFromBoxEditModal(){
+    $("#editEditPayHawalaFromBoxEditModal").hide();
+}
+function openEditEditPayHawalaFromBankEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBankEditModal'));
+    modal.show();
+}
+function closeEditEditPayHawalaFromBankEditModal(){
+    $("#editEditPayHawalaFromBankEditModal").hide();
+}
+
 function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
     params=new URLSearchParams();
     params.append("historyFlag",historyFlag);
@@ -2432,27 +2544,203 @@ function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
 function openEditPayModal(snGetAndPayHDS){
     params=new URLSearchParams();
     params.append("snGetAndPay",snGetAndPayHDS);
-    
     fetch(baseUrl+`/getGetAndPayInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
         let payOrGet=data.response[0];
+        
         $("#editPayModal").find("#editPayDocNoHDS").val(payOrGet.FactNo);
         $("#editPayModal").find("#editPayDocDate").val(payOrGet.DocDate);
         $("#editPayModal").find("#editPayName").val(payOrGet.Name);
         $("#editPayModal").find("#editPayCode").val(payOrGet.PCode);
-        $("#editPayModal").find("#editPayPSN").val(payOrGet.PSN);
+        const editPayPSN=document.getElementById("editPayPSN");
+        editPayPSN.value=payOrGet.PeopelHDS;
         $("#editPayModal").find("#editPayNetPriceHDS").val(payOrGet.NetPriceHDS);
         $("#editPayModal").find("#editPayDocDescHDS").val(payOrGet.DocDescHDS);
         $("#editPayModal").find("#editPaySerialNoHDS").val(payOrGet.SerialNoHDS);
         $("#editPayModal").find("#editPayCashName").val(payOrGet.cashName);
         $("#editPayModal").find("#editPayUserName").val(payOrGet.userName);
-        // $("#editPayModal").find("#editPayDocNoHDS").attr("disabled",true);
-        // $("#editPayModal").find("#editPayDocDate").attr("disabled",true);
-        // $("#editPayModal").find("#editPayName").attr("disabled",true);
-        // $("#editPayModal").find("#editPayNetPriceHDS").attr("disabled",true);
+        let personalEditPaysRadio = document.getElementById("personalEditPaysRadio");
+        let hazinahEditPaysRadio = document.getElementById("hazinahEditPaysRadio");
+        if(payOrGet.PeopelHDS>0){
+            personalEditPaysRadio.checked = true;
+        }else{
+            hazinahEditPaysRadio.checked = true;
+        }
+        if(payOrGet.InForHDS>0){
+            const editBabatPayCode = document.getElementById('editBabatCodePay');
+            editBabatPayCode.value = payOrGet.InForHDS;
+            const select = document.getElementById('editBabatIdPaySelect');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value === payOrGet.InForHDS) {
+                    select.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+        if(personalEditPaysRadio.checked===true){
+            $("#editPayModal").find("#editPayName").attr("disabled",false);
+            $("#editPayModal").find("#editPayCode").attr("disabled",false);
+        }else{
+            $("#editPayModal").find("#editPayName").attr("disabled",true);
+            $("#editPayModal").find("#editPayCode").attr("disabled",true);
+        }
+        const bys=data.response[0].BYS;
+        const bysTableBody=document.getElementById("payEditTableBodyBys");
+        bysTableBody.innerHTML="";
+        let bysTableTr="";
+        let i=1;
+        for (const element of bys) {
+            i++;
+            bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.SerialNoBYS})"><td>${i}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td></tr>`;
+        }
+        bysTableBody.innerHTML=bysTableTr;
         const modal = new bootstrap.Modal(document.getElementById('editPayModal'));
         modal.show();})
 }
+
+function setPayBYSStuff(seletedTr,serialNoBYS){
+    const tr = document.querySelectorAll('tr');
+    for (let index = 0; index < tr.length; index++) {
+        const element = tr[index];
+        element.classList.remove('selected');
+    }
+
+    seletedTr.classList.add('selected');
+    const openEditEditPayEditBtn = document.getElementById("openEditEditPayEditBtn");
+    openEditEditPayEditBtn.value=serialNoBYS;
+}
+
+function openEditEditPayEditModal(serialNoBYS){
+    if(serialNoBYS!=0){
+        params=new URLSearchParams();
+        params.append("SerialNoBYS",serialNoBYS);
+        fetch(baseUrl+`/getBYSInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
+            checkEditEditPayEditModal(data.response[0].DocTypeBYS);
+        })
+    }else{
+        checkEditEditPayEditModal(1)
+    }
+}
+
+function checkEditEditPayEditModal(docTypeBYS){
+    switch(docTypeBYS){
+        case "1":
+            {//وجه نقد
+                let modal = new bootstrap.Modal(document.getElementById('editEditPayVajhNaghdEditModal'));
+                modal.show();
+            }
+            break;
+        case "2":
+            {//چک
+                let modal = new bootstrap.Modal(document.getElementById('editEditPayChequeInfoEditModal'));
+                modal.show();
+            }
+            break;
+        case "6":
+            {//چک خرج شده
+                let modal = new bootstrap.Modal(document.getElementById('editEditSpentChequeEditModal'));
+                modal.show();
+            }
+            break;
+        case "4":
+            {// تخفیف
+                let modal = new bootstrap.Modal(document.getElementById('editEditPayTakhfifEditModal'));
+                modal.show();
+            }
+            break;
+        case "5":
+            {// hawal from Box
+                let modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBoxEditModal'));
+                modal.show();
+            }
+            break;
+        case "3":
+            {// hawala from Bank
+                let modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBankEditModal'));
+                modal.show();
+            }
+            break;
+    }
+}
+
+let personalEditPaysRadio = document.getElementById("personalEditPaysRadio");
+let hazinahEditPaysRadio = document.getElementById("hazinahEditPaysRadio");
+if(personalEditPaysRadio){
+    personalEditPaysRadio.addEventListener('change', function(){
+    if(personalEditPaysRadio.checked===true){
+        $("#editPayModal").find("#editPayName").attr("disabled",false);
+        $("#editPayModal").find("#editPayCode").attr("disabled",false);
+        $("#editPayModal").find("#editPayPSN").val("");
+    }else{
+        $("#editPayModal").find("#editPayName").attr("disabled",true);
+        $("#editPayModal").find("#editPayCode").attr("disabled",true);
+    }})
+}
+if(hazinahEditPaysRadio){
+    hazinahEditPaysRadio.addEventListener('change', function(){
+    if(hazinahEditPaysRadio.checked===true){
+        $("#editPayModal").find("#editPayName").attr("disabled",true);
+        $("#editPayModal").find("#editPayCode").attr("disabled",true);
+    }else{
+        $("#editPayModal").find("#editPayName").attr("disabled",false);
+        $("#editPayModal").find("#editPayCode").attr("disabled",false);
+        $("#editPayModal").find("#editPayPSN").val("");
+    }})
+}
+
+const editPayCode=document.getElementById("editPayCode");
+if(editPayCode){
+    editPayCode.addEventListener('keyup', function(){
+        params=new URLSearchParams();
+        params.append("pcode",editPayCode.value);
+        fetch(baseUrl+`/getCustomerInfoByCode?${params.toString()}`).then(response=>response.json()).then((data)=>{
+            if(data.length>0){
+                let customer=data[0];
+                $("#editPayModal").find("#editPayName").val(customer.Name);
+                $("#editPayModal").find("#editPayPSN").val(customer.PSN);
+            }else{
+                $("#editPayModal").find("#editPayName").val("");
+                $("#editPayModal").find("#editPayPSN").val("");
+            }
+        })
+    })
+}
+
+const editPayName=document.getElementById("editPayName");
+if(editPayName){
+    editPayName.addEventListener('keyup', function(){
+        
+        let customerName = editPayName.value;
+        if(customerName.length>0){
+            alert("openSearchCustomerForPayModal");
+            openSearchCustomerForPayEditModal(customerName);
+        }
+    })
+}
+
+function openSearchCustomerForPayEditModal(customerName){
+    alert("openSearchCustomerForPayEditModal");
+    modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayEditModal'));
+    modal.show();
+}
+function closeSearchCustomerForPayEditModal(){
+    $("#searchCustomerForPayEditModal").hide();
+}
+
 function closeEditPayModal(){
     $("#editPayModal").hide();
 }
-
+const editBabatIdPaySelect=document.getElementById("editBabatIdPaySelect");
+if(editBabatIdPaySelect){
+    editBabatIdPaySelect.addEventListener('change', function(){
+        let babatId = editBabatIdPaySelect.value;
+        if(babatId>0){
+            params=new URLSearchParams();
+            params.append("SnInfor",babatId);
+            fetch(baseUrl+`/getInforTypeInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
+                if(data.length>0){
+                    $("#editBabatCodePay").val(data[0].InforCode);
+                }
+            })
+        }
+    })
+}
