@@ -1290,8 +1290,8 @@ function setAddedDaryaftItemStuff(element,bysSn){
     $(element).addClass("selected");
     
     if(bysSn === 0){
-        // const modalTypeValue = $("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(8) > input").val();
-        const modalTypeValue = $("#addedDaryaftListBodyEdit > tr > td:nth-child(8) > input").val();
+        const modalTypeValue =    $("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(8) > input").val();
+                                                 
         document.getElementById("editaddedGetAndPayBtn").value = modalTypeValue;
     }else {
         $("#editaddedGetAndPayBtn").prop("disabled",false)
@@ -1952,18 +1952,82 @@ function openEditAddedGetAndPay(recordTypeValue){
     if (editButton) {
         editButton.disabled = false;
     }
+    let byssValue = parseInt(recordTypeValue)
 
-    alert(recordTypeValue);
+    let selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
 
-    switch (recordTypeValue) {
+    switch (byssValue) {
         case 1:
             {
+                if (selectedRow) {
+                    let vajheNaqdMoblagh = selectedRow.querySelector('td:nth-child(9) > input').value;
+                    let vajheNaqdDes = selectedRow.querySelector('td:nth-child(16) > input').value;
+                    document.getElementById("editAddEditRialNaghdDar").value = vajheNaqdMoblagh;
+                    document.getElementById("editAddEditDescNaghdDar").value = vajheNaqdDes;
+                }
                 $("#editAddEditEditVagheNaghdmodal").modal("show");
-                break;
+              break;
+            }
+        case 2:
+            {
+                if (selectedRow) {
+                    const inputElement = document.querySelector('#addedDaryaftListBodyEdit > tr:nth-child(5) > td:nth-child(10) > input[type=text]').value;
+                
+                    console.log('The value of the input element is:', inputElement);
+                    
+
+                    let vajheNaqdMoblagh = selectedRow.querySelector('td:nth-child(9) > input').value;
+                    let vajheNaqdDes = selectedRow.querySelector('td:nth-child(16) > input').value;
+                    document.getElementById("editAddEditRialNaghdDar").value = vajheNaqdMoblagh;
+                    document.getElementById("editAddEditDescNaghdDar").value = vajheNaqdDes;
+                }
+                $("#editAddEditDaryafAddChequeInfo").modal("show");
+              break;
+            }
+            
+      default: 
+            {
+                alert("modal not found");
             }
     }
 
 }
+
+
+function editaddEditNaghdMoneyDar() {
+    const currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
+
+    let reials = document.getElementById("editAddEditRialNaghdDar").value.replace(/,/g, '');
+    let description = document.getElementById("editAddEditDescNaghdDar").value;
+
+    $(`#addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td.addEditVagheNaqd-4`).text(reials);
+
+    let setMoblagh = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(4)`);
+    let setMoblaghVal = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(9) > input`)
+    let setDesValue = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(16) > input`);
+    if (setMoblagh && setMoblaghVal && setDesValue) {
+        setMoblagh.textContent = reials;
+        setMoblaghVal.value = reials;
+        setDesValue.value = description;
+    }
+
+    $("#editAddEditEditVagheNaghdmodal").modal("hide");
+
+    // Recalculate netPriceHDS
+    let netPriceHDS = 0;
+
+    for (let index = 1; index <= currentIndex; index++) {
+        let element = $(`#addedDaryaftListBodyEdit > tr:nth-child(${index}) td:nth-child(5)`);
+        if (element) {
+            netPriceHDS += parseInt(element.text().replace(/,/g, ''), 10) || 0;
+        }
+    }
+
+    document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(reials).toLocaleString("en-us");
+    document.getElementById("editAddEditDaryafTotal").textContent = netPriceHDS;
+}
+
+
 
 
 
@@ -2202,12 +2266,13 @@ function openSearchCustomerForPayModal(customerName){
     modal.show();
     customerNameSearchPayInput.focus();
 }
+
 function closeSearchCustomerPaysModal(){
     if($("#searchCustomerForPayModal")){
         $("#searchCustomerForPayModal").hide();
     }
-
 }
+
 const customerNameSearchPayInput=document.getElementById("customerNameSearchPay");
 if(customerNameSearchPayInput){
     customerNameSearchPayInput.addEventListener('keyup', function(e) {
