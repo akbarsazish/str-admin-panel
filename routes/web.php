@@ -119,7 +119,6 @@ Route::post('/shipping',[Basket::class,'sendBasket'])->middleware('checkUser');
 Route::post('/addOrder',[Order::class,'addOrder'])->middleware('checkUser');
 Route::get('/starfoodFrom',[Order::class,'getPaymentForm'])->middleware('checkUser');
 Route::get('/sucessPay',[Order::class,'finalizePayAndOrder'])->middleware('checkUser');
-
 Route::get('/wallet',[Customer::class,'wallet'])->middleware('checkUser');
 Route::post('/factorView',[Factor::class,'factorView'])->middleware('checkUser');
 Route::get('/allGroups',[Group::class,'index'])->middleware('checkUser');

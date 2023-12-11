@@ -4933,3 +4933,7 @@ table tfoot{display:none;}
     color: #fff;
 }
 
+.hideModal {
+    display: none !important;
+  }
+  
