@@ -12,19 +12,20 @@ class Box extends Controller{
     public function index() {
         $receives=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=1 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
         $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
-        $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 AND TypeInfor=4");
+        $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 and InforName!=''");
         $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
         $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
         return view('getAndPay.receive', ['users'=>$users,'receives'=>$receives,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears])->render();
     }
 
   public function pays() {
+    $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!='' AND SNCash<920");
     $pays=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=2 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
     $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
-    $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 AND TypeInfor=4");
+    $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 and InforName!=''");
     $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
     $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
-        return view('getAndPay.pays', ['users'=>$users,'pays'=>$pays,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears])->render();
+        return view('getAndPay.pays', ['users'=>$users,'pays'=>$pays,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears,'boxes'=>$sandoghes])->render();
     }
     function getGetAndPayBYS(Request $request) {
         $snGetAndPayHDS=$request->input("snGetAndPay");
@@ -79,7 +80,6 @@ class Box extends Controller{
     }
 
     function getSandoghs(Request $request) {
-        $userId=$request->input("userId");
         $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!='' AND SNCash<920");
         return response()->json($sandoghes, 200);
     }

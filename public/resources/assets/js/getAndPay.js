@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -43,7 +43,7 @@
                         <tr>
                             <td>${index+1}</td>
                             <td> ${element.docTypeName} </td>
-                            <td> ${element.ChequeRecNo} </td>
+                            <td> ${element.bankDesc} </td>
                         </tr>`
                     );
                 });
@@ -449,7 +449,6 @@
         $("#totalNetPriceHDSDar").val(netPriceHDS);
     }
 
-
     $("#checkSarRasidDateDar").persianDatepicker({
         cellWidth: 32,
         cellHeight: 22,
@@ -465,6 +464,13 @@
             }
         }
     });
+
+    $("#addPayHawalaFromBankAddHawalaDate").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5"});
 
     $("#daysAfterChequeDateDar").on("keyup",function(e){
         let daysLater=$("#daysAfterChequeDateDar").val();
@@ -789,7 +795,20 @@
         formatDate: "YYYY/0M/0D",
         endDate: "1440/5/5",
     });
-    
+    $("#checkSarRasidDateInputAddPayAdd").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
+    $("#addHawalaFromBoxAddDateInput").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
 
 
     function addTakhfifDar(){
@@ -1603,11 +1622,6 @@ $("#filterPaysForm").on("submit",function(e){
     });
 })
 
-function openPaysModal() {
-    const modal = new bootstrap.Modal(document.getElementById('payModal'));
-    modal.show();
-}
-
 let customerCodePayInput = document.getElementById('customerCodePayInput');
 if(customerCodePayInput){
     customerCodePayInput.addEventListener('keyup', function(e) {
@@ -1803,49 +1817,6 @@ function chooseCustomerForPay(customerId) {
     });
 }
 
-function openAddPayVajhNaghdAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdAddModal'));
-    modal.show();
-}
-function closeAddPayVajhNaghdAddModal(){
-    $("#addPayVajhNaghdAddModal").hide();
-}
-
-function openAddPayChequeInfoAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoAddModal'));
-    modal.show();
-}
-function closAddPayChequeInfoAddModal(){
-    $("#addPayChequeInfoAddModal").hide();  
-}
-function openaddSpentChequeAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addSpentChequeAddModal'));
-    modal.show();
-}
-function closeAddSpentChequeAddModal(){
-    $("#addSpentChequeAddModal").hide();
-}
-function openAddPayTakhfifAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('AddPayTakhfifAddModal'));
-    modal.show();
-}
-function openAddPayHawalaFromBoxAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBoxAddModal'));
-    modal.show();
-}
-function closeAddPayHawalaFromBoxAddModal(){
-    $("#AddPayHawalaFromBoxAddModal").hide();
-}
-function openAddPayHawalaFromBankAddModal(){
-    const modal = new bootstrap.Modal(document.getElementById('AddPayHawalaFromBankAddModal'));
-    modal.show();
-}
-function closeAddPayHawalaFromBankAddModal(){
-    $("#AddPayHawalaFromBankAddModal").hide();
-}
-function closeAddPayTakhfifAddModal(){
-    $("#AddPayTakhfifAddModal").hide();
-}
 function openAddPayVajhNaghdEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
     modal.show();

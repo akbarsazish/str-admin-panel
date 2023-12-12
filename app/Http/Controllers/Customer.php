@@ -278,7 +278,6 @@ class Customer extends Controller{
 
 // The following methods check if the haqiqi customer exist update the current customer else add new customer
         public function storeHaqiqiCustomer(Request $request){
-
             $customerShopSn=$request->post("customerShopSn");
             $checkExistance=DB::table("NewStarfood.dbo.star_Customer")->where('customerType', $request->post("customerType"))->where('customerShopSn', Session::get('psn'))->count('customerShopSn');
 

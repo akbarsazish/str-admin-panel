@@ -348,7 +348,6 @@ $("#doEditBargiriFactorsForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (respond) {
-            console.log(respond)
             $("#bargiriDriverListBody").empty();
             respond.todayDrivers.forEach((element,index) => {
                 $("#bargiriDriverListBody").append(`<tr onclick="getDriverFactors(this,${element.SnMasterBar})">

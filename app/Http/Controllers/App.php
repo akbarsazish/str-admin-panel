@@ -290,4 +290,9 @@ class App extends Controller{
         $fiscallYears=DB::select("select * from Shop.dbo.FiscalYearList WHERE CompanyNo=5");
         return response()->json($fiscallYears, 200);
     }
+    function getEnamadState(Request $request) {
+        $enamadInfo;
+        $enamadInfo=DB::select("SELECT enamad FROM NewStarfood.dbo.star_webSpecialSetting")[0];
+        return Response::json(['enamadState'=>$enamadInfo]);
+    }
 }

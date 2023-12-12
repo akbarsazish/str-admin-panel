@@ -15,11 +15,15 @@ class Bank extends Controller {
     }
     public function getBankInfo(Request $request){
         $bankSn=$request->input("bankSn");
-        $bankInfo=DB::select("SELECT * FROM (SELECT ab.SerialNoAcc,pb.SerialNoBSN,ab.AccNo, CONCAT(AccNo,' بانک '+NameBsn,' شعبه '+ab.branch)bsn from Shop.dbo.AccBanks ab Join SHop.dbo.PubBanks pb on SnBank=SerialNoBSN where ab.CompanyNo=5 and NameBsn!='')a where a.SerialNoAcc=$bankSn");
+        $bankInfo=DB::select("SELECT * FROM (SELECT ab.SerialNoAcc,pb.SerialNoBSN,ab.AccNo, CONCAT(AccNo,' بانک '+NameBsn,' شعبه '+ab.branch)bsn FROM Shop.dbo.AccBanks ab JOIN SHop.dbo.PubBanks pb ON SnBank=SerialNoBSN WHERE ab.CompanyNo=5 AND NameBsn!='')a WHERE a.SerialNoAcc=$bankSn");
         return Response::json($bankInfo);
     }
     public function getAllShobeBanks(Request $request) {
         $shobes=DB::select("SELECT * FROM Shop.dbo.branch");
         return Response::json($shobes);
+    }
+    public function getBankList(Request $request){
+        $bankList=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 and NameBsn!=''");
+        return Response::json($bankList);
     }
 }
