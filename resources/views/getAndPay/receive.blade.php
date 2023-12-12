@@ -2468,7 +2468,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="text-end">
-                                <button class="btn-sm btn-success btn" onclick="addEditAddChequeDar()" > ذخیره <i class="fa-save fa"></i> </button>
+                                <button class="btn-sm btn-success btn" onclick="editAddEditCheque()" > ذخیره <i class="fa-save fa"></i> </button>
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> تاریخ چک برای بعد </span>
