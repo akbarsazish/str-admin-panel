@@ -13,32 +13,31 @@ class App extends Controller{
         DB::table("NewStarfood.dbo.star_takhfifHistory")->where("isUsed",1)->update(['isSeen'=>1]);
         return Response::json(1);
     }
-    public function aboutUs(Request $request)
-    {
+    public function aboutUs(Request $request) {
         return View("siteInfo.aboutUs");
     }
-    public function policy(Request $request)
-    {
+
+    public function policy(Request $request){
         return View("siteInfo.policy");
     }
-    public function contactUs(Request $request)
-    {
+
+    public function contactUs(Request $request){
         return View("siteInfo.contactUs");
     }
-    public function privacy(Request $request)
-    {
+
+    public function privacy(Request $request){
         return View("siteInfo.privacy");
     }
-	public function callUs(Request $request)
-    {
+
+	public function callUs(Request $request){
         return view('siteInfo.contact');
     }
+
 	public function guide() {
         return view('siteInfo.appGuidence');
     }
 
-    public function doUpdatewebSpecialSettings(Request $request)
-    {
+    public function doUpdatewebSpecialSettings(Request $request){
             $maxSale=$request->post("maxSale");
             $minSalePriceFactor=str_replace(",", "",$request->post("minSalePriceFactor"));
 			$showDeleteNotificationMSG=$request->post("showNotificationMSG");
@@ -192,8 +191,7 @@ class App extends Controller{
             return redirect("/controlMainPage");
     }
 
-    public function downloadApk(Request $request)
-    {
+    public function downloadApk(Request $request) {
         $headers =  [ 
             'Content-Type'=>'application/vnd.android.package-archive',
             'Content-Disposition'=> 'attachment; filename="starfood001.apk"',
@@ -201,6 +199,7 @@ class App extends Controller{
 
         return response()->file(base_path('resources\\assets\\apks\\starfood001.apk') , $headers);
     }
+
     public function getAttractiveVisits(Request $request) {
         $psn=$request->input("psn");
         $attractions=DB::select("SELECT  *,CONVERT(DATE,ViewDate) AS ViewJustDate FROM NewStarfood.dbo.star_attractionVisit WHERE CustomerId=$psn");
@@ -285,6 +284,7 @@ class App extends Controller{
 
         return Response::json("done");
     }
+
 
     function getFiscalYears() {
         $fiscallYears=DB::select("select * from Shop.dbo.FiscalYearList WHERE CompanyNo=5");

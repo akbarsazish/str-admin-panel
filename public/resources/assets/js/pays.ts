@@ -333,6 +333,7 @@ function addPayHawalaFromBankAdd(){
     closeAddPayPartAddModal('AddPayHawalaFromBankAddModal');
 }
 
+
 class PayBys{
     payBYSType:number;
     payBYSIndex:number;
