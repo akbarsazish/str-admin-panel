@@ -25,9 +25,13 @@
     },
     "dependencies": {
         "@types/bootstrap": "^5.2.10",
+        "firebase": "^10.7.1",
         "jalaali-js": "^1.2.6",
+        "laravel-echo": "^1.15.3",
         "md.bootstrappersiandatetimepicker": "^4.1.1",
         "persian-datepicker": "^1.2.0",
+        "pusher": "^5.2.0",
+        "pusher-js": "^8.4.0-rc2",
         "schema-utils": "^4.0.0",
         "to-words": "^3.6.1"
     }

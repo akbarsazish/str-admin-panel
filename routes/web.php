@@ -26,6 +26,7 @@ use App\Http\Controllers\Bargiri;
 use App\Http\Controllers\Box;
 use App\Http\Controllers\Payment;
 use App\Http\Controllers\Infors;
+use App\Events\NotificationEvent;
 Route::get('/messages',[Message::class,'messages'])->middleware('checkAdmin');
 Route::get('/getTakhfifCode',[TakhfifCode::class,'index'])->middleware('checkAdmin');
 Route::get('/getReplayedMessages',[Message::class,'getReplayedMessages'])->middleware('checkAdmin');
@@ -377,3 +378,6 @@ Route::get('/getFiscalYears', [App::class, 'getFiscalYears'])->middleware("check
 Route::get('/getAndPayHistory', [Box::class, 'getAndPayHistory'])->middleware("checkAdmin");
 Route::get('/getBYSInfo',[Box::class,'getBYSInfo'])->middleware("checkAdmin");
 Route::get('/getBankList', [Bank::class, 'getBankList'])->middleware("checkAdmin");
+Route::get('/testPusher', function(){
+    event(new NotificationEvent());
+});

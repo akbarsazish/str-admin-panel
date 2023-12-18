@@ -1486,7 +1486,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-warning py-1">
                 <button class="btn-danger btn-sm btn" onclick="closeAddPayHawalaFromBoxEditModal()"> <i class="fa fa-times"></i></button>
-                <h5 class="modal-title"> افزودن حواله از صندوق </h5>
+                <h5 class="modal-title"> افزودن حواله  فقغفغ از صندوق </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -1494,7 +1494,7 @@
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شماره حواله: </span>
-                                <input type="text" class="form-control">
+                                <input type="text" id="addHawalaFromBoxBoxNoEditInput" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1506,21 +1506,21 @@
                     <div class="row">
                         <div class="col-md-12">
                             <span>تاریخ حواله (حواله قابل اصلاح نمی باشد) </span>
-                            <input type="text" id="pay_hawala_from_box_add_modal_input_box_id" class="form-control">
+                            <input type="text" id="addHawalaFromBoxDateEditInput" class="form-control">
                             <span>توجه : تاریخ حواله می بایست حتما با تاریخ پرداخت برابر باشد.</span>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> مبلغ : </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxMoneyInput" class="form-control">
                                 </div>
 
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> کارمزد: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxKarmozdInput" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -1530,23 +1530,21 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> شماره حساب: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxHisabNoInput" class="form-control">
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> نام بانک: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <select name="" id="addHawalaFromBoxBankSnInput" class="form-select"></select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> نام دارنده حساب: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxOwnerNameInput" class="form-control">
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text">  شعبه: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxBranchNameInput" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -1554,7 +1552,7 @@
                             <div class="col-md-12">
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> شرح: </span>
-                                    <input type="text" id="" class="form-control">
+                                    <input type="text" id="addHawalaFromBoxDescInput" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -1604,7 +1602,21 @@
                             <span> تاریخ حواله (قابل اصلاح نمی باشد) </span>
                             <input type="text" id="addHawalaDateEditInput" class="form-control">
                             <span> توجه: تاریخ حواله حتما می بایست با تاریخ پرداخت برابر باشد. </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> مبلغ : </span>
+                                <input type="text" id="addHawalaFromBankMoneyInput" class="form-control">
+                            </div>
 
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> کارمزد: </span>
+                                <input type="text" id="addHawalaFromBankKarmozdInput" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <fieldset class="border rounded mt-4">
@@ -1617,7 +1629,9 @@
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-text"> نام بانک: </span>
-                                    <input type="text" id="addToBankEditInput" class="form-control">
+                                    <select name="" id="addToBankEditInput" class="form-select">
+                                        <option value=""></option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">

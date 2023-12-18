@@ -312,6 +312,13 @@
         endDate: "1440/5/5",
     });
 
+    $("#addHawalaFromBoxAddDateInput").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
 
     $("#customerCodeDaryaft").on("keyup",function(e){
         $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#customerCodeDaryaft").val()},function(respond,status){
@@ -577,21 +584,23 @@
 
     const distanceMonth = document.getElementById('distanceMonthChequeDar');
     const distanceDay = document.getElementById('distanceDarChequeDar');
-
+if(distanceMonth){
     distanceMonth.addEventListener('keyup', () => {
         if (distanceMonth.value.length > 0) {
             distanceDay.value = "";
             monthValue = parseInt(distanceMonth.value);
         }
     });
+}
 
+if(distanceDay){
     distanceDay.addEventListener('keyup', () => {
         if (distanceDay.value.length > 0) {
             dayValue = parseInt(distanceDay.value);
             distanceMonth.value = "";
         }
     });
-
+}
 
     function addChequeDar(){
         let checkSarRasidDateDar = $("#checkSarRasidDateDar").val();
@@ -1622,6 +1631,7 @@ $("#editAddShobeBankChequeDar").on("click",()=>{
 
     const distanceMonthEd = document.getElementById('editAddDistanceMonthChequeDar');
     const distanceDayEd = document.getElementById('editAddDistanceDarChequeDar');
+if(distanceMonthEd){
 
     distanceMonthEd.addEventListener('keyup', () => {
         if (distanceMonthEd.value.length > 0) {
@@ -1629,13 +1639,16 @@ $("#editAddShobeBankChequeDar").on("click",()=>{
             monthValueEd = parseInt(distanceMonthEd.value);
         }
     });
-
+        
+}
+if(distanceDayEd){
     distanceDayEd.addEventListener('keyup', () => {
         if (distanceDayEd.value.length > 0) {
             dayValueEd = parseInt(distanceDayEd.value);
             distanceMonthEd.value = "";
         }
     });
+}
 
 
     function editAddChequeDar(){
@@ -2325,6 +2338,7 @@ if(sadirDatePaysInput){
         formatDate: "YYYY/0M/0D",
         endDate: "1440/5/5",});
 }
+
 
 const customerNamePayInput=document.getElementById("customerNamePayInput");
 if(customerNamePayInput){
