@@ -515,6 +515,7 @@ function addChequePayAdd(){
     closeAddPayPartAddModal('addPayChequeInfoAddModal');
 }
 
+
 class PayBys{
     payBYSType:number;
     payBYSIndex:number;

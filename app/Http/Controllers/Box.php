@@ -9,6 +9,7 @@ use \Morilog\Jalali\Jalalian;
 use Session;
 use Carbon\Carbon;
 class Box extends Controller{
+
     public function index() {
         $receives=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=1 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
         $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
@@ -26,12 +27,14 @@ class Box extends Controller{
     $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
     $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
         return view('getAndPay.pays', ['users'=>$users,'pays'=>$pays,'banks'=>$banks,'infors'=>$infors,'fiscallYears'=>$fiscallYears,'boxes'=>$sandoghes])->render();
-    }
+  }
+
     function getGetAndPayBYS(Request $request) {
         $snGetAndPayHDS=$request->input("snGetAndPay");
         $getOrPayBYS=DB::select("SELECT *,NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS) docTypeName,concat(NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS),NewStarfood.dbo.getAccBankInfo(SnAccBank),' '+ ChequeDate)bankDesc FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
         return Response::json($getOrPayBYS);
     }
+
     function filterGetPays(Request $request)  {
         $darAmad=0;
         $daryaft=0;
@@ -298,6 +301,7 @@ class Box extends Controller{
         return response()->json($getAndPays);
 
     }
+
     public function getBYSInfo(Request $request) {
         $snBYS=$request->input("SerialNoBYS");
         $BYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SerialNoBYS=$snBYS");
