@@ -190,6 +190,7 @@ class App extends Controller{
             $addedStocks=DB::table("NewStarfood.dbo.addedStocks")->join("Shop.dbo.Stocks","addedStocks.stockId","=","SnStock")->select("*")->get();
             return redirect("/controlMainPage");
     }
+    
 
     public function downloadApk(Request $request) {
         $headers =  [ 
