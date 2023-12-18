@@ -647,9 +647,9 @@
                         <td class="dayaftAddTd-2"> 0 </td>
                         <td class="dayaftAddTd-3"> چک بانک ${bankName} به شماره ${chequeNoCheqeDar + i} تاریخ ${updateDateHijri} </td>
                         <td class="dayaftAddTd-4"> ${parseInt(moneyChequeDar).toLocaleString("en-us")} </td>
-                        <td class="dayaftAddTd-5"> 0 </td>
+                        <td class="d-none dayaftAddTd-5"> 0 </td>
                         <td class="dayaftAddTd-6"> ${sayyadiNoChequeDar} </td>
-                        <td class="dayaftAddTd-7 d-none"> <input type="text" value="2" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                        <td class="d-none dayaftAddTd-7"> <input type="text" value="2" name="DocTypeBys${rowCount+1}" class=""/> </td>
                         <td class="dayaftAddTd-8"> ${sabtBeNameChequeDar}  </td>
 
                         <td class="d-none"> <input type="text" value="${sayyadiNoChequeDar}" name="sayyadiNoChequeDar${rowCount+1}"/> </td>
