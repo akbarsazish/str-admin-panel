@@ -2136,11 +2136,10 @@ public function addOrder(Request $request){
             $jozePack=str_replace(",", "",$request->input("JozeAmount".$goodSn));
             $realFi=str_replace(",", "",$request->input("Fi".$goodSn));
             $realPrice=str_replace(",", "",$request->input("AllPrice".$goodSn));
-            $countAddables=DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->count();
-            $countEditables=0;
-            if($countAddables>0){
-                 // is editable?
-                DB::table('NewStarfood.dbo.OrderBYSS')->where("SnHDS",$snHDS)->where("SnGood",$goodSn)->update(["PackAmount"=>$packAmount
+            $countEditables=DB::table('NewStarfood.dbo.OrderBYSS')->WHERE("SnHDS",$snHDS)->WHERE("SnGood",$goodSn)->count();
+            if($countEditables>0){
+                // is editable?
+                DB::table('NewStarfood.dbo.OrderBYSS')->WHERE("SnHDS",$snHDS)->WHERE("SnGood",$goodSn)->UPDATE(["PackAmount"=>$packAmount
                 ,"Amount"=>$amount
                 ,"Fi"=>$fi
                 ,"Price"=>$price
@@ -2151,11 +2150,11 @@ public function addOrder(Request $request){
                 ,"RealFi"=>$fi
                 ,"RealPrice"=>$price]);
             }else{
+                // is addable?
                 $packtypes=DB::select("SELECT NewStarfood.dbo.getPackType($goodSn)PackType");
                 $packType=$packtypes[0]->PackType;
                 $current = Carbon::today();
                 $todayDate = Jalalian::fromCarbon($current)->format('Y/m/d');
-                // is addable?
                 DB::table('NewStarfood.dbo.OrderBYSS')->insert(["CompanyNo"=>5
                     ,"SnHDS"=>$snHDS
                     ,"SnGood"=>$goodSn

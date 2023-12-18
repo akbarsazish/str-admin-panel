@@ -247,14 +247,10 @@ class Box extends Controller{
     }
 
     function getGetAndPayInfo(Request $request){
-
         $snGetAndPayHDS=$request->input("snGetAndPay");
-        // return Response::json($request->all());
-
         $getAndPay=DB::select("SELECT *,NewStarfood.dbo.getFactNo(SnFactForTasviyeh)FactNo,SHop.dbo.FuncPeopelName(PeopelHDS,5)Name,SHop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncInforCode(InForHDS,4,5)INforCode FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snGetAndPayHDS");
         $getAndPayBYS=DB::select("SELECT *,concat(NewStarfood.dbo.getGetAndPayBYSTypeName(DocTypeBYS),NewStarfood.dbo.getAccBankInfo(SnAccBank),' '+ ChequeDate)bankDesc FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snGetAndPayHDS");
         $getAndPay[0]->BYS=$getAndPayBYS;
-        
         return Response::json(['response'=>$getAndPay]);
     }
 
@@ -306,5 +302,75 @@ class Box extends Controller{
         $snBYS=$request->input("SerialNoBYS");
         $BYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SerialNoBYS=$snBYS");
         return Response::json(['response'=>$BYS]);
+    }
+    public function editGetAndPay(Request $request){
+        $customerIdEdit=$request->customerIdEdit;
+        $daryaftHdsDesc=$request->daryaftHdsDesc;
+        $daryaftType=$request->daryaftType;
+        $daryaftDate=$request->daryaftDate;
+        $netPriceHDS=$request->netPriceHDS;
+        $sandoghIdDar=$request->sandoghIdDar;
+        $daryaftHds=$request->daryaftHds;
+        $snHDS=$request->SerialNoHDS;
+
+        foreach ($request->BYSS as $index) {
+            $accBankNo=$request->input("AccBankNo".$index,0);
+            $cachNo=$request->input("CashNo".$index,0);
+            $chequeNo=$request->input("ChequeNo".$index,0);
+            $chequeDate=$request->input("ChequeDate".$index,'');
+            $docTypeBys=$request->input("DocTypeBys".$index,0);
+            $docDescBys=$request->input("DocDescBys".$index,'');
+            $noPayanehKartKhanBYS=$request->input("NoPayanehKartKhanBYS".$index,'');
+            $owener=$request->input("Owener".$index,'');
+            $price=$request->input("Price".$index,0);
+            $snAccBank=$request->input("SnAccBank".$index,0);
+            $snBank=$request->input("SnBank".$index,0);
+            $snChequeBook=$request->input("SnChequeBook".$index);
+            $snPeopelPay=$request->input("SnPeopelPay".$index);
+            $serialNoBYS=$request->input("SerialNoBYS".$index);
+            $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
+            if($countEditables>0){
+                // // is editable?
+                return 'از قبل تعریف شده است';
+                DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
+                Price=>$price,
+                DocTypeBYS=>$docTypeBys,
+                DocDescBYS=>'$docDescBys',
+                NoPayaneh_KartKhanBys=>'$noPayanehKartKhanBYS',
+                SnAccBank=>$snAccBank,
+                CashNo=>$cachNo,
+                ChequeNo=>$chequeNo,
+                ChequeDate=>'$chequeDate',
+                SnBank=>$snBank,
+                Owner=>'$owener',
+                SnChequeBook=>$snChequeBook,
+                SnPeopelPay=>$snPeopelPay
+                ]);
+            }else{
+                return 'جدیدا اضافه شده است';
+                 DB::table('Shop.dbo.GetAndPayBYS')->insert(["CompanyNo"=>$companyNo
+                    ,"DocTypeBYS"=>$docTypeBys
+                    ,"Price"=>$price
+                    ,"ChequeDate"=>'$chequeDate'
+                    ,'ChequeNo'=>$chequeNo
+                    ,'AccBankno'=>$accBankNo
+                    ,'Owner'=>'$owener'
+                    ,'SnBank'=>$snBank
+                    ,'Branch'=>0
+                    ,'SnChequeBook'=>$snChequeBook
+                    ,'FiscalYear'=>1402
+                    ,'SnHDS'=>$snHDS
+                    ,'DocDescBYS'=>$docDescBys
+                    ,'SnAccBank'=>$snAccBank
+                    ,'CashNo'=>$chequeNo
+                    ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
+                    ,'RadifInDaftarCheque'=>0
+                    ,'NoPayaneh_KartKhanBys'=>0
+                    ,'KarMozdPriceBys'=>0
+                    ,'NoSayyadi'=>0
+                    ,'NameSabtShode'=>''
+                    ,'SnPeopelPay'=>$snPeopelPay]);
+            }
+        }
     }
 }

@@ -283,7 +283,6 @@ class Customer extends Controller{
 
             // if the customer exist already then update the some fields
             if($checkExistance>0){
-
                     $customerName=$request->post("customerName");
                     $familyName=$request->post("familyName");
                     $codeMilli=$request->post("codeMilli");

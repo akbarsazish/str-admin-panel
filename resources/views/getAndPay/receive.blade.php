@@ -400,56 +400,57 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/editDaryaft')}}" method="GET" id="editDaryaftForm">
+                    <form action="{{url('/editGetAndPay')}}" method="POST" id="editDaryaftForm">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8 border-1 rounded"> 
-                                    <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
-                                    <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
-                                    <div class="row mt-2">
-                                        <div class="col-md-6">
-                                          <div class="input-group">
+                                <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openRasDaryaftItemModal()"> راس آیتم های دریافتی</button>
+                                <button class="btn btn-sm btn-success text-warning font-size-16" type="button" onclick="openCustomerGardishModal()"> گردش حساب مشتری </button>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
                                             <span class="input-group-text"> تاریخ </span>
                                             <input type="text" name="editDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-6 border">
-                                            <div class="row pt-2">
-                                                <div class="col-md-6">
-                                                    <label class="form-check-label" for="person"> شخص </label>
-                                                    <input name="daryaftType" id="DocTypeCustomerHDSStateDarEdit" type="radio" value="0" class="form-check-input" checked>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-check-label" for="income"> درآمد </label>
-                                                    <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
-                                                </div>
-                                            </div>       
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="input-group pt-2">
-                                            <span class="input-group-text"> مشتری </span>
-                                            <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
-                                            <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
-                                            <input type="text" name="customerIdEdit" id="customerIdDaryaftEdit">
-                                            <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="d-none">
-                                        </div>
-                                        <div class="input-group pt-2">
-                                            <span class="input-group-text"> بابت </span>
-                                            <input type="text" id="inforTypeCodeDarEdit" class="form-control">
-                                            <select name="inforTypeDaryaft" id="inforTypeDaryaftEdit" class="form-select">
-                                                <option value=""> </option>
-                                                @foreach($infors as $infor)
-                                                    <option value="{{$infor->SnInfor}}"> {{$infor->InforName}} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="input-group mt-2">
-                                            <span class="input-group-text"> توضحیات </span>
-                                            <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
-                                            <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
-                                        </div>
+                                    <div class="col-md-6 border">
+                                        <div class="row pt-2">
+                                            <div class="col-md-6">
+                                                <label class="form-check-label" for="person"> شخص </label>
+                                                <input name="daryaftType" id="DocTypeCustomerHDSStateDarEdit" type="radio" value="0" class="form-check-input" checked>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-check-label" for="income"> درآمد </label>
+                                                <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
+                                            </div>
+                                        </div>       
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-group pt-2">
+                                        <span class="input-group-text"> مشتری </span>
+                                        <input type="text" id="customerCodeDaryaftEdit" class="form-control" required>
+                                        <input type="text" id="customerNameDaryaftEdit" class="form-control" required>
+                                        <input type="text" name="customerIdEdit" id="customerIdDaryaftEdit">
+                                        <input type="text" name="SerialNoHDS" id="SerialNoHDSDaryaftEdit">
+                                        <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="d-none">
+                                    </div>
+                                    <div class="input-group pt-2">
+                                        <span class="input-group-text"> بابت </span>
+                                        <input type="text" id="inforTypeCodeDarEdit" class="form-control">
+                                        <select name="inforTypeDaryaft" id="inforTypeDaryaftEdit" class="form-select">
+                                            <option value=""> </option>
+                                            @foreach($infors as $infor)
+                                                <option value="{{$infor->SnInfor}}"> {{$infor->InforName}} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="input-group mt-2">
+                                        <span class="input-group-text"> توضحیات </span>
+                                        <input type="text" name="daryaftHdsDesc" id="daryaftHdsDescEdit" class="form-control" required>
+                                        <button class="btn btn-sm btn-success text-warning" type="button" onclick="openRelatedFactorsModal()"> فاکتورهای مرتبط </button>
+                                    </div>
+                                </div>
                             </div>
                            
                             <div class="col-lg-4 border-1 rounded">

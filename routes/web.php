@@ -381,3 +381,4 @@ Route::get('/getBankList', [Bank::class, 'getBankList'])->middleware("checkAdmin
 Route::get('/testPusher', function(){
     event(new NotificationEvent());
 });
+Route::post("/editGetAndPay",[Box::class,"editGetAndPay"])->middleware("checkAdmin");
