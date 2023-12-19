@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -317,6 +317,13 @@
         endDate: "1440/5/5",
     });
 
+    $("#addHawalaFromBoxAddDateInput").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
 
     $("#customerCodeDaryaft").on("keyup",function(e){
         $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#customerCodeDaryaft").val()},function(respond,status){
@@ -582,21 +589,23 @@
 
     const distanceMonth = document.getElementById('distanceMonthChequeDar');
     const distanceDay = document.getElementById('distanceDarChequeDar');
-
+if(distanceMonth){
     distanceMonth.addEventListener('keyup', () => {
         if (distanceMonth.value.length > 0) {
             distanceDay.value = "";
             monthValue = parseInt(distanceMonth.value);
         }
     });
+}
 
+if(distanceDay){
     distanceDay.addEventListener('keyup', () => {
         if (distanceDay.value.length > 0) {
             dayValue = parseInt(distanceDay.value);
             distanceMonth.value = "";
         }
     });
-
+}
 
     function addChequeDar(){
         let checkSarRasidDateDar = $("#checkSarRasidDateDar").val();
@@ -1229,11 +1238,11 @@ function openDaryaftEditModal(snGetAndPay) {
                 }else{
                     document.getElementById("DocTypeDarAmadHDSStateDarEdit").checked = true
                 }
-                
+                document.getElementById("SerialNoHDSDaryaftEdit").value = respond.response[0].SerialNoHDS;
                 document.getElementById("customerCodeDaryaftEdit").value = respond.response[0].PCode;
                 document.getElementById("customerNameDaryaftEdit").value = respond.response[0].Name;
                 document.getElementById("customerIdDaryaftEdit").value = respond.response[0].PeopelHDS;
-
+                document.getElementById("sandoghIdDarEdit").value = respond.response[0].SnCashMaster;//آی دی صندوق
                 document.getElementById("inforTypeDaryaftEdit").value = respond.response[0].InforHDS;
                 document.getElementById("inforTypeCodeDarEdit").value = respond.response[0].INforCode;
                 document.getElementById("daryaftHdsDescEdit").value = respond.response[0].DocDescHDS;
@@ -1250,7 +1259,7 @@ function openDaryaftEditModal(snGetAndPay) {
                      tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this, ${element.SerialNoBYS})`);
                      tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this,${element.DocTypeBYS},${element.SerialNoBYS})`);
                      tableRow.innerHTML = `
-                        <td class="addEditVagheNaqd-1">${index + 1}</td>
+                        <td class="addEditVagheNaqd-1"><input type="checkbox" value="${index+1}" name="BYSS[]" checked/>${index + 1}</td>
                         <td class="addEditVagheNaqd-2"> 0 </td>
                         <td class="addEditVagheNaqd-3"> ${element.bankDesc} </td>
                         <td class="addEditVagheNaqd-4"> ${parseInt(element.Price).toLocaleString('en-us')} </td>
@@ -1270,6 +1279,7 @@ function openDaryaftEditModal(snGetAndPay) {
                         <td class="d-none"> <input type="text" value="${element.CashNo}" name="CashNo${index+1}"/> </td>
                         <td class="d-none"> <input type="text" value="${element.NoPayaneh_KartKhanBys}" name="NoPayanehKartKhanBYS${index+1}"/> </td>
                         <td class="d-none"> <input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${index+1}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SerialNoBYS}" name="SerialNoBYS${index+1}"/> </td>
                     `;
                     
                     document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
@@ -1634,6 +1644,7 @@ $("#editAddShobeBankChequeDar").on("click",()=>{
 
     const distanceMonthEd = document.getElementById('editAddDistanceMonthChequeDar');
     const distanceDayEd = document.getElementById('editAddDistanceDarChequeDar');
+if(distanceMonthEd){
 
     distanceMonthEd.addEventListener('keyup', () => {
         if (distanceMonthEd.value.length > 0) {
@@ -1641,13 +1652,16 @@ $("#editAddShobeBankChequeDar").on("click",()=>{
             monthValueEd = parseInt(distanceMonthEd.value);
         }
     });
-
+        
+}
+if(distanceDayEd){
     distanceDayEd.addEventListener('keyup', () => {
         if (distanceDayEd.value.length > 0) {
             dayValueEd = parseInt(distanceDayEd.value);
             distanceMonthEd.value = "";
         }
     });
+}
 
 
     function editAddChequeDar(){
@@ -2121,7 +2135,6 @@ function openEditAddedGetAndPay(recordTypeValue){
      }
 
      case 6: {
-
         let selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
         let vairzMoblagh = selectedRow.querySelector("td:nth-child(5)").textContent;
         let bankAccount = selectedRow.querySelector("td:nth-child(13) > input").value;
@@ -2155,9 +2168,22 @@ function openEditAddedGetAndPay(recordTypeValue){
                 alert("modal not found");
             }
     }
+    
 }
 
-
+$("#editDaryaftForm").on("submit",function(e){
+    e.preventDefault();
+    $.ajax({
+        method:"POST",
+        url: $(this).attr('action'),
+        data: new FormData(this),
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            console.log(data);
+        }
+    });
+});
 
 function editaddEditNaghdMoneyDar() {
     const currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
@@ -2721,6 +2747,7 @@ if(sadirDatePaysInput){
         formatDate: "YYYY/0M/0D",
         endDate: "1440/5/5",});
 }
+
 
 const customerNamePayInput=document.getElementById("customerNamePayInput");
 if(customerNamePayInput){

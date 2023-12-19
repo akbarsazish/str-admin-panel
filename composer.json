@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "asistenteweb/nusoap": "dev-master",
         "curl/curl": "1.9.*",
+        "fruitcake/laravel-cors": "3.0",
         "guzzlehttp/guzzle": "^7.2",
         "hekmatinasser/verta": "^2.1",
         "hisorange/browser-detect": "^4.5",
@@ -19,8 +20,7 @@
         "morilog/jalali": "3.*",
         "omalizadeh/laravel-multi-payment": "^2.5",
         "pepco-api/php-rest-sdk": "^0.4.0",
-        "pusher/pusher-php-server": "^7.0",
-		"fruitcake/laravel-cors":"3.0"
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

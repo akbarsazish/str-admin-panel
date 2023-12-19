@@ -686,11 +686,11 @@ class Basket extends Controller {
         $boughtAmount=$request->get('amountUnit');
         $productId=$request->get('kalaId');
         $defaultUnit;
-        $defaultUnits=DB::select("SELECT UName FROM Shop.dbo.PubGoods JOIN Shop.dbo.PUBGoodUnits on PubGoods.DefaultUnit=PUBGoodUnits.USN WHERE PubGoods.GoodSn=".$productId);
+        $defaultUnits=DB::select("SELECT UName FROM Shop.dbo.PubGoods JOIN Shop.dbo.PUBGoodUnits ON PubGoods.DefaultUnit=PUBGoodUnits.USN WHERE PubGoods.GoodSn=".$productId);
         foreach ($defaultUnits as $unit) {
             $defaultUnit=$unit->UName;
         }
-        $secondUnits=DB::select("select SnGoodUnit,AmountUnit from Shop.dbo.GoodUnitSecond where GoodUnitSecond.SnGood=".$productId);
+        $secondUnits=DB::select("SELECT SnGoodUnit,AmountUnit FROM Shop.dbo.GoodUnitSecond WHERE GoodUnitSecond.SnGood=".$productId);
         if(count($secondUnits)>0){
             foreach ($secondUnits as $unit) {
                 $packType=$unit->SnGoodUnit;
@@ -701,7 +701,7 @@ class Basket extends Controller {
             $packAmount=1;
         }
         $amountUnit=$boughtAmount*$packAmount;
-        $prices=DB::select("select GoodPriceSale.Price3 from Shop.dbo.GoodPriceSale where GoodPriceSale.SnGood=".$productId);
+        $prices=DB::select("SELECT GoodPriceSale.Price3 FROM Shop.dbo.GoodPriceSale WHERE GoodPriceSale.SnGood=".$productId);
         $exactPrice=0;
         foreach ($prices as $price) {
             $exactPrice=$price->Price3;
@@ -904,10 +904,6 @@ class Basket extends Controller {
         $afternoonActive=0;
         $settings=array();
         foreach ($webSpecialSettings as  $setting) {
-            // $moorningActive=$settings->moorningActive;
-            // $afternoonActive=$settings->afternoonActive;
-            // $moorningContent=$settings->moorningTimeContent;
-            // $afternoonContent=$settings->afternoonTimeContent;
             $settings=$setting;
         }
 
