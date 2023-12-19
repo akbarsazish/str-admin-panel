@@ -2772,6 +2772,7 @@
 <script>
   window.onload = ()=> {
      makeTableColumnsResizable("receiveTable")
+     makeTableColumnsResizable("addedEditDaryaftable")
   }
 </script>
 @endsection
