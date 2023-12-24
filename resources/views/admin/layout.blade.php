@@ -233,7 +233,7 @@
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script> -->
     <script src="{{url('/resources/assets/js/tableScript.js') }}"></script>
     
     <script>
@@ -249,18 +249,18 @@
             document.getElementById("mySidenav").style.width = "0";
         }
 
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ config("broadcasting.connections.pusher.key") }}',
-            cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
-            useTLS: true,
-        });
+        // window.Echo = new Echo({
+        //     broadcaster: 'pusher',
+        //     key: '{{ config("broadcasting.connections.pusher.key") }}',
+        //     cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
+        //     useTLS: true,
+        // });
 
-        Echo.channel('notifications')
-            .listen('NotificationEvent', (event) => {
-                alert(event);
-                console.log(event);
-            });
+        // Echo.channel('notifications')
+        //     .listen('NotificationEvent', (event) => {
+        //         alert(event);
+        //         console.log(event);
+        //     });
 </script>
 
   

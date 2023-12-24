@@ -246,7 +246,7 @@
                                     <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="name" id="customerNameDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="customerId" id="customerIdDaryaft">
-                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
+                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar">
                                 </div>
 
                                 <div class="input-group input-group-sm pt-2">
@@ -284,9 +284,9 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td> اخرین وضعیت شخص </td>
+                                                <td> <span id="lastStatusOfPersonMoney"> </span> </td>
+                                                <td> <span id="lastStatusOfPerson"> </span> </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1611,7 +1611,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
-                <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals()"><i class="fa-times fa"></i></button>
+                <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('varizToOthersHisbModalEdit')"><i class="fa-times fa"></i></button>
             <h5 class="modal-title"> ویرایش واریز به حساب دیگران </h5>
             </div>
             <div class="modal-body">
@@ -2020,11 +2020,13 @@
                 <div class="col-lg-10">
                         <div class="input-group mb-2">
                             <span class="input-group-text"> صندوق </span>
-                            <select name="" id="sandoghSelectInputDar" class="form-select"> </select>
+                            <select name="" id="sandoghSelectInputDar" class="form-select">
+                                <option value="0"> انتخاب کنید </option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-2 text-end">
-                        <button class="btn-sm btn btn-success text-warning" onclick="openDaryaftModal()"> انتخاب </button>
+                        <button class="btn-sm btn btn-success text-warning" id="selectSandoghId" onclick="openDaryaftModal(this.value)"> انتخاب </button>
                     </div>
                 </div>
             </div>
@@ -2311,7 +2313,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('editAddVarizeBeHesabDegaran')"><i class="fa-times fa"></i></button>
-                <h5 class="modal-title"> working واریز به حساب دیگران </h5>
+                <h5 class="modal-title"> واریز به حساب دیگران </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -2649,7 +2651,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success text-warning py-1">
                 <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('editAddEditTakhfifModal')"> <i class="fa fa-times"></i></button>
-                <h5 class="modal-title"> under the construction  ویرایش دریافت تخفیف  </h5>
+                <h5 class="modal-title"> ویرایش دریافت تخفیف  </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">

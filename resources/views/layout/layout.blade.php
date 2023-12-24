@@ -22,7 +22,7 @@
     <script src="{{ url('/resources/assets/js/jquery-ui.min.js')}}"></script>
     <link rel="apple-touch-icon" href="{{ asset('logo.PNG') }}">
     <link rel="manifest" href="{{ asset('/manifest.json') }}">
-    {{-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script> --}}
+  <!-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script>  -->
 	<style>
 		.pubSearchItem{
 			color:#000 !important;
@@ -135,18 +135,19 @@
     @yield('content')
 
 <script>
-            window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ config("broadcasting.connections.pusher.key") }}',
-            cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
-            useTLS: true,
-        });
+        // window.Echo = new Echo({
+        //     broadcaster: 'pusher',
+        //     key: '{{ config("broadcasting.connections.pusher.key") }}',
+        //     cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
+        //     useTLS: true,
+        // });
 
-        Echo.channel('notifications')
-            .listen('NotificationEvent', (event) => {
-                alert(event);
-                console.log(event);
-            });
+        // Echo.channel('notifications')
+        //     .listen('NotificationEvent', (event) => {
+        //         alert(event);
+        //         console.log(event);
+        // });
+
 	var currentUrl = window.location.pathname;
 	if (currentUrl != '\/home' && currentUrl != '\/') {
 	  document.querySelector("#MenuBack").style.display = "initial";

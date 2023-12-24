@@ -83,7 +83,7 @@ class Box extends Controller{
     }
 
     function getSandoghs(Request $request) {
-        $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!='' AND SNCash<920");
+        $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!=''");
         return response()->json($sandoghes, 200);
     }
     
@@ -145,7 +145,7 @@ class Box extends Controller{
                                                     ,"InForHDS"=>$inforTypeDaryaft
                                                     ,"NetPriceHDS"=>0
                                                     ,"DocTypeHDS"=>$daryaftType
-                                                    ,"SnCashMaster"=>$cashMasterId
+                                                    ,"SnCashMaster"=>$cashMasterId 
                                                     ,"SnUser"=>12]);
 
         $snHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
@@ -170,9 +170,8 @@ class Box extends Controller{
                 $accBankNo=$request->input("AccBankNo".$bysNumber);
             }
 
-            if($request->input("CashNo".$bysNumber)){
-                $cashNo=$request->input("CashNo".$bysNumber);
-            }
+            $cashNo=$cashMasterId;
+      
 
             if($request->input("ChequeDate".$bysNumber)){
                 $chequeDate=$request->input("ChequeDate".$bysNumber);
@@ -219,30 +218,28 @@ class Box extends Controller{
             }
             
             DB::table("Shop.dbo.GetAndPayBYS")->insert(["CompanyNo"=>5
-                                                        ,"DocTypeBYS"=>$docTypeBys
-                                                        ,"Price"=>$price
-                                                        ,"ChequeDate"=>"$chequeDate"
-                                                        ,"ChequeNo"=>$chequeNo
-                                                        ,"AccBankno"=>$accBankNo
-                                                        ,"Owner"=>"$owener"
-                                                        ,"SnBank"=>$snBank
-                                                        ,"Branch"=>""//should be added
-                                                        ,"SnChequeBook"=>$snChequeBook
-                                                        ,"FiscalYear"=>1402
-                                                        ,"SnHDS"=>$snHDS
-                                                        ,"DocDescBYS"=>"$docDescBys"
-                                                        ,"StatusBYS"=>$statusBYS
-                                                        ,"SnAccBank"=>$snAccBank
-                                                        ,"CashNo"=>$cashNo
-                                                        ,"NoPayaneh_KartKhanBys"=>"$noPayanehKartKhanBYS"
-                                                        ,"KarMozdPriceBys"=>0 //should be added
-                                                        ,"NoSayyadi"=>""//should be added
-                                                        ,"NameSabtShode"=>"" //should be added
-                                                        ,"SnPeopelPay"=>0// should be added
-                                                    ]);
-
+                    ,"DocTypeBYS"=>$docTypeBys
+                    ,"Price"=>$price
+                    ,"ChequeDate"=>"$chequeDate"
+                    ,"ChequeNo"=>$chequeNo
+                    ,"AccBankno"=>$accBankNo
+                    ,"Owner"=>"$owener"
+                    ,"SnBank"=>$snBank
+                    ,"Branch"=>""//should be added
+                    ,"SnChequeBook"=>$snChequeBook
+                    ,"FiscalYear"=>1402
+                    ,"SnHDS"=>$snHDS
+                    ,"DocDescBYS"=>"$docDescBys"
+                    ,"StatusBYS"=>$statusBYS
+                    ,"SnAccBank"=>$snAccBank
+                    ,"CashNo"=>$cashNo
+                    ,"NoPayaneh_KartKhanBys"=>"$noPayanehKartKhanBYS"
+                    ,"KarMozdPriceBys"=>0 //should be added
+                    ,"NoSayyadi"=>""//should be added
+                    ,"NameSabtShode"=>"" //should be added
+                    ,"SnPeopelPay"=>0// should be added
+                ]);
         }
-
         return Response::json("دیتا موفقانه ثبت شد!");
     }
 
@@ -303,7 +300,13 @@ class Box extends Controller{
         $BYS=DB::select("SELECT * FROM Shop.dbo.GetAndPayBYS WHERE SerialNoBYS=$snBYS");
         return Response::json(['response'=>$BYS]);
     }
+
+
     public function editGetAndPay(Request $request){
+       
+        try {
+            //code...
+        
         $customerIdEdit=$request->customerIdEdit;
         $daryaftHdsDesc=$request->daryaftHdsDesc;
         $daryaftType=$request->daryaftType;
@@ -314,40 +317,42 @@ class Box extends Controller{
         $snHDS=$request->SerialNoHDS;
 
         foreach ($request->BYSS as $index) {
-            $accBankNo=$request->input("AccBankNo".$index,0);
-            $cachNo=$request->input("CashNo".$index,0);
-            $chequeNo=$request->input("ChequeNo".$index,0);
-            $chequeDate=$request->input("ChequeDate".$index,'');
-            $docTypeBys=$request->input("DocTypeBys".$index,0);
-            $docDescBys=$request->input("DocDescBys".$index,'');
-            $noPayanehKartKhanBYS=$request->input("NoPayanehKartKhanBYS".$index,'');
-            $owener=$request->input("Owener".$index,'');
-            $price=$request->input("Price".$index,0);
-            $snAccBank=$request->input("SnAccBank".$index,0);
-            $snBank=$request->input("SnBank".$index,0);
-            $snChequeBook=$request->input("SnChequeBook".$index);
-            $snPeopelPay=$request->input("SnPeopelPay".$index);
-            $serialNoBYS=$request->input("SerialNoBYS".$index);
+            //return $request->all();
+            $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
+            $cachNo=$request->{'CashNo'.$index} ?? 0;
+            $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
+            $chequeDate=$request->{'ChequeDate'.$index} ?? '';
+            $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
+            $docDescBys=$request->{'DocDescBys'.$index} ?? '';
+            $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
+            $owener=$request->{'Owener'.$index} ?? '';
+            $price=$request->{'Price'.$index} ?? 0;
+            $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
+            $snBank=$request->{'SnBank'.$index} ?? 0;
+            $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
+            $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
+            $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
+
+
             if($countEditables>0){
                 // // is editable?
-                return 'از قبل تعریف شده است';
                 DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
-                Price=>$price,
-                DocTypeBYS=>$docTypeBys,
-                DocDescBYS=>'$docDescBys',
-                NoPayaneh_KartKhanBys=>'$noPayanehKartKhanBYS',
-                SnAccBank=>$snAccBank,
-                CashNo=>$cachNo,
-                ChequeNo=>$chequeNo,
-                ChequeDate=>'$chequeDate',
-                SnBank=>$snBank,
-                Owner=>'$owener',
-                SnChequeBook=>$snChequeBook,
-                SnPeopelPay=>$snPeopelPay
+                "Price"=>$price,
+                "DocTypeBYS"=>$docTypeBys,
+                "DocDescBYS"=>$docDescBys,
+                "NoPayaneh_KartKhanBys"=>$noPayanehKartKhanBYS,
+                "SnAccBank"=>$snAccBank,
+                "CashNo"=>$cachNo,
+                "ChequeNo"=>$chequeNo,
+                "ChequeDate"=>$chequeDate,
+                "SnBank"=>$snBank,
+                "Owner"=>$owener,
+                "SnChequeBook"=>$snChequeBook,
+                "SnPeopelPay"=>$snPeopelPay
                 ]);
             }else{
-                return 'جدیدا اضافه شده است';
+                // return 'جدیدا اضافه شده است';
                  DB::table('Shop.dbo.GetAndPayBYS')->insert(["CompanyNo"=>$companyNo
                     ,"DocTypeBYS"=>$docTypeBys
                     ,"Price"=>$price
@@ -372,5 +377,9 @@ class Box extends Controller{
                     ,'SnPeopelPay'=>$snPeopelPay]);
             }
         }
+    } catch (\Exception $e) {
+        // Handle the exception and return an error response
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
     }
 }
