@@ -89,6 +89,7 @@ class Box extends Controller{
     
     
     function addDaryaft(Request $request) {
+        // return $request->all();
         $sn=$request->input("byss");
         $cashMasterId=0;
         $snPeopel=3609;
@@ -126,6 +127,10 @@ class Box extends Controller{
         if($request->input("sandoghIdDar")){
             $cashMasterId=$request->input("sandoghIdDar");
         }
+
+        if($request->input("chequeDate")){
+            $chequeDate=$request->input("chequeDate");
+        }
         
         $snHDS=0;
         
@@ -146,7 +151,8 @@ class Box extends Controller{
                                                     ,"NetPriceHDS"=>0
                                                     ,"DocTypeHDS"=>$daryaftType
                                                     ,"SnCashMaster"=>$cashMasterId 
-                                                    ,"SnUser"=>12]);
+                                                    ,"SnUser"=>12
+                                                ]);
 
         $snHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
         
@@ -158,13 +164,16 @@ class Box extends Controller{
             $docDescBys="";
             $docTypeBys=0;
             $noPayanehKartKhanBYS="";
-            $owener="";
+            $Owner="";
             $price=0;
             $snAccBank=0;
             $snBank=0;
             $snChequeBook=0;
             $snPeopelPay=0;
             $statusBYS=0;
+            $NameSabtShode=0;
+            $NoSayyadi=0;
+
 
             if($request->input("AccBankNo".$bysNumber)){
                 $accBankNo=$request->input("AccBankNo".$bysNumber);
@@ -172,7 +181,6 @@ class Box extends Controller{
 
             $cashNo=$cashMasterId;
       
-
             if($request->input("ChequeDate".$bysNumber)){
                 $chequeDate=$request->input("ChequeDate".$bysNumber);
             }
@@ -193,8 +201,8 @@ class Box extends Controller{
                 $noPayanehKartKhanBYS=$request->input("NoPayanehKartKhanBYS".$bysNumber);
             }
 
-            if($request->input("Owener".$bysNumber)){
-                $owener=$request->input("Owener".$bysNumber);
+            if($request->input("Owner".$bysNumber)){
+                $Owner=$request->input("Owner".$bysNumber);
             }
 
             if($request->input("Price".$bysNumber)){
@@ -216,14 +224,23 @@ class Box extends Controller{
             if($request->input("SnPeopelPay".$bysNumber)){
                 $snPeopelPay=$request->input("SnPeopelPay".$bysNumber);
             }
-            
+
+            if($request->input("NameSabtShode".$bysNumber)){
+                $NameSabtShode=$request->input("NameSabtShode".$bysNumber);
+            } 
+
+            if($request->input("NoSayyadi".$bysNumber)){
+                $sayyadiNo=$request->input("NoSayyadi".$bysNumber);
+            }
+
+
             DB::table("Shop.dbo.GetAndPayBYS")->insert(["CompanyNo"=>5
                     ,"DocTypeBYS"=>$docTypeBys
                     ,"Price"=>$price
                     ,"ChequeDate"=>"$chequeDate"
                     ,"ChequeNo"=>$chequeNo
                     ,"AccBankno"=>$accBankNo
-                    ,"Owner"=>"$owener"
+                    ,"Owner"=>"$Owner"
                     ,"SnBank"=>$snBank
                     ,"Branch"=>""//should be added
                     ,"SnChequeBook"=>$snChequeBook
@@ -235,13 +252,15 @@ class Box extends Controller{
                     ,"CashNo"=>$cashNo
                     ,"NoPayaneh_KartKhanBys"=>"$noPayanehKartKhanBYS"
                     ,"KarMozdPriceBys"=>0 //should be added
-                    ,"NoSayyadi"=>""//should be added
-                    ,"NameSabtShode"=>"" //should be added
+                    ,"NoSayyadi"=>"$NoSayyadi"
+                    ,"NameSabtShode"=>"$NameSabtShode"
                     ,"SnPeopelPay"=>0// should be added
                 ]);
         }
         return Response::json("دیتا موفقانه ثبت شد!");
     }
+
+
 
     function getGetAndPayInfo(Request $request){
         $snGetAndPayHDS=$request->input("snGetAndPay");
@@ -250,6 +269,7 @@ class Box extends Controller{
         $getAndPay[0]->BYS=$getAndPayBYS;
         return Response::json(['response'=>$getAndPay]);
     }
+
 
     function deleteGetAndPayBYSBtn(Request $request) {
 
@@ -303,7 +323,8 @@ class Box extends Controller{
 
 
     public function editGetAndPay(Request $request){
-       
+
+        //return $request->all();
         try {
             //code...
         
@@ -315,9 +336,10 @@ class Box extends Controller{
         $sandoghIdDar=$request->sandoghIdDar;
         $daryaftHds=$request->daryaftHds;
         $snHDS=$request->SerialNoHDS;
+        
 
         foreach ($request->BYSS as $index) {
-            //return $request->all();
+            
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
             $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
@@ -325,41 +347,55 @@ class Box extends Controller{
             $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
             $docDescBys=$request->{'DocDescBys'.$index} ?? '';
             $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
-            $owener=$request->{'Owener'.$index} ?? '';
+            $Owner=$request->{'Owner'.$index} ?? '';
             $price=$request->{'Price'.$index} ?? 0;
             $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
             $snBank=$request->{'SnBank'.$index} ?? 0;
             $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
             $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
             $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
+
+           
+
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
-
-
             if($countEditables>0){
+                
                 // // is editable?
                 DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
-                "Price"=>$price,
-                "DocTypeBYS"=>$docTypeBys,
-                "DocDescBYS"=>$docDescBys,
-                "NoPayaneh_KartKhanBys"=>$noPayanehKartKhanBYS,
-                "SnAccBank"=>$snAccBank,
-                "CashNo"=>$cachNo,
-                "ChequeNo"=>$chequeNo,
-                "ChequeDate"=>$chequeDate,
-                "SnBank"=>$snBank,
-                "Owner"=>$owener,
-                "SnChequeBook"=>$snChequeBook,
-                "SnPeopelPay"=>$snPeopelPay
+                    "DocTypeBYS"=>$docTypeBys
+                    ,"Price"=>$price
+                    ,"ChequeDate"=>"$chequeDate"
+                    ,'ChequeNo'=>$chequeNo
+                    ,'AccBankno'=>$accBankNo
+                    ,'Owner'=>"$Owner"
+                    ,'SnBank'=>$snBank
+                    ,'Branch'=>0
+                    ,'SnChequeBook'=>$snChequeBook
+                    ,'FiscalYear'=>1402
+                    ,'SnHDS'=>$snHDS
+                    ,'DocDescBYS'=>"$docDescBys"
+                    ,'SnAccBank'=>$snAccBank
+                    ,'CashNo'=>$chequeNo
+                    ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
+                    ,'RadifInDaftarCheque'=>0
+                    ,'NoPayaneh_KartKhanBys'=>0
+                    ,'KarMozdPriceBys'=>0
+                    ,'NoSayyadi'=>0
+                    ,'NameSabtShode'=>''
+                    ,'SnPeopelPay'=>$snPeopelPay
                 ]);
             }else{
                 // return 'جدیدا اضافه شده است';
-                 DB::table('Shop.dbo.GetAndPayBYS')->insert(["CompanyNo"=>$companyNo
+                // return $request->BYSS;
+                
+                 DB::table('Shop.dbo.GetAndPayBYS')->insert([
+                    "CompanyNo"=>5
                     ,"DocTypeBYS"=>$docTypeBys
                     ,"Price"=>$price
-                    ,"ChequeDate"=>'$chequeDate'
+                    ,"ChequeDate"=>"$chequeDate"
                     ,'ChequeNo'=>$chequeNo
                     ,'AccBankno'=>$accBankNo
-                    ,'Owner'=>'$owener'
+                    ,'Owner'=>"$Owner"
                     ,'SnBank'=>$snBank
                     ,'Branch'=>0
                     ,'SnChequeBook'=>$snChequeBook
@@ -374,7 +410,10 @@ class Box extends Controller{
                     ,'KarMozdPriceBys'=>0
                     ,'NoSayyadi'=>0
                     ,'NameSabtShode'=>''
-                    ,'SnPeopelPay'=>$snPeopelPay]);
+                    ,'SnPeopelPay'=>$snPeopelPay
+                   ]);
+
+                   
             }
         }
     } catch (\Exception $e) {

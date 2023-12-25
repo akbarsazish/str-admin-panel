@@ -154,16 +154,16 @@
                     <tbody id="receiveListBody">
                         @foreach($receives as $receive)
                             <tr onclick="getGetAndPayBYS(this,'receiveListBodyBYS', {{$receive->SerialNoHDS}})"  class="factorTablRow">
-                                <td class="receiveTd-1"> {{$loop->iteration}} </td>
-                                <td class="receiveTd-2"> {{$receive->DocNoHDS}}  </td>
-                                <td class="receiveTd-3"> {{$receive->DocDate}} </td>
-                                <td class="receiveTd-4"> {{$receive->Name}}</td>
-                                <td class="receiveTd-5"> {{$receive->DocDescHDS}} </td>
-                                <td class="receiveTd-6"> {{number_format($receive->NetPriceHDS)}}  </td>
-                                <td class="receiveTd-7"> {{$receive->SaveTime}}</td>
-                                <td class="receiveTd-8"> {{$receive->userName}}  </td>
-                                <td class="receiveTd-9"> {{$receive->cashName}} </td>
-                                <td class="receiveTd-10"> {{$receive->DocDescHDS}} </td>
+                              <td class="receiveTd-1"> {{$loop->iteration}} </td>
+                              <td class="receiveTd-2"> {{$receive->DocNoHDS}}  </td>
+                              <td class="receiveTd-3"> {{$receive->DocDate}} </td>
+                              <td class="receiveTd-4"> {{$receive->Name}}</td>
+                              <td class="receiveTd-5"> {{$receive->DocDescHDS}} </td>
+                              <td class="receiveTd-6"> {{number_format($receive->NetPriceHDS)}}  </td>
+                              <td class="receiveTd-7"> {{$receive->SaveTime}}</td>
+                              <td class="receiveTd-8"> {{$receive->userName}}  </td>
+                              <td class="receiveTd-9"> {{$receive->cashName}} </td>
+                              <td class="receiveTd-10"> {{$receive->DocDescHDS}} </td>
                         </tr>
                         @endforeach 
                     </tbody>
@@ -2702,7 +2702,7 @@
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
                 <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('editAddEditVarizeBehesab')"><i class="fa-times fa"></i></button>
-                <h5 class="modal-title"> under the construction واریز به حساب دیگران </h5>
+                <h5 class="modal-title"> واریز به حساب دیگران </h5>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
