@@ -88,15 +88,16 @@ class Box extends Controller{
     }
     
     
+
+
     function addDaryaft(Request $request) {
-        // return $request->all();
-        $sn=$request->input("byss");
+        $sn=$request->input("BYSS");
         $cashMasterId=0;
         $snPeopel=3609;
         $daryaftType=0;
-
         
-        $byss=$request->input("byss");
+    
+        $byss=$request->input("BYSS");
         $addDaryaftDate=$request->input("addDaryaftDate");
         
         if($request->input("customerId")){
@@ -136,9 +137,10 @@ class Box extends Controller{
         
         $docNoHDS=0;
         
-       
+      
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
        //return Response::json($request->all());
+     
         DB::table("Shop.dbo.GetAndPayHDS")->insert(["CompanyNo"=>5
                                                     ,"GetOrPayHDS"=>1
                                                     ,"DocNoHDS"=>($docNoHDS+1)
@@ -155,7 +157,7 @@ class Box extends Controller{
                                                 ]);
 
         $snHDS=DB::table("Shop.dbo.GetAndPayHDS")->max("SerialNoHDS");
-        
+       
         foreach ($byss as $bysNumber) {
             $accBankNo=0;
             $cashNo=0;
@@ -228,12 +230,11 @@ class Box extends Controller{
             if($request->input("NameSabtShode".$bysNumber)){
                 $NameSabtShode=$request->input("NameSabtShode".$bysNumber);
             } 
-
+            
             if($request->input("NoSayyadi".$bysNumber)){
                 $sayyadiNo=$request->input("NoSayyadi".$bysNumber);
             }
-
-
+            
             DB::table("Shop.dbo.GetAndPayBYS")->insert(["CompanyNo"=>5
                     ,"DocTypeBYS"=>$docTypeBys
                     ,"Price"=>$price

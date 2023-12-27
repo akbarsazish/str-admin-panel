@@ -15,6 +15,7 @@
     <!-- <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}"> -->
     <link rel="stylesheet" href="{{ url('/resources/assets/slicknav/slicknav.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mainAdmin.css')}}">
+    <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.scss')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mediaq.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.framework7.bundle.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-utilities.rtl.min.css')}}">

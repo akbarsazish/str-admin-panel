@@ -245,8 +245,9 @@
                                     <span class="input-group-text"> مشتری </span>
                                     <input type="text" name="pCode" id="customerCodeDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="name" id="customerNameDaryaft" class="form-control form-control-sm" required>
-                                    <input type="text" name="customerId" id="customerIdDaryaft">
-                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar">
+                                    <input type="text" name="customerId" id="customerIdDaryaft" class="d-none">
+                                    <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
+                                   
                                 </div>
 
                                 <div class="input-group input-group-sm pt-2">
@@ -274,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="row border border-1 border-secondary mt-2 rounded">
-                                    <table class="table factorTable rounded" style="height:144px">
+                                    <table class="table table-sm table-bordered table-striped rounded" style="height:122px">
                                         <thead class="bg-success text-warning">
                                             <tr>
                                                 <th> شرح </th>
@@ -284,7 +285,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td> اخرین وضعیت شخص </td>
+                                                <td> </td>
                                                 <td> <span id="lastStatusOfPersonMoney"> </span> </td>
                                                 <td> <span id="lastStatusOfPerson"> </span> </td>
                                             </tr>
@@ -345,27 +346,27 @@
                                     <button type="button" class="btn-sm btn-danger text-white w-100" disabled id="deleteDaryaftItemBtn" onclick="deleteRow(this.value)"> حذف <i class="fa fa-trash"></i></button>
                                 </div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <div class="row">
-                                            <div class="col-sm-9">
+                                            <div class="col-sm-8">
                                                 <div class="border border-1 border-secondary mt-2 rounded">
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ فاکتور:  </span>
+                                                                <span class="input-text"> مبلغ فاکتور:  </span>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="input-group">
-                                                                <span class="input-text">  مبلغ مانده:  </span>
+                                                                <span class="input-text"> مبلغ مانده: <span id="remaindMoblagh"> </span> </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="border border-1 border-secondary mt-2 rounded">
                                                     <div class="input-group">
                                                         <span class="input-text"> مجموع : <span name="netPriceDar" id="netPriceDar">  </span> </span>
@@ -376,7 +377,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3 text-end mt-2 px-0">
-                                        <label for="" class="form-label"> این دریافتی بابت چک برگشتی می باشد </label>
+                                        <label for="label" class="for-label"> این دریافتی بابت چک برگشتی می باشد </label>
                                         <input type="checkbox" name="becauseReturnCheque" class="from-check-input">
                                     </div>
                                 </div>
@@ -628,7 +629,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success py-1">
-            <button class="btn-danger btn-sm btn" onclick="closeAddDaryaftVajhNaghdEdi()"> <i class="fa fa-times"></i></button>
+            <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('addDaryaftVajhNaghdEditModal')"> <i class="fa fa-times"></i></button>
             <h5 class="modal-title text-warning "> ویرایش دریافت وجه نقد  </h5>
         </div>
         <div class="modal-body">
@@ -663,7 +664,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="text-end m-2">
-                        <button class="btn btn-sm btn-success" onclick="EditaddNaghdMoneyDar()"> ذخیره  <i class="fa fa-save "></i> </button>
+                        <button class="btn btn-sm btn-success" onclick="addEditVagheNaghd()"> ذخیره  <i class="fa fa-save "></i> </button>
                     </div>
                 </div>
             </div>
@@ -948,7 +949,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-2">
-                <button class="btn btn-danger btn-sm text-warning" onclick="closeEditChequeInfoModal()"> <i class="fa fa-times"></i></button>
+                <button class="btn btn-danger btn-sm text-warning" onclick="closeReceiveModals('editDaryafAddChequeInfo')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> ویرایش اطلاعات چک </h5>
             </div>
             <div class="modal-body">
@@ -966,9 +967,7 @@
                             <div class="input-group  mb-2">
                                 <span class="input-group-text">  نام بانک </span>
                                 <select name="" id="editBankNameDar" class="form-select">
-                                    @foreach($banks as $bank)
-                                        <option value="{{$bank->SerialNoBSN}}">{{$bank->NameBsn}}</option>
-                                    @endforeach
+                                    <option value=""> </option>
                                 </select>
                             </div>
                             <div class="input-group  mb-2">
@@ -978,7 +977,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="text-end">
-                                <button class="btn-sm btn-success btn" onclick="addEditAddChequeDar()" > ذخیره <i class="fa-save fa"></i> </button>
+                                <button class="btn-sm btn-success btn" onclick="addEditAddChequeDar()"> ذخیره <i class="fa-save fa"></i> </button>
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> تاریخ چک برای بعد </span>
@@ -2152,7 +2151,7 @@
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header bg-success py-2">
-            <button class="btn-sm btn-danger btn text-warning"  onclick="closeShobeBankChequeDarMadal()"><i class="fa-times fa"></i></button>
+            <button class="btn-sm btn-danger btn text-warning"  onclick="closeReceiveModals('shobeBankChequeDarMadal')"><i class="fa-times fa"></i></button>
           <h5 class="modal-title"> شعبه بانک </h5>
         </div>
         <div class="modal-body">
