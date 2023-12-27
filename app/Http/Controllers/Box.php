@@ -91,11 +91,11 @@ class Box extends Controller{
 
 
     function addDaryaft(Request $request) {
+        return $request->all();
         $sn=$request->input("BYSS");
         $cashMasterId=0;
         $snPeopel=3609;
         $daryaftType=0;
-        
     
         $byss=$request->input("BYSS");
         $addDaryaftDate=$request->input("addDaryaftDate");
@@ -111,11 +111,9 @@ class Box extends Controller{
             $snPeopel=$request->input("customerId");
         }
     
-        
         $daryaftHdsDesc=$request->input("daryaftHdsDesc");
         $inforTypeDaryaft=0;
         
-
         if($request->input("inforTypeDaryaft")){
             $inforTypeDaryaft=$request->input("inforTypeDaryaft");
         }
@@ -137,7 +135,6 @@ class Box extends Controller{
         
         $docNoHDS=0;
         
-      
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
        //return Response::json($request->all());
      
@@ -175,7 +172,6 @@ class Box extends Controller{
             $statusBYS=0;
             $NameSabtShode=0;
             $NoSayyadi=0;
-
 
             if($request->input("AccBankNo".$bysNumber)){
                 $accBankNo=$request->input("AccBankNo".$bysNumber);
@@ -260,7 +256,6 @@ class Box extends Controller{
         }
         return Response::json("دیتا موفقانه ثبت شد!");
     }
-
 
 
     function getGetAndPayInfo(Request $request){
