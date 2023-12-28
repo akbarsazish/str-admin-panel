@@ -315,7 +315,7 @@
                                         <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openTakhfifModal()"> تخفیف <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
-                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openVarizToOthersHisbModal()"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('daryaftAddVarizToOthersHisbModal')"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
                                     </div>
                                 </fieldset>
                             </div>
@@ -1873,7 +1873,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerDaryaftModal()"> <i class="fa-times fa"></i> </button>
+                <button class="btn-sm btn btn-danger text-warning" onclick="closeReceiveModals('searchCustomerDaryaftModal')"> <i class="fa-times fa"></i> </button>
                 <h5 class="modal-title"> جستجوی طرف حساب </h5>
             </div>
             <div class="modal-body">
@@ -1941,7 +1941,7 @@
 <div class="modal" id="searchCustomerOtherHisabDaryaftModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header bg-success py-2">
                 <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerDaryaftModal()"> <i class="fa-times fa"></i> </button>
                 <h5 class="modal-title"> جستجوی طرف حساب </h5>
             </div>

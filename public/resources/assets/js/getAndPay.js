@@ -248,10 +248,6 @@
         }
     }
 
-    function openVarizToOthersHisbModal(){
-        $("#daryaftAddVarizToOthersHisbModal").modal("show");
-    }
-
     function openRelatedFactorsModal(){
         if($("#customerIdDaryaft").val().length>0){
             $("#relatedFactorsModal").modal("show");
@@ -353,10 +349,7 @@
         $("#searchCustomerDaryaftModal").modal("show")
     })
 
-    function closeSearchCustomerDaryaftModal(){
-        $("#searchCustomerDaryaftModal").modal("hide")
-    }
-    
+
     $("#customerNameSearchDar").on("keyup",(event)=>{
         let name=$("#customerNameSearchDar").val();
         if(event.keyCode!=40){
@@ -874,11 +867,11 @@ function addEditVagheNaghd() {
         $("#addedDaryaftListBody > tr > td.dayaftAddTd-3").text(`حواله به ${bankName} به شماره   ${hawalaNoHawalaDar} تاریخ  ${hawalaDateHawalaDar} `)
         $("#addedDaryaftListBody > tr > td.dayaftAddTd-4").text(monyAmountHawalaDar)
         
-        $("#addedDaryaftListBody > tr > td:nth-child(10) > input[type=text]").val(monyAmountHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(11) > input[type=text]").val(hawalaDateHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(17) > input[type=text]").val(discriptionHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(20) > input[type=text]").val(payanehKartKhanNoHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(23) > input[type=text]").val(hawalaNoHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(10) > input").val(monyAmountHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(11) > input").val(hawalaDateHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(17) > input").val(discriptionHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(20) > input").val(payanehKartKhanNoHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(23) > input").val(hawalaNoHawalaDar)
 
         $("#daryaftHawalaInfoModalEdit").modal("hide");
         makeTableColumnsResizable("addHawalaTable");
@@ -1058,7 +1051,7 @@ function addVarizToOtherHisab(){
 
     $("#addedDaryaftListBody").append(`
        <tr  onclick="addEditDaryaftItem(this)" ondblclick="editDaryaftItem('varizToOthersHisbModalEdit',this)">
-            <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount+1}" name="BYSS[]"/> ${rowCount} </td>
+            <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
             <td class="dayaftAddTd-2"> 0 </td>
             <td class="dayaftAddTd-3"> پرداخت به  ${tarafHesabName} واریز به ${cartNo} به نام ${benamOther} به شماره پیگیری ${paygiriNo} ${discription} </td>
             <td class="dayaftAddTd-4"> ${money} </td>
@@ -1109,20 +1102,29 @@ function addVarizToOtherHisab(){
  
 const addVarizToOtherHisabEdit = () => {
     let varizMoney = document.getElementById("moneyVarizToOtherHisabDarEdit").value;
-    let varizeToOther = document.getElementById("cartNoVarizToOtherDarEdit").value;
-    let varizeBahesab = document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value;
+    let varizeToOtherCardNo = document.getElementById("cartNoVarizToOtherDarEdit").value;
+    let SnPeopelPay = document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value;
     let payGeri = document.getElementById("paygiriOtherHisabDarEdit").value;
     let banameTaraf = document.getElementById("benamOtherHisabDarEdit").value;
     let varizeDesc = document.getElementById("discriptionOtherHisabDarEdit").value;
     let customerName = document.getElementById("varizBehisabDigariCustomerNameDarEdit").value;
 
-    document.querySelector("#addedDaryaftListBody > tr > td:nth-child(5)").textContent = varizMoney;
-    document.querySelector("#addedDaryaftListBody > tr > td:nth-child(4)").textContent = `پرداخت به ${customerName} واریز به ${varizeToOther} به نام ${banameTaraf} به شماره پیگیری ${payGeri} ${varizeDesc}`;
-
-    let editVarizeModal = document.getElementById("varizToOthersHisbModalEdit");
-    if(editVarizeModal){
-        editVarizeModal.style.display = "none";
+    let selectedRow = document.querySelector("#addedDaryaftListBody > tr.selected");
+    
+    if(selectedRow){
+        selectedRow.querySelector("td:nth-child(3)").textContent = `پرداخت به ${customerName} واریز به ${varizeToOtherCardNo} به نام ${banameTaraf} به شماره پیگیری ${payGeri} ${varizeDesc}`;
+        selectedRow.querySelector("td:nth-child(4)").textContent = varizMoney;
+        selectedRow.querySelector('td:nth-child(9) > input').value = varizMoney;
+        selectedRow.querySelector('td:nth-child(12) > input').value = varizeToOtherCardNo;
+        selectedRow.querySelector('td:nth-child(20) > input').value = SnPeopelPay;
+        selectedRow.querySelector('td:nth-child(22) > input').value = customerName;
+        selectedRow.querySelector('td:nth-child(11) > input').value = payGeri;
+        selectedRow.querySelector('td:nth-child(16) > input').value = varizeDesc;
+    }else {
+        console.error("Selected row not found.");
     }
+    
+    $("#varizToOthersHisbModalEdit").modal('hide');
 }
 
 
@@ -1136,8 +1138,7 @@ $("#addDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            console.log("for customer Id", data)
-            //window.location.reload();
+            window.location.reload();
         },
         error:function(error){
             console.log(error)
@@ -1569,9 +1570,18 @@ const editDaryaftItemType = (typeValue)=> {
     let bankAccount = selectedRow.querySelector("td:nth-child(12) > input").value;
     let description = selectedRow.querySelector("td:nth-child(16) > input").value;
     let tarafHesab = selectedRow.querySelector("td:nth-child(22) > input").value;
-    let payGeriNo = selectedRow.querySelector("td:nth-child(22) > input").value;
+    let payGeriNo = selectedRow.querySelector("td:nth-child(11) > input").value;
     let baName = selectedRow.querySelector("td:nth-child(21) > input").value;
     let snPeoplePay = selectedRow.querySelector("td:nth-child(20) > input").value;
+
+    // insert data to input field
+    document.getElementById("moneyVarizToOtherHisabDarEdit").value = vairzMoblagh;
+    document.getElementById("cartNoVarizToOtherDarEdit").value = bankAccount;
+    document.getElementById("varizBehisabDigariCustomerNameDarEdit").value = tarafHesab;
+    document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value = snPeoplePay;
+    document.getElementById("paygiriOtherHisabDarEdit").value = payGeriNo;
+    document.getElementById("benamOtherHisabDarEdit").value = baName;
+    document.getElementById("discriptionOtherHisabDarEdit").value = description;
 
     // by onkeyp get the taraf hesab
     $("#varizBehisabDigariCustomerCodeDarEdit").on("keyup",function(e){
@@ -1581,19 +1591,14 @@ const editDaryaftItemType = (typeValue)=> {
         })
     })
     
-    // insert data to input field
-    document.getElementById("moneyVarizToOtherHisabDarEdit").value = vairzMoblagh;
-    document.getElementById("cartNoVarizToOtherDarEdit").value = bankAccount;
-    document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value = tarafHesab;
-    document.getElementById("paygiriOtherHisabDarEdit").value = payGeriNo;
-    document.getElementById("benamOtherHisabDarEdit").value = baName;
-    document.getElementById("discriptionOtherHisabDarEdit").value = description;
-
-    // open modal
-    document.getElementById("varizToOthersHisbModalEdit").style.display = "block";
+   $("#varizToOthersHisbModalEdit").modal('show');
   }
 }
 
+$("#moneyVarizToOtherHisabDarEdit").on("keyup",function(event){
+    let moneyAmount=$("#moneyVarizToOtherHisabDarEdit").val();
+    changeNumberToLetter($("#moneyVarizToOtherHisabDarEdit"),"moneyVarizToOtherHisabLetterDarEdit",moneyAmount)
+})
  
 function addEditAddChequeDar() {
 
@@ -2578,7 +2583,6 @@ const editAddEditVarizBehesabSave = () => {
     $("#editAddEditVarizeBehesab").modal("hide")
 }
 
-// ////////////////// I love  working part //////////////////////
 
 function deleteRow(targetTr){
     let deleteBtnValue = parseInt(targetTr);
