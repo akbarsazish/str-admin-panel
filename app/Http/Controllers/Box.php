@@ -91,7 +91,7 @@ class Box extends Controller{
 
 
     function addDaryaft(Request $request) {
-        return $request->all();
+        // return $request->all();
         $sn=$request->input("BYSS");
         $cashMasterId=0;
         $snPeopel=3609;
