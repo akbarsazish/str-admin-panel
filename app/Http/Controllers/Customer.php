@@ -560,6 +560,7 @@ public function crmLogin(Request $request)
     Session::put('username', $customer->Name);
     Session::put('psn',$customer->PSN);
     Session::put('otherUserInfo',(string)trim($request->get("otherName")));
+    
     return redirect("https://starfoods.ir");
 }
 

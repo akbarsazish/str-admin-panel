@@ -50,9 +50,8 @@
         })
 
         $("#deleteGetAndPayBYSBtn").prop("disabled",false);
-        $("#deleteGetAndPayBYSBtn").val(snGetAndPay);
         $("#editGetAndPayBYSBtn").prop("disabled",false);
-        $("#editGetAndPayBYSBtn").val(snGetAndPay);
+        $("#deletePaysHDSBtn").val(snGetAndPay);
     }
 
     $("#filterReceivesForm").on("submit",function(e){
@@ -313,7 +312,23 @@
     };
     
 
-    $("#addDaryaftDate").persianDatepicker({
+
+
+    const persianDateInputs=document.querySelectorAll(".persianDate");
+    if(persianDateInputs){
+        persianDateInputs.forEach(element=>{
+            persianDateInput=element;
+            $(persianDateInput).persianDatepicker({
+                cellWidth: 32,
+                cellHeight: 22,
+                fontSize: 14,
+                formatDate: "YYYY/0M/0D",
+                endDate: "1440/5/5",
+            });
+        })
+    }
+
+    $("#checkSarRasidDateInputAddEditPayEdit").persianDatepicker({
         cellWidth: 32,
         cellHeight: 22,
         fontSize: 14,
@@ -322,6 +337,21 @@
     });
 
     $("#addHawalaFromBoxAddDateInput").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
+    $("#addHawalaFromBoxDateEditInputEdit").persianDatepicker({
+        cellWidth: 32,
+        cellHeight: 22,
+        fontSize: 14,
+        formatDate: "YYYY/0M/0D",
+        endDate: "1440/5/5",
+    });
+
+    $("#checkSarRasidDateInputEditPayEdit").persianDatepicker({
         cellWidth: 32,
         cellHeight: 22,
         fontSize: 14,
@@ -552,6 +582,11 @@
         let moneyAmount=$("#moneyChequeDar").val();
         changeNumberToLetter($("#moneyChequeDar"),"moneyInLetters",moneyAmount)
     })
+
+    function changeNumberOfInputToLetter(element,alertId){
+        let moneyAmount=element.value;
+        changeNumberToLetter(element,alertId,moneyAmount);
+    }
 
     function changeNumberToLetter(element,containerId,mynumber) {
         let number=mynumber.replace(/,/g, '');
@@ -1145,6 +1180,7 @@ $("#addDaryaftForm").on("submit",function(e){
     });
 })
 
+
 function editDaryaftItem(modalId,element){
     $("#"+modalId).modal("show");
     $("tr").removeClass("selected");
@@ -1245,22 +1281,8 @@ function enableCustomerInfo(codeInputId,nameInputId,idInputId){
     $("#"+idInputId).prop("disabled",false);
 }
 
-$("#deleteGetAndPayBYSBtn").on("click",(e)=>{
-    deleteGetAndPays($("#deleteGetAndPayBYSBtn").val());
-})
 
-function deleteGetAndPays(snHDS){
-    swal({
-        title:" آیا می خواهید حذف کنید؟",
-        buttons:true
-    }).then((willDelete)=>{
-        if(willDelete){
-            $.get(baseUrl+"/deleteGetAndPays",{snHDS:snHDS},(respond,status)=>{
-                window.location.reload();
-            })
-        }
-    })
-}
+
 
 
 $("#editDaryaftDate").persianDatepicker({
@@ -3036,6 +3058,31 @@ function chooseCustomerForPay(customerId) {
     });
 }
 
+function openAddEditPayChequeInfoEditModal(){
+    const modal = new bootstrap.Modal(document.getElementById('addEditPayChequeInfoEditModal'));
+    modal.show();
+    const selectBox=document.getElementById('hisabNoChequeInputAddEditPayEdit') ;
+    selectBox.innerHTML = '';
+    selectBox.add(new Option(" ", ''));
+    fetch(baseUrl+'/allBanks', {
+        method: 'GET'
+    })
+   .then(response=>response.json())
+   .then(data=>{
+    data.bankKarts.forEach(bank=>{
+        const option = document.createElement("option");
+        option.text = bank.bsn;
+        option.value = String(bank.SerialNoAcc);
+        selectBox.add(option);
+    })
+   })
+
+   const customerNamePayHDSInput=document.getElementById('editPayName') ;
+   const inVajhChequeNameInput=document.getElementById('inVajhChequeInputAddEditPayEdit') ;
+   inVajhChequeNameInput.value=customerNamePayHDSInput.value;
+
+}
+
 function openAddPayVajhNaghdEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
     modal.show();
@@ -3088,10 +3135,7 @@ function openAddEditPayVajhNaghdEditModal(){
 function closeAddEditPayVajhNaghdEditModal(){
     $("#addEditPayVajhNaghdEditModal").hide();
 }
-function openAddEditPayChequeInfoEditModal(){
-    const modal = new bootstrap.Modal(document.getElementById('addEditPayChequeInfoEditModal'));
-    modal.show();
-}
+
 function closAddEditPayChequeInfoEditModal(){
     
     $("#addEditPayChequeInfoEditModal").hide();
@@ -3200,7 +3244,6 @@ function openEditPayModal(snGetAndPayHDS){
     params.append("snGetAndPay",snGetAndPayHDS);
     fetch(baseUrl+`/getGetAndPayInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
         let payOrGet=data.response[0];
-        
         $("#editPayModal").find("#editPayDocNoHDS").val(payOrGet.FactNo);
         $("#editPayModal").find("#editPayDocDate").val(payOrGet.DocDate);
         $("#editPayModal").find("#editPayName").val(payOrGet.Name);
@@ -3241,10 +3284,34 @@ function openEditPayModal(snGetAndPayHDS){
         const bysTableBody=document.getElementById("payEditTableBodyBys");
         bysTableBody.innerHTML="";
         let bysTableTr="";
-        let i=1;
+        let rowNumber=0;
+        console.log(bys)
         for (const element of bys) {
-            i++;
-            bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.SerialNoBYS})"><td>${i}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td></tr>`;
+            
+            bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.SerialNoBYS})"><td>${rowNumber}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td>
+            <td class="d-none" ><input type="checkbox" checked class="form-check-input" value="${(rowNumber)}" name="BYSs[]"/></td>
+            <td class="d-none" ><input type="text" class="form-check-input" value="${element.DocTypeBYS}" name="BysType${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.NoSayyadi}" name="sayyadiNoCheque${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.ChequeDate}" name="checkSarRasidDate${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.ChequeNo}" name="chequeNoCheqe${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.AccBankno}" name="AccBankNo${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SnBank}" name="SnBank${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SnChequeBook}" name="SnChequeBook${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.DocDescBYS}" name="DocDescBys${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SnAccBank}" name="SnAccBank${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.NoPayaneh_KartKhanBys}" name="NoPayanehKartKhanBYS${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="0"/></td>
+            <td class="d-none" ><input type="text" value="0"/></td>
+            <td class="d-none" ><input type="text" value="${element.Price}" name="Price${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SnMainPeopel}" name="SnMainPeopel${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.Owner}" name="ownerName${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.ChequeNo}" name="hawalaNo${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.Branch}" name="Branch${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.KarMozdPriceBys}" name="Karmozd${rowNumber}"/></td>
+            <td class="d-none" ><input type="text" value="${element.SerialNoBYS}" name="SerialNoBYS${rowNumber}"/></td>
+            </tr>`;
+            rowNumber++;
         }
         bysTableBody.innerHTML=bysTableTr;
         const modal = new bootstrap.Modal(document.getElementById('editPayModal'));
@@ -3276,16 +3343,120 @@ function openEditEditPayEditModal(serialNoBYS){
 }
 
 function checkEditEditPayEditModal(docTypeBYS){
+
+    const selectedElements = document.querySelectorAll('.selected');
+    const selectedRow = selectedElements[0];
+    const rowData = selectedRow.querySelectorAll('td');
+    if(docTypeBYS==3 && rowData[14].children.item(0)?.getAttribute('value')==0){
+        docTypeBYS="5";
+    }
     switch(docTypeBYS){
         case "1":
             {//وجه نقد
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayVajhNaghdEditModal'));
+                const rialNaghdPayEditEditInputEdit=document.getElementById('rialNaghdPayEditEditInputEdit');
+                const descNaghdPayEditEditInputEdit=document.getElementById('descNaghdPayEditEditInputEdit');
+                rowData.forEach((td,index)=>{
+                    if(td.children.item(0)){
+                        switch(index){
+                            case 19:
+                            {
+                                rialNaghdPayEditEditInputEdit.value=td.children.item(0)?.getAttribute("value");
+                            }
+                            break;
+                            case 13:{
+                                descNaghdPayEditEditInputEdit.value=td.children.item(0)?.getAttribute("value");
+                            }
+                            break;
+                        }
+
+                    }
+                })
                 modal.show();
             }
             break;
         case "2":
             {//چک
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayChequeInfoEditModal'));
+                const chequeNumberInput = document.getElementById("chequeNoCheqeInputEditPayEdit");
+                const sarRasidInput = document.getElementById("checkSarRasidDateInputEditPayEdit");
+                const moneyChequeInput = document.getElementById("moneyChequeInputEditPayEdit");
+                const sayyadiNoChequeInputAddPayAdd=document.getElementById("sayyadiNoChequeInputEditPayEdit");
+                const docDescInput=document.getElementById("inVajhChequeInputEditPayEdit");
+                var accNo=0
+                rowData.forEach((td,index)=>{
+                    if(td.children.item(0)){
+                        switch (index) {
+                            case 10://
+                            {
+                                const hisabNoChequeInputAddPayAdd=document.getElementById("hisabNoChequeInputEditPayEdit");
+                                accNo=Number(td.children.item(0)?.getAttribute('value'));
+                                fetch(baseUrl+`/bankAcc/index`,{
+                                    method:'GET',
+                                }).then(res=>{
+                                    return res.json();
+                                }).then(data=>{
+                                    data.forEach((element) => {
+                                        const option = document.createElement("option");
+                                        option.text = element.AccNo;
+                                        option.value = String(element.SerialNoAcc);
+                                        if(element.SerialNoAcc==accNo){
+                                            option.selected=true;
+                                        }
+                                        hisabNoChequeInputAddPayAdd.add(option);
+                                    });
+                                })
+                            }
+                            break;
+                            case 12:
+                                {
+                                    const hisabNo=document.getElementById("hisabNoChequeInputEditPayEdit");
+                                    const radifInChequeBookSelect=document.getElementById("radifInChequeBookSelectEditPayEdit");
+                                    fetch(baseUrl+`/cheque/getChequesByAcc/${accNo}`).then(res=>{
+                                        return res.json();
+                                    }).then((data)=>{
+                                        console.log(data);
+                                        radifInChequeBookSelect.innerHTML='';
+                                        data.forEach((element) => {
+                                            const option = document.createElement("option");
+                                            option.text = element.ChequeBookName;
+                                            option.value = String(element.SnChequeBook);
+                                            if(element.SnChequeBook==td.children.item(0)?.getAttribute('value')){
+                                                option.selected=true;
+                                            }
+                                            radifInChequeBookSelect.add(option);
+                                        });
+                                        const event = new Event('change');
+                                        radifInChequeBookSelect.dispatchEvent(event);
+                                    })
+                                }
+                            break;
+                            case 13:
+                                {
+                                    docDescInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            case 7:
+                                {
+                                    sayyadiNoChequeInputAddPayAdd.value=String(td.children.item(0)?.getAttribute('value'))
+                                }
+                                break;
+                            case 8:
+                                {
+                                    sarRasidInput.value=String(td.children.item(0)?.getAttribute('value'))
+                                }
+                                break;
+                            case 9:{
+                                    chequeNumberInput.value=String(td.children.item(0)?.getAttribute('value'))
+                                }
+                                break;
+                            case 19:{
+                                    moneyChequeInput.value=String(td.children.item(0)?.getAttribute('value'))
+                                }
+                                break;
+                            
+                        }}
+                    });
                 modal.show();
             }
             break;
@@ -3298,18 +3469,211 @@ function checkEditEditPayEditModal(docTypeBYS){
         case "4":
             {// تخفیف
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayTakhfifEditModal'));
+                const takhfifInput=document.getElementById("takhfifMoneyInputEditEditPayEdit");
+                const discriptionInput=document.getElementById("discriptionTakhfifInputEditEditPayEdit");
+                rowData.forEach((td,index)=>{
+                    if(td.children.item(0)){
+                        switch (index){
+                        case 19:
+                            takhfifInput.value=String(td.children.item(0)?.getAttribute('value'));
+                            break;
+                        case 13:
+                            discriptionInput.value=String(td.children.item(0)?.getAttribute('value'));
+                            break;
+                        }
+                    }
+                })
                 modal.show();
             }
             break;
         case "5":
             {// hawal from Box
+                alert('it is hawala from box;')
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBoxEditModal'));
+                const hawalaNoInput=document.getElementById("editHawalaFromBoxEditInputNumber");
+                const hawalaDateInput=document.getElementById("editHawalaFromBoxEditDateInput");
+                const moneyInput=document.getElementById("editHawalaFromBoxEditMoneyInput");
+                const karmozdInput=document.getElementById("editHawalaFromBoxEditKarmozdInput");
+                const hisabNoInput=document.getElementById("editHawalaFromBoxEditNumberHisabInput");
+                const hisabOwnerInput=document.getElementById("editHawalaFromBoxEditMalikNameInput");
+                const bankInput=document.getElementById("editHawalaFromBoxEditBankNameInput");
+                const descInput=document.getElementById("editHawalaFromBoxEditDescInput");
+                const bankShobeInput=document.getElementById("editHawalaFromBoxEditBranchSnInput");
+                rowData.forEach((td,index)=>{
+                    if(td.children.item(0)){
+                        switch (index) {
+                            case 9://
+                            hawalaNoInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 8://
+                                hawalaDateInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 11:
+                                {
+                                    fetch(baseUrl+`/getBankList`,{
+                                        method:'GET',
+                                    }).then(res=>{
+                                        return res.json();
+                                    }).then(data=>{
+                                        bankInput.innerHTML='';
+                                        bankInput.innerHTML=`<option value="0">انتخاب کنید</option>`;
+                                        data.forEach(bank=>{
+                                            if(bank.SerialNoBSN==String(td.children.item(0)?.getAttribute('value'))){
+                                                bankInput.innerHTML+=`<option selected value="${bank.SerialNoBSN}">${bank.NameBsn}</option>`;
+                                            }else{
+                                                bankInput.innerHTML+=`<option value="${bank.SerialNoBSN}">${bank.NameBsn}</option>`;
+                                            }
+                                        })
+                                    })
+                                }
+                                break;
+                            case 8:
+                                   // addToBankEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 21:
+                                hisabOwnerInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 8:
+                                //addToBankShobeEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 13:
+                                descInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 10:
+                                hisabNoInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 23:
+                                {
+                                    bankShobeInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            case 19:
+                                {
+                                    moneyInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            case 24:
+                                {
+                                    karmozdInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                        }
+                    }
+                })
                 modal.show();
             }
             break;
         case "3":
             {// hawala from Bank
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBankEditModal'));
+                const addFromHisabNoEditInput=document.getElementById("editFromHisabNoEditInput");
+                const addFromHisabNoEditSelect=document.getElementById("editFromHisabNoEditSelect");
+                const addHawalaNoEditInput=document.getElementById("editHawalaNoEditInput");
+                const addHawalaDateEditInput=document.getElementById("editHawalaDateEditInput");
+                const addToHisabNoEditInput=document.getElementById("editToHisabNoEditInput");
+                const addToBankEditInput=document.getElementById("editToBankEditInput");
+                const addToHisabOwnerEditInput=document.getElementById("editToHisabOwnerEditInput");
+                const addToBankShobeEditInput=document.getElementById("editToBankShobeEditInput");
+                const addDescEditInput=document.getElementById("editDescEditInput");
+                const addHawalaFromBankMoneyInput=document.getElementById("editHawalaFromBankMoneyInput");
+                const addHawalaFromBankKarmozdInput=document.getElementById("editHawalaFromBankKarmozdInput");
+                rowData.forEach((td,index)=>{
+                    if(td.children.item(0)){
+                        switch (index) {
+                            case 14://
+                            {
+                                fetch(baseUrl+`/allBanks`,{
+                                    method:'GET',
+                                }).then(res=>{
+                                    return res.json();
+                                }).then(data=>{
+                                    addFromHisabNoEditSelect.innerHTML='';
+                                    addFromHisabNoEditSelect.innerHTML=`<option value="0">انتخاب کنید</option>`;
+                                    data.bankKarts.forEach(hisab=>{
+                                        if(hisab.SerialNoAcc==String(td.children.item(0)?.getAttribute('value'))){
+                                        
+                                            addFromHisabNoEditSelect.innerHTML+=`<option selected value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
+                                            addFromHisabNoEditInput.value=String(hisab.AccNo);
+    
+                                        }else{
+    
+                                            addFromHisabNoEditSelect.innerHTML+=`<option value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
+                                        
+                                        }
+                                    })
+                                })
+                            }
+                                break;
+                            case 2:
+                                addFromHisabNoEditSelect.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 9://
+                            
+                                addHawalaNoEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 8://
+                                addHawalaDateEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 10:
+                                addToHisabNoEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 11:
+                                {
+                                    fetch(baseUrl+`/getBankList`,{
+                                        method:'GET',
+                                    }).then(res=>{
+                                        return res.json();
+                                    }).then(data=>{
+                                        addToBankEditInput.innerHTML='';
+                                        addToBankEditInput.innerHTML=`<option value="0">انتخاب کنید</option>`;
+                                        data.forEach(bank=>{
+                                            if(bank.SerialNoBSN==String(td.children.item(0)?.getAttribute('value'))){
+    
+                                                addToBankEditInput.innerHTML+=`<option selected value="${bank.SerialNoBSN}">${bank.NameBsn}</option>`;
+                                            }else{
+    
+                                                addToBankEditInput.innerHTML+=`<option value="${bank.SerialNoBSN}">${bank.NameBsn}</option>`;
+    
+                                            }
+                                        })
+                                    })
+                                }
+                                break;
+                            case 21:
+                                addToHisabOwnerEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 8:
+                                   // addToBankEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                
+                                break;
+                            case 8:
+                                //addToBankShobeEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 13:
+                                addDescEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 22:
+                                addHawalaNoEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                break;
+                            case 23:
+                                {
+                                    addToBankShobeEditInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            case 19:
+                                {
+                                    addHawalaFromBankMoneyInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            case 24:
+                                {
+                                    addHawalaFromBankKarmozdInput.value=String(td.children.item(0)?.getAttribute('value'));
+                                }
+                                break;
+                            
+                        }
+                    }
+                })
                 modal.show();
             }
             break;
@@ -3397,4 +3761,8 @@ if(editBabatIdPaySelect){
             })
         }
     })
+}
+
+function closEditPayChequeInfoEditModal(){
+    $("#editEditPayChequeInfoEditModal").modal("hide");
 }

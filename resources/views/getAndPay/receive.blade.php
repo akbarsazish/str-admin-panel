@@ -2765,10 +2765,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 <script>
   window.onload = ()=> {
      makeTableColumnsResizable("receiveTable")

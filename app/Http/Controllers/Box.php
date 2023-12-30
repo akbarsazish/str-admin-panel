@@ -20,7 +20,7 @@ class Box extends Controller{
     }
 
   public function pays() {
-    $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!='' AND SNCash<920");
+    $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!=''");
     $pays=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=2 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
     $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
     $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 and InforName!=''");

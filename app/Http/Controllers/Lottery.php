@@ -120,10 +120,11 @@ class Lottery extends Controller
 					  WHERE CustomerId=$customerId");
 				}
 
-				if($presentInfo[0]->$curDayPrFild==0 and $presentInfo[0]->$prevDayPrFild==0){
+				if(($presentInfo[0]->$curDayPrFild==0 and $presentInfo[0]->$prevDayPrFild==0) or ($presentInfo[0]->Seventh>$todayDate)){
 					
 					DB::delete("DELETE NewStarfood.dbo.star_presentCycle WHERE CustomerId=$customerId");
 			 	}
+				
 			}
 			
 			$allBonus=$presentInfo[0]->FirstB+$presentInfo[0]->SecondB+
