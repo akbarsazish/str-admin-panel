@@ -2766,13 +2766,9 @@
         </div>
     </div>
 </div>
-
-
-
-
 <script>
-  window.onload = ()=> {
-     makeTableColumnsResizable("receiveTable")
-  }
+window.onload = ()=> {
+    makeTableColumnsResizable("receiveTable")
+}
 </script>
 @endsection

@@ -26,6 +26,10 @@ use App\Http\Controllers\Bargiri;
 use App\Http\Controllers\Box;
 use App\Http\Controllers\Payment;
 use App\Http\Controllers\Infors;
+use App\Http\Controllers\BankController;
+use App\Http\Controllers\BankAccController;
+use App\Http\Controllers\ChequeBooksController;
+use App\Http\Controllers\GetAndPayHDSController;
 use App\Events\NotificationEvent;
 Route::get('/messages',[Message::class,'messages'])->middleware('checkAdmin');
 Route::get('/getTakhfifCode',[TakhfifCode::class,'index'])->middleware('checkAdmin');
@@ -382,3 +386,47 @@ Route::get('/testPusher', function(){
     event(new NotificationEvent());
 });
 Route::post("/editGetAndPay",[Box::class,"editGetAndPay"])->middleware("checkAdmin");
+Route::prefix("/bank")->group(function(){
+    Route::get("/index",[BankController::class,"index"]);
+    Route::get("/{id}",[BankController::class,"show"]);
+    Route::get("/create",[BankController::class,"create"]);
+    Route::post("/store",[BankController::class,"store"]);
+    Route::get("/update/{id}",[BankController::class,"update"]);
+    Route::put("/edit/{id}",[BankController::class,"edit"]);
+    Route::delete("/delete/{id}",[BankController::class,"delete"]);
+    Route::get("/allBanks/{companyNo}",[BankController::class,"getBankList"]);
+});
+Route::prefix("/bankAcc")->group(function(){
+    Route::get("/index",[BankAccController::class,"index"]);
+    Route::get("/{id}",[BankAccController::class,"show"]);
+    Route::get("/create",[BankAccController::class,"create"]);
+    Route::post("/store",[BankAccController::class,"store"]);
+    Route::get("/update/{id}",[BankAccController::class,"update"]);
+    Route::put("/edit/{id}",[BankAccController::class,"edit"]);
+    Route::delete("/delete/{id}",[BankAccController::class,"delete"]);
+    Route::get("/getByBank/{bankId}",[BankAccController::class,"getByBank"]);
+});
+Route::prefix("/cheque")->group(function(){
+    Route::get("/index",[ChequeBooksController::class,"index"]);
+    Route::get("/{id}",[ChequeBooksController::class,"show"]);
+    Route::get("/create",[ChequeBooksController::class,"create"]);
+    Route::post("/store",[ChequeBooksController::class,"store"]);
+    Route::get("/update/{id}",[ChequeBooksController::class,"update"]);
+    Route::put("/edit/{id}",[ChequeBooksController::class,"edit"]);
+    Route::delete("/delete/{id}",[ChequeBooksController::class,"delete"]);
+    Route::get("/getChequesByAcc/{accId}",[ChequeBooksController::class,"getChequesByAcc"]);
+    Route::get("/checkChequeNo/{sNCheque}/{chequeNo}",[ChequeBooksController::class,"checkChequeNo"]);
+});
+
+Route::prefix("/getAndPayHDS")->group(function(){
+    Route::get("/index",[GetAndPayHDSController::class,"index"]);
+    Route::get("/{id}",[GetAndPayHDSController::class,"show"]);
+    Route::get("/create",[GetAndPayHDSController::class,"create"]);
+    Route::post("/store",[GetAndPayHDSController::class,"store"]);
+    Route::put("/update",[GetAndPayHDSController::class,"update"]);
+    Route::get("/edit/{id}",[GetAndPayHDSController::class,"edit"]);
+    Route::delete("/delete/{id}",[GetAndPayHDSController::class,"destroy"]);
+    Route::get("/getGetAndPayHDSByCompanyNo/{companyNo}",[GetAndPayHDSController::class,"getGetAndPayHDSByCompanyNo"]);
+    Route::get("/getGetAndPayHDSByDocNoHDS/{docNoHDS}",[GetAndPayHDSController::class,"getGetAndPayHDSByDocNoHDS"]);
+    Route::get("/getGetAndPayHDSByDocDate/{docDate}",[GetAndPayHDSController::class,"getGetAndPayHDSByDocDate"]);
+});

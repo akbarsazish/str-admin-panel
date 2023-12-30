@@ -249,18 +249,18 @@
             document.getElementById("mySidenav").style.width = "0";
         }
 
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ config("broadcasting.connections.pusher.key") }}',
-            cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
-            useTLS: true,
-        });
+        // window.Echo = new Echo({
+        //     broadcaster: 'pusher',
+        //     key: '{{ config("broadcasting.connections.pusher.key") }}',
+        //     cluster: '{{ config("broadcasting.connections.pusher.options.cluster") }}',
+        //     useTLS: true,
+        // });
 
-        Echo.channel('notifications')
-            .listen('NotificationEvent', (event) => {
-                alert(event);
-                console.log(event);
-            });
+        // Echo.channel('notifications')
+        //     .listen('NotificationEvent', (event) => {
+        //         alert(event);
+        //         console.log(event);
+        //     });
 </script>
 
   
