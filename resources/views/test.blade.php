@@ -42,6 +42,4 @@
 
 DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS in (SELECT SerialNoHDS FROM Shop.dbo.GetAndPayHDS WHERE PeopelHDS = 3609 AND DocTypeHDS = 0)
 
-DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS in (SELECT SerialNoHDS FROM Shop.dbo.GetAndPayHDS WHERE PeopelHDS = 3609 AND DocTypeHDS = 0)
-
 DELETE FROM Shop.dbo.GetAndPayBYS
