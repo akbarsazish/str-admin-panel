@@ -15,6 +15,7 @@
     <!-- <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}"> -->
     <link rel="stylesheet" href="{{ url('/resources/assets/slicknav/slicknav.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mainAdmin.css')}}">
+    <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.scss')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mediaq.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.framework7.bundle.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/bootstrap-utilities.rtl.min.css')}}">
@@ -233,7 +234,7 @@
     <script src="{{url('/resources/assets/js/bootstrap.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.10.0/dist/echo.js"></script> -->
     <script src="{{url('/resources/assets/js/tableScript.js') }}"></script>
     
     <script>

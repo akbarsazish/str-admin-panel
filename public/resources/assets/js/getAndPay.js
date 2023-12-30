@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.26:8080";
+    var baseUrl = "http://192.168.10.21:8000";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -67,18 +67,19 @@
                 respond.forEach((element,index) => {
                     $("#receiveListBody").append(`
                         <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'receiveListBodyBYS',${element.SerialNoHDS})"  class="factorTablRow">
-                            <td> ${index+1} </td>
-                            <td> ${element.DocNoHDS}  </td>
-                            <td> ${element.DocDate} </td>
-                            <td> ${element.Name}</td>
-                            <td> ${element.DocDescHDS} </td>
-                            <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
-                            <td> ${element.SaveTime}</td>
-                            <td> ${element.userName}  </td>
-                            <td > ${element.cashName} </td>
-                            <td> ${element.DocDescHDS} </td>
+                            <td class="receiveTd-1"> ${index+1} </td>
+                            <td class="receiveTd-2"> ${element.DocNoHDS}  </td>
+                            <td class="receiveTd-3"> ${element.DocDate} </td>
+                            <td class="receiveTd-4"> ${element.Name}</td>
+                            <td class="receiveTd-5"> ${element.DocDescHDS} </td>
+                            <td class="receiveTd-6"> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                            <td class="receiveTd-7"> ${element.SaveTime}</td>
+                            <td class="receiveTd-8"> ${element.userName}  </td>
+                            <td class="receiveTd-9"> ${element.cashName} </td>
+                            <td class="receiveTd-10"> ${element.DocDescHDS} </td>
                         </tr>`);
                 })
+                makeTableColumnsResizable('receiveTable')
             },
             error:function(error){
             }
@@ -86,14 +87,28 @@
     })
 
     function openSandoghModalDar(){
-        $.get(baseUrl+"/getSandoghs",{userId:12},function(respond,status){
-            $("#sandoghSelectInputDar").empty();
-            respond.forEach((element,index)=>{
-                $("#sandoghSelectInputDar").append(`<option value="${element.SNCash}" >${element.CashName}</optiotn>`)
-            })
 
-            $("#sandoghIdDar").val($("#sandoghSelectInputDar").val());
+        $.get(baseUrl + "/getSandoghs", { userId: 12 }, function (respond, status) {
+            $("#sandoghSelectInputDar").empty();
+
+            respond.forEach((element, index) => {
+                $("#sandoghSelectInputDar").append(`<option value="${element.SNCash}" >${element.CashName}</option>`);
+            });
+        
+            let selectedValue = $("#sandoghSelectInputDar").val();
+            $("#sandoghIdDar").val(selectedValue);
         })
+        .done(function() {
+            $("#sandoghSelectInputDar").on("change", function() {
+                let selectedValue = $(this).val();
+                $("#selectSandoghId").val(selectedValue);
+                $("#sandoghIdDar").val(selectedValue);
+            });
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error fetching sandoghs:", textStatus, errorThrown);
+        });
+        
 
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
@@ -115,7 +130,9 @@
         $('#selectSandoghModal').modal("hide");
     }
 
-    function openDaryaftModal(){
+    function openDaryaftModal(sandoghId){
+        alert(sandoghId);
+         $("#sandoghIdDar").val(sandoghId);
         closeSandoghModalDar();
         if (!($('.modal.in').length)) {
             $('.modal-dialog').css({
@@ -165,14 +182,7 @@
     function closeChequeInfoModalEdit() {
         $("#chequeInfoModalEdit").modal("hide")
     }
-
-    function closeAddDaryaftVajhNaghdEdi() {
-        $("#addDaryaftVajhNaghdEditModal").modal("hide")
-    }
   
-    function closeEditChequeInfoModal() {
-        $("#editDaryafAddChequeInfo").modal("hide")
-    }
 
     function openeditAddEditVagheNaghdmodal(){
         $("#editAddEditVagheNaghdmodal").modal("show");
@@ -236,12 +246,6 @@
             modal.style.display = "none";
         }
     }
-
-    function openVarizToOthersHisbModal(){
-        $("#daryaftAddVarizToOthersHisbModal").modal("show");
-    }
-
-
 
     function openRelatedFactorsModal(){
         if($("#customerIdDaryaft").val().length>0){
@@ -357,9 +361,15 @@
 
     $("#customerCodeDaryaft").on("keyup",function(e){
         $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#customerCodeDaryaft").val()},function(respond,status){
-          
             $("#customerNameDaryaft").val(respond[0].Name);
             $("#customerIdDaryaft").val(respond[0].PSN);
+        })
+    })
+
+    $("#customerCodeDaryaftEdit").on("keyup",function(e){
+        $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#customerCodeDaryaftEdit").val()},function(respond,status){
+            $("#customerNameDaryaftEdit").val(respond[0].Name);
+            $("#customerIdDaryaftEdit").val(respond[0].PSN);
         })
     })
 
@@ -367,10 +377,7 @@
         $("#searchCustomerDaryaftModal").modal("show")
     })
 
-    function closeSearchCustomerDaryaftModal(){
-        $("#searchCustomerDaryaftModal").modal("hide")
-    }
-    
+
     $("#customerNameSearchDar").on("keyup",(event)=>{
         let name=$("#customerNameSearchDar").val();
         if(event.keyCode!=40){
@@ -408,7 +415,6 @@
     }
 
 
-
     function chooseCustomerForDaryaft(psn){
         $.get("/getInfoOfOrderCustomer",{psn:psn},(respond,status)=>{
             $("#customerCodeDaryaft").val(respond[0].PCode);
@@ -431,14 +437,14 @@
             for (const element of respond) {
                 i+=1;
                 $("#searchedFactorForDarListBody").append(`
-                    <tr onclick="selecFactorForAddToDar(this,${element.SerialNoHDS})">
-                        <td>${i}</td>
-                        <td>${element.FactType}</td>
-                        <td>${element.FactNo}</td>
-                        <td>${element.FactDate}</td>
-                        <td>${element.TotalPriceHDS}</td>
-                        <td>${element.FactDesc}</td>
-                    </tr>`);
+                 <tr onclick="selecFactorForAddToDar(this,${element.SerialNoHDS})">
+                    <td>${i}</td>
+                    <td>${element.FactType}</td>
+                    <td>${element.FactNo}</td>
+                    <td>${element.FactDate}</td>
+                    <td>${element.TotalPriceHDS}</td>
+                    <td>${element.FactDesc}</td>
+                 </tr>`);
             }
         })
     })
@@ -485,47 +491,51 @@
 
 
     function addNaghdMoneyDar(){
+        let rowCount = $("#addedDaryaftListBody tr").length;
+        alert(rowCount)
         let rials=$("#rialNaghdDar").val().replace(/,/g, '');
         let description=$("#descNaghdDar").val();
-        var rowCount = $("#addedDaryaftListBody tr").length;
 
         $("#addedDaryaftListBody").append(` 
              <tr onclick="addEditDaryaftItem(this);" ondblclick="editDaryaftItem('daryaftVajhNaghdModalEdit',this)">
-                <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${(rowCount+1)}  </td>
-                <td class="dayaftAddTd-1"> ${rowCount+1} </td>
+                <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${(rowCount+1)}  </td>
                 <td class="dayaftAddTd-2"> </td>
                 <td class="dayaftAddTd-3"> ${description}  </td>
                 <td class="dayaftAddTd-4"> ${parseInt(rials).toLocaleString("en-us")} </td>
                 <td class="dayaftAddTd-5"> </td>
                 <td class="dayaftAddTd-6"> </td> 
-               
-                <td> <input type="text" value="1" name="DocTypeBys${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="${rials}" name="Price${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="Owener${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="${description}" name="DocDescBys${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class="d-none"/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class="d-none"/> </td>
+                <td class="dayaftAddTd-7"> </td> 
+                <td class="d-none"> <input type="text" value="1" name="DocTypeBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${rials}" name="Price${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${description}" name="DocDescBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
             </tr>`);
-
-        $("#addDaryaftVajhNaghdModal").modal("hide");
-
-        makeTableColumnsResizable("daryaftAddTable")
+            
+            rowCount = $("#addedDaryaftListBody tr").length;
+            $("#addDaryaftVajhNaghdModal").modal("hide");
+            makeTableColumnsResizable("addHawalaTable")
+            document.getElementById("rialNaghdDar").value = "";
+            document.getElementById("descNaghdDar").value = "";
 
         let netPriceHDS=0;
-        for (let index = 1; index <= rowCount+1; index++) {
-            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
+        for (let index = 1; index <= rowCount; index++) {
+            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(4)`).text().replace(/,/g, ''));
         }
         
         $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
+        $("#remaindMoblagh").text(parseInt(netPriceHDS).toLocaleString("en-us"));
         $("#totalNetPriceHDSDar").val(netPriceHDS);
     }
+
 
     $("#checkSarRasidDateDar").persianDatepicker({
         cellWidth: 32,
@@ -542,6 +552,7 @@
             }
         }
     });
+
 
     $("#addPayHawalaFromBankAddHawalaDate").persianDatepicker({
         cellWidth: 32,
@@ -596,6 +607,7 @@
           tempNumber = number%(Math.pow(1000,i+1));
           if (Math.floor(tempNumber/(100*Math.pow(1000,i))) !== 0) word = first[Math.floor(tempNumber/(100*Math.pow(1000,i)))] + 'صد ' + word;
         }
+
         document.getElementById(containerId).textContent = word + " ریال ";
     }
 
@@ -609,15 +621,10 @@
         })
     })
 
-    function closeShobeBankChequeDarMadal(){
-        $("#shobeBankChequeDarMadal").modal("hide");
-    }
-
     function selectShobeBankForChequeDar(element,snbranch){
         $("#shobeBankChequeDarBody tr").removeClass("selected");
         $(element).addClass("selected")
     }
-  
 
     let dayValue;
     let monthValue;
@@ -642,8 +649,26 @@ if(distanceDay){
     });
 }
 
+
+function addEditVagheNaghd() {
+    let reials = document.getElementById("rialNaghdDarEd").value.replace(/,/g, '');
+    let description = document.getElementById("descNaghdDarEd").value;
+
+    let selectedTr = document.querySelector("#addedDaryaftListBody tr.selected");
+        selectedTr.querySelector("td.dayaftAddTd-4").textContent = reials;
+        selectedTr.querySelector("td.dayaftAddTd-3").textContent = description;
+        selectedTr.querySelector("td:nth-child(9) > input").value = description;
+        
+        $("#addDaryaftVajhNaghdEditModal").modal("hide");
+        makeTableColumnsResizable("addedEditDaryaftable");
+
+    document.getElementById("remaindMoblagh").textContent = parseInt(reials).toLocaleString("en-us");
+    document.getElementById("totalNetPriceHDSDar").textContent  = parseInt(reials).toLocaleString("en-us");
+}
+
+
     function addChequeDar(){
-        let checkSarRasidDateDar = $("#checkSarRasidDateDar").val();
+        let chequeDate = $("#checkSarRasidDateDar").val();
         let chequeNoCheqeDar=$("#chequeNoCheqeDar").val();
         let bankNameDar=$("#bankNameDar").val();
         let moneyChequeDar=$("#moneyChequeDar").val();
@@ -658,15 +683,15 @@ if(distanceDay){
         let descChequeDar=$("#descChequeDar").val();
         var bankName = $("#bankNameDar option:selected").text();
 
-
         let rowCount = $("#addedDaryaftListBody tr").length;
+    
             // console.log("lets chekc the the value of day and month", dayValue , monthValue)
         if (repeateChequeDar > 1) {
             for (let i = 0; i < repeateChequeDar; i++) {
                 let updateDateHijri;
 
                 if (dayValue > 0 || monthValue > 0) {
-                    let chequeDate = $("#checkSarRasidDateDar").data("gdate");
+                    chequeDate = $("#checkSarRasidDateDar").data("gdate");
                     let laterChequeDate = new Date(chequeDate);
 
                     if (parseInt(dayValue) > 0) {
@@ -679,46 +704,45 @@ if(distanceDay){
 
                     updateDateHijri = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(laterChequeDate);
                 } else {
-                    let chequeDate = $("#checkSarRasidDateDar").data("gdate");
+                    chequeDate = $("#checkSarRasidDateDar").data("gdate");
                     let laterChequeDate = new Date(chequeDate);
                         updateDateHijri = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(laterChequeDate);
                 }
 
                 $("#addedDaryaftListBody").append(`
                     <tr onclick="addEditDaryaftItem(this);" ondblclick="editDaryaftItem('chequeInfoModalEdit',this)">
-                        <td class="d-none"> <input type="checkbox" checked value="${rowCount+i}" name="byss[]"/> 1 </td>
-                        <td class="dayaftAddTd-1"> ${i+1} </td>
+                        <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount+i}" name="BYSS[]"/> ${rowCount+1} </td>
                         <td class="dayaftAddTd-2"> 0 </td>
                         <td class="dayaftAddTd-3"> چک بانک ${bankName} به شماره ${chequeNoCheqeDar + i} تاریخ ${updateDateHijri} </td>
                         <td class="dayaftAddTd-4"> ${parseInt(moneyChequeDar).toLocaleString("en-us")} </td>
-                        <td class="d-none dayaftAddTd-5"> 0 </td>
-                        <td class="dayaftAddTd-6"> ${sayyadiNoChequeDar} </td>
-                        <td class="d-none dayaftAddTd-7"> <input type="text" value="2" name="DocTypeBys${rowCount+1}" class=""/> </td>
-                        <td class="dayaftAddTd-8"> ${sabtBeNameChequeDar}  </td>
-
-                        <td class="d-none"> <input type="text" value="${sayyadiNoChequeDar}" name="sayyadiNoChequeDar${rowCount+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${sabtBeNameChequeDar}" name="sabtBeNameChequeDar${rowCount+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${moneyChequeDar}" name="Price${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${checkSarRasidDateDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${malikChequeDar}" name="Owener${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${bankNameDar}" name="SnBank${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${descChequeDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${distanceMonthChequeDar}" name="dueDateMonth${rowCount+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${distanceDarChequeDar}" name="dueDateDat${rowCount+1}" class=""/> </td>
+                        <td class="dayaftAddTd-5"> ${sayyadiNoChequeDar} </td>
+                        <td class="dayaftAddTd-6"> </td>
+                        <td class="dayaftAddTd-7"> ${sabtBeNameChequeDar}  </td>
+                        <td class="d-none"> <input type="text" value="2" name="DocTypeBys${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${sayyadiNoChequeDar}" name="NoSayyadi${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${moneyChequeDar}" name="Price${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${chequeDate}" name="ChequeDate${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${malikChequeDar}" name="Owner${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${bankNameDar}" name="SnBank${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${descChequeDar}" name="DocDescBys${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${distanceMonthChequeDar}" name="dueDateMonth${rowCount}"/> </td>
+                        <td class="d-none"> <input type="text" value="${sabtBeNameChequeDar} " name="NameSabtShode${rowCount}"> </td>
                     </tr>`);
+                 
+                rowCount = $("#addedDaryaftListBody tr").length;
             }
         } else {
             let updateDateHijri;
 
                 if (parseInt(dayValue) > 0 || parseInt(monthValue) > 0) {
-                    let chequeDate = $("#checkSarRasidDateDar").data("gdate");
+                    chequeDate = $("#checkSarRasidDateDar").data("gdate");
                     let laterChequeDate = new Date(chequeDate);
 
                     if (parseInt(dayValue) > 0) {
@@ -731,45 +755,51 @@ if(distanceDay){
 
                     updateDateHijri = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(laterChequeDate);
                 } else {
-                    let chequeDate = $("#checkSarRasidDateDar").data("gdate");
+                    chequeDate = $("#checkSarRasidDateDar").data("gdate");
                     let laterChequeDate = new Date(chequeDate);
                         updateDateHijri = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(laterChequeDate);
                 }
 
             $("#addedDaryaftListBody").append(`
                 <tr onclick="addEditDaryaftItem(this);" ondblclick="editDaryaftItem('chequeInfoModalEdit',this)">
-                    <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> 1 </td>
-                    <td class="dayaftAddTd-1"> ${rowCount+1} </td>
+                    <td class="dayaftAddTd-1"> <input type="checkbox" class="d-none" checked value="${rowCount+1}" name="BYSS[]"/> ${rowCount+1} </td>
                     <td class="dayaftAddTd-2"> 0 </td>
                     <td class="dayaftAddTd-3"> چک بانک ${bankName} به شماره ${chequeNoCheqeDar + i} تاریخ ${updateDateHijri} </td>
                     <td class="dayaftAddTd-4"> ${parseInt(moneyChequeDar).toLocaleString("en-us")} </td>
                     <td class="dayaftAddTd-5"> 0 </td>
-                    <td class="dayaftAddTd-6"> ${sayyadiNoChequeDar} </td>
-                    <td class="dayaftAddTd-7" class="d-none"> <input type="text" value="2" name="DocTypeBys${rowCount+1}" class=""/> </td>
-                    <td class="dayaftAddTd-8"> ${sabtBeNameChequeDar}  </td>
-                    <td class="d-none"> <input type="text" value="${sayyadiNoChequeDar}" name="sayyadiNoChequeDar${rowCount+1}"/> </td>
-                    <td class="d-none"> <input type="text" value="${sabtBeNameChequeDar}" name="sabtBeNameChequeDar${rowCount+1}"/> </td>
-                    <td class="d-none"> <input type="text" value="${moneyChequeDar}" name="Price${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${checkSarRasidDateDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${malikChequeDar}" name="Owener${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${bankNameDar}" name="SnBank${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${descChequeDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${distanceMonthChequeDar}" name="dueDateMonth${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${distanceDarChequeDar}" name="dueDateDat${rowCount+1}" class=""/> </td>
+                    <td class="dayaftAddTd-6"> ${sayyadiNoChequeDar}  </td>
+                    <td class="dayaftAddTd-7"> ${sabtBeNameChequeDar}  </td>
+                    <td class="d-none"> <input type="text" value="2" name="DocTypeBys${rowCount}"/>   </td>
+                    <td class="d-none"> <input type="text" value="${sayyadiNoChequeDar}" name="NoSayyadi${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${moneyChequeDar}" name="Price${rowCount+1}"/> </td>
+                    <td class="d-none"> <input type="text" value="${chequeDate}" name="ChequeDate${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${malikChequeDar}" name="Owner${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${bankNameDar}" name="SnBank${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${descChequeDar}" name="DocDescBys${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${distanceMonthChequeDar}" name="dueDateMonth${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${distanceDarChequeDar}" name="dueDateDat${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${sabtBeNameChequeDar}" name="NameSabtShode"> </td>
                 </tr>`);
+                rowCount = $("#addedDaryaftListBody tr").length;
             }
             $("#daryafAddChequeInfo").modal("hide");
             
-            makeTableColumnsResizable("daryaftAddTable")
+            makeTableColumnsResizable("addHawalaTable")
+
+            let numberOfRows
+            if(rowCount > 0 ){
+               numberOfRows = rowCount;
+            }
+
         let netPriceHDS=0;
-        for (let index = 1; index <= rowCount+1; index++) {
+        for (let index = 1; index <= numberOfRows; index++) {
             netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
         }
         $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
@@ -790,37 +820,48 @@ if(distanceDay){
 
         $("#addedDaryaftListBody").append(`
             <tr onclick="addEditDaryaftItem(this)" ondblclick="editDaryaftItem('daryaftHawalaInfoModalEdit',this)">
-                <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-                <td class="dayaftAddTd-1"> ${rowCount+1} </td>
+                <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
                 <td class="dayaftAddTd-2"> 0 </td>
                 <td class="dayaftAddTd-3"> حواله به ${bankName} به شماره   ${hawalaNoHawalaDar} تاریخ  ${hawalaDateHawalaDar}  </td>
                 <td class="dayaftAddTd-4"> ${parseInt(monyAmountHawalaDar).toLocaleString("en-us")} </td>
                 <td class="dayaftAddTd-5"> 0 </td>
                 <td class="dayaftAddTd-6"> </td>
-                <td class="d-none dayaftAddTd-7 d-none"> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
+                <td class="dayaftAddTd-7"> </td>
+                <td class="d-none"> <input type="text" value="3" name="DocTypeBys${rowCount}" /> </td>
                 <td class="dayaftAddTd-8"> </td>
-                <td class="d-none"> <input type="text" value="${monyAmountHawalaDar}" name="Price${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${hawalaDateHawalaDar}" name="ChequeDate${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${bankAccNoHawalaDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${discriptionHawalaDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${payanehKartKhanNoHawalaDar}" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره   ${hawalaNoHawalaDar}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${hawalaNoHawalaDar}" class=""/> </td>
+                <td class="d-none"> <input type="text" value="${monyAmountHawalaDar}" name="Price${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="${hawalaDateHawalaDar}" name="ChequeDate${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="${bankAccNoHawalaDar}" name="AccBankNo${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="${discriptionHawalaDar}" name="DocDescBys${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="${payanehKartKhanNoHawalaDar}" name="NoPayanehKartKhanBYS${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}" /> </td>
+                <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره   ${hawalaNoHawalaDar}" /> </td>
+                <td class="d-none"> <input type="text" value="${hawalaNoHawalaDar}" /> </td>
+                <td class="d-none"> <input type="text" value="0" name="NameSabtShode${rowCount}"> </td>
             </tr>`);
 
-         $("#daryafAddHawalaInfoModal").modal("hide");
-         makeTableColumnsResizable("addHawalaTable");
+            rowCount=$("#addedDaryaftListBody tr").length;
+            $("#daryafAddHawalaInfoModal").modal("hide");
+
+            // empty the input fields
+            $("#hawalaNoHawalaDar").val('');
+            $("#bankAccNoHawalaDar").val('');
+            $("#payanehKartKhanNoHawalaDar").val('');
+            $("#monyAmountHawalaDar").val('');
+            $("#hawalaDateHawalaDar").val('');
+            $("#discriptionHawalaDar").val('');
+
+            makeTableColumnsResizable("addHawalaTable");
 
         let netPriceHDS=0;
-        for (let index = 1; index <= rowCount+1; index++) {
-            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(4)`).text().replace(/,/g, ''));
+        for (let index = 1; index <= rowCount; index++) {
+            netPriceHDS+= parseInt(monyAmountHawalaDar);
         }
 
         $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
@@ -843,6 +884,7 @@ if(distanceDay){
         $("#bankJustAccNoHawalaDarEd").val($("#bankAccNoHawalaDarEd").val());
     })
 
+
 // Modal for edit hawala
     function addEditHawalaDar(){
         let hawalaNoHawalaDar=$("#hawalaNoHawalaDarEd").val();
@@ -859,11 +901,11 @@ if(distanceDay){
         $("#addedDaryaftListBody > tr > td.dayaftAddTd-3").text(`حواله به ${bankName} به شماره   ${hawalaNoHawalaDar} تاریخ  ${hawalaDateHawalaDar} `)
         $("#addedDaryaftListBody > tr > td.dayaftAddTd-4").text(monyAmountHawalaDar)
         
-        $("#addedDaryaftListBody > tr > td:nth-child(10) > input[type=text]").val(monyAmountHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(11) > input[type=text]").val(hawalaDateHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(17) > input[type=text]").val(discriptionHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(20) > input[type=text]").val(payanehKartKhanNoHawalaDar)
-        $("#addedDaryaftListBody > tr > td:nth-child(23) > input[type=text]").val(hawalaNoHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(10) > input").val(monyAmountHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(11) > input").val(hawalaDateHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(17) > input").val(discriptionHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(20) > input").val(payanehKartKhanNoHawalaDar)
+        $("#addedDaryaftListBody > tr > td:nth-child(23) > input").val(hawalaNoHawalaDar)
 
         $("#daryaftHawalaInfoModalEdit").modal("hide");
         makeTableColumnsResizable("addHawalaTable");
@@ -904,39 +946,41 @@ if(distanceDay){
         let rowCount=$("#addedDaryaftListBody tr").length;
         $("#addedDaryaftListBody").append(`
                 <tr onclick="addEditDaryaftItem(this);" ondblclick="editDaryaftItem('takhfifModalEdit',this)">
-                    <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-                    <td class="dayaftAddTd-1"> ${rowCount + 1} </td>
+                    <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
                     <td class="dayaftAddTd-2"> 0 </td>
                     <td class="dayaftAddTd-3"> تخفیف </td>
                     <td class="dayaftAddTd-4"> ${takhfifMoneyDar} </td>
                     <td class="dayaftAddTd-5"> 0 </td>
                     <td class="dayaftAddTd-6"> 0 </td>
-                    <td class="d-none"> <input type="text" value="4" name="DocTypeBys${rowCount+1}" class=""/> </td>
                     <td dayaftAddTd-7>  </td>
-                    <td class="d-none"> <input type="text" value="${takhfifMoneyDar}" name="Price${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="${discriptionTakhfifDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                    <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
+                    <td class="d-none"> <input type="text" value="4" name="DocTypeBys${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${takhfifMoneyDar}" name="Price${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="${discriptionTakhfifDar}" name="DocDescBys${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}" /> </td>
+                    <td class="d-none"> <input type="text" value="0" name="NameSabtShode${rowCount}"> </td>
                 </tr>`);
+                rowCount=$("#addedDaryaftListBody tr").length;
         $("#daryaftAddTakhfifModal").modal("hide");
+        $("#takhfifMoneyDar").val('');
+        $("#discriptionTakhfifDar").val('');
         makeTableColumnsResizable("addHawalaTable");
         let netPriceHDS=0;
-        for (let index = 1; index <= rowCount+1; index++) {
-            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
+        for (let index = 1; index <= rowCount; index++) {
+            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(4)`).text().replace(/,/g, ''));
             
         }
         $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
         $("#totalNetPriceHDSDar").val(netPriceHDS);
     }
-
 
     const addTakhfifDarEdit = () => {
         let rowLength = document.querySelectorAll("#addedDaryaftListBody tr").length;
@@ -1029,53 +1073,58 @@ $("#moneyVarizToOtherHisabDar").on("keyup",function(event){
 
 
 function addVarizToOtherHisab(){
-    let moneyVarizToOtherHisabDar=$("#moneyVarizToOtherHisabDar").val();
-    let cartNoVarizToOtherDar=$("#cartNoVarizToOtherDar").val();
-    let moneyVarizToOtherHisabLetterDar=$("#moneyVarizToOtherHisabLetterDar").val();
-    let varizBehisabDigariCustomerCodeDar=$("#varizBehisabDigariCustomerCodeDar").val();
-    let varizBehisabDigariCustomerNameDar=$("#varizBehisabDigariCustomerNameDar").val();
-    let varizBehisabDigariCustomerPSNDar=$("#varizBehisabDigariCustomerPSNDar").val();
-    let benamOtherHisabDar=$("#benamOtherHisabDar").val();
-    let paygiriOtherHisabDar=$("#paygiriOtherHisabDar").val();
-    let discriptionOtherHisabDar=$("#discriptionOtherHisabDar").val();
+    let money =$("#moneyVarizToOtherHisabDar").val();
+    let cartNo=$("#cartNoVarizToOtherDar").val();
+    let trafHesabCode=$("#varizBehisabDigariCustomerCodeDar").val();
+    let tarafHesabName=$("#varizBehisabDigariCustomerNameDar").val();
+    let benamOther=$("#benamOtherHisabDar").val();
+    let paygiriNo=$("#paygiriOtherHisabDar").val();
+    let discription=$("#discriptionOtherHisabDar").val();
 
     let rowCount = $("#addedDaryaftListBody tr").length;
 
     $("#addedDaryaftListBody").append(`
        <tr  onclick="addEditDaryaftItem(this)" ondblclick="editDaryaftItem('varizToOthersHisbModalEdit',this)">
-            <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-            <td class="dayaftAddTd-1"> ${rowCount + 1} </td>
+            <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
             <td class="dayaftAddTd-2"> 0 </td>
-            <td class="dayaftAddTd-3"> 0 </td>
-            <td class="dayaftAddTd-4"> ${moneyVarizToOtherHisabDar} </td>
-            <td class="dayaftAddTd-5">  </td>
-            <td class="dayaftAddTd-6">  </td>
-            <td class="d-none"> <input type="text" value="6" name="DocTypeBys${rowCount+1}" class=""/> </td>
-            <td class="dayaftAddTd-7">  </td>
-            <td class="d-none"> <input type="text" value="${moneyVarizToOtherHisabDar}" name="Price${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${cartNoVarizToOtherDar}" name="AccBankNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${discriptionOtherHisabDar}" name="DocDescBys${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${varizBehisabDigariCustomerPSNDar}" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${benamOtherHisabDar}" name="banameOther${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${paygiriOtherHisabDar}" name="payGeri${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${varizBehisabDigariCustomerCodeDar}" name="payGeri${rowCount+1}" class=""/> </td>
+            <td class="dayaftAddTd-3"> پرداخت به  ${tarafHesabName} واریز به ${cartNo} به نام ${benamOther} به شماره پیگیری ${paygiriNo} ${discription} </td>
+            <td class="dayaftAddTd-4"> ${money} </td>
+            <td class="dayaftAddTd-5"> </td>
+            <td class="dayaftAddTd-6"> </td>
+            <td class="dayaftAddTd-7"> </td>
+            <td class="d-none"> <input type="text" value="6" name="DocTypeBys${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${money}" name="Price${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${paygiriNo}" name="ChequeNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${cartNo}" name="AccBankNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${discription}" name="DocDescBys${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${trafHesabCode}" name="SnPeopelPay${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${benamOther}" name="NameSabtShode${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${tarafHesabName}"/> </td>
         </tr>`);
+        rowCount = $("#addedDaryaftListBody tr").length;
 
     $("#daryaftAddVarizToOthersHisbModal").modal("hide");
 
-        makeTableColumnsResizable("addHawalaTable")
+    $("#moneyVarizToOtherHisabDar").val('');
+    $("#cartNoVarizToOtherDar").val('');
+    $("#varizBehisabDigariCustomerCodeDar").val('');
+    $("#varizBehisabDigariCustomerNameDar").val('');
+    $("#benamOtherHisabDar").val('');
+    $("#paygiriOtherHisabDar").val('');
+    $("#discriptionOtherHisabDar").val('');
+
+    makeTableColumnsResizable("addHawalaTable")
 
     let netPriceHDS=0;
-    for (let index = 1; index <= rowCount+1; index++) {
-        netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
+    for (let index = 1; index <= rowCount; index++) {
+        netPriceHDS+= parseInt(money);
     }
 
     $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
@@ -1087,25 +1136,35 @@ function addVarizToOtherHisab(){
  
 const addVarizToOtherHisabEdit = () => {
     let varizMoney = document.getElementById("moneyVarizToOtherHisabDarEdit").value;
-    let varizeToOther = document.getElementById("cartNoVarizToOtherDarEdit").value;
-    let varizeBahesab = document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value;
+    let varizeToOtherCardNo = document.getElementById("cartNoVarizToOtherDarEdit").value;
+    let SnPeopelPay = document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value;
     let payGeri = document.getElementById("paygiriOtherHisabDarEdit").value;
     let banameTaraf = document.getElementById("benamOtherHisabDarEdit").value;
     let varizeDesc = document.getElementById("discriptionOtherHisabDarEdit").value;
     let customerName = document.getElementById("varizBehisabDigariCustomerNameDarEdit").value;
 
-    document.querySelector("#addedDaryaftListBody > tr > td:nth-child(5)").textContent = varizMoney;
-    document.querySelector("#addedDaryaftListBody > tr > td:nth-child(4)").textContent = `پرداخت به ${customerName} واریز به ${varizeToOther} به نام ${banameTaraf} به شماره پیگیری ${payGeri} ${varizeDesc}`;
+    let selectedRow = document.querySelector("#addedDaryaftListBody tr.selected");
+    if(selectedRow){
+        selectedRow.querySelector('td:nth-child(3)').textContent = `پرداخت به ${customerName} واریز به ${varizeToOtherCardNo} به نام ${banameTaraf} به شماره پیگیری ${payGeri} ${varizeDesc}`;
+        selectedRow.querySelector('td:nth-child(4)').textContent = varizMoney;
+        
+        selectedRow.querySelector('td:nth-child(9) > input').value = varizMoney;
+        selectedRow.querySelector('td:nth-child(12) > input').value = varizeToOtherCardNo;
+        selectedRow.querySelector('td:nth-child(20) > input').value = SnPeopelPay;
+        selectedRow.querySelector('td:nth-child(22) > input').value = customerName;
+        selectedRow.querySelector('td:nth-child(11) > input').value = payGeri;
+        selectedRow.querySelector('td:nth-child(16) > input').value = varizeDesc;
+    }else {
+        alert("row was not found!")
+    }     
 
-    let editVarizeModal = document.getElementById("varizToOthersHisbModalEdit");
-    if(editVarizeModal){
-        editVarizeModal.style.display = "none";
-    }
+    $("#varizToOthersHisbModalEdit").modal('hide');
 }
 
 
 $("#addDaryaftForm").on("submit",function(e){
     e.preventDefault();
+    
     $.ajax({
         method:"POST",
         url: $(this).attr('action'),
@@ -1113,10 +1172,11 @@ $("#addDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            console.log("for customer Id", data)
             window.location.reload();
         },
-        error:function(error){}
+        error:function(error){
+            console.log(error)
+        }
     });
 })
 
@@ -1224,6 +1284,13 @@ function enableCustomerInfo(codeInputId,nameInputId,idInputId){
 
 
 
+$("#editDaryaftDate").persianDatepicker({
+    cellWidth: 32,
+    cellHeight: 22,
+    fontSize: 14,
+    formatDate: "YYYY/0M/0D",
+    endDate: "1440/5/5",
+});
 
 function openDaryaftEditModal(snGetAndPay) {
     fetch(baseUrl + "/getGetAndPayInfo?snGetAndPay=" + snGetAndPay)
@@ -1260,7 +1327,6 @@ function openDaryaftEditModal(snGetAndPay) {
                 document.getElementById("inforTypeCodeDarEdit").value = respond.response[0].INforCode;
                 document.getElementById("daryaftHdsDescEdit").value = respond.response[0].DocDescHDS;
                 document.getElementById("totalNetPriceHDSDarEdit").value = respond.response[0].NetPriceHDS;
-
                 document.getElementById("editAddEditDaryafTotal").innerText = parseInt(respond.response[0].NetPriceHDS).toLocaleString('en-us');
                
                 $("#addedDaryaftListBodyEdit").empty();
@@ -1269,33 +1335,37 @@ function openDaryaftEditModal(snGetAndPay) {
                 respond.response[0].BYS.forEach((element, index) => {
                    
                   const tableRow = document.createElement("tr");
-                     tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this,${element.SerialNoBYS})`);
+                     tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this)`);
                      tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this,${element.DocTypeBYS},${element.SerialNoBYS})`);
                      tableRow.innerHTML = `
-                        <td class="addEditVagheNaqd-1"><input type="checkbox" value="${index+1}" name="BYSS[]" checked/>${index + 1}</td>
+                        <td class="addEditVagheNaqd-1"><input class="d-none" type="checkbox" value="${index}" name="BYSS[]" checked/>${index + 1}</td>
                         <td class="addEditVagheNaqd-2"> 0 </td>
                         <td class="addEditVagheNaqd-3"> ${element.bankDesc} </td>
                         <td class="addEditVagheNaqd-4"> ${parseInt(element.Price).toLocaleString('en-us')} </td>
                         <td class="addEditVagheNaqd-5"> 0 </td>
                         <td class="addEditVagheNaqd-6"> 0 </td>
                         <td class="addEditVagheNaqd-7"> 0 </td>
-                        <td class="d-none"> <input type="text" value="${element.DocTypeBYS}" name="DocTypeBys${index + 1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.Price}" name="Price${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.ChequeDate}" name="ChequeDate${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.ChequeNo}" name="ChequeNo${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.AccBankno}" name="AccBankNo${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.Owner}" name="Owener${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.SnBank}" name="SnBank${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.SnChequeBook}" name="SnChequeBook${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.DocDescBYS}" name="DocDescBys${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.SnAccBank}" name="SnAccBank${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.CashNo}" name="CashNo${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.NoPayaneh_KartKhanBys}" name="NoPayanehKartKhanBYS${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${index+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${element.SerialNoBYS}" name="SerialNoBYS${index+1}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.DocTypeBYS}" name="DocTypeBys${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.Price}" name="Price${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.ChequeDate}" name="ChequeDate${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.ChequeNo}" name="ChequeNo${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.AccBankno}" name="AccBankNo${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.Owner}" name="Owner${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SnBank}" name="SnBank${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SnChequeBook}" name="SnChequeBook${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.DocDescBYS}" name="DocDescBys${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SnAccBank}" name="SnAccBank${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.CashNo}" name="CashNo${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.NoPayanehKartKhanBYS}" name="NoPayanehKartKhanBYS${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.SerialNoBYS}" name="SerialNoBYS${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="${element.NameSabtShode}" name="NameSabtShode${index}"/> </td>
+                        <td class="d-none"> <input type="text" value="0" name="trafHesabName${index}"/> </td>
+                
                     `;
                     
                     document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
+                    makeTableColumnsResizable("addedEditDaryaftable")
                 });
 
                 if (!($('.modal.in').length)) {
@@ -1316,7 +1386,6 @@ function openDaryaftEditModal(snGetAndPay) {
         }
     });
 }
-
 
 
 function closeDaryaftEditModal(){
@@ -1342,29 +1411,21 @@ function paysModal(){
 }
 
 
-
-function setAddedDaryaftItemStuff(element, bysSn) {
-    var selectedRow = document.querySelector("#addedDaryaftListBodyEdit > tr.selected");
-
-    if (selectedRow && selectedRow.classList.contains("selected")) {
-        selectedRow.classList.remove("selected");
-    }
+function setAddedDaryaftItemStuff(element) {
+    var allRows = document.querySelectorAll("#addedDaryaftListBodyEdit tr");
+        allRows.forEach(function(row) {
+            row.classList.remove("selected");
+        });
 
     element.classList.add("selected");
+
     document.getElementById("editaddedGetAndPayBtn").disabled = false;
     document.getElementById("deleteReceiveItemBtn").disabled = false;
 
-    if (bysSn === 0) {
-        var modalTypeValue = selectedRow.querySelector("td:nth-child(8) > input").value;
-            document.getElementById("editaddedGetAndPayBtn").value = modalTypeValue;
-            document.getElementById("deleteReceiveItemBtn").value = modalTypeValue;
-    } else {
-            document.getElementById("editaddedGetAndPayBtn").value = bysSn;
-            document.getElementById("deleteReceiveItemBtn").value = bysSn;
-    }
+    var modalTypeValue = element.querySelector("td:nth-child(8) > input").value;
+    document.getElementById("editaddedGetAndPayBtn").value = modalTypeValue;
+    document.getElementById("deleteReceiveItemBtn").value = modalTypeValue;
 }
-
-
 
 
 function editAddedDaryaftItem(element,bysType,bysSn){
@@ -1386,6 +1447,51 @@ function addEditDaryaftItem(element){
     $("#deleteDaryaftItemBtn").val(modalTypeValue);
 }
 
+
+
+// related to check modal 
+
+$("#editCheckSarRasidDateDar").persianDatepicker({
+    cellWidth: 32,
+    cellHeight: 22,
+    fontSize: 14,
+    formatDate: "YYYY/0M/0D",
+    endDate: "1440/5/5",
+});
+
+$("#editDaysAfterChequeDateDar").on("keyup",function(e){
+    let daysLater=$("#editDaysAfterChequeDateDar").val();
+    if(parseInt(daysLater)>0){
+        let chequeDate=$("#editCheckSarRasidDateDar").data("gdate");
+        let laterChequeDate=new Date(chequeDate);
+        let newDate=new Date().setDate(laterChequeDate.getDate() + parseInt(daysLater))
+        let updateDateHijri=new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(newDate);
+        $("#editCheckSarRasidDateDar").val(updateDateHijri);
+    }else{
+        let chequeDate=$("#editCheckSarRasidDateDar").data("gdate");
+        let laterChequeDate=new Date(chequeDate);
+        let newDate=new Date().setDate(laterChequeDate.getDate() + parseInt(0))
+        let updateDateHijri=new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(newDate);
+        $("#editCheckSarRasidDateDar").val(updateDateHijri);
+    }
+})
+
+$("#editMoneyChequeDar").on("keyup",()=>{
+    let moneyAmount=$("#editMoneyChequeDar").val();
+    changeNumberToLetter($("#editMoneyChequeDar"),"editMoneyInLetters",moneyAmount)
+})
+
+$("#editShobeBankChequeDar").on("click",()=>{
+    $.get(baseUrl+"/getAllShobeBanks",function(respond,status){
+        $("#shobeBankChequeDarBody").empty();
+        respond.forEach((element,index)=>{
+            $("#shobeBankChequeDarBody").append(`<tr onclick="selectShobeBankForChequeDar(this,${element.snbranch})" ><td>${(index+1)}</td><td>${element.namebranch}</td></tr>`);
+        })
+        $("#shobeBankChequeDarMadal").modal("show");
+    })
+})
+
+
 const editDaryaftItemType = (typeValue)=> {
     let modalType = parseInt(typeValue);
 
@@ -1399,42 +1505,45 @@ const editDaryaftItemType = (typeValue)=> {
     }
 
     if(modalType===2){
-        let sayadinNo = $('#addedDaryaftListBody tr.selected td:nth-child(10)').find('input').val();
-        let sbatBaNam = $('#addedDaryaftListBody tr.selected td:nth-child(11)').find('input').val();
-        let money = $('#addedDaryaftListBody tr.selected td:nth-child(12)').find('input').val();
-        let ChequeDate = $('#addedDaryaftListBody tr.selected td:nth-child(13)').find('input').val();
-        let chequeNo = $('#addedDaryaftListBody tr.selected td:nth-child(14)').find('input').val();
-        let AccBankNo = $('#addedDaryaftListBody tr.selected td:nth-child(15)').find('input').val();
-        let Owener = $('#addedDaryaftListBody tr.selected td:nth-child(16)').find('input').val();
-        let SnBank = $('#addedDaryaftListBody tr.selected td:nth-child(17)').find('input').val();
-        let SnChequeBook = $('#addedDaryaftListBody tr.selected td:nth-child(18)').find('input').val();
-        let description = $('#addedDaryaftListBody tr.selected td:nth-child(19)').find('input').val();
-        let docDesc = $('#addedDaryaftListBody tr.selected td:nth-child(20)').find('input').val();
-        let CashNo = $('#addedDaryaftListBody tr.selected td:nth-child(21)').find('input').val();
-        let NoPayanehKartKhanBYS = $('#addedDaryaftListBody tr.selected td:nth-child(22)').find('input').val();
-        let repeatCheque = $('#addedDaryaftListBody tr.selected td:nth-child(23)').find('input').val();
-        let dueDateMonth = $('#addedDaryaftListBody tr.selected td:nth-child(24)').find('input').val();
-        let dueDateDay = $('#addedDaryaftListBody tr.selected td:nth-child(25)').find('input').val();
-        let newdDate = $('#addedDaryaftListBody > tr.selected > td.dayaftAddTd-3').text();
-        const startIndex = newdDate.indexOf("تاریخ") + 5;
-        const endIndex = startIndex + 11;
-        const splitedDate = newdDate.substring(startIndex, endIndex);
 
+        let selectedTr = document.querySelector('#addedDaryaftListBody tr.selected');
+
+        let chequeNo = selectedTr.querySelector('td:nth-child(12) > input').value;
+        let chequeDate = selectedTr.querySelector('td:nth-child(11) > input').value;
+        let sayadinNo = selectedTr.querySelector('td:nth-child(9) > input').value;
+        let money = selectedTr.querySelector('td:nth-child(10) > input').value;
+        let AccBankNo = selectedTr.querySelector('td:nth-child(13) > input').value;
+        let Owner = selectedTr.querySelector('td:nth-child(14) > input').value;
+        let SnBank = selectedTr.querySelector('td:nth-child(15) > input').value;
+        let description = selectedTr.querySelector('td:nth-child(17) > input').value;
+        let sbatBaNam = selectedTr.querySelector('td:nth-child(24) > input').value;
+        let SnChequeBook = selectedTr.querySelector('td:nth-child(18) > input').value;
+
+        $("#editChequeNoCheqeDar").val(chequeNo)
         $("#editMoneyChequeDar").val(money)
         $("#editDaysAfterChequeDateDar").val()
-        $("#editChequeNoCheqeDar").val(chequeNo)
         $("#editHisabNoChequeDar").val(AccBankNo)
-        $("#editMalikChequeDar").val(Owener)
-        $("#editCheckSarRasidDateDar").val(splitedDate)
+        $("#editMalikChequeDar").val(Owner)
+        $("#editCheckSarRasidDateDar").val(chequeDate)
         $("#editBankNameDar").select(SnBank)
         $("#editShobeBankChequeDar").val(SnBank)
         $("#editMoneyInLetters").val(SnChequeBook)
         $("#editSayyadiNoChequeDar").val(sayadinNo)
         $("#editSabtBeNameChequeDar").val(sbatBaNam)
         $("#editDescChequeDar").val(description)
-        $("#editRepeateChequeDar").val(repeatCheque)
-        $("#editDistanceMonthChequeDar").val(dueDateMonth)
-        $("#editDistanceDarChequeDar").val(dueDateDay)
+
+        $.get(baseUrl+"/allBanks",(respond,status)=>{
+            $("#editBankNameDar").empty();
+            $("#editBankNameDar").append(`<option></option>`);
+            for (const element of respond.bankKarts) {
+                if(element.SerialNoBSN==SnBank){
+                    $("#editBankNameDar").append(`<option selected value="${element.AccNo}">${element.bsn}</option>`);
+                }else {
+                    $("#editBankNameDar").append(`<option value="${element.AccNo}">${element.bsn}</option>`);
+                }
+            }
+        });
+  
         $("#editDaryafAddChequeInfo").modal("show");
     }
 
@@ -1471,12 +1580,11 @@ const editDaryaftItemType = (typeValue)=> {
         let selectedRow = document.querySelector('#addedDaryaftListBody tr.selected');
         
         if (selectedRow) {
-            let takhfifDesc = selectedRow.querySelector('td:nth-child(4)').textContent;
-            let money = selectedRow.querySelector('td:nth-child(5)').textContent;
+            let money = selectedRow.querySelector('td:nth-child(9) > input').value;
+            let takhfifDesc = selectedRow.querySelector('td:nth-child(16) > input').value;
     
             document.getElementById("takhfifMoneyDarEdit").value = money;
             document.getElementById("discriptionTakhfifDarEdit").value = takhfifDesc;
-    
             document.getElementById("takhfifModalEdit").style.display = "block";
         }
     }
@@ -1485,12 +1593,22 @@ const editDaryaftItemType = (typeValue)=> {
   if (modalType === 6){
     // get values and text form table 
     let selectedRow = document.querySelector('#addedDaryaftListBody tr.selected');
-    let vairzMoblagh = selectedRow.querySelector("td:nth-child(5)").textContent;
-    let bankAccount = selectedRow.querySelector("td:nth-child(13) > input[type=text]").value;
-    let description = selectedRow.querySelector("td:nth-child(17) > input[type=text]").value;
-    let tarafHesab = selectedRow.querySelector("td:nth-child(24) > input[type=text]").value;
-    let payGeriNo = selectedRow.querySelector("td:nth-child(23) > input[type=text]").value;
-    let baName = selectedRow.querySelector("td:nth-child(22) > input[type=text]").value;
+    let vairzMoblagh = selectedRow.querySelector("td:nth-child(9) > input").value;
+    let bankAccount = selectedRow.querySelector("td:nth-child(12) > input").value;
+    let description = selectedRow.querySelector("td:nth-child(16) > input").value;
+    let tarafHesab = selectedRow.querySelector("td:nth-child(22) > input").value;
+    let payGeriNo = selectedRow.querySelector("td:nth-child(11) > input").value;
+    let baName = selectedRow.querySelector("td:nth-child(21) > input").value;
+    let snPeoplePay = selectedRow.querySelector("td:nth-child(20) > input").value;
+
+    // insert data to input field
+    document.getElementById("moneyVarizToOtherHisabDarEdit").value = vairzMoblagh;
+    document.getElementById("cartNoVarizToOtherDarEdit").value = bankAccount;
+    document.getElementById("varizBehisabDigariCustomerNameDarEdit").value = tarafHesab;
+    document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value = snPeoplePay;
+    document.getElementById("paygiriOtherHisabDarEdit").value = payGeriNo;
+    document.getElementById("benamOtherHisabDarEdit").value = baName;
+    document.getElementById("discriptionOtherHisabDarEdit").value = description;
 
     // by onkeyp get the taraf hesab
     $("#varizBehisabDigariCustomerCodeDarEdit").on("keyup",function(e){
@@ -1500,111 +1618,103 @@ const editDaryaftItemType = (typeValue)=> {
         })
     })
     
-    // insert data to input field
-    document.getElementById("moneyVarizToOtherHisabDarEdit").value = vairzMoblagh;
-    document.getElementById("cartNoVarizToOtherDarEdit").value = bankAccount;
-    document.getElementById("varizBehisabDigariCustomerCodeDarEdit").value = tarafHesab;
-    document.getElementById("paygiriOtherHisabDarEdit").value = payGeriNo;
-    document.getElementById("benamOtherHisabDarEdit").value = baName;
-    document.getElementById("discriptionOtherHisabDarEdit").value = description;
-
-    // open modal
-    document.getElementById("varizToOthersHisbModalEdit").style.display = "block";
+   $("#varizToOthersHisbModalEdit").modal('show');
   }
 }
 
-
+$("#moneyVarizToOtherHisabDarEdit").on("keyup",function(event){
+    let moneyAmount=$("#moneyVarizToOtherHisabDarEdit").val();
+    changeNumberToLetter($("#moneyVarizToOtherHisabDarEdit"),"moneyVarizToOtherHisabLetterDarEdit",moneyAmount)
+})
  
 function addEditAddChequeDar() {
-    var currentIndex = $("#addedDaryaftListBody tr").length;
-    let money = $("#editMoneyChequeDar").val()
-    let checquDate = $("#editDaysAfterChequeDateDar").val()
-    let chequeNo = $("#editChequeNoCheqeDar").val()
-    let hesabNo = $("#editHisabNoChequeDar").val()
-    let malik = $("#editMalikChequeDar").val()
-    let sarRased = $("#editCheckSarRasidDateDar").val()
-    var bankName = $("#editBankNameDar option:selected").text();
-    let bankBranch = $("#editShobeBankChequeDar").val()
-    let moneyToLetter = $("#editMoneyInLetters").val()
-    let sayadiNo = $("#editSayyadiNoChequeDar").val()
-    let sabtBaName = $("#editSabtBeNameChequeDar").val()
-    let descCheque = $("#editDescChequeDar").val()
-    let repeatCheque = $("#editRepeateChequeDar").val()
-    let distanceMonth = $("#editDistanceMonthChequeDar").val()
-    let distanceDay = $("#editDistanceDarChequeDar").val()
-    let checkDescription = $("#addedDaryaftListBody > tr:nth-child(5) > td.dayaftAddTd-3").text();
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(3)`).text(0);
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(4)`).text(checkDescription);
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(5)`).text(money);
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(6)`).text(0);
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(7)`).text(sayadiNo);
-    // input 8 has default value of 2
-    $(`#addedDaryaftListBody tr:nth-child(${currentIndex}) td:nth-child(9)`).text(sabtBaName);
 
-    // set values to input fields 
-    $(`#addedDaryaftListBody > tr > td:nth-child(10) > input[type=text]`).val(sayadiNo);
-    $(`#addedDaryaftListBody > tr > td:nth-child(11) > input[type=text]`).val(sabtBaName);
-    $(`#addedDaryaftListBody > tr > td:nth-child(12) > input[type=text]`).val(money);
-    $(`#addedDaryaftListBody > tr > td:nth-child(13) > input[type=text]`).val(checquDate);
-    $(`#addedDaryaftListBody > tr > td:nth-child(14) > input[type=text]`).val(chequeNo);
-    $(`#addedDaryaftListBody > tr > td:nth-child(15) > input[type=text]`).val(hesabNo);
-    $(`#addedDaryaftListBody > tr > td:nth-child(16) > input[type=text]`).val(malik);
-    $(`#addedDaryaftListBody > tr > td:nth-child(17) > input[type=text]`).val(bankBranch);
-    $(`#addedDaryaftListBody > tr > td:nth-child(18) > input[type=text]`).val(moneyToLetter);
-    $(`#addedDaryaftListBody > tr > td:nth-child(19) > input[type=text]`).val(descCheque);
-    $(`#addedDaryaftListBody > tr > td:nth-child(20) > input[type=text]`).val(bankName);
-    $(`#addedDaryaftListBody > tr > td:nth-child(21) > input[type=text]`).val(0);
-    $(`#addedDaryaftListBody > tr > td:nth-child(22) > input[type=text]`).val(repeatCheque);
-    $(`#addedDaryaftListBody > tr > td:nth-child(23) > input[type=text]`).val(distanceMonth);
-    $(`#addedDaryaftListBody > tr > td:nth-child(24) > input[type=text]`).val(distanceDay);
+    let chequeNo = document.getElementById("editChequeNoCheqeDar").value;
+    let money = document.getElementById("editMoneyChequeDar").value;
+    let sarRasedDate = document.getElementById("editCheckSarRasidDateDar").value;
+    let chequeDateForLater = document.getElementById("editDaysAfterChequeDateDar").value;
+    var bankName = document.getElementById("editBankNameDar").value;
+    let hesabNo = document.getElementById("editHisabNoChequeDar").value;
+    let bankBranch = document.getElementById("editShobeBankChequeDar").value;
+    let malik = document.getElementById("editMalikChequeDar").value;
+    let sayadiNo = document.getElementById("editSayyadiNoChequeDar").value;
+    let sabtBaName = document.getElementById("editSabtBeNameChequeDar").value;
+    let descCheque = document.getElementById("editDescChequeDar").value;
+ 
+    let myRow = document.querySelector("#addedDaryaftListBody > tr.selected");
+    let checkDescription = myRow.querySelector(`td:nth-child(17) > input`).value;
+        
+        myRow.querySelector(`td.dayaftAddTd-3`).textContent = checkDescription;
+        myRow.querySelector(`td.dayaftAddTd-4`).textContent = money;
+        myRow.querySelector(`td.dayaftAddTd-6`).textContent = sayadiNo;
+        myRow.querySelector(`td.dayaftAddTd-7`).textContent = sabtBaName;
+
+        // set values to input fields 
+        if (myRow) {
+            myRow.querySelector(`td:nth-child(9) > input`).value = sayadiNo;
+            myRow.querySelector(`td:nth-child(10) > input`).value = sabtBaName;
+            myRow.querySelector(`td:nth-child(11) > input`).value = money;
+            myRow.querySelector(`td:nth-child(12) > input`).value = sarRasedDate;
+            myRow.querySelector(`td:nth-child(13) > input`).value = chequeNo;
+            myRow.querySelector(`td:nth-child(14) > input`).value = hesabNo;
+            myRow.querySelector(`td:nth-child(15) > input`).value = malik;
+            myRow.querySelector(`td:nth-child(16) > input`).value = bankBranch;
+            myRow.querySelector(`td:nth-child(18) > input`).value = descCheque;
+            myRow.querySelector(`td:nth-child(19) > input`).value = bankName;
+            myRow.querySelector(`td:nth-child(20) > input`).value = 0;
+        }
+        
     
     $("#editDaryafAddChequeInfo").modal("hide");
+
+    var currentIndex = document.querySelector("#addedDaryaftListBody > tr.selected").length;
 
     // Recalculate netPriceHDS
     let netPriceHDS = 0;
     for (let index = 1; index <= currentIndex; index++) {
-        netPriceHDS += parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
+        netPriceHDS += parseInt(money).text().replace(/,/g, '');
     }
     $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-    $("#totalNetPriceHDSDar").val(netPriceHDS);
+    $("#editAddEditDaryafTotal").val(netPriceHDS);
 }
 
 
 // eidt part of the daryaft
-
 function EditaddNaghdMoneyDar() {
+    let currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
     let reials = document.getElementById("editAddRialNaghdDar").value.replace(/,/g, '');
     let description = document.getElementById("editAddDescNaghdDar").value;
 
-    const currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
-
     const tableRow = document.createElement("tr");
-    tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this,0)`);
+    tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this)`);
     tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this, 0, 0)`);
 
     tableRow.innerHTML = `
-        <td class="d-none"> <input type="checkbox" checked value="${currentIndex+1}" name="byss[]"/> </td>
+        <td class="d-none"> <input type="checkbox" checked value="${currentIndex}" name="BYSS[]"/> </td>
         <td class="addEditVagheNaqd-1"> ${currentIndex+1} </td>
-        <td class="addEditVagheNaqd-2"> </td>
+        <td class="addEditVagheNaqd-2">0</td>
         <td class="addEditVagheNaqd-3"> وجه نقد </td>
         <td class="addEditVagheNaqd-4"> ${parseInt(reials).toLocaleString("en-us")} </td>
-        <td class="addEditVagheNaqd-5"> </td>
-        <td class="addEditVagheNaqd-6"> </td> 
-        <td> <input type="text" value="1" name="DocTypeBys${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="${reials}" name="Price${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="ChequeDate${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="ChequeNo${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="AccBankNo${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="Owener${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="" name="SnBank${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="${description}" name="DocDescBys${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="SnAccBank${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="CashNo${currentIndex+1}" class="d-none"/> </td>
-        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex+1}" class="d-none"/> </td>
+        <td class="addEditVagheNaqd-5">0</td>
+        <td class="addEditVagheNaqd-6">0</td> 
+        <td class="d-none"> <input type="text" value="1" name="DocTypeBys${currentIndex}"/> </td>
+        <td class="addEditVagheNaqd-7">0</td>
+        <td class="d-none"> <input type="text" value="${reials}" name="Price${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="ChequeDate${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="ChequeNo${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="AccBankNo${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="Owner${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="SnBank${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="${description}" name="DocDescBys${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="SnAccBank${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="CashNo${currentIndex}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex}" class="d-none"/> </td>
         <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${currentIndex+1}" class="d-none"/> </td>
+        <td class="d-none"> <input type="text" value="0" name="sabtBeNameChequeDar${currentIndex}"/> </td>
     `
     document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
+    currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
     makeTableColumnsResizable("addedEditDaryaftable");
 
     $("#editAddEditVagheNaghdmodal").modal("hide");
@@ -1704,8 +1814,7 @@ if(distanceDayEd){
         let chequeRepeate = document.getElementById('editAddRepeateChequeDar').value;
         let sarRasedDistanceMonth = document.getElementById('editAddDistanceMonthChequeDar').value;
         let sarRasedDistanceDay = document.getElementById('editAddDistanceDarChequeDar').value;
-   
-
+      
         let updateDateHijri;
 
         if (chequeRepeate > 1) {
@@ -1730,90 +1839,89 @@ if(distanceDayEd){
                 }
 
                 let tableRow = document.createElement('tr');
-                    tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this,0)`);
+                    tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this)`);
                     tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this, 0, 0)`);
 
                     currentIndex++;
 
                 tableRow.innerHTML=`
-                        <td class="d-none"> <input type="checkbox" checked value="${currentIndex+i}" name="byss[]"/></td>
-                        <td class="addEditVagheNaqd-1"> ${currentIndex} </td>
+                    <td class="addEditVagheNaqd-1"> ${currentIndex} <input class="d-none" type="checkbox" value="1" name="BYSS[]" checked=""> </td>
+                    <td class="addEditVagheNaqd-2"> 0 </td>
+                    <td class="addEditVagheNaqd-3"> چک بانک ${bankName} به شماره ${accountNo + i} تاریخ ${updateDateHijri} </td>
+                    <td class="addEditVagheNaqd-4"> ${parseInt(chequeAmount).toLocaleString("en-us")} </td>
+                    <td class="addEditVagheNaqd-5"> 0 </td>
+                    <td class="addEditVagheNaqd-6"> ${seyadiNo} </td>
+                    <td class="addEditVagheNaqd-7"> ${sabtShoudaBeName}  </td>
+                    <td class="d-none"> <input type="text" value="2" name="DocTypeBys"> </td>
+                    <td class="d-none"> <input type="text" value="${chequeAmount}" name="Price${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${sarRasedDate}" name="ChequeDate${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${chequeNo+i}" name="ChequeNo${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${accountNo}" name="AccBankNo${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${chequekOwner}" name="Owner${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${bankName}" name="SnBank${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${chequeDescription}" name="DocDescBys${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${bankSn}" name="SnAccBank${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="0" name="CashNo${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="0" name="SerialNoBYS${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${sabtShoudaBeName}" name="NameSabtShode${currentIndex}"> </td>
+                    <td class="d-none"> <input type="text" value="${chequekDateForLater}" name="chequeDateForLater"> </td>
+                 `
+                   document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
+                   rows = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
+               
+
+                }} else {
+                    let tableRow = document.createElement('tr');
+                        tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this)`);
+                        tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this, 0, 0)`);
+                        tableRow.innerHTML=`
+                        <td class="addEditVagheNaqd-1"> ${currentIndex} <input class="d-none" type="checkbox" value="1" name="BYSS[]" checked=""> </td>
                         <td class="addEditVagheNaqd-2"> 0 </td>
                         <td class="addEditVagheNaqd-3"> چک بانک ${bankName} به شماره ${accountNo + i} تاریخ ${updateDateHijri} </td>
                         <td class="addEditVagheNaqd-4"> ${parseInt(chequeAmount).toLocaleString("en-us")} </td>
                         <td class="addEditVagheNaqd-5"> 0 </td>
                         <td class="addEditVagheNaqd-6"> ${seyadiNo} </td>
-                        <td class="addEditVagheNaqd-7 d-none"> <input type="text" value="2" name="DocTypeBys${currentIndex+1}" class=""/> </td>
-                        <td class="addEditVagheNaqd-8"> ${sabtShoudaBeName}  </td>
-                        <td class="d-none"> <input type="text" value="${seyadiNo}" name="sayyadiNoChequeDar${currentIndex+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${sabtShoudaBeName}" name="sabtBeNameChequeDar${currentIndex+1}"/> </td>
-                        <td class="d-none"> <input type="text" value="${chequeAmount}" name="Price${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${sarRasedDate}" name="ChequeDate${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${chequeNo+i}" name="ChequeNo${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${hisabNoChequeDar}" name="AccBankNo${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${chequekOwner}" name="Owener${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${bankName}" name="SnBank${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${chequeDescription}" name="DocDescBys${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${bankSn}" name="SnAccBank${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${sarRasedDistanceMonth}" name="dueDateMonth${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${sarRasedDistanceDay}" name="dueDateDat${currentIndex+1}" class=""/> </td>
-                        <td class="d-none"> <input type="text" value="${chequekDateForLater}" name="laterDate${currentIndex+1}" class=""/> </td>
-                 `
-                   document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
-
-                }} else {
-                    let tableRow = document.createElement('tr');
-                        tableRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this,0)`);
-                        tableRow.setAttribute("ondblclick", `editAddedDaryaftItem(this, 0, 0)`);
-                        currentIndex++;
-                        tableRow.innerHTML=`
-                            <td class="d-none"> <input type="checkbox" checked value="${currentIndex+i}" name="byss[]"/></td>
-                            <td class="addEditVagheNaqd-1"> ${currentIndex} </td>
-                            <td class="addEditVagheNaqd-2"> 0 </td>
-                            <td class="addEditVagheNaqd-3"> چک بانک ${bankName} به شماره ${accountNo + i} تاریخ ${updateDateHijri}</td>
-                            <td class="addEditVagheNaqd-4"> ${parseInt(chequeAmount).toLocaleString("en-us")} </td>
-                            <td class="addEditVagheNaqd-5"> 0 </td>
-                            <td class="addEditVagheNaqd-6"> ${seyadiNo} </td>
-                            <td class="addEditVagheNaqd-7 d-none"> <input type="text" value="2" name="DocTypeBys${currentIndex+1}" class=""/> </td>
-                            <td class="addEditVagheNaqd-8"> ${sabtShoudaBeName}  </td>
-
-                            <td class="d-none"> <input type="text" value="${seyadiNo}" name="sayyadiNoChequeDar${currentIndex+1}"/> </td>
-                            <td class="d-none"> <input type="text" value="${sabtShoudaBeName}" name="sabtBeNameChequeDar${currentIndex+1}"/></td>
-                            <td class="d-none"> <input type="text" value="${chequeAmount}" name="Price${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${sarRasedDate}" name="ChequeDate${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${chequeNoCheqeDar}" name="ChequeNo${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${chequeNo}" name="AccBankNo${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${chequekOwner}" name="Owener${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${bankNameDar}" name="SnBank${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${chequeDescription}" name="DocDescBys${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${bankSn}" name="SnAccBank${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${repeateChequeDar}" name="repeatChequDar${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${sarRasedDistanceMonth}" name="dueDateMonth${currentIndex+1}" class=""/> </td>
-                            <td class="d-none"> <input type="text" value="${sarRasedDistanceDay}" name="dueDateDat${currentIndex+1}" class=""/> </td>
+                        <td class="addEditVagheNaqd-7"> ${sabtShoudaBeName}  </td>
+                        <td class="d-none"> <input type="text" value="2" name="DocTypeBys"> </td>
+                        <td class="d-none"> <input type="text" value="${chequeAmount}" name="Price${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${sarRasedDate}" name="ChequeDate${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${chequeNo+i}" name="ChequeNo${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${accountNo}" name="AccBankNo${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${chequekOwner}" name="Owner${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${bankName}" name="SnBank${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SnChequeBook${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${chequeDescription}" name="DocDescBys${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${bankSn}" name="SnAccBank${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="0" name="CashNo${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="0" name="SerialNoBYS${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${sabtShoudaBeName} " name="NameSabtShode${currentIndex}"> </td>
+                        <td class="d-none"> <input type="text" value="${chequekDateForLater}"> </td>
                     `
                   document.getElementById("addedDaryaftListBodyEdit").appendChild(tableRow);
+                  currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
                 }
-        $("#editAddDaryafAddChequeInfo").modal("hide");
-        
-        makeTableColumnsResizable("addedEditDaryaftable");
 
-        let netPriceHDS = 0;
-        let rows = document.getElementById("addedDaryaftListBodyEdit").querySelectorAll("tr");
-      
-        for (let index = 0; index < rows.length; index++) {
-            netPriceHDS += parseInt(rows[index].querySelector("td:nth-child(5)").textContent.replace(/,/g, ''));
-        }
+            $("#editAddDaryafAddChequeInfo").modal("hide");
+             makeTableColumnsResizable("addedEditDaryaftable");
 
-        $("#editAddEditDaryafTotal").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-        $("#editAddAmountRemained").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-        $("#editAddEditDaryafTotal").val(netPriceHDS);
+        // Recalculate netPriceHDS
+            let netPriceHDS = 0;
+
+            for (let index = 1; index <= currentIndex; index++) {
+                let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
+                console.log("element", element);
+                if (element) {
+                    netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
+                }
+            }
+
+        document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(chequeAmount).toLocaleString("en-us");
+        document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
     }
 
 
@@ -1843,50 +1951,53 @@ if(distanceDayEd){
        let discription = document.getElementById("editAddDiscriptionHawalaDar").value;
        
        let rowCount=$("#addedDaryaftListBodyEdit tr").length;
-
        let newRow = document.createElement("tr");
-           newRow.setAttribute("onclick","setAddedDaryaftItemStuff(this, 0)" );
+           newRow.setAttribute("onclick","setAddedDaryaftItemStuff(this)" );
            newRow.setAttribute("ondblclick","editAddedDaryaftItem('daryaftHawalaInfoModalEdit',this)");
            newRow.innerHTML = `
-                <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-                <td class="addEditVagheNaqd-1"> ${rowCount+1} </td>
+                <td class="addEditVagheNaqd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
                 <td class="addEditVagheNaqd-2"> 0 </td>
                 <td class="addEditVagheNaqd-3"> حواله به ${bankName} به شماره   ${hawalNo} تاریخ  ${hawalaDate}  </td>
                 <td class="addEditVagheNaqd-4"> ${parseInt(money).toLocaleString("en-us")} </td>
                 <td class="addEditVagheNaqd-5"> 0 </td>
-                <td class="addEditVagheNaqd-6"> </td>
-                <td class="d-none addEditVagheNaqd-7 d-none"> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
-                <td class="addEditVagheNaqd-8"> </td>
-                <td class="d-none"> <input type="text" value="${money}" name="Price${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${hawalaDate}" name="ChequeDate${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${bankAccount}" name="AccBankNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value=" " name="Owener${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${discription}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${payanahKartKhanNo}" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره   ${hawalaNoHawalaDar}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${hawalaNoHawalaDar}" class=""/> </td>
+                <td class="addEditVagheNaqd-6"> 0 </td>
+                <td class="addEditVagheNaqd-7"> </td>
+                <td class="d-none addEditVagheNaqd-8"> <input type="text" value="3" name="DocTypeBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${money}" name="Price${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${bankAccount}" name="AccBankNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${discription}" name="DocDescBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${payanahKartKhanNo}" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره   ${hawalaNoHawalaDar}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="sabtBeNameChequeDar${rowCount}"/> </td>
             `
             document.getElementById("addedDaryaftListBodyEdit").appendChild(newRow);
+            rowCount=$("#addedDaryaftListBodyEdit tr").length;
 
          $("#editAddHawalaModal").modal("hide");
          
          makeTableColumnsResizable("addedEditDaryaftable");
 
-    for (let index = 1; index <= rowCount; index++) {
-        let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(5)`);
-        if (element) {
-            netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
-        }
-    }
+        // Recalculate netPriceHDS
+        let netPriceHDS = 0;
 
-    $("#totalNetPriceHDSDarEdit").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-    $("#totalNetPriceHDSDar").val(netPriceHDS);
+        for (let index = 1; index <= currentIndex; index++) {
+            let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
+            console.log("element", element);
+            if (element) {
+                netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
+            }
+        }
+
+        document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(chequeAmount).toLocaleString("en-us");
+        document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
 }
 
     $("#editAddHawalaDateHawalaDar").persianDatepicker({
@@ -1907,47 +2018,52 @@ function editAddTakhfifDar(){
     let takhfifAmount = $("#editAddtakhfifMoneyDar").val();
     let takhfifDesc = $("#edtiAdddiscriptionTakhfifDar").val();
     let newRow = document.createElement("tr");
-        newRow.setAttribute("onclick", "setAddedDaryaftItemStuff(this,0)");
+        newRow.setAttribute("onclick", "setAddedDaryaftItemStuff(this)");
         newRow.setAttribute("ondblclick", "editAddedDaryaftItem(this, 0, 0)")
-    let rowCount = $("#addedDaryaftListBodyEdit tr").length;
+    let rowCount = 0;
 
         newRow.innerHTML = `
-                <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-                <td class="addEditVagheNaqd-1"> ${rowCount + 1} </td>
+                <td class="addEditVagheNaqd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount} </td>
                 <td class="addEditVagheNaqd-2"> 0 </td>
                 <td class="addEditVagheNaqd-3"> تخفیف </td>
                 <td class="addEditVagheNaqd-4"> ${takhfifAmount} </td>
                 <td class="addEditVagheNaqd-5"> 0 </td>
                 <td class="addEditVagheNaqd-6"> 0 </td>
-                <td class="d-none"> <input type="text" value="4" name="DocTypeBys${rowCount+1}" class=""/> </td>
-                <td addEditVagheNaqd-7> </td>
-                <td class="d-none"> <input type="text" value="${takhfifAmount}" name="Price${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="Owener${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="${takhfifDesc}" name="DocDescBys${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
+                <td class="addEditVagheNaqd-7"> 0 </td>
+                <td class="d-none"> <input type="text" value="4" name="DocTypeBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${takhfifAmount}" name="Price${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="AccBankNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="${takhfifDesc}" name="DocDescBys${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
+                <td class="d-none"> <input type="text" value="0" name="NameSabtShode${rowCount}"> </td>
            `
         document.getElementById("addedDaryaftListBodyEdit").appendChild(newRow);
+        rowCount = $("#addedDaryaftListBodyEdit tr").length;
 
        $("#editAddTakhfifModal").modal("hide");
 
        makeTableColumnsResizable("addedEditDaryaftable");
 
-       let netPriceHDS=0;
-        for (let index = 1; index <= rowCount+1; index++) {
-            netPriceHDS+= parseInt($(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
-            
-            console.log("I love to code faster", netPriceHDS);
-        }
-        $("#editAddEditDaryafTotal").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-        $("#totalNetPriceHDSDar").val(netPriceHDS);
+         // Recalculate netPriceHDS
+         let netPriceHDS = 0;
+         for (let index = 1; index <= rowCount; index++) {
+             let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
+             console.log("element", element);
+             if (element) {
+                 netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
+             }
+         }
+ 
+         document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(takhfifAmount).toLocaleString("en-us");
+         document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
 }
 
 
@@ -1964,60 +2080,61 @@ $("#customerNameDaryaft").on("keyup",function(respond,status){
 
 
 function editAddVarizeBeHesab(){
+    let rowCount = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
+
     let varizMoblagh = document.getElementById("editAddVarizeBeHesabMoney").value;
     let varizCartNo = document.getElementById("editAddVarizeBeHesabAccount").value;
-    let tarafHesab = document.getElementById("editAddVarizBehisabDigariCustomerCode").value;
+    let tarafHesabCode = document.getElementById("editAddVarizBehisabDigariCustomerCode").value;
     let tarafHesabName = document.getElementById("editAddVarizBehisabDigariCustomerName").value;
     let baName = document.getElementById("editAddBenamOtherHisab").value;
     let payGeriNo = document.getElementById("editAddPaygiriOtherHisab").value;
     let varizDesc = document.getElementById("editAddDiscriptionOtherHisab").value;
     
-
     let newRow= document.createElement("tr");
-        newRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this,0)`);
+        newRow.setAttribute("onclick", `setAddedDaryaftItemStuff(this)`);
         newRow.setAttribute("ondblclick", `editAddedDaryaftItem(this, 0, 0)`);
       
-    let rowCount = document.getElementById("addedDaryaftListBodyEdit").rows.length;
         newRow.innerHTML = `
-            <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-            <td class="addEditVagheNaqd-1"> ${rowCount + 1} </td>
+            <td class="addEditVagheNaqd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount+1} </td>
             <td class="addEditVagheNaqd-2"> 0 </td>
-            <td class="addEditVagheNaqd-3"> 0 </td>
+            <td class="addEditVagheNaqd-3"> پرداخت به   ${tarafHesabName} واریز به ${varizCartNo} به نام ${baName} به شماره پیگیری ${payGeriNo} ${varizDesc} </td>
             <td class="addEditVagheNaqd-4"> ${varizMoblagh} </td>
             <td class="addEditVagheNaqd-5"> </td>
-            <td class="addEditVagheNaqd-6">  </td>
-            <td class="d-none"> <input type="text" value="6" name="DocTypeBys${rowCount+1}" class=""/> </td>
-            <td class="addEditVagheNaqd-7">  </td>
-            <td class="d-none"> <input type="text" value="${varizMoblagh}" name="Price${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value=" " name="ChequeDate${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${varizCartNo}" name="AccBankNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="Owener${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${varizDesc}" name="DocDescBys${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${tarafHesabName}" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${baName}" name="banameOther${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${payGeriNo}" name="payGeri${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${tarafHesab}" name="payGeri${rowCount+1}" class=""/> </td>
+            <td class="addEditVagheNaqd-6"> </td>
+            <td class="addEditVagheNaqd-7"> </td>
+            <td class="d-none"> <input type="text" value="6" name="DocTypeBys${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${varizMoblagh}" name="Price${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${payGeriNo}" name="ChequeNo${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${varizCartNo}" name="AccBankNo${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${varizDesc}" name="DocDescBys${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="NoPayanehKartKhanBYS${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${tarafHesabCode}" name="SnPeopelPay${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="${baName}" name="NameSabtShode${rowCount}"> </td>
+            <td class="d-none"> <input type="text" value="0" name="forAdjustment"> </td>
+            <td class="d-none"> <input type="text" value="${tarafHesabName}" name="trafHesabName${rowCount}"> </td>
         `
         document.getElementById("addedDaryaftListBodyEdit").appendChild(newRow);
+        rowCount = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
+
+        alert(rowCount)
         $("#editAddVarizeBeHesabDegaran").modal("hide");
 
         makeTableColumnsResizable("addedEditDaryaftable")
 
-    // let netPriceHDS=0;
-    // for (let index = 1; index <= rowCount+1; index++) {
-    //     netPriceHDS+= parseInt($(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
-    // }
-
-    // $("#editAddEditDaryafTotal").text(parseInt(netPriceHDS).toLocaleString("en-us"));
-    // $("#totalNetPriceHDSDar").val(netPriceHDS);
+        let netPriceHDS=0;
+        for (let index = 1; index <= rowCount; index++) {
+            netPriceHDS+= parseInt($(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`).text().replace(/,/g, ''));
+        }
+      
+        $("#editAddEditDaryafTotal").text(parseInt(netPriceHDS).toLocaleString("en-us"));
+        $("#totalNetPriceHDSDar").val(varizMoblagh);
 }
-
 
 
 $("#editAddEditCheckSarRasidDate").persianDatepicker({
@@ -2033,7 +2150,9 @@ $("#editAddEditMoneyCheque").on("keyup",()=>{
     changeNumberToLetter($("#editAddEditMoneyCheque"),"editAddEditMoneyInLetters",moneyAmount)
 })
 
+
 function openEditAddedGetAndPay(recordTypeValue){
+    alert("this should open modal", recordTypeValue)
     let editButton = document.getElementById("editaddedGetAndPayBtn");
     if (editButton) {
         editButton.disabled = false;
@@ -2045,7 +2164,9 @@ function openEditAddedGetAndPay(recordTypeValue){
     switch (byssValue) {
         case 1:{
                 if (selectedRow) {
+                    alert("first alert")
                     let vajheNaqdMoblagh = selectedRow.querySelector('td:nth-child(9) > input').value;
+                    alert("second alert", vajheNaqdMoblagh)
                     let vajheNaqdDes = selectedRow.querySelector('td:nth-child(16) > input').value;
                     document.getElementById("editAddEditRialNaghdDar").value = vajheNaqdMoblagh;
                     document.getElementById("editAddEditDescNaghdDar").value = vajheNaqdDes;
@@ -2057,17 +2178,18 @@ function openEditAddedGetAndPay(recordTypeValue){
 
         case 2: {
                 if (selectedRow) {
-                    const checkNo = selectedRow.querySelector('td:nth-child(14) > input').value;
-                    const sarRasedDate = selectedRow.querySelector('td:nth-child(13) > input').value;
-                    //const laterDate = selectedRow.querySelector('td:nth-child(26) > input').value;
+                    const checkNo = selectedRow.querySelector('td:nth-child(11) > input').value;
+                    const sarRasedDate = selectedRow.querySelector('td:nth-child(10) > input').value;
+                    const laterDate = selectedRow.querySelector('td:nth-child(23) > input').value;
                     const bankName = selectedRow.querySelector('td:nth-child(17) > input').value;
-                    const moblaghCheck = selectedRow.querySelector('td:nth-child(12) > input').value;
-                    const accountNo = selectedRow.querySelector('td:nth-child(20) > input').value;
+                    const moblaghCheck = selectedRow.querySelector('td:nth-child(9) > input').value;
+                    const accountNo = selectedRow.querySelector('td:nth-child(12) > input').value;
                     const chequeOwner = selectedRow.querySelector('td:nth-child(16) > input').value;
-                    const seyadiNo = selectedRow.querySelector('td:nth-child(10) > input').value;
-                    const sabtShoudaBeName = selectedRow.querySelector('td:nth-child(11) > input').value;
-                    const description = selectedRow.querySelector('td:nth-child(19) > input').value;
+                    const seyadiNo = selectedRow.querySelector('td:nth-child(9) > input').value;
+                    const sabtShoudaBeName = selectedRow.querySelector('td:nth-child(22) > input').value;
+                    const description = selectedRow.querySelector('td:nth-child(16) > input').value;
                     const bankBssn = selectedRow.querySelector('td:nth-child(15) > input').value;
+                    const malik = selectedRow.querySelector('td:nth-child(13) > input').value;
                 
                     $.get(baseUrl+"/allBanks",(respond,status)=>{
                         $("#editAddEditBankName").empty();
@@ -2084,11 +2206,11 @@ function openEditAddedGetAndPay(recordTypeValue){
                    
                     document.getElementById("editAddEditChequeNoCheqe").value = checkNo;
                     document.getElementById("editAddEditCheckSarRasidDate").value = sarRasedDate;
-                   // document.getElementById("editAddEditDaysAfterChequeDate").value = laterDate;
+                    document.getElementById("editAddEditDaysAfterChequeDate").value = laterDate;
                     document.getElementById("editAddBankNameDar").value = bankName;
                     document.getElementById("editAddEditMoneyCheque").value = moblaghCheck;
                     document.getElementById("editAddEditHisabNoCheque").value = accountNo;
-                    document.getElementById("editAddEditMalikCheque").value = chequeOwner;
+                    document.getElementById("editAddEditMalikCheque").value = malik;
                     document.getElementById("editAddEditSayyadiNoCheque").value = seyadiNo;
                     document.getElementById("editAddEditSabtBeNameCheque").value = sabtShoudaBeName;
                     document.getElementById("editAddEditDescCheque").value = description;
@@ -2097,18 +2219,16 @@ function openEditAddedGetAndPay(recordTypeValue){
               break;
             }
 
-
          case 3:{
           if (selectedRow) {
             let money = selectedRow.querySelector('td.addEditVagheNaqd-4').textContent;
-            let hawalaNo = selectedRow.querySelector("td:nth-child(23) > input").value;
-            let hawalaDate = selectedRow.querySelector('td:nth-child(11) > input').value;
-            let hawalBankAcc = selectedRow.querySelector('td:nth-child(13) > input').value;
-            let hawalSharh = selectedRow.querySelector('td:nth-child(17) > input').value;
-            let sharh = selectedRow.querySelector('td:nth-child(22) > input').value;
-            let payanahKartKhanNo = selectedRow.querySelector('td:nth-child(20) > input').value;
+            let hawalaNo = selectedRow.querySelector("td:nth-child(22) > input").value;
+            let hawalaDate = selectedRow.querySelector('td:nth-child(23)> input').value;
+            let hawalBankAcc = selectedRow.querySelector('td:nth-child(12) > input').value;
+            let hawalSharh = selectedRow.querySelector('td:nth-child(16) > input').value;
+            let payanahKartKhanNo = selectedRow.querySelector('td:nth-child(19) > input').value;
 
-            $.get(baseUrl+"/allBanks",(respond,status)=>{
+            $.get(baseUrl+"/allBanks",(respond, status)=>{
                 $("#editAddEditBankAccNoHawalaEdit").empty();
                 $("#editAddEditBankAccNoHawalaEdit").append(`<option></option>`);
                 for (const element of respond.bankKarts) {
@@ -2122,19 +2242,25 @@ function openEditAddedGetAndPay(recordTypeValue){
     
             $("#eidtAddEditHawalaNoHawalaEdit").val(hawalaNo)
             $("#editAddEditBankAccNoHawalaEdit").val(hawalBankAcc)
-            $("#bankAccNoHawalaDarEd").val(sharh)
+            $("#bankAccNoHawalaDarEd").val(hawalSharh)
             $("#editAddEditPayanehKartKhanNoHawalaEdit").val(payanahKartKhanNo)
             $("#editAddEditMonyAmountHawalaEdit").val(money)
             $("#editAddEditHawalaDateHawalaEdit").val(hawalaDate)
             $("#editAddEditDiscriptionHawalaEdit").val(hawalSharh)
     
-            $.get(baseUrl+"/allBanks",(respond,status)=>{
-                $("#bankAccNoHawalaDarEd").empty();
-                $("#bankAccNoHawalaDarEd").append(`<option></option>`);
+            $.get(baseUrl + "/allBanks", (respond, status) => {
+                $("#editAddEditBankAccNoHawalaEdit").empty();
+                $("#editAddEditBankAccNoHawalaEdit").append(`<option></option>`);
                 for (const element of respond.bankKarts) {
-                    $("#bankJustAccNoHawalaDar").val(element.AccNo);
-                    $("#bankAccNoHawalaDarEd").append(`<option selected value="${element.AccNo}">${element.bsn}</option>`);
+                    if (element.SerialNoBSN == hawalBankAcc) {
+                        $("#editAddEditBankAccNoHawalaEdit").append(`<option selected value="${element.AccNo}">${element.bsn}</option>`);
+                    } else {
+                        $("#editAddEditBankAccNoHawalaEdit").append(`<option value="${element.AccNo}">${element.bsn}</option>`);
+                    }
                 }
+    
+                // Set the value after the options are loaded
+                $("#editAddEditBankAccNoHawalaEdit").val(hawalBankAcc);
             });
             
           $("#editAddEditHawalaModalEdit").modal("show");
@@ -2145,8 +2271,8 @@ function openEditAddedGetAndPay(recordTypeValue){
      } 
 
      case 4: {
-        let takhfifAmount = document.querySelector("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(10) > input").value;
-        let takhfiDesc = document.querySelector("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(17) > input").value;
+        let takhfifAmount = document.querySelector("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(9) > input").value;
+        let takhfiDesc = document.querySelector("#addedDaryaftListBodyEdit > tr.selected > td:nth-child(16) > input").value;
         
         document.getElementById("takhfifMoneyEdit").value = takhfifAmount;
         document.getElementById("discriptionTakhfifEdit").value = takhfiDesc;
@@ -2156,43 +2282,45 @@ function openEditAddedGetAndPay(recordTypeValue){
 
      case 6: {
         let selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
-        let vairzMoblagh = selectedRow.querySelector("td:nth-child(5)").textContent;
-        let bankAccount = selectedRow.querySelector("td:nth-child(13) > input").value;
-        let description = selectedRow.querySelector("td:nth-child(17) > input").value;
-        let tarafHesab = selectedRow.querySelector("td:nth-child(24) > input").value;
-        let tarafHesabName = selectedRow.querySelector("td:nth-child(21) > input").value;
-        let payGeriNo = selectedRow.querySelector("td:nth-child(23) > input").value;
-        let baName = selectedRow.querySelector("td:nth-child(22) > input").value;
 
+        let vairzMoblagh = selectedRow.querySelector("td:nth-child(9) > input").value;
+        let bankAccount = selectedRow.querySelector("td:nth-child(12) > input").value;
+        let description = selectedRow.querySelector("td:nth-child(16) > input").value;
+        var tarafHesabCode = selectedRow.querySelector("td:nth-child(20) > input").value;
+        let payGeriNo = selectedRow.querySelector("td:nth-child(11) > input").value;
+        let baName = selectedRow.querySelector("td:nth-child(21) > input").value;
+        let tarafHesabName = selectedRow.querySelector("td:nth-child(23) > input").value;
+    
         // by onkeyp get the taraf hesab
-        $("#varizBehisabDigariCustomerCodeEdit").on("keyup",function(e){
-            $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#varizBehisabDigariCustomerCodeEdit").val()},function(respond,status){
+        $("#varizBehisabDigariCustomerCodeEdit").on("keyup", function (e) {
+            $.get(baseUrl + "/getCustomerInfoByCode", { pcode: $("#varizBehisabDigariCustomerCodeEdit").val() }, function (respond, status) {
                 $("#varizBehisabDigariCustomerNameEdit").val(respond[0].Name);
                 $("#varizBehisabDigariCustomerPSNEdit").val(respond[0].PSN);
-            })
+            });
         })
-    
         // insert data to input field
         document.getElementById("moneyVarizToOtherHisabEdit").value = vairzMoblagh;
         document.getElementById("cartNoVarizToOtherEdit").value = bankAccount;
-        document.getElementById("varizBehisabDigariCustomerCodeEdit").value = tarafHesab;
+        document.getElementById("varizBehisabDigariCustomerCodeEdit").value = tarafHesabCode;
         document.getElementById("varizBehisabDigariCustomerNameEdit").value = tarafHesabName;
         document.getElementById("paygiriOtherHisabEdit").value = payGeriNo;
         document.getElementById("benamOtherHisabEdit").value = baName;
         document.getElementById("discriptionOtherHisabEdit").value = description;
+
+
         $("#editAddEditVarizeBehesab").modal("show")
         break;
      }
-      default: 
-            {
-                alert("modal not found");
-            }
+      default: {
+         alert("modal not found");
+        }
     }
-    
 }
+
 
 $("#editDaryaftForm").on("submit",function(e){
     e.preventDefault();
+
     $.ajax({
         method:"POST",
         url: $(this).attr('action'),
@@ -2200,29 +2328,30 @@ $("#editDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            console.log(data);
+            console.log("stay focus", data)
+        //   window.location.reload();
+        },
+        error: function (error) {
+            console.error("There are some error:", error);
         }
     });
 });
 
-function editaddEditNaghdMoneyDar() {
-    const currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
 
+
+function editaddEditNaghdMoneyDar() {
+    let currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
+
+    alert(currentIndex)
+    
     let reials = document.getElementById("editAddEditRialNaghdDar").value.replace(/,/g, '');
     let description = document.getElementById("editAddEditDescNaghdDar").value;
+    let selectedTr = document.querySelector('#addedDaryaftListBodyEdit > tr.selected');
+    
+    selectedTr.querySelector('td:nth-child(4)').textContent = reials;
+    selectedTr.querySelector('td:nth-child(9) > input').value = reials;
+    selectedTr.querySelector('td:nth-child(16) > input').value = description;
 
-    $(`#addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td.addEditVagheNaqd-4`).text(reials);
-
-    let setMoblagh = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(4)`);
-    let setMoblaghVal = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(9) > input`)
-    let setDesValue = document.getElementById(`addedDaryaftListBodyEdit > tr:nth-child(${currentIndex}) > td:nth-child(16) > input`);
-    if (setMoblagh && setMoblaghVal && setDesValue) {
-        setMoblagh.textContent = reials;
-        setMoblaghVal.value = reials;
-        setDesValue.value = description;
-    }
-
-    $("#editAddEditEditVagheNaghdmodal").modal("hide");
 
     // Recalculate netPriceHDS
     let netPriceHDS = 0;
@@ -2236,43 +2365,82 @@ function editaddEditNaghdMoneyDar() {
 
     document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(reials).toLocaleString("en-us");
     document.getElementById("editAddEditDaryafTotal").textContent = netPriceHDS;
+
+    $("#editAddEditEditVagheNaghdmodal").modal("hide");
+    makeTableColumnsResizable("addedEditDaryaftable")
 }
 
 
-function editAddEditCheque(){
-    let selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
+// function editAddEditCheque(){
+//     let rowLength = document.querySelector('#addedDaryaftListBodyEdit tr').length
+//     let selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
 
-    let checkNo = document.getElementById("editAddEditChequeNoCheqe").value;
-    let sarRasedDate = document.getElementById("editAddEditCheckSarRasidDate").value;
-    let laterDate = document.getElementById("editAddEditDaysAfterChequeDate").value;
-    let bankName = document.getElementById("editAddBankNameDar").value;
-    let moblaghCheck = document.getElementById("editAddEditMoneyCheque").value;
-    let accountNo = document.getElementById("editAddEditHisabNoCheque").value;
-    let chequeOwner = document.getElementById("editAddEditMalikCheque").value;
-    let seyadiNo = document.getElementById("editAddEditSayyadiNoCheque").value;
-    let sabtShoudaBeName = document.getElementById("editAddEditSabtBeNameCheque").value;
-    let description = document.getElementById("editAddEditDescCheque").value;
-    let chequeDate = document.getElementById("editAddEditCheckSarRasidDate").value;
+//     let checkNo = document.getElementById("editAddEditChequeNoCheqe").value;
+//     let sarRasedDate = document.getElementById("editAddEditCheckSarRasidDate").value;
+//     let laterDate = document.getElementById("editAddEditDaysAfterChequeDate").value;
+//     let bankName = document.getElementById("editAddBankNameDar").value;
+//     let moblaghCheck = document.getElementById("editAddEditMoneyCheque").value;
+//     let accountNo = document.getElementById("editAddEditHisabNoCheque").value;
+//     let chequeOwner = document.getElementById("editAddEditMalikCheque").value;
+//     let seyadiNo = document.getElementById("editAddEditSayyadiNoCheque").value;
+//     let sabtShoudaBeName = document.getElementById("editAddEditSabtBeNameCheque").value;
+//     let description = document.getElementById("editAddEditDescCheque").value;
+//     let chequeDate = document.getElementById("editAddEditCheckSarRasidDate").value;
 
-   
+//     selectedRow.querySelector('td:nth-child(1)').textContent = rowLength+1;
+//     selectedRow.querySelector('td:nth-child(4)').textContent = ` چک بانک ${bankName} به شماره ${accountNo} تاریخ ${chequeDate} `;
+//     selectedRow.querySelector('td:nth-child(5)').textContent = moblaghCheck;
+//     selectedRow.querySelector('td:nth-child(6)').textContent = seyadiNo;
 
-    selectedRow.querySelector('td:nth-child(1)').textContent = 0;
-    selectedRow.querySelector('td:nth-child(4)').textContent = ` چک بانک ${bankName} به شماره ${accountNo} تاریخ ${chequeDate} `;
-    selectedRow.querySelector('td:nth-child(5)').textContent = moblaghCheck;
-    selectedRow.querySelector('td:nth-child(6)').textContent = 0;
-    selectedRow.querySelector('td:nth-child(7)').textContent = seyadiNo;
-    selectedRow.querySelector('td:nth-child(9)').textContent = sabtShoudaBeName;
+//     selectedRow.querySelector('td:nth-child(14) > input').value = checkNo;
+//     selectedRow.querySelector('td:nth-child(13) > input').value = sarRasedDate;
+//     selectedRow.querySelector('td:nth-child(23) > input').value = laterDate;
+//     selectedRow.querySelector('td:nth-child(17) > input').value = bankName;
+//     selectedRow.querySelector('td:nth-child(12) > input').value = moblaghCheck;
+//     selectedRow.querySelector('td:nth-child(20) > input').value = accountNo;
+//     selectedRow.querySelector('td:nth-child(16) > input').value = chequeOwner;
+//     selectedRow.querySelector('td:nth-child(10) > input').value = seyadiNo;
+//     selectedRow.querySelector('td:nth-child(11) > input').value = sabtShoudaBeName;
+//     selectedRow.querySelector('td:nth-child(19) > input').value = description;
 
-    selectedRow.querySelector('td:nth-child(14) > input').value = checkNo;
-    selectedRow.querySelector('td:nth-child(13) > input').value = sarRasedDate;
-    selectedRow.querySelector('td:nth-child(26) > input').value = laterDate;
-    selectedRow.querySelector('td:nth-child(17) > input').value = bankName;
-    selectedRow.querySelector('td:nth-child(12) > input').value = moblaghCheck;
-    selectedRow.querySelector('td:nth-child(20) > input').value = accountNo;
-    selectedRow.querySelector('td:nth-child(16) > input').value = chequeOwner;
-    selectedRow.querySelector('td:nth-child(10) > input').value = seyadiNo;
-    selectedRow.querySelector('td:nth-child(11) > input').value = sabtShoudaBeName;
-    selectedRow.querySelector('td:nth-child(19) > input').value = description;
+//     $("#editAddEditDaryafAddChequeInfo").modal("hide");
+// }
+
+function editAddEditCheque() {
+    const rowLength = document.querySelector('#addedDaryaftListBodyEdit tr').length;
+    const selectedRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
+
+    const getInputValue = (id) => document.getElementById(id).value;
+    const setInputValue = (selector, value) => selectedRow.querySelector(selector).textContent = value;
+    const setInputValueInput = (selector, value) => selectedRow.querySelector(selector).value = value;
+
+    const checkNo = getInputValue("editAddEditChequeNoCheqe");
+    const sarRasedDate = getInputValue("editAddEditCheckSarRasidDate");
+    const laterDate = getInputValue("editAddEditDaysAfterChequeDate");
+    const bankName = getInputValue("editAddBankNameDar");
+    const moblaghCheck = getInputValue("editAddEditMoneyCheque");
+    const accountNo = getInputValue("editAddEditHisabNoCheque");
+    const chequeOwner = getInputValue("editAddEditMalikCheque");
+    const seyadiNo = getInputValue("editAddEditSayyadiNoCheque");
+    const sabtShoudaBeName = getInputValue("editAddEditSabtBeNameCheque");
+    const description = getInputValue("editAddEditDescCheque");
+    const chequeDate = getInputValue("editAddEditCheckSarRasidDate");
+
+    setInputValue('td:nth-child(1)', rowLength);
+    setInputValue('td:nth-child(4)', ` چک بانک ${bankName} به شماره ${accountNo} تاریخ ${chequeDate} `);
+    setInputValue('td:nth-child(5)', moblaghCheck);
+    setInputValue('td:nth-child(6)', seyadiNo);
+
+    setInputValueInput('td:nth-child(14) > input', checkNo);
+    setInputValueInput('td:nth-child(13) > input', sarRasedDate);
+    setInputValueInput('td:nth-child(23) > input', laterDate);
+    setInputValueInput('td:nth-child(17) > input', bankName);
+    setInputValueInput('td:nth-child(12) > input', moblaghCheck);
+    setInputValueInput('td:nth-child(20) > input', accountNo);
+    setInputValueInput('td:nth-child(16) > input', chequeOwner);
+    setInputValueInput('td:nth-child(10) > input', seyadiNo);
+    setInputValueInput('td:nth-child(11) > input', sabtShoudaBeName);
+    setInputValueInput('td:nth-child(19) > input', description);
 
     $("#editAddEditDaryafAddChequeInfo").modal("hide");
 }
@@ -2290,35 +2458,52 @@ function editAddEditHawalaDar(){
     let rowCount=$("#addedDaryaftListBodyEdit tr").length;
 
     $("#addedDaryaftListBodyEdit").append(`
-        <tr onclick="setAddedDaryaftItemStuff(this, 0)" ondblclick="editAddedDaryaftItem('editAddEditHawalaModal',this)">
-            <td class="d-none"> <input type="checkbox" checked value="${rowCount+1}" name="byss[]"/> ${rowCount+1} </td>
-            <td class="addEditVagheNaqd-1"> ${rowCount+1} </td>
+        <tr onclick="setAddedDaryaftItemStuff(this)" ondblclick="editAddedDaryaftItem('editAddEditHawalaModal',this)">
+            <td class="addEditVagheNaqd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${rowCount} </td>
             <td class="addEditVagheNaqd-2"> 0 </td>
             <td class="addEditVagheNaqd-3"> حواله به ${bankName} به شماره   ${hawalaNo} تاریخ  ${hawalaDateHawala}  </td>
             <td class="addEditVagheNaqd-4"> ${parseInt(monyAmountHawala).toLocaleString("en-us")} </td>
             <td class="addEditVagheNaqd-5"> 0 </td>
             <td class="addEditVagheNaqd-6"> </td>
-            <td class="d-none addEditVagheNaqd-7 d-none"> <input type="text" value="3" name="DocTypeBys${rowCount+1}" class=""/> </td>
-            <td class="addEditVagheNaqd-8"> </td>
-            <td class="d-none"> <input type="text" value="${monyAmountHawala}" name="Price${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${hawalaDateHawala}" name="ChequeDate${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${bankAccNo}" name="AccBankNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="" name="Owener${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${discriptionHawala}" name="DocDescBys${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${payanehKartKhanNo}" name="NoPayanehKartKhanBYS${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount+1}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره   ${hawalaNo}" class=""/> </td>
-            <td class="d-none"> <input type="text" value="${hawalaNo}" class=""/> </td>
+            <td class="addEditVagheNaqd-7"> </td>
+            <td class="d-none addEditVagheNaqd-8 d-none"> <input type="text" value="3" name="DocTypeBys${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${monyAmountHawala}" name="Price${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="ChequeDate${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="ChequeNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${bankAccNo}" name="AccBankNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="Owner${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnBank${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnChequeBook${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${discriptionHawala}" name="DocDescBys${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnAccBank${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="CashNo${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="${payanehKartKhanNo}" name="NoPayanehKartKhanBYS${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="SnPeopelPay${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="حواله به ${bankName} به شماره  ${hawalaNo}"/> </td>
+            <td class="d-none"> <input type="text" value="${hawalaNo}"/> </td>
+            <td class="d-none"> <input type="text" value="${hawalaDateHawala}" name="hawalaDate${rowCount}"/> </td>
+            <td class="d-none"> <input type="text" value="0" name="NameSabtShode${rowCount}"> </td>
         </tr>`);
+        rowCount=$("#addedDaryaftListBodyEdit tr").length;
+
+
+            // Recalculate netPriceHDS
+            let netPriceHDS = 0;
+
+            for (let index = 1; index <= rowCount; index++) {
+                let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
+                console.log("is this return money", element);
+                if (element) {
+                    netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
+                }
+            }
+         document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(monyAmountHawala).toLocaleString("en-us");
+         document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
 
      $("#editAddEditHawalaModal").modal("hide");
      makeTableColumnsResizable("addedEditDaryaftable");
 }
+
 
     $("#editAddEditHawalaDateHawalaDar").persianDatepicker({
         cellWidth: 32,
@@ -2331,7 +2516,6 @@ function editAddEditHawalaDar(){
     $("#editAddEditBankAccNoHawalaDar").on("change",(e)=>{
         $("#editAddEditBankJustAccNoHawalaDar").val($("#editAddEditBankAccNoHawalaDar").val());
    })
-
 
 
 function editAddEditHawalaEdit() {
@@ -2374,14 +2558,31 @@ $("#editAddEditBankAccNoHawalaEdit").on("change",(e)=>{
 
 
 function editAddEditTakhfif(){
+    let rowCount=$("#addedDaryaftListBodyEdit tr").length;
     let takhfifMoney= document.getElementById("takhfifMoneyEdit").value;
     let discriptionTakhfifDar= document.getElementById("discriptionTakhfifEdit").value;
     
     let currentRow = document.querySelector('#addedDaryaftListBodyEdit tr.selected');
     currentRow.querySelector('td.addEditVagheNaqd-4').textContent = takhfifMoney;
-    currentRow.querySelector('td:nth-child(10) > input').value = takhfifMoney;
-    currentRow.querySelector('td:nth-child(17) > input').value = discriptionTakhfifDar;
+    currentRow.querySelector('td:nth-child(9) > input').value = takhfifMoney;
+    currentRow.querySelector('td:nth-child(16) > input').value = discriptionTakhfifDar;
+
+   rowCount=$("#addedDaryaftListBodyEdit tr").length;
+
+        // Recalculate netPriceHDS
+        let netPriceHDS = 0;
+
+        for (let index = 1; index <= rowCount; index++) {
+            let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
+            if (element) {
+                netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
+            }
+        }
+        document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(takhfifMoney).toLocaleString("en-us");
+        document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
+
     $("#editAddEditTakhfifModal").modal("hide");
+
     makeTableColumnsResizable("addedEditDaryaftable");
 }
 
@@ -2394,21 +2595,20 @@ const editAddEditVarizBehesabSave = () => {
     let beName = document.getElementById("benamOtherHisabEdit").value;
     let payGeriNo = document.getElementById("paygiriOtherHisabEdit").value;
     let varizeDesc = document.getElementById("discriptionOtherHisabEdit").value;
-    
+
     let currentRow =  document.querySelector("#addedDaryaftListBodyEdit > tr.selected")
     currentRow.querySelector("td.addEditVagheNaqd-4").textContent = varizMoney;
-    currentRow.querySelector("td:nth-child(10) > input").textContent = varizMoney;
-    currentRow.querySelector("td:nth-child(13) > input").textContent = cardNo;
-    currentRow.querySelector("td:nth-child(17) > input").textContent = varizeDesc;
-    currentRow.querySelector("td:nth-child(21) > input").textContent = trafHesabName;
-    currentRow.querySelector("td:nth-child(22) > input").textContent = beName;
-    currentRow.querySelector("td:nth-child(23) > input").textContent = payGeriNo;
-    currentRow.querySelector("td:nth-child(24) > input").textContent = tarafHesabCode;
+    currentRow.querySelector("td:nth-child(9) > input").value = varizMoney;
+    currentRow.querySelector("td:nth-child(11) > input").value = payGeriNo;
+    currentRow.querySelector("td:nth-child(12) > input").value = cardNo;
+    currentRow.querySelector("td:nth-child(16) > input").value = varizeDesc;
+    currentRow.querySelector("td:nth-child(20) > input").value = tarafHesabCode;
+    currentRow.querySelector("td:nth-child(22) > input").value = trafHesabName;
+    currentRow.querySelector("td:nth-child(23) > input").value = beName;
     
     $("#editAddEditVarizeBehesab").modal("hide")
 }
 
-// ////////////////// I love  working part //////////////////////
 
 function deleteRow(targetTr){
     let deleteBtnValue = parseInt(targetTr);
