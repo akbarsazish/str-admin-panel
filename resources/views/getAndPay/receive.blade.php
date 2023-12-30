@@ -411,7 +411,7 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                             <span class="input-group-text"> تاریخ </span>
-                                            <input type="text" name="editDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
+                                            <input type="text" name="addDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 border">
@@ -430,11 +430,11 @@
                                 <div class="row">
                                     <div class="input-group pt-2">
                                         <span class="input-group-text"> مشتری </span>
-                                        <input type="text" id="customerCodeDaryaftEdit" class="form-control" required>
-                                        <input type="text" id="customerNameDaryaftEdit" class="form-control" required>
-                                        <input type="text" name="customerIdEdit" id="customerIdDaryaftEdit">
+                                        <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
+                                        <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
+                                        <input type="text" name="customerId" id="customerIdDaryaftEdit">
                                         <input type="text" name="SerialNoHDS" id="SerialNoHDSDaryaftEdit">
-                                        <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit" class="d-none">
+                                        <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit">
                                     </div>
                                     <div class="input-group pt-2">
                                         <span class="input-group-text"> بابت </span>
@@ -563,9 +563,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">
-                
-            </div>
+            <div class="modal-footer"> </div>
         </div>
     </div>
 </div>
@@ -1942,7 +1940,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-2">
-                <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerDaryaftModal()"> <i class="fa-times fa"></i> </button>
+                <button class="btn-sm btn btn-danger text-warning" onclick="closeReceiveModals('searchCustomerOtherHisabDaryaftModal')"> <i class="fa-times fa"></i> </button>
                 <h5 class="modal-title"> جستجوی طرف حساب </h5>
             </div>
             <div class="modal-body">

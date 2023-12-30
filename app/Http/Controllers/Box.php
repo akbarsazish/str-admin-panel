@@ -82,13 +82,12 @@ class Box extends Controller{
         return Response::json($receives);
     }
 
+
     function getSandoghs(Request $request) {
         $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!=''");
         return response()->json($sandoghes, 200);
     }
     
-    
-
 
     function addDaryaft(Request $request) {
         // return $request->all();
@@ -98,6 +97,7 @@ class Box extends Controller{
         $daryaftType=0;
     
         $byss=$request->input("BYSS");
+
         $addDaryaftDate=$request->input("addDaryaftDate");
         
         if($request->input("customerId")){
@@ -132,7 +132,6 @@ class Box extends Controller{
         }
         
         $snHDS=0;
-        
         $docNoHDS=0;
         
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
@@ -268,10 +267,10 @@ class Box extends Controller{
 
 
     function deleteGetAndPayBYSBtn(Request $request) {
-
         $snHDS=$request->input("snHDS");
         
     }
+
     function getAndPayHistory(Request $request)  {
         $historyFlag=$request->input("historyFlag");
         $getOrPay=$request->input("getOrPay");
@@ -319,23 +318,20 @@ class Box extends Controller{
 
 
     public function editGetAndPay(Request $request){
-
-        //return $request->all();
+        return $request->all();
         try {
-            //code...
-        
-        $customerIdEdit=$request->customerIdEdit;
-        $daryaftHdsDesc=$request->daryaftHdsDesc;
-        $daryaftType=$request->daryaftType;
-        $daryaftDate=$request->daryaftDate;
-        $netPriceHDS=$request->netPriceHDS;
-        $sandoghIdDar=$request->sandoghIdDar;
-        $daryaftHds=$request->daryaftHds;
-        $snHDS=$request->SerialNoHDS;
-        
+            $customerIdEdit=$request->customerId;
+            $daryaftHdsDesc=$request->daryaftHdsDesc;
+            $daryaftType=$request->daryaftType;
+            $name=$request->name;
+            $pCode=$request->pCode;
+            $daryaftDate=$request->daryaftDate;
+            $netPriceHDS=$request->netPriceHDS;
+            $sandoghIdDar=$request->sandoghIdDar;
+            $daryaftHds=$request->daryaftHds;
+            $snHDS=$request->SerialNoHDS;
 
-        foreach ($request->BYSS as $index) {
-            
+        foreach ($request->BYSS as $index) {  
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
             $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
@@ -350,9 +346,8 @@ class Box extends Controller{
             $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
             $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
             $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
-
-           
-
+            $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
+            
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
             if($countEditables>0){
                 
@@ -371,15 +366,16 @@ class Box extends Controller{
                     ,'SnHDS'=>$snHDS
                     ,'DocDescBYS'=>"$docDescBys"
                     ,'SnAccBank'=>$snAccBank
-                    ,'CashNo'=>$chequeNo
+                    ,'CashNo'=>$cachNo
                     ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
                     ,'RadifInDaftarCheque'=>0
-                    ,'NoPayaneh_KartKhanBys'=>0
+                    ,'NoPayanehKartKhanBYS'=>0
                     ,'KarMozdPriceBys'=>0
                     ,'NoSayyadi'=>0
-                    ,'NameSabtShode'=>''
+                    ,'NameSabtShode'=>"$NameSabtShode"
                     ,'SnPeopelPay'=>$snPeopelPay
                 ]);
+                
             }else{
                 // return 'جدیدا اضافه شده است';
                 // return $request->BYSS;
@@ -407,8 +403,7 @@ class Box extends Controller{
                     ,'NoSayyadi'=>0
                     ,'NameSabtShode'=>''
                     ,'SnPeopelPay'=>$snPeopelPay
-                   ]);
-
+                ]);
                    
             }
         }
