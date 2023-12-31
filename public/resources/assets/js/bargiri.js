@@ -1,7 +1,6 @@
 
 var baseUrl = "http://192.168.10.21:8000";
 
-
 function openBargiriModal(){
     setActiveTable("bargiriDriverListBody")
     $("#bargiriModal").modal("show");

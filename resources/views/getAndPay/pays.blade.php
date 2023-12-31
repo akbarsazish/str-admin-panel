@@ -1183,7 +1183,7 @@
                                 <div class="flex-fill justify-content-start">
                                     <button type="button" class="btn btn-sm btn-success mt-1" id="openEditEditPayEditBtn"
                                         onclick="openEditEditPayEditModal(this.value)"> اصلاح </button>
-                                    <button type="button" class="btn btn-sm btn-danger mt-1"> حذف </button>
+                                    <button type="button" id="deleteEditEditBtn" onclick="deletePayBysEditEdit(this.value)" disabled class="btn btn-sm btn-danger mt-1"> حذف </button>
                                 </div>
                             </fieldset>
                         </div>
