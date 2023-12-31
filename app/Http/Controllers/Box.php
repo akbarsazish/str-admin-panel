@@ -318,7 +318,7 @@ class Box extends Controller{
 
 
     public function editGetAndPay(Request $request){
-        return $request->all();
+     
         try {
             $customerIdEdit=$request->customerId;
             $daryaftHdsDesc=$request->daryaftHdsDesc;
@@ -330,7 +330,7 @@ class Box extends Controller{
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
-
+            return $request->all();
         foreach ($request->BYSS as $index) {  
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;

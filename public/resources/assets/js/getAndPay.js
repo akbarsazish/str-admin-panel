@@ -1284,6 +1284,7 @@ function enableCustomerInfo(codeInputId,nameInputId,idInputId){
 
 
 
+
 $("#editDaryaftDate").persianDatepicker({
     cellWidth: 32,
     cellHeight: 22,
@@ -1331,7 +1332,7 @@ function openDaryaftEditModal(snGetAndPay) {
                
                 $("#addedDaryaftListBodyEdit").empty();
                 document.getElementById("addedDaryaftListBodyEdit").innerHTML = "";
-
+                console.log("check for checkdate ", respond.response)
                 respond.response[0].BYS.forEach((element, index) => {
                    
                   const tableRow = document.createElement("tr");
@@ -1360,7 +1361,6 @@ function openDaryaftEditModal(snGetAndPay) {
                         <td class="d-none"> <input type="text" value="${element.SnPeopelPay}" name="SnPeopelPay${index}"/> </td>
                         <td class="d-none"> <input type="text" value="${element.SerialNoBYS}" name="SerialNoBYS${index}"/> </td>
                         <td class="d-none"> <input type="text" value="${element.NameSabtShode}" name="NameSabtShode${index}"/> </td>
-                        <td class="d-none"> <input type="text" value="0" name="trafHesabName${index}"/> </td>
                 
                     `;
                     
@@ -2492,7 +2492,6 @@ function editAddEditHawalaDar(){
 
             for (let index = 1; index <= rowCount; index++) {
                 let element = document.querySelector(`#addedDaryaftListBodyEdit tr:nth-child(${index}) td:nth-child(4)`);
-                console.log("is this return money", element);
                 if (element) {
                     netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
                 }
@@ -2585,7 +2584,6 @@ function editAddEditTakhfif(){
 
     makeTableColumnsResizable("addedEditDaryaftable");
 }
-
 
 const editAddEditVarizBehesabSave = () => {
     let varizMoney = document.getElementById("moneyVarizToOtherHisabEdit").value;
