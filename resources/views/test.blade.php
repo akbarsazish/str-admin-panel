@@ -44,4 +44,3 @@ DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS in (SELECT SerialNoHDS FROM Shop.d
 
 DELETE FROM Shop.dbo.GetAndPayBYS
 
-closeReceiveModals
