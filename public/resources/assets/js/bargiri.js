@@ -1,6 +1,5 @@
 
-var baseUrl = "http://192.168.10.26:8080";
-
+var baseUrl = "http://192.168.10.21:8000";
 
 function openBargiriModal(){
     setActiveTable("bargiriDriverListBody")
@@ -189,6 +188,7 @@ function editFactorsOfBargiri(snMasterBar){
                                                             <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-inputFactEdit form-control"> </td>
                                                         </tr>`);
         });
+        
         $.get(baseUrl+"/getDrivers",(respond,status)=>{
             $("#factorDriverEdit").empty();
             for (const element of respond.drivers) {
