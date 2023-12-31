@@ -8,6 +8,7 @@ use DateTime;
 use \Morilog\Jalali\Jalalian;
 use Session;
 use Carbon\Carbon;
+use App\Models\GetAndPayHDS;
 class Box extends Controller{
 
     public function index() {
@@ -330,7 +331,8 @@ class Box extends Controller{
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
-            return $request->all();
+            GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
+            ,"NetPriceHDS"=>$netPriceHDS]);
         foreach ($request->BYSS as $index) {  
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
@@ -350,7 +352,6 @@ class Box extends Controller{
             
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
             if($countEditables>0){
-                
                 // // is editable?
                 DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
                     "DocTypeBYS"=>$docTypeBys
@@ -404,12 +405,12 @@ class Box extends Controller{
                     ,'NameSabtShode'=>''
                     ,'SnPeopelPay'=>$snPeopelPay
                 ]);
-                   
             }
         }
     } catch (\Exception $e) {
         // Handle the exception and return an error response
         return response()->json(['error' => $e->getMessage()], 500);
     }
+    return response(array('success'=>"done"));
     }
 }
