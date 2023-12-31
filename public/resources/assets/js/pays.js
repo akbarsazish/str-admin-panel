@@ -160,6 +160,20 @@ function deletePayBys(payBysIndex) {
         }
     });
 }
+function deletePayBysEditEdit(payBysIndex) {
+    var rowIndex = Number(payBysIndex);
+    var payBys = new PayBys(0, rowIndex, '', 0, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
+    swal({
+        text: 'می خواهید این پرداخت را حذف کنید؟',
+        buttons: ['cancel', 'delete'],
+        dangerMode: true,
+        icon: 'warning'
+    }).then(function (willDelete) {
+        if (willDelete) {
+            payBys.deletePayBysEdit(rowIndex);
+        }
+    });
+}
 function addChequeBtnAddPayAdd() {
 }
 function setAddedPayBysStuff(tableRow, type) {
@@ -1225,7 +1239,7 @@ var PayBys = /** @class */ (function () {
         else {
             modalTypeFlag = this.payBYSType;
         }
-        tableRow.setAttribute("onclick", "setAddedPayBysStuff(this," + modalTypeFlag + ")");
+        tableRow.setAttribute("onclick", "setPayBYSStuff(this," + modalTypeFlag + ")");
         for (var i = 0; i < 26; i++) {
             var tableData = document.createElement('td');
             switch (i) {
@@ -1394,8 +1408,9 @@ var PayBys = /** @class */ (function () {
         var tableBody = document.getElementById("paysAddTableBody");
         tableBody.deleteRow(rowIndex);
     };
-    PayBys.prototype.consoleBYS = function (payBys) {
-        console.log(payBys);
+    PayBys.prototype.deletePayBysEdit = function (rowIndex) {
+        var tableBody = document.getElementById("payEditTableBodyBys");
+        tableBody.deleteRow(rowIndex - 1);
     };
     return PayBys;
 }());
@@ -1809,4 +1824,9 @@ function addEditPayHawalaFromBankEdit() {
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBankEditModal');
     paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
+}
+function deleteSelectedBysItem() {
+    var selectedRow = document.querySelectorAll(".selected");
+    selectedRow.forEach(function (element) {
+    });
 }

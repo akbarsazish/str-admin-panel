@@ -1,4 +1,4 @@
-var baseUrl = "http://192.168.10.21:8000";
+var baseUrl = "http://192.168.10.26:8080";
 function openNewOrderModal(){
     setActiveForm("addsefarishtbl");
     if (!($('.modal.in').length)) {

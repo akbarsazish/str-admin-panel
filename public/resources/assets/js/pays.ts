@@ -178,6 +178,22 @@ function deletePayBys(payBysIndex: number){
         }
     });
 }
+function deletePayBysEditEdit(payBysIndex:number){
+    
+    let rowIndex:number=Number(payBysIndex);
+    let payBys: PayBys = new PayBys(0,rowIndex,'',0,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
+    
+    swal({
+        text:'می خواهید این پرداخت را حذف کنید؟',
+        buttons: ['cancel', 'delete'],
+        dangerMode: true,
+        icon: 'warning'
+    }).then((willDelete) => {
+        if (willDelete) {
+            payBys.deletePayBysEdit(rowIndex);
+        }
+    });
+}
 
 function addChequeBtnAddPayAdd(){
 
@@ -1297,7 +1313,7 @@ class PayBys{
         }else{
             modalTypeFlag=this.payBYSType;
         }
-        tableRow.setAttribute("onclick", `setAddedPayBysStuff(this,`+modalTypeFlag+`)`);
+        tableRow.setAttribute("onclick", `setPayBYSStuff(this,`+modalTypeFlag+`)`);
         for(let i = 0; i < 26; i++){
             const tableData = document.createElement('td');
             switch (i) {
@@ -1469,9 +1485,12 @@ class PayBys{
         let tableBody : HTMLTableSectionElement = document.getElementById("paysAddTableBody") as HTMLTableSectionElement;
         tableBody.deleteRow(rowIndex);
     }
-    consoleBYS(payBys : PayBys){
-        console.log(payBys);
+
+    deletePayBysEdit(rowIndex:number){
+        let tableBody : HTMLTableSectionElement = document.getElementById("payEditTableBodyBys") as HTMLTableSectionElement;
+        tableBody.deleteRow(rowIndex-1);
     }
+    
 }
 const daysAfterChequeDateAddInput:HTMLInputElement=document.getElementById("daysAfterChequeDateInputAddPayAdd") as HTMLInputElement;
 if(daysAfterChequeDateAddInput){
@@ -1901,6 +1920,13 @@ function addEditPayHawalaFromBankEdit(){
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBankEditModal');
     paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
+}
+
+function deleteSelectedBysItem(){
+    const selectedRow=document.querySelectorAll(".selected");
+    selectedRow.forEach(element => {
+        
+    });
 }
 
 

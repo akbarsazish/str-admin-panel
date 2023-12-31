@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
@@ -3290,7 +3290,7 @@ function openEditPayModal(snGetAndPayHDS){
         console.log(bys)
         for (const element of bys) {
             
-            bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.SerialNoBYS})"><td>${rowNumber}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td>
+            bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.DocTypeBYS})"><td>${rowNumber}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td>
             <td class="d-none" ><input type="checkbox" checked class="form-check-input" value="${(rowNumber)}" name="BYSs[]"/></td>
             <td class="d-none" ><input type="text" class="form-check-input" value="${element.DocTypeBYS}" name="BysType${rowNumber}"/></td>
             <td class="d-none" ><input type="text" value="${element.NoSayyadi}" name="sayyadiNoCheque${rowNumber}"/></td>
@@ -3322,26 +3322,29 @@ function openEditPayModal(snGetAndPayHDS){
 
 function setPayBYSStuff(seletedTr,serialNoBYS){
     const tr = document.querySelectorAll('tr');
+    const deleteBysBtn=document.getElementById("deleteEditEditBtn");
+    deleteBysBtn.disabled=false;
     for (let index = 0; index < tr.length; index++) {
         const element = tr[index];
         element.classList.remove('selected');
     }
-
     seletedTr.classList.add('selected');
+    deleteBysBtn.value=seletedTr.rowIndex;
     const openEditEditPayEditBtn = document.getElementById("openEditEditPayEditBtn");
     openEditEditPayEditBtn.value=serialNoBYS;
+    
 }
 
-function openEditEditPayEditModal(serialNoBYS){
-    if(serialNoBYS!=0){
-        params=new URLSearchParams();
-        params.append("SerialNoBYS",serialNoBYS);
-        fetch(baseUrl+`/getBYSInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
-            checkEditEditPayEditModal(data.response[0].DocTypeBYS);
-        })
-    }else{
-        checkEditEditPayEditModal(1)
-    }
+function openEditEditPayEditModal(docTypeBYS){
+    // if(serialNoBYS!=0){
+    //     params=new URLSearchParams();
+    //     params.append("SerialNoBYS",serialNoBYS);
+    //     fetch(baseUrl+`/getBYSInfo?${params.toString()}`).then(response=>response.json()).then((data)=>{
+    //         checkEditEditPayEditModal(data.response[0].DocTypeBYS);
+    //     })
+    // }else{
+        checkEditEditPayEditModal(docTypeBYS)
+   // }
 }
 
 function checkEditEditPayEditModal(docTypeBYS){
