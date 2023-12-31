@@ -12,7 +12,7 @@
         if(editGetInput){
             editGetInput.value=snGetAndPay;
         }
-alert(snGetAndPay)
+
         $.get(baseUrl+"/getGetAndPayBYS",{snGetAndPay:snGetAndPay},function(respond,status){
             if(tableBodyId=='receiveListBodyBYS'){
                 $("#"+tableBodyId).empty();
@@ -134,7 +134,6 @@ alert(snGetAndPay)
     }
 
     function openDaryaftModal(sandoghId){
-        alert(sandoghId);
          $("#sandoghIdDar").val(sandoghId);
         closeSandoghModalDar();
         if (!($('.modal.in').length)) {
@@ -491,7 +490,7 @@ alert(snGetAndPay)
 
     function addNaghdMoneyDar(){
         let rowCount = $("#addedDaryaftListBody tr").length;
-        alert(rowCount)
+    
         let rials=$("#rialNaghdDar").val().replace(/,/g, '');
         let description=$("#descNaghdDar").val();
 
@@ -1161,7 +1160,6 @@ const addVarizToOtherHisabEdit = () => {
 
 $("#addDaryaftForm").on("submit",function(e){
     e.preventDefault();
-    alert("text alert")
     
     $.ajax({
         method:"POST",
@@ -1171,7 +1169,7 @@ $("#addDaryaftForm").on("submit",function(e){
         contentType: false,
         success: function (data) {
             console.log(data)
-            // window.location.reload();
+            window.location.reload();
         },
         error:function(error){
             console.log(error)
@@ -1298,7 +1296,6 @@ $("#editDaryaftDate").persianDatepicker({
 });
 
 function openDaryaftEditModal(snGetAndPay) {
-    alert(snGetAndPay)
     fetch(baseUrl + "/getGetAndPayInfo?snGetAndPay=" + snGetAndPay)
         .then(response => response.json())
         .then(respond => {
@@ -2126,7 +2123,6 @@ function editAddVarizeBeHesab(){
         document.getElementById("addedDaryaftListBodyEdit").appendChild(newRow);
         rowCount = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
 
-        alert(rowCount)
         $("#editAddVarizeBeHesabDegaran").modal("hide");
 
         makeTableColumnsResizable("addedEditDaryaftable")
@@ -2156,7 +2152,6 @@ $("#editAddEditMoneyCheque").on("keyup",()=>{
 
 
 function openEditAddedGetAndPay(recordTypeValue){
-    alert("this should open modal", recordTypeValue)
     let editButton = document.getElementById("editaddedGetAndPayBtn");
     if (editButton) {
         editButton.disabled = false;
@@ -2168,9 +2163,7 @@ function openEditAddedGetAndPay(recordTypeValue){
     switch (byssValue) {
         case 1:{
                 if (selectedRow) {
-                    alert("first alert")
                     let vajheNaqdMoblagh = selectedRow.querySelector('td:nth-child(9) > input').value;
-                    alert("second alert", vajheNaqdMoblagh)
                     let vajheNaqdDes = selectedRow.querySelector('td:nth-child(16) > input').value;
                     document.getElementById("editAddEditRialNaghdDar").value = vajheNaqdMoblagh;
                     document.getElementById("editAddEditDescNaghdDar").value = vajheNaqdDes;
@@ -2345,8 +2338,6 @@ $("#editDaryaftForm").on("submit",function(e){
 
 function editaddEditNaghdMoneyDar() {
     let currentIndex = document.querySelectorAll("#addedDaryaftListBodyEdit tr").length;
-
-    alert(currentIndex)
     
     let reials = document.getElementById("editAddEditRialNaghdDar").value.replace(/,/g, '');
     let description = document.getElementById("editAddEditDescNaghdDar").value;
@@ -3234,10 +3225,10 @@ function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
                     <td> ${element.DocDate} </td>
                     <td> ${element.Name}</td>
                     <td> ${element.DocDescHDS} </td>
-                    <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                    <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
                     <td> ${element.SaveTime}</td>
                     <td> ${element.userName}  </td>
-                    <td > ${element.cashName} </td>
+                    <td> ${element.cashName} </td>
                     <td> ${element.DocDescHDS} </td>
                 </tr>`);
         })
@@ -3495,7 +3486,6 @@ function checkEditEditPayEditModal(docTypeBYS){
             break;
         case "5":
             {// hawal from Box
-                alert('it is hawala from box;')
                 let modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBoxEditModal'));
                 const hawalaNoInput=document.getElementById("editHawalaFromBoxEditInputNumber");
                 const hawalaDateInput=document.getElementById("editHawalaFromBoxEditDateInput");
@@ -3736,14 +3726,12 @@ if(editPayName){
         
         let customerName = editPayName.value;
         if(customerName.length>0){
-            alert("openSearchCustomerForPayModal");
             openSearchCustomerForPayEditModal(customerName);
         }
     })
 }
 
 function openSearchCustomerForPayEditModal(customerName){
-    alert("openSearchCustomerForPayEditModal");
     modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayEditModal'));
     modal.show();
 }
