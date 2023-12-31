@@ -188,6 +188,7 @@ function editFactorsOfBargiri(snMasterBar){
                                                             <td   class="td-part-input"> <input type="text" value="${element.PhoneStr}" class="td-inputFactEdit form-control"> </td>
                                                         </tr>`);
         });
+        
         $.get(baseUrl+"/getDrivers",(respond,status)=>{
             $("#factorDriverEdit").empty();
             for (const element of respond.drivers) {

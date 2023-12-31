@@ -134,7 +134,7 @@ class Box extends Controller{
         $snHDS=0;
         $docNoHDS=0;
 
-        return $request->all();
+        // return $request->all();
         
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
        //return Response::json($request->all());
@@ -309,7 +309,6 @@ class Box extends Controller{
             break;
         }
         return response()->json($getAndPays);
-
     }
 
     public function getBYSInfo(Request $request) {
@@ -319,19 +318,25 @@ class Box extends Controller{
     }
 
     public function editGetAndPay(Request $request){
+        
         try {
             $customerIdEdit=$request->customerId;
             $daryaftHdsDesc=$request->daryaftHdsDesc;
             $daryaftType=$request->daryaftType;
             $name=$request->name;
             $pCode=$request->pCode;
-            $daryaftDate=$request->daryaftDate;
+            $daryaftDate=$request->addDaryaftDate;
             $netPriceHDS=$request->netPriceHDS;
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
+             try{
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
             ,"NetPriceHDS"=>$netPriceHDS]);
+             }catch(\Exception $e){
+                $e->getMessage();
+            }
+            
 
         foreach ($request->BYSS as $index) {  
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
@@ -351,31 +356,37 @@ class Box extends Controller{
             $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
             
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
+
             if($countEditables>0){
+                
                 // // is editable?
-                DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
-                    "DocTypeBYS"=>$docTypeBys
-                    ,"Price"=>$price
-                    ,"ChequeDate"=>"$chequeDate"
-                    ,'ChequeNo'=>$chequeNo
-                    ,'AccBankno'=>$accBankNo
-                    ,'Owner'=>"$Owner"
-                    ,'SnBank'=>$snBank
-                    ,'Branch'=>0
-                    ,'SnChequeBook'=>$snChequeBook
-                    ,'FiscalYear'=>1402
-                    ,'SnHDS'=>$snHDS
-                    ,'DocDescBYS'=>"$docDescBys"
-                    ,'SnAccBank'=>$snAccBank
-                    ,'CashNo'=>$cachNo
-                    ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
-                    ,'RadifInDaftarCheque'=>0
-                    ,'NoPayanehKartKhanBYS'=>0
-                    ,'KarMozdPriceBys'=>0
-                    ,'NoSayyadi'=>0
-                    ,'NameSabtShode'=>"$NameSabtShode"
-                    ,'SnPeopelPay'=>$snPeopelPay
-                ]);
+                try{
+                    DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
+                        "DocTypeBYS"=>$docTypeBys
+                        ,"Price"=>$price
+                        ,"ChequeDate"=>"$chequeDate"
+                        ,'ChequeNo'=>$chequeNo
+                        ,'AccBankno'=>$accBankNo
+                        ,'Owner'=>"$Owner"
+                        ,'SnBank'=>$snBank
+                        ,'Branch'=>0
+                        ,'SnChequeBook'=>$snChequeBook
+                        ,'FiscalYear'=>1402
+                        ,'SnHDS'=>$snHDS
+                        ,'DocDescBYS'=>"$docDescBys"
+                        ,'SnAccBank'=>$snAccBank
+                        ,'CashNo'=>$cachNo
+                        ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
+                        ,'RadifInDaftarCheque'=>0
+                        ,'NoPayaneh_KartKhanBys'=>0
+                        ,'KarMozdPriceBys'=>0
+                        ,'NoSayyadi'=>0
+                        ,'NameSabtShode'=>"$NameSabtShode"
+                        ,'SnPeopelPay'=>$snPeopelPay
+                    ]);
+                }catch(\Exception $e){
+                    return $e->getMessage();
+                }
                 
             }else{
                 // return 'جدیدا اضافه شده است';
@@ -407,6 +418,7 @@ class Box extends Controller{
                 ]);
             }
         }
+        
     } catch (\Exception $e) {
         // Handle the exception and return an error response
         return response()->json(['error' => $e->getMessage()], 500);
