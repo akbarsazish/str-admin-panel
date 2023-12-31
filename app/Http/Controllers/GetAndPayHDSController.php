@@ -177,6 +177,7 @@ class GetAndPayHDSController extends Controller
                         "DocDescBYS"=>$docDescBYS,"SnAccBank"=>$snAccBank,"NoPayaneh_KartKhanBys"=>$nopayanehBYS,
                         "KarMozdPriceBys"=>$karmozdBYS,"NoSayyadi"=>$sayyadiNoBYS,"NameSabtShode"=>'',"SnPeopelPay"=>$snPplPayBYS
                         ]);
+                        array_push($allSerialNo,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
                 }catch(\Exception $e){
                     return $e->getMessage();
                 }
@@ -184,6 +185,7 @@ class GetAndPayHDSController extends Controller
             }
             
             try{
+                //return $allSerialNo;
                 DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS and SerialNoBYS not in(".implode(",",$allSerialNo).")");
             }catch(\Exception $e){
                 return $e->getMessage();

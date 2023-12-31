@@ -319,6 +319,8 @@ class Box extends Controller{
 
     public function editGetAndPay(Request $request){
         
+        $allSerialNoBYSs=array();
+        $snHDS;
         try {
             $customerIdEdit=$request->customerId;
             $daryaftHdsDesc=$request->daryaftHdsDesc;
@@ -330,15 +332,12 @@ class Box extends Controller{
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
-             try{
+            
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
             ,"NetPriceHDS"=>$netPriceHDS]);
-             }catch(\Exception $e){
-                $e->getMessage();
-            }
-            
 
-        foreach ($request->BYSS as $index) {  
+        foreach ($request->BYSS as $index) {
+              
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
             $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
@@ -354,7 +353,7 @@ class Box extends Controller{
             $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
             $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
             $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
-            
+            array_push($allSerialNoBYSs,$serialNoBYS);
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
 
             if($countEditables>0){
@@ -416,12 +415,19 @@ class Box extends Controller{
                     ,'NameSabtShode'=>''
                     ,'SnPeopelPay'=>$snPeopelPay
                 ]);
+
+                array_push($allSerialNoBYSs,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
             }
         }
         
     } catch (\Exception $e) {
         // Handle the exception and return an error response
         return response()->json(['error' => $e->getMessage()], 500);
+    }
+    try{
+        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNoBYSs).")");
+    }catch(\Exception $e){
+        return $e->getMessage();
     }
     return response(array('success'=>"done"));
     }
