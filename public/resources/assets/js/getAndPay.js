@@ -153,17 +153,10 @@
         });
     }
 
-    function closeDaryaftModal() {
-        $("#addDaryaftModal").modal("hide");   
-    }
-
     function closeDaryaftModalEdit() {
         $("#daryaftModalEdit").modal("hide");        
     }
 
-    function openDaryaftVajhNaghdModal(){
-        $("#addDaryaftVajhNaghdModal").modal("show");
-    }
 
     function closeDaryaftVajhNaghdModal(){
         $("#addDaryaftVajhNaghdModal").modal("hide")
@@ -173,31 +166,14 @@
         $("#daryaftVajhNaghdModalEdit").modal("hide")
     }
 
-    function openChequeInfoModal() {
-        $("#daryafAddChequeInfo").modal("show")
-    }
-
-    function closeChequeInfoModal() {
-        $("#daryafAddChequeInfo").modal("hide")
-    }
-
-    function closeChequeInfoModalEdit() {
-        $("#chequeInfoModalEdit").modal("hide")
-    }
-  
 
     function openeditAddEditVagheNaghdmodal(){
         $("#editAddEditVagheNaghdmodal").modal("show");
     }
-    function closeEditAddEditVagheNaghdmodal(){
-        $("#editAddEditVagheNaghdmodal").modal("hide");
-    }
+ 
 
     function openEditAddDaryafAddChequeInfo(){
         $("#editAddDaryafAddChequeInfo").modal("show");
-    }
-    function closeEditAddDaryafAddChequeInfo(){
-        $("#editAddDaryafAddChequeInfo").modal("hide");
     }
 
   
@@ -213,42 +189,6 @@
         $("#daryafAddHawalaInfoModal").modal("show");
     }
 
-    
-    function closeHawalaInfoModal() {
-        $("#daryafAddHawalaInfoModal").modal("hide")
-    }
-
-    function closetHawalaInfoModalEdit() {
-        $("#daryaftHawalaInfoModalEdit").modal("hide")
-    }
-
-    function openSpentChequeModal(){
-        $("#addSpentChequeModal").modal("show");
-    }
-
-    function closeSpentChequeModal(){
-        $("#addSpentChequeModal").modal("hide");
-    }
-
-    function closeSpentChequeModalEdit(){
-        $("#spentChequeModalEdit").modal("hide");
-    }
-
-    function openTakhfifModal(){
-        $("#daryaftAddTakhfifModal").modal("show")
-    }
-
-    function closeTakhfifModal(){
-        $("#daryaftAddTakhfifModal").modal("hide")
-    }
-
-    function closeTakhfifModalEdit() {
-        var modal = document.getElementById("takhfifModalEdit");
-        if (modal) {
-            modal.style.display = "none";
-        }
-    }
-
     function openRelatedFactorsModal(){
         if($("#customerIdDaryaft").val().length>0){
             $("#relatedFactorsModal").modal("show");
@@ -259,17 +199,11 @@
         }
     }
 
-    function closeRelatedFactorsModal(){
-        $("#relatedFactorsModal").modal("hide");
-    }
 
     function openSearchFactorModal(){
         $("#searchFactorModal").modal("show")
     }
 
-    function closeSearchFactorModal(){
-        $("#searchFactorModal").modal("hide")
-    }
 
     function closeCustomerGardishModal(){
         $("#customerGardishModal").modal("hide")
@@ -278,9 +212,7 @@
     function openRasDaryaftItemModal(){
         $("#rasDaryaftItemModal").modal("show")
     }
-    function closeRasDaryaftItemModal(){
-        $("#rasDaryaftItemModal").modal("hide")
-    }
+
 
     const openReceiveModals = (modalId) => {
         if(modalId === "editAddHawalaModal"){
@@ -1388,10 +1320,6 @@ function openDaryaftEditModal(snGetAndPay) {
     });
 }
 
-
-function closeDaryaftEditModal(){
-    $("#daryaftEditModal").modal("hide")
-}
 
 function paysModal(){
     if (!($('.modal.in').length)) {
@@ -3082,24 +3010,17 @@ function openAddPayVajhNaghdEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addPayVajhNaghdEditModal'));
     modal.show();
 }
-function closeAddPayVajhNaghdEditModal(){
-    $("#addPayVajhNaghdEditModal").hide();
-}
+
 function openAddPayChequeInfoEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addPayChequeInfoEditModal'));
     modal.show();
 }
-function closAddPayChequeInfoEditModal(){
-    
-    $("#addPayChequeInfoEditModal").hide();
-}
+
 function openaddSpentChequeEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addSpentChequeEditModal'));
     modal.show();
 }
-function closeAddSpentChequeEditModal(){
-    $("#addSpentChequeEditModal").hide();
-}
+
 function openAddPayTakhfifEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('AddPayTakhfifEditModal'));
     modal.show();
@@ -3199,16 +3120,20 @@ function openEditEditPayHawalaFromBoxEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBoxEditModal'));
     modal.show();
 }
+
 function closeEditEditPayHawalaFromBoxEditModal(){
     $("#editEditPayHawalaFromBoxEditModal").hide();
 }
+
 function openEditEditPayHawalaFromBankEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('editEditPayHawalaFromBankEditModal'));
     modal.show();
 }
+
 function closeEditEditPayHawalaFromBankEditModal(){
     $("#editEditPayHawalaFromBankEditModal").hide();
 }
+
 
 function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
     params=new URLSearchParams();
@@ -3357,12 +3282,11 @@ function checkEditEditPayEditModal(docTypeBYS){
                 rowData.forEach((td,index)=>{
                     if(td.children.item(0)){
                         switch(index){
-                            case 19:
-                            {
+                            case 19: {
                                 rialNaghdPayEditEditInputEdit.value=td.children.item(0)?.getAttribute("value");
                             }
                             break;
-                            case 13:{
+                            case 13: {
                                 descNaghdPayEditEditInputEdit.value=td.children.item(0)?.getAttribute("value");
                             }
                             break;
