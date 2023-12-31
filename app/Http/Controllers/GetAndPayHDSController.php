@@ -131,64 +131,73 @@ class GetAndPayHDSController extends Controller
             $docdescHDS=$request->DocDescHDS;
             $snHDS=$request->HDS;
             $inforHDS=$request->InforHDS;
-            $byss=$request->BYSs;
+            $byss=$request->BYSs??array();
+            
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$docDateHDS,"DocDescHDS"=>$docdescHDS,"PeopelHDS"=>$peopelHDS,"InForHDS"=>$inforHDS,"NetPriceHDS"=>$inforHDS]);
-            foreach($byss as $bys){
-                $accBankNoBYS=$request->{'AccBankNo'.$bys} ?? 0;
-                $branchBYS=$request->{'Branch'.$bys} ?? '';
-                $doctypeBys=$request->{'BysType'.$bys} ?? 0;
-                $docDescBYS=$request->{'DocDescBys'.$bys}  ?? '';
-                $karmozdBYS=$request->{'Karmozd'.$bys} ?? 0;
-                $nopayanehBYS=$request->{'NoPayanehKartKhanBYS'.$bys}  ?? '';
-                $priceBYS=$request->{'Price'.$bys} ?? 0;
-                $snAccBank=$request->{'SnAccBank'.$bys} ?? 0;
-                $snbankBYS=$request->{'SnBank'.$bys} ?? 0;
-                $snCheckBookBYS=$request->{'SnChequeBook'.$bys} ?? 0;
-                $snMainPeopeBYS=$request->{'SnMainPeopel'.$bys} ?? 0;
-                $snPplPayBYS=$request->{'SnPeopelPay'.$bys} ?? 0;
-                $chequeSarRasidBYS=$request->{'checkSarRasidDate'.$bys} ?? '';
-                $checkNoBYS=$request->{'chequeNoCheqe'.$bys} ?? 0;
-                $docNoBYS=$request->{'hawalaNo'.$bys} ?? 0;
-                $ownerName=$request->{'ownerName'.$bys} ?? '';
-                $sayyadiNoBYS=$request->{'sayyadiNoCheque'.$bys} ?? 0;
-                $serialNoBYS=$request->{'SerialNoBYS'.$bys};
-                array_push($allSerialNo,$serialNoBYS);
-                $isEditable=GetAndPayBYS::where("SnHDS",$snHDS)->where("SerialNoBYS",$serialNoBYS)->get();
-                
-                if(count($isEditable)>0){
-                    try{
-                        GetAndPayBYS::where("SerialNoBYS",$serialNoBYS)->update(
-                            ["CompanyNo"=>5,"DocTypeBYS"=>$doctypeBys,"Price"=>$priceBYS,"ChequeDate"=>$chequeSarRasidBYS,
+            if(count($byss)>0){
+                foreach($byss as $bys){
+                    $accBankNoBYS=$request->{'AccBankNo'.$bys} ?? 0;
+                    $branchBYS=$request->{'Branch'.$bys} ?? '';
+                    $doctypeBys=$request->{'BysType'.$bys} ?? 0;
+                    $docDescBYS=$request->{'DocDescBys'.$bys}  ?? '';
+                    $karmozdBYS=$request->{'Karmozd'.$bys} ?? 0;
+                    $nopayanehBYS=$request->{'NoPayanehKartKhanBYS'.$bys}  ?? '';
+                    $priceBYS=$request->{'Price'.$bys} ?? 0;
+                    $snAccBank=$request->{'SnAccBank'.$bys} ?? 0;
+                    $snbankBYS=$request->{'SnBank'.$bys} ?? 0;
+                    $snCheckBookBYS=$request->{'SnChequeBook'.$bys} ?? 0;
+                    $snMainPeopeBYS=$request->{'SnMainPeopel'.$bys} ?? 0;
+                    $snPplPayBYS=$request->{'SnPeopelPay'.$bys} ?? 0;
+                    $chequeSarRasidBYS=$request->{'checkSarRasidDate'.$bys} ?? '';
+                    $checkNoBYS=$request->{'chequeNoCheqe'.$bys} ?? 0;
+                    $docNoBYS=$request->{'hawalaNo'.$bys} ?? 0;
+                    $ownerName=$request->{'ownerName'.$bys} ?? '';
+                    $sayyadiNoBYS=$request->{'sayyadiNoCheque'.$bys} ?? 0;
+                    $serialNoBYS=$request->{'SerialNoBYS'.$bys};
+                    array_push($allSerialNo,$serialNoBYS);
+                    $isEditable=GetAndPayBYS::where("SnHDS",$snHDS)->where("SerialNoBYS",$serialNoBYS)->get();
+                    
+                    if(count($isEditable)>0){
+                        try{
+                            GetAndPayBYS::where("SerialNoBYS",$serialNoBYS)->update(
+                                ["CompanyNo"=>5,"DocTypeBYS"=>$doctypeBys,"Price"=>$priceBYS,"ChequeDate"=>$chequeSarRasidBYS,
+                                "ChequeNo"=>$checkNoBYS,"AccBankno"=>$accBankNoBYS,"Owner"=>$ownerName,"SnBank"=>$snbankBYS,
+                                "Branch"=>$branchBYS,"SnChequeBook"=>$snCheckBookBYS,"FiscalYear"=>1402,"SnHDS"=>$snHDS,
+                                "DocDescBYS"=>$docDescBYS,"SnAccBank"=>$snAccBank,"NoPayaneh_KartKhanBys"=>$nopayanehBYS,
+                                "KarMozdPriceBys"=>$karmozdBYS,"NoSayyadi"=>$sayyadiNoBYS,"NameSabtShode"=>'',"SnPeopelPay"=>$snPplPayBYS
+                                ]);
+                            //return $serialNoBYS;
+                        }catch(\Exception $e){
+                            return $e->getMessage();
+                        }
+                    }else{
+                        try{
+                            //return $snAccBank;
+                            GetAndPayBYS::create(["CompanyNo"=>5,"DocTypeBYS"=>$doctypeBys,"Price"=>$priceBYS,"ChequeDate"=>$chequeSarRasidBYS,
                             "ChequeNo"=>$checkNoBYS,"AccBankno"=>$accBankNoBYS,"Owner"=>$ownerName,"SnBank"=>$snbankBYS,
                             "Branch"=>$branchBYS,"SnChequeBook"=>$snCheckBookBYS,"FiscalYear"=>1402,"SnHDS"=>$snHDS,
                             "DocDescBYS"=>$docDescBYS,"SnAccBank"=>$snAccBank,"NoPayaneh_KartKhanBys"=>$nopayanehBYS,
                             "KarMozdPriceBys"=>$karmozdBYS,"NoSayyadi"=>$sayyadiNoBYS,"NameSabtShode"=>'',"SnPeopelPay"=>$snPplPayBYS
                             ]);
-                        //return $serialNoBYS;
+                            array_push($allSerialNo,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
                     }catch(\Exception $e){
                         return $e->getMessage();
                     }
-                }else{
-                    try{
-                        //return $snAccBank;
-                        GetAndPayBYS::create(["CompanyNo"=>5,"DocTypeBYS"=>$doctypeBys,"Price"=>$priceBYS,"ChequeDate"=>$chequeSarRasidBYS,
-                        "ChequeNo"=>$checkNoBYS,"AccBankno"=>$accBankNoBYS,"Owner"=>$ownerName,"SnBank"=>$snbankBYS,
-                        "Branch"=>$branchBYS,"SnChequeBook"=>$snCheckBookBYS,"FiscalYear"=>1402,"SnHDS"=>$snHDS,
-                        "DocDescBYS"=>$docDescBYS,"SnAccBank"=>$snAccBank,"NoPayaneh_KartKhanBys"=>$nopayanehBYS,
-                        "KarMozdPriceBys"=>$karmozdBYS,"NoSayyadi"=>$sayyadiNoBYS,"NameSabtShode"=>'',"SnPeopelPay"=>$snPplPayBYS
-                        ]);
-                        array_push($allSerialNo,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
+                    }
+                }
+                
+                try{
+                    if(count($allSerialNo)>0){
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNo).")");
+                    }else{
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snHDS");
+                    }
                 }catch(\Exception $e){
                     return $e->getMessage();
                 }
-                }
-            }
-            
-            try{
-                //return $allSerialNo;
-                DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS and SerialNoBYS not in(".implode(",",$allSerialNo).")");
-            }catch(\Exception $e){
-                return $e->getMessage();
+            }else{
+                DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS");
+                DB::delete("DELETE FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snHDS");
             }
         }catch(\Exception $e){
             return $e->getMessage();

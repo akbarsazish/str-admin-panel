@@ -332,103 +332,121 @@ class Box extends Controller{
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
+            $byss=$request->BYSS??array();
             
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
             ,"NetPriceHDS"=>$netPriceHDS]);
+            if(count($byss)>0){
 
-        foreach ($request->BYSS as $index) {
-              
-            $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
-            $cachNo=$request->{'CashNo'.$index} ?? 0;
-            $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
-            $chequeDate=$request->{'ChequeDate'.$index} ?? '';
-            $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
-            $docDescBys=$request->{'DocDescBys'.$index} ?? '';
-            $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
-            $Owner=$request->{'Owner'.$index} ?? '';
-            $price=$request->{'Price'.$index} ?? 0;
-            $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
-            $snBank=$request->{'SnBank'.$index} ?? 0;
-            $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
-            $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
-            $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
-            $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
-            array_push($allSerialNoBYSs,$serialNoBYS);
-            $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
+                foreach ($byss as $index) {
+                    $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
+                    $cachNo=$request->{'CashNo'.$index} ?? 0;
+                    $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
+                    $chequeDate=$request->{'ChequeDate'.$index} ?? '';
+                    $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
+                    $docDescBys=$request->{'DocDescBys'.$index} ?? '';
+                    $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
+                    $Owner=$request->{'Owner'.$index} ?? '';
+                    $price=$request->{'Price'.$index} ?? 0;
+                    $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
+                    $snBank=$request->{'SnBank'.$index} ?? 0;
+                    $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
+                    $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
+                    $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
+                    $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
+                    array_push($allSerialNoBYSs,$serialNoBYS);
+                    $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
 
-            if($countEditables>0){
-                
-                // // is editable?
+                    if($countEditables>0){
+                        
+                        // // is editable?
+                        try{
+                            DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
+                                "DocTypeBYS"=>$docTypeBys
+                                ,"Price"=>$price
+                                ,"ChequeDate"=>"$chequeDate"
+                                ,'ChequeNo'=>$chequeNo
+                                ,'AccBankno'=>$accBankNo
+                                ,'Owner'=>"$Owner"
+                                ,'SnBank'=>$snBank
+                                ,'Branch'=>0
+                                ,'SnChequeBook'=>$snChequeBook
+                                ,'FiscalYear'=>1402
+                                ,'SnHDS'=>$snHDS
+                                ,'DocDescBYS'=>"$docDescBys"
+                                ,'SnAccBank'=>$snAccBank
+                                ,'CashNo'=>$cachNo
+                                ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
+                                ,'RadifInDaftarCheque'=>0
+                                ,'NoPayaneh_KartKhanBys'=>0
+                                ,'KarMozdPriceBys'=>0
+                                ,'NoSayyadi'=>0
+                                ,'NameSabtShode'=>"$NameSabtShode"
+                                ,'SnPeopelPay'=>$snPeopelPay
+                            ]);
+                        }catch(\Exception $e){
+                            return $e->getMessage();
+                        }
+                        
+                    }else{
+                        // return 'جدیدا اضافه شده است';
+                        // return $request->BYSS;
+                        
+                        DB::table('Shop.dbo.GetAndPayBYS')->insert([
+                            "CompanyNo"=>5
+                            ,"DocTypeBYS"=>$docTypeBys
+                            ,"Price"=>$price
+                            ,"ChequeDate"=>"$chequeDate"
+                            ,'ChequeNo'=>$chequeNo
+                            ,'AccBankno'=>$accBankNo
+                            ,'Owner'=>"$Owner"
+                            ,'SnBank'=>$snBank
+                            ,'Branch'=>0
+                            ,'SnChequeBook'=>$snChequeBook
+                            ,'FiscalYear'=>1402
+                            ,'SnHDS'=>$snHDS
+                            ,'DocDescBYS'=>$docDescBys
+                            ,'SnAccBank'=>$snAccBank
+                            ,'CashNo'=>$chequeNo
+                            ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
+                            ,'RadifInDaftarCheque'=>0
+                            ,'NoPayaneh_KartKhanBys'=>0
+                            ,'KarMozdPriceBys'=>0
+                            ,'NoSayyadi'=>0
+                            ,'NameSabtShode'=>''
+                            ,'SnPeopelPay'=>$snPeopelPay
+                        ]);
+
+                        array_push($allSerialNoBYSs,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
+                    }
+                }
                 try{
-                    DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
-                        "DocTypeBYS"=>$docTypeBys
-                        ,"Price"=>$price
-                        ,"ChequeDate"=>"$chequeDate"
-                        ,'ChequeNo'=>$chequeNo
-                        ,'AccBankno'=>$accBankNo
-                        ,'Owner'=>"$Owner"
-                        ,'SnBank'=>$snBank
-                        ,'Branch'=>0
-                        ,'SnChequeBook'=>$snChequeBook
-                        ,'FiscalYear'=>1402
-                        ,'SnHDS'=>$snHDS
-                        ,'DocDescBYS'=>"$docDescBys"
-                        ,'SnAccBank'=>$snAccBank
-                        ,'CashNo'=>$cachNo
-                        ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
-                        ,'RadifInDaftarCheque'=>0
-                        ,'NoPayaneh_KartKhanBys'=>0
-                        ,'KarMozdPriceBys'=>0
-                        ,'NoSayyadi'=>0
-                        ,'NameSabtShode'=>"$NameSabtShode"
-                        ,'SnPeopelPay'=>$snPeopelPay
-                    ]);
+                    if(count($allSerialNoBYSs)>0){
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNoBYSs).")");
+                    }else{
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snHDS");
+                    }
                 }catch(\Exception $e){
                     return $e->getMessage();
                 }
-                
             }else{
-                // return 'جدیدا اضافه شده است';
-                // return $request->BYSS;
-                
-                 DB::table('Shop.dbo.GetAndPayBYS')->insert([
-                    "CompanyNo"=>5
-                    ,"DocTypeBYS"=>$docTypeBys
-                    ,"Price"=>$price
-                    ,"ChequeDate"=>"$chequeDate"
-                    ,'ChequeNo'=>$chequeNo
-                    ,'AccBankno'=>$accBankNo
-                    ,'Owner'=>"$Owner"
-                    ,'SnBank'=>$snBank
-                    ,'Branch'=>0
-                    ,'SnChequeBook'=>$snChequeBook
-                    ,'FiscalYear'=>1402
-                    ,'SnHDS'=>$snHDS
-                    ,'DocDescBYS'=>$docDescBys
-                    ,'SnAccBank'=>$snAccBank
-                    ,'CashNo'=>$chequeNo
-                    ,'SnMainPeopel'=>0// (خودم) فهمیده نشده که چیست؟ کا رشود
-                    ,'RadifInDaftarCheque'=>0
-                    ,'NoPayaneh_KartKhanBys'=>0
-                    ,'KarMozdPriceBys'=>0
-                    ,'NoSayyadi'=>0
-                    ,'NameSabtShode'=>''
-                    ,'SnPeopelPay'=>$snPeopelPay
-                ]);
-
-                array_push($allSerialNoBYSs,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
+                try{
+                    if(count($allSerialNoBYSs)>0){
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNoBYSs).")");
+                    }else{
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS");
+                        DB::delete("DELETE FROM Shop.dbo.GetAndPayHDS WHERE SerialNoHDS=$snHDS");
+                    }
+                }catch(\Exception $e){
+                    return $e->getMessage();
+                }
             }
-        }
-        
-    } catch (\Exception $e) {
-        // Handle the exception and return an error response
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-    try{
-        DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNoBYSs).")");
-    }catch(\Exception $e){
-        return $e->getMessage();
-    }
+                
+            } catch (\Exception $e) {
+                // Handle the exception and return an error response
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+            
     return response(array('success'=>"done"));
     }
 }
