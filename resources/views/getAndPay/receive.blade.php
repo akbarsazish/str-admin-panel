@@ -305,19 +305,19 @@
                                 <fieldset class="border border-sm rounded">
                                     <legend class="float-none w-auto legendLabel mb-0"> افزودن </legend>
                                     <div class="mt-2">
-                                        <button class="btn-sm btn btn-success text-warning w-100" type="button" onclick="openDaryaftVajhNaghdModal()"> وجه نقد <i class="fa fa-plus"></i> </button>
+                                        <button class="btn-sm btn btn-success text-warning w-100" type="button" onclick="openReceiveModals('addDaryaftVajhNaghdModal')"> وجه نقد <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
-                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openChequeInfoModal()"> چک <i class="fa fa-plus"></i> </button>
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('daryafAddChequeInfo')"> چک <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
                                         <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openHawalaInfoModal()"> حواله <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
-                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openSpentChequeModal()"> چک خرج شده <i class="fa fa-plus"></i> </button>
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('addSpentChequeModal')"> چک خرج شده <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
-                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openTakhfifModal()"> تخفیف <i class="fa fa-plus"></i> </button>
+                                        <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('daryaftAddTakhfifModal')"> تخفیف <i class="fa fa-plus"></i> </button>
                                     </div>
                                     <div class="mt-2">
                                         <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('daryaftAddVarizToOthersHisbModal')"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
@@ -342,7 +342,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -687,7 +687,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success py-2">
-            <button class="btn-danger btn-sm btn" onclick="closeEditAddEditVagheNaghdmodal()"> <i class="fa fa-times"></i></button>
+            <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('editAddEditVagheNaghdmodal')"> <i class="fa fa-times"></i></button>
             <h5 class="modal-title"> دریافت وجه نقد </h5>
         </div>
         <div class="modal-body">
@@ -792,7 +792,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-warning">
-                <button class="btn-danger btn-sm btn" onclick="closeDaryaftVajhNaghdModalEdit()"> <i class="fa fa-times"></i></button>
+                <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('daryaftVajhNaghdModalEdit')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> دریافت وجه نقد </h5>
             </div>
             <div class="modal-body">
@@ -844,7 +844,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-2">
-                <button class="btn btn-danger btn-sm text-warning" onclick="closeChequeInfoModal()"> <i class="fa fa-times"></i></button>
+                <button class="btn btn-danger btn-sm text-warning" onclick="closeReceiveModals('daryafAddChequeInfo')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title">  اطلاعات چک </h5>
             </div>
             <div class="modal-body">
@@ -1062,7 +1062,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success">
-            <button class="btn btn-danger btn-sm text-warning" onclick="closeChequeInfoModalEdit()"> <i class="fa fa-times"></i></button>
+            <button class="btn btn-danger btn-sm text-warning" onclick="closeReceiveModals('chequeInfoModalEdit')"> <i class="fa fa-times"></i></button>
           <h5 class="modal-title"> اطلاعات چک </h5>
         </div>
         <div class="modal-body">
@@ -1173,7 +1173,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success py-1">
-          <button class="btn btn-sm btn-danger" onclick="closeHawalaInfoModal()"><i class="fa-times fa"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="closeReceiveModals('daryafAddHawalaInfoModal')"><i class="fa-times fa"></i></button>
           <h5 class="modal-title text-white"> اطلاعات حواله </h5>
         </div>
         <div class="modal-body">
@@ -1237,7 +1237,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success py-1">
-          <button class="btn btn-sm btn-danger" onclick="closetHawalaInfoModalEdit()"><i class="fa-times fa"></i></button>
+          <button class="btn btn-sm btn-danger" onclick="closeReceiveModals('daryaftHawalaInfoModalEdit')"><i class="fa-times fa"></i></button>
           <h5 class="modal-title text-white"> ویرایش اطلاعات حواله  </h5>
         </div>
         <div class="modal-body">
@@ -1298,7 +1298,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
-                <button class="btn btn-sm btn-danger text-warning" onclick="closeSpentChequeModal()"><i class="fa-times fa"></i></button>
+                <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('addSpentChequeModal')"><i class="fa-times fa"></i></button>
                 <h5 class="modal-title text-white"> اطلاعات چک خرج شده </h5>
             </div>
             <div class="modal-body">
@@ -1368,7 +1368,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <button class="btn btn-sm btn-danger text-warning" onclick="closeSpentChequeModalEdit()"><i class="fa-times fa"></i></button>
+                <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('spentChequeModalEdit')"><i class="fa-times fa"></i></button>
                 <h5 class="modal-title"> اطلاعات چک خرج شده </h5>
             </div>
             <div class="modal-body">
@@ -1438,7 +1438,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-warning py-1">
-                <button class="btn-danger btn-sm btn" onclick="closeTakhfifModal()"> <i class="fa fa-times"></i></button>
+                <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('daryaftAddTakhfifModal')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> دریافت  تخفیف</h5>
             </div>
             <div class="modal-body">
@@ -1490,7 +1490,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-warning py-1">
-                <button class="btn-danger btn-sm btn" onclick="closeTakhfifModalEdit()"> <i class="fa fa-times"></i></button>
+                <button class="btn-danger btn-sm btn" onclick="closeReceiveModals('takhfifModalEdit')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title"> ویرایش دریافت تخفیف  </h5>
             </div>
             <div class="modal-body">
@@ -2047,7 +2047,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success py-2">
-                <button class="btn btn-danger btn-sm text-warning" onclick="closeEditAddDaryafAddChequeInfo()"> <i class="fa fa-times"></i></button>
+                <button class="btn btn-danger btn-sm text-warning" onclick="closeReceiveModals('editAddDaryafAddChequeInfo')"> <i class="fa fa-times"></i></button>
                 <h5 class="modal-title">  اطلاعات چک 2  </h5>
             </div>
             <div class="modal-body">

@@ -13685,7 +13685,6 @@ function sendToWord() {
  })
 
  
-
 function customerCheckDetails(psn){
     $.get(baseUrl+'/showCheckReqInfo',{customerId:psn},function(response,status){
         localStorage.setItem('storeCheckDetails', JSON.stringify(response));
@@ -13770,7 +13769,7 @@ function customerCheckDetails(psn){
         $('.modal-dialog').draggable({
             handle: ".modal-header"
         });
-    
+
         $("#checkDetailsModal").modal("show");
 
     })
@@ -13797,11 +13796,8 @@ function changeCheckReqState(checkRespond,chequeReqId){
         if (willAdd){
 			$.get(baseUrl+"/changeCheckReqState",{changeState:checkRespond,chequeReqId:chequeReqId},(respond,status)=>{
 				window.location.reload();
-				
 			});
-		}
-			
-		});
+		}});
 }
 
 $("#filterReqChequeBtn").on("click",()=>{
@@ -13825,7 +13821,6 @@ $("#filterReqChequeBtn").on("click",()=>{
 	});
 });
 
-
   function requestAmountShowValue(element,containerId,mynumber) {
 	  	let number=mynumber.replace(/,/g, '');
 		  const first = ['','یک ','دو ','سه ','چهار ', 'پنج ','شش ','هفت ','هشت ','نه ','ده ','یازده ','دوازده ','سیزده ','چهارده ','پانزده ','شانزده ','هفده ','هیجده ','نزده '];
@@ -13848,7 +13843,6 @@ $("#filterReqChequeBtn").on("click",()=>{
 		  }
 		$("#"+containerId).text(word+ " ریال ");
 	    $(element).val(addCommas(number));
-	
   }
   
   function addCommas(numberString) {

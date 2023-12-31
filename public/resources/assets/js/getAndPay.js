@@ -157,9 +157,6 @@
         $("#daryaftModalEdit").modal("hide");        
     }
 
-    function openDaryaftVajhNaghdModal(){
-        $("#addDaryaftVajhNaghdModal").modal("show");
-    }
 
     function closeDaryaftVajhNaghdModal(){
         $("#addDaryaftVajhNaghdModal").modal("hide")
@@ -169,31 +166,14 @@
         $("#daryaftVajhNaghdModalEdit").modal("hide")
     }
 
-    function openChequeInfoModal() {
-        $("#daryafAddChequeInfo").modal("show")
-    }
-
-    function closeChequeInfoModal() {
-        $("#daryafAddChequeInfo").modal("hide")
-    }
-
-    function closeChequeInfoModalEdit() {
-        $("#chequeInfoModalEdit").modal("hide")
-    }
-  
 
     function openeditAddEditVagheNaghdmodal(){
         $("#editAddEditVagheNaghdmodal").modal("show");
     }
-    function closeEditAddEditVagheNaghdmodal(){
-        $("#editAddEditVagheNaghdmodal").modal("hide");
-    }
+ 
 
     function openEditAddDaryafAddChequeInfo(){
         $("#editAddDaryafAddChequeInfo").modal("show");
-    }
-    function closeEditAddDaryafAddChequeInfo(){
-        $("#editAddDaryafAddChequeInfo").modal("hide");
     }
 
   
@@ -207,42 +187,6 @@
             }
         });
         $("#daryafAddHawalaInfoModal").modal("show");
-    }
-
-    
-    function closeHawalaInfoModal() {
-        $("#daryafAddHawalaInfoModal").modal("hide")
-    }
-
-    function closetHawalaInfoModalEdit() {
-        $("#daryaftHawalaInfoModalEdit").modal("hide")
-    }
-
-    function openSpentChequeModal(){
-        $("#addSpentChequeModal").modal("show");
-    }
-
-    function closeSpentChequeModal(){
-        $("#addSpentChequeModal").modal("hide");
-    }
-
-    function closeSpentChequeModalEdit(){
-        $("#spentChequeModalEdit").modal("hide");
-    }
-
-    function openTakhfifModal(){
-        $("#daryaftAddTakhfifModal").modal("show")
-    }
-
-    function closeTakhfifModal(){
-        $("#daryaftAddTakhfifModal").modal("hide")
-    }
-
-    function closeTakhfifModalEdit() {
-        var modal = document.getElementById("takhfifModalEdit");
-        if (modal) {
-            modal.style.display = "none";
-        }
     }
 
     function openRelatedFactorsModal(){

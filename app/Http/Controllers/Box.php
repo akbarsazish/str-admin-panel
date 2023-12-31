@@ -9,6 +9,8 @@ use \Morilog\Jalali\Jalalian;
 use Session;
 use Carbon\Carbon;
 use App\Models\GetAndPayHDS;
+use App\Models\GetAndPayBYS;
+
 class Box extends Controller{
 
     public function index() {
@@ -336,8 +338,9 @@ class Box extends Controller{
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
             ,"NetPriceHDS"=>$netPriceHDS]);
 
+
+            // return $request->BYSS;
         foreach ($request->BYSS as $index) {
-              
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
             $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
@@ -353,6 +356,7 @@ class Box extends Controller{
             $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
             $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
             $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
+         
             array_push($allSerialNoBYSs,$serialNoBYS);
             $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
 
@@ -425,10 +429,12 @@ class Box extends Controller{
         return response()->json(['error' => $e->getMessage()], 500);
     }
     try{
+        
         DB::delete("DELETE FROM Shop.dbo.GetAndPayBYS WHERE SnHDS=$snHDS AND SerialNoBYS NOT IN(".implode(",",$allSerialNoBYSs).")");
+        
     }catch(\Exception $e){
         return $e->getMessage();
     }
-    return response(array('success'=>"done"));
+      return response(array('success'=>"done"));
     }
 }
