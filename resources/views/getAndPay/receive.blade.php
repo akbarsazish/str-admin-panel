@@ -100,6 +100,7 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  توضحیات </span>
                                     <input type="text" name="description" class="form-control form-control-sm"  placeholder="نام ">
@@ -213,7 +214,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
-                <button onclick="closeDaryaftModal()" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
+                <button onclick="closeReceiveModals('addDaryaftModal')" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
                 <h5 class="modal-title text-white"> دریافت </h5>
             </div>
             <div class="modal-body">
@@ -323,6 +324,7 @@
                                     </div>
                                 </fieldset>
                             </div>
+
                             <div class="col-md-10 border border-1 border-secondary px-0 rounded">
                                 <table class="resizableTable table table-bordered table-striped" style="height:calc(100vh - 333px); overflow-y:scroll; width: 100%;" id="addHawalaTable">
                                     <thead class="tableHeader">
@@ -340,6 +342,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -400,7 +403,7 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header bg-success py-1">
-                <button onclick="closeDaryaftEditModal()" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
+                <button onclick="closeReceiveModals('daryaftEditModal')" class="btn btn-sm btn-danger"> <i class="fa fa-times"></i></button> 
                 <h5 class="modal-title text-white"> ویرایش دریافت </h5>
             </div>
             <div class="modal-body">
@@ -1684,7 +1687,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <button class="btn btn-sm btn-danger text-warning" onclick="closeRelatedFactorsModal()"><i class="fa-times fa"></i></button>
+                <button class="btn btn-sm btn-danger text-warning" onclick="closeReceiveModals('relatedFactorsModal')"><i class="fa-times fa"></i></button>
             <h5 class="modal-title"> فاکتور های مرتبط </h5>
             </div>
             <div class="modal-body">
@@ -1733,7 +1736,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-success">
-            <button class="btn-sm btn-danger btn text-warning" onclick="closeSearchFactorModal()"><i class="fa-times fa"></i></button>
+            <button class="btn-sm btn-danger btn text-warning" onclick="closeReceiveModals('searchFactorModal')"><i class="fa-times fa"></i></button>
           <h5 class="modal-title"> لیست فاکتورها </h5>
         </div>
         <div class="modal-body">
@@ -1802,7 +1805,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <div class="modal-header bg-success">
-            <button class="btn-sm btn-sm btn-danger text-warning" onclick="closeRasDaryaftItemModal()"><i class="fa-times fa"></i></button>
+            <button class="btn-sm btn-sm btn-danger text-warning" onclick="closeReceiveModals('rasDaryaftItemModal')"><i class="fa-times fa"></i></button>
           <h5 class="modal-title"> راس گیری </h5>
         </div>
         <div class="modal-body">
