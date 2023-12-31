@@ -2,32 +2,37 @@
 @section('content')
 <style>
 .trFocus:focus {
-        background-color: lightblue !important;
+    background-color: lightblue !important;
 }
+
 .sideButton{
     width:100px;
 }
+
 .forLabel{
     font-size:14px;
     display:inline;
 }
+
 .grid-tableFooter {
    display: grid;
    grid-template-columns: auto auto auto;
    color:#000; 
 }
+
 .tableFooter-item {
-  padding: 3px;
-  font-size: 14px;
-  text-align: center;
-  border-radius:3px;
-  margin:3px;
-  background-color:#9ad5be;
+   padding: 3px;
+   font-size: 14px;
+   text-align: center;
+   border-radius:3px;
+   margin:3px;
+   background-color:#9ad5be;
 }
-.textContent {
-	font-size:13px;
-}
+
+.textContent {font-size:13px;}
+
 .input-group>input.someInput {flex: 0 1 100px;}
+
 </style>
 <div class="container-fluid containerDiv">
     <div class="row">
@@ -55,7 +60,6 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="row">
-
                                         <div class="form-check">
                                             <input class="form-check-input float-start" type="checkbox" name="daryaft" id="sefNewOrderRadio" checked>
                                             <label class="form-check-label ms-3" for="sefNewOrderRadio">  دریافت از شخص </label>

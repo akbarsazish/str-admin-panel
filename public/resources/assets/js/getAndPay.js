@@ -311,10 +311,8 @@
         $(`#${modalId}`).modal("hide");
     };
     
-
-
-
     const persianDateInputs=document.querySelectorAll(".persianDate");
+
     if(persianDateInputs){
         persianDateInputs.forEach(element=>{
             persianDateInput=element;
@@ -376,7 +374,6 @@
     $("#customerNameDaryaft").on("keyup",function(respond,status){
         $("#searchCustomerDaryaftModal").modal("show")
     })
-
 
     $("#customerNameSearchDar").on("keyup",(event)=>{
         let name=$("#customerNameSearchDar").val();
@@ -489,7 +486,6 @@
             })
     }
 
-
     function addNaghdMoneyDar(){
         let rowCount = $("#addedDaryaftListBody tr").length;
         alert(rowCount)
@@ -553,13 +549,13 @@
         }
     });
 
-
     $("#addPayHawalaFromBankAddHawalaDate").persianDatepicker({
         cellWidth: 32,
         cellHeight: 22,
         fontSize: 14,
         formatDate: "YYYY/0M/0D",
-        endDate: "1440/5/5"});
+        endDate: "1440/5/5"
+    });
 
     $("#daysAfterChequeDateDar").on("keyup",function(e){
         let daysLater=$("#daysAfterChequeDateDar").val();
@@ -1164,6 +1160,7 @@ const addVarizToOtherHisabEdit = () => {
 
 $("#addDaryaftForm").on("submit",function(e){
     e.preventDefault();
+    alert("text alert")
     
     $.ajax({
         method:"POST",
@@ -1172,7 +1169,8 @@ $("#addDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            window.location.reload();
+            console.log(data)
+            // window.location.reload();
         },
         error:function(error){
             console.log(error)

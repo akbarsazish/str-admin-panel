@@ -90,7 +90,6 @@ class Box extends Controller{
     
 
     function addDaryaft(Request $request) {
-        // return $request->all();
         $sn=$request->input("BYSS");
         $cashMasterId=0;
         $snPeopel=3609;
@@ -133,6 +132,8 @@ class Box extends Controller{
         
         $snHDS=0;
         $docNoHDS=0;
+
+        return $request->all();
         
         $docNoHDS=DB::table("Shop.dbo.GetAndPayHDS")->where("GetOrPayHDS",1)->max("DocNoHDS");
        //return Response::json($request->all());
@@ -318,7 +319,6 @@ class Box extends Controller{
 
 
     public function editGetAndPay(Request $request){
-     
         try {
             $customerIdEdit=$request->customerId;
             $daryaftHdsDesc=$request->daryaftHdsDesc;
@@ -330,7 +330,7 @@ class Box extends Controller{
             $sandoghIdDar=$request->sandoghIdDar;
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
-            return $request->all();
+
         foreach ($request->BYSS as $index) {  
             $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
             $cachNo=$request->{'CashNo'.$index} ?? 0;
