@@ -32,7 +32,6 @@ function changeHisabNo(element, hisabNoId) {
         hisabNoInput.value = String(respond[0].AccNo);
     });
 }
-var paynetPriceHDSAdd = document.getElementById("paynetPriceHDSAdd");
 function addNaghdMoneyPayAdd() {
     var monyInput = document.getElementById("rialNaghdPayAddInputAdd");
     var money = Number(monyInput.value);
@@ -41,7 +40,6 @@ function addNaghdMoneyPayAdd() {
     var payBys = new PayBys(1, 0, description, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addPayBys();
     closeAddPayPartAddModal('addPayVajhNaghdAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function openAddPayPartAddModal(modalId) {
     var modal = document.getElementById(modalId);
@@ -134,7 +132,6 @@ function addPayHawalaFromBankAdd() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, snBank, 0, bankHisabSn, 0, 0, 0, 0, 0, 0, karmozd, addShobeName, malikName, hawalaNo, 0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBankAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addTakhfifAddPayAdd() {
     var takhfifMoneyInputAddPayAdd = document.getElementById("takhfifMoneyInputAddPayAdd");
@@ -144,7 +141,6 @@ function addTakhfifAddPayAdd() {
     var payBys = new PayBys(4, 0, descTakhfif, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayTakhfifAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function deletePayBys(payBysIndex) {
     var rowIndex = Number(payBysIndex);
@@ -525,54 +521,53 @@ function openSelectedBysModal(type) {
             break;
     }
 }
-var hisabNoChequeInputEditPayEditInput = document.getElementById("hisabNoChequeInputAddEditPayEdit");
-var radifInChequeBookSelectAddEditPayEdit = document.getElementById("radifInChequeBookSelectAddEditPayEdit");
-var startChequeNumberAddEditEdit = document.getElementById("startChequeNumberAddEditEdit");
-var endChequeNumberAddEditEdit = document.getElementById("endChequeNumberAddEditEdit");
-if (radifInChequeBookSelectAddEditPayEdit) {
-    radifInChequeBookSelectAddEditPayEdit.addEventListener("change", function () {
-        chequeBookSelectAddPayAddInput.innerHTML = '';
-        fetch(baseUrl + "/cheque/getChequesByAcc/".concat(hisabNoChequeInputEditPayEditInput.value), {
-            method: 'GET',
-        }).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            data.forEach(function (element) {
-                startChequeNumberAddEditEdit.textContent = String(element.FirstSerialNo);
-                endChequeNumberAddEditEdit.textContent = String(element.EndSerialNo);
-                var option = document.createElement("option");
-                option.text = element.ChequeBookName;
-                option.value = String(element.SnChequeBook);
-                chequeBookSelectAddPayAddInput.add(option);
-            });
-        });
-    });
-}
-var hisabNoChequeInputAddEditPayEditInput = document.getElementById("hisabNoChequeInputAddEditPayEdit");
-var chequeBookSelectAddEditPayEditInput = document.getElementById("radifInChequeBookSelectAddEditPayEdit");
-var startChequeNumberAddEditEditEdit = document.getElementById("startChequeNumberAddEditEdit");
-var endChequeNumberAddEditEditEdit = document.getElementById("endChequeNumberAddEditEdit");
-if (hisabNoChequeInputAddEditPayEditInput) {
-    hisabNoChequeInputAddEditPayEditInput.addEventListener("change", function () {
-        chequeBookSelectAddEditPayEditInput.innerHTML = '';
-        fetch(baseUrl + "/cheque/getChequesByAcc/".concat(hisabNoChequeInputAddEditPayEditInput.value), {
-            method: 'GET',
-        }).then(function (res) {
-            return res.json();
-        }).then(function (data) {
-            data.forEach(function (element) {
-                startChequeNumberAddEditEditEdit.textContent = String(element.FirstSerialNo);
-                endChequeNumberAddEditEditEdit.textContent = String(element.EndSerialNo);
-                var option = document.createElement("option");
-                option.text = element.ChequeBookName;
-                option.value = String(element.SnChequeBook);
-                chequeBookSelectAddEditPayEditInput.add(option);
-            });
-        });
-    });
-}
+// const hisabNoChequeInputEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
+// const radifInChequeBookSelectAddEditPayEdit=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
+// const startChequeNumberAddEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
+// const endChequeNumberAddEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
+// if(radifInChequeBookSelectAddEditPayEdit){
+//     radifInChequeBookSelectAddEditPayEdit.addEventListener("change",()=>{
+//        // chequeBookSelectAddPayAddInput.innerHTML='';
+//         fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputEditPayEditInput.value}`,{
+//             method:'GET',
+//         }).then(res=>{
+//             return res.json();
+//         }).then(data=>{
+//             data.forEach((element) => {
+//                 startChequeNumberAddEditEdit.textContent=String(element.FirstSerialNo);
+//                 endChequeNumberAddEditEdit.textContent=String(element.EndSerialNo);
+//                 const option = document.createElement("option");
+//                 option.text = element.ChequeBookName;
+//                 option.value = String(element.SnChequeBook);
+//                 chequeBookSelectAddPayAddInput.add(option);
+//             });
+//         })
+//     })
+// }
+// const hisabNoChequeInputAddEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
+// const chequeBookSelectAddEditPayEditInput=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
+// const startChequeNumberAddEditEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
+// const endChequeNumberAddEditEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
+// if(hisabNoChequeInputAddEditPayEditInput){
+//     hisabNoChequeInputAddEditPayEditInput.addEventListener("change",()=>{
+//         chequeBookSelectAddEditPayEditInput.innerHTML='';
+//         fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputAddEditPayEditInput.value}`,{
+//             method:'GET',
+//         }).then(res=>{
+//             return res.json();
+//         }).then(data=>{
+//             data.forEach((element) => {
+//                 startChequeNumberAddEditEditEdit.textContent=String(element.FirstSerialNo);
+//                 endChequeNumberAddEditEditEdit.textContent=String(element.EndSerialNo);
+//                 const option = document.createElement("option");
+//                 option.text = element.ChequeBookName;
+//                 option.value = String(element.SnChequeBook);
+//                 chequeBookSelectAddEditPayEditInput.add(option);
+//             });
+//         })
+//     })
+// }
 function changeChequeHisabNo(hisabNoInput, chequeSelectId, startCheqNoId, endChequeNoId) {
-    //alert("Good")
     var hisabNoChequeInputAddPayAddInput = hisabNoInput;
     var chequeBookSelectAddPayAddInput = document.getElementById(chequeSelectId);
     var startChequeNumberAdd = document.getElementById(startCheqNoId);
@@ -656,7 +651,6 @@ function addHawalaFromBoxAddPayAdd() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, bankSn, 0, 0, 0, 0, 0, 0, 0, 0, addHawalaFromBoxAddKarmozd, branchName, ownerName, hawalaNo, 0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBoxAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addChequePayAdd() {
     var chequeNumberInput = document.getElementById("chequeNoCheqeInputAddPayAdd");
@@ -677,7 +671,6 @@ function addChequePayAdd() {
     var payBys = new PayBys(2, 0, inVajhChequePerson, money, 0, sayyadiNo, sarRasidDate, chequeNumber, hisabNo, 0, snChequeBook, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addPayBys();
     closeAddPayPartAddModal('addPayChequeInfoAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 var PayBys = /** @class */ (function () {
     function PayBys(payBYSType, payBYSIndex, payBYSDesc, payBYSMoney, payBYSRadifInChequeBook, sayyadiNoCheque, checkSarRasidDate, chequeNoCheqe, accBankNo, bankSn, SnChequeBook, snAccBank, noPayanehKartKhanBYS, snPeopelPay, repeateCheque, distanceMonthCheque, cashNo, inVajhPeopelSn, Karmozd, branchName, ownerName, hawalaNo, serialNoBYS) {
@@ -708,6 +701,7 @@ var PayBys = /** @class */ (function () {
         this.SerialNoBYS = serialNoBYS;
     }
     PayBys.prototype.addPayBys = function () {
+        var paynetPriceHDSAdd = document.getElementById("paynetPriceHDSAdd");
         var tableBody = document.getElementById("paysAddTableBody");
         var tableRow = document.createElement('tr');
         var rowNumber = tableBody.childElementCount;
@@ -882,8 +876,18 @@ var PayBys = /** @class */ (function () {
             tableRow.appendChild(tableData);
         }
         tableBody.appendChild(tableRow);
+        paynetPriceHDSAdd.value = "0";
+        for (var i = 0; i < tableBody.rows.length; i++) {
+            var row = tableBody.rows[i];
+            var input = row.cells[19].querySelector('input[type="text"]');
+            var inputValue = Number(input.value);
+            var totatValue = Number(paynetPriceHDSAdd.value);
+            totatValue += inputValue;
+            paynetPriceHDSAdd.value = String(totatValue);
+        }
     };
     PayBys.prototype.editPayBys = function () {
+        var paynetPriceHDSAdd = document.getElementById("paynetPriceHDSAdd");
         var tableBody = document.getElementById("paysAddTableBody");
         var selectedRow = tableBody.getElementsByClassName('selected')[0];
         var tableRow = document.createElement('tr');
@@ -1066,13 +1070,21 @@ var PayBys = /** @class */ (function () {
         tableRow.classList.add("selected");
         tableBody.appendChild(tableRow);
         tableBody.replaceChild(tableRow, selectedRow);
+        tableBody.appendChild(tableRow);
+        paynetPriceHDSAdd.value = "0";
+        for (var i = 0; i < tableBody.rows.length; i++) {
+            var row = tableBody.rows[i];
+            var input = row.cells[19].querySelector('input[type="text"]');
+            var inputValue = Number(input.value);
+            var totatValue = Number(paynetPriceHDSAdd.value);
+            totatValue += inputValue;
+            paynetPriceHDSAdd.value = String(totatValue);
+        }
     };
     PayBys.prototype.editEditPayBys = function () {
         var tableBody = document.getElementById("payEditTableBodyBys");
         var selectedRow = tableBody.getElementsByClassName('selected')[0];
-        //let tableRow = document.createElement('tr');
         var rowNumber = Number(selectedRow.rowIndex - 1);
-        alert(rowNumber);
         var modalTypeFlag = 0;
         if (this.snAccBank == 0 && this.payBYSType == 3) {
             modalTypeFlag = 5;
@@ -1224,11 +1236,19 @@ var PayBys = /** @class */ (function () {
                     break;
             }
         }
-        // tableRow.classList.add("selected");
-        // tableBody.appendChild(tableRow);
-        // tableBody.replaceChild(tableRow, selectedRow);
+        var netPriceHDSInput = document.getElementById("editNetPriceHDSEdit");
+        netPriceHDSInput.value = "0";
+        for (var i = 0; i < tableBody.rows.length; i++) {
+            var row = tableBody.rows[i];
+            var input = row.cells[19].querySelector('input[type="text"]');
+            var inputValue = Number(input.value);
+            var totatValue = Number(netPriceHDSInput.value);
+            totatValue += inputValue;
+            netPriceHDSInput.value = String(totatValue);
+        }
     };
     PayBys.prototype.addEditEditPayBys = function () {
+        var netPriceHDSInput = document.getElementById("editNetPriceHDSEdit");
         var tableBody = document.getElementById("payEditTableBodyBys");
         var tableRow = document.createElement('tr');
         var rowNumber = tableBody.childElementCount;
@@ -1403,6 +1423,15 @@ var PayBys = /** @class */ (function () {
             tableRow.appendChild(tableData);
         }
         tableBody.appendChild(tableRow);
+        netPriceHDSInput.value = "0";
+        for (var i = 0; i < tableBody.rows.length; i++) {
+            var row = tableBody.rows[i];
+            var input = row.cells[19].querySelector('input[type="text"]');
+            var inputValue = Number(input.value);
+            var totatValue = Number(netPriceHDSInput.value);
+            totatValue += inputValue;
+            netPriceHDSInput.value = String(totatValue);
+        }
     };
     PayBys.prototype.deletePayBys = function (rowIndex) {
         var tableBody = document.getElementById("paysAddTableBody");
@@ -1498,10 +1527,11 @@ if (editPayHDSForm) {
             processData: false,
             contentType: false,
             success: function (data) {
-                console.info(data);
-                //window.location.reload();
+                window.location.reload();
             },
-            error: function (error) { }
+            error: function (error) {
+                alert("به علت مشکلی نتوانست ویرایش شود.");
+            }
         });
     });
 }
@@ -1522,7 +1552,7 @@ function deleteGetAndPays(getAndPayId) {
                     "X-CSRF-TOKEN": "" + csrf,
                 }
             }).then(function (res) { return res.json(); }).then(function (res) {
-                if (res.result) {
+                if (res.success) {
                     swal({
                         text: "حذف شد",
                         icon: "success",
@@ -1544,7 +1574,6 @@ function addNaghdMoneyPayEdit() {
     var payBys = new PayBys(1, 0, description, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editPayBys();
     closeAddPayPartAddModal('addPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addChequePayEdit() {
     var chequeNumberInput = document.getElementById("chequeNoCheqeInputAddPayEdit");
@@ -1564,7 +1593,6 @@ function addChequePayEdit() {
     var payBys = new PayBys(2, 0, inVajhChequeName, money, radifInCheque, sayyadiNo, sarRasidDate, chequeNumber, hisabNo, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editPayBys();
     closeAddPayPartAddModal('addPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addHawalaFromBoxAddPayEdit() {
     var hawalaNoInput = document.getElementById("addHawalaFromBoxHawalaNoEditInput");
@@ -1588,7 +1616,6 @@ function addHawalaFromBoxAddPayEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, bankSn, 0, 0, 0, 0, 0, 0, 0, 0, addHawalaFromBoxAddKarmozd, branchName, ownerName, hawalaNo, 0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addTakhfifAddPayEdit() {
     var takhfifMoneyInputAddPayAdd = document.getElementById("takhfifMoneyInputAddPayEdit");
@@ -1598,7 +1625,6 @@ function addTakhfifAddPayEdit() {
     var payBys = new PayBys(4, 0, descTakhfif, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addPayHawalaFromBankEdit() {
     var addPayHawalaFromBankAddSelectHisabSnInput = document.getElementById("addFromHisabNoEditSelect");
@@ -1624,7 +1650,6 @@ function addPayHawalaFromBankEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, snBank, 0, bankHisabSn, 0, 0, 0, 0, 0, 0, karmozd, addShobeName, malikName, hawalaNo, 0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function editEditNaghdMoneyPayEdit() {
     var monyInput = document.getElementById("rialNaghdPayEditEditInputEdit");
@@ -1634,7 +1659,6 @@ function editEditNaghdMoneyPayEdit() {
     var payBys = new PayBys(1, 0, description, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addEditNaghdMoneyPayEdit() {
     var monyInput = document.getElementById("rialNaghdPayAddEditInputEdit");
@@ -1644,7 +1668,6 @@ function addEditNaghdMoneyPayEdit() {
     var payBys = new PayBys(1, 0, description, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function editChequePayEdit() {
     var chequeNumberInput = document.getElementById("chequeNoCheqeInputEditPayEdit");
@@ -1664,7 +1687,6 @@ function editChequePayEdit() {
     var payBys = new PayBys(2, 0, inVajhChequeName, money, radifInCheque, sayyadiNo, sarRasidDate, chequeNumber, hisabNo, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addEditChequePayEdit() {
     var chequeNumberInput = document.getElementById("chequeNoCheqeInputAddEditPayEdit");
@@ -1684,7 +1706,6 @@ function addEditChequePayEdit() {
     var payBys = new PayBys(2, 0, inVajhChequeName, money, radifInCheque, sayyadiNo, sarRasidDate, chequeNumber, hisabNo, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function editHawalaFromBoxEditPayEdit() {
     var hawalaNoInput = document.getElementById("editHawalaFromBoxEditInputNumber");
@@ -1708,7 +1729,6 @@ function editHawalaFromBoxEditPayEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, bankSn, 0, 0, 0, 0, 0, 0, 0, 0, addHawalaFromBoxAddKarmozd, branchName, ownerName, hawalaNo, 0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addEditHawalaFromBoxPayEdit() {
     var hawalaNoInput = document.getElementById("addHawalaFromBoxHawalaNoEditInputEdit");
@@ -1732,7 +1752,6 @@ function addEditHawalaFromBoxPayEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, bankSn, 0, 0, 0, 0, 0, 0, 0, 0, addHawalaFromBoxAddKarmozd, branchName, ownerName, hawalaNo, 0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function editTakhfifPayEdit() {
     var takhfifMoneyInputAddPayAdd = document.getElementById("takhfifMoneyInputEditEditPayEdit");
@@ -1742,7 +1761,6 @@ function editTakhfifPayEdit() {
     var payBys = new PayBys(4, 0, descTakhfif, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function addEditTakhfifPayEdit() {
     var takhfifMoneyInputAddPayAdd = document.getElementById("takhfifMoneyInputAddEditPayEdit");
@@ -1752,7 +1770,6 @@ function addEditTakhfifPayEdit() {
     var payBys = new PayBys(4, 0, descTakhfif, money, 0, 0, '', 0, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function editPayHawalaFromBankEdit() {
     var addPayHawalaFromBankAddSelectHisabSnInput = document.getElementById("editFromHisabNoEditSelect");
@@ -1778,7 +1795,6 @@ function editPayHawalaFromBankEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, snBank, 0, bankHisabSn, 0, 0, 0, 0, 0, 0, karmozd, addShobeName, malikName, hawalaNo, 0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 var bankSnSelects = document.querySelectorAll(".banksn");
 if (bankSnSelects) {
@@ -1823,7 +1839,6 @@ function addEditPayHawalaFromBankEdit() {
     var payBys = new PayBys(3, 0, description, money, 0, 0, hawalaDate, 0, hisabNo, snBank, 0, bankHisabSn, 0, 0, 0, 0, 0, 0, karmozd, addShobeName, malikName, hawalaNo, 0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value) + money);
 }
 function deleteSelectedBysItem() {
     var selectedRow = document.querySelectorAll(".selected");

@@ -35,7 +35,7 @@ function changeHisabNo(element:HTMLSelectElement,hisabNoId:string){
         hisabNoInput.value=String(respond[0].AccNo);
     })
 }
-const paynetPriceHDSAdd=document.getElementById("paynetPriceHDSAdd") as HTMLInputElement;
+
 function addNaghdMoneyPayAdd(){
     const monyInput: HTMLInputElement = document.getElementById("rialNaghdPayAddInputAdd") as HTMLInputElement;
     const money: number = Number(monyInput.value);
@@ -44,7 +44,6 @@ function addNaghdMoneyPayAdd(){
     const payBys = new PayBys(1,0,description,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addPayBys();
     closeAddPayPartAddModal('addPayVajhNaghdAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function openAddPayPartAddModal(modalId: string) {
@@ -147,7 +146,6 @@ function addPayHawalaFromBankAdd(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,snBank,0,bankHisabSn,0,0,0,0,0,0,karmozd,addShobeName,malikName,hawalaNo,0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBankAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function addTakhfifAddPayAdd(){
@@ -158,7 +156,6 @@ function addTakhfifAddPayAdd(){
     const payBys = new PayBys(4,0,descTakhfif,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayTakhfifAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 
@@ -553,58 +550,57 @@ function openSelectedBysModal(type:number){
 
 
 
-const hisabNoChequeInputEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
-const radifInChequeBookSelectAddEditPayEdit=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
-const startChequeNumberAddEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
-const endChequeNumberAddEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
-if(radifInChequeBookSelectAddEditPayEdit){
+// const hisabNoChequeInputEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
+// const radifInChequeBookSelectAddEditPayEdit=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
+// const startChequeNumberAddEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
+// const endChequeNumberAddEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
+// if(radifInChequeBookSelectAddEditPayEdit){
     
-    radifInChequeBookSelectAddEditPayEdit.addEventListener("change",()=>{
-        chequeBookSelectAddPayAddInput.innerHTML='';
-        fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputEditPayEditInput.value}`,{
-            method:'GET',
-        }).then(res=>{
-            return res.json();
-        }).then(data=>{
-            data.forEach((element) => {
-                startChequeNumberAddEditEdit.textContent=String(element.FirstSerialNo);
-                endChequeNumberAddEditEdit.textContent=String(element.EndSerialNo);
-                const option = document.createElement("option");
-                option.text = element.ChequeBookName;
-                option.value = String(element.SnChequeBook);
-                chequeBookSelectAddPayAddInput.add(option);
-            });
-        })
-    })
-}
+//     radifInChequeBookSelectAddEditPayEdit.addEventListener("change",()=>{
+//        // chequeBookSelectAddPayAddInput.innerHTML='';
+//         fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputEditPayEditInput.value}`,{
+//             method:'GET',
+//         }).then(res=>{
+//             return res.json();
+//         }).then(data=>{
+//             data.forEach((element) => {
+//                 startChequeNumberAddEditEdit.textContent=String(element.FirstSerialNo);
+//                 endChequeNumberAddEditEdit.textContent=String(element.EndSerialNo);
+//                 const option = document.createElement("option");
+//                 option.text = element.ChequeBookName;
+//                 option.value = String(element.SnChequeBook);
+//                 chequeBookSelectAddPayAddInput.add(option);
+//             });
+//         })
+//     })
+// }
 
-const hisabNoChequeInputAddEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
-const chequeBookSelectAddEditPayEditInput=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
-const startChequeNumberAddEditEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
-const endChequeNumberAddEditEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
-if(hisabNoChequeInputAddEditPayEditInput){
-    hisabNoChequeInputAddEditPayEditInput.addEventListener("change",()=>{
-        chequeBookSelectAddEditPayEditInput.innerHTML='';
-        fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputAddEditPayEditInput.value}`,{
-            method:'GET',
-        }).then(res=>{
-            return res.json();
-        }).then(data=>{
-            data.forEach((element) => {
-                startChequeNumberAddEditEditEdit.textContent=String(element.FirstSerialNo);
-                endChequeNumberAddEditEditEdit.textContent=String(element.EndSerialNo);
-                const option = document.createElement("option");
-                option.text = element.ChequeBookName;
-                option.value = String(element.SnChequeBook);
-                chequeBookSelectAddEditPayEditInput.add(option);
-            });
-        })
-    })
-}
+// const hisabNoChequeInputAddEditPayEditInput=document.getElementById("hisabNoChequeInputAddEditPayEdit") as HTMLInputElement;
+// const chequeBookSelectAddEditPayEditInput=document.getElementById("radifInChequeBookSelectAddEditPayEdit") as HTMLSelectElement;
+// const startChequeNumberAddEditEditEdit=document.getElementById("startChequeNumberAddEditEdit") as HTMLElement;
+// const endChequeNumberAddEditEditEdit=document.getElementById("endChequeNumberAddEditEdit") as HTMLElement;
+// if(hisabNoChequeInputAddEditPayEditInput){
+//     hisabNoChequeInputAddEditPayEditInput.addEventListener("change",()=>{
+//         chequeBookSelectAddEditPayEditInput.innerHTML='';
+//         fetch(baseUrl+`/cheque/getChequesByAcc/${hisabNoChequeInputAddEditPayEditInput.value}`,{
+//             method:'GET',
+//         }).then(res=>{
+//             return res.json();
+//         }).then(data=>{
+//             data.forEach((element) => {
+//                 startChequeNumberAddEditEditEdit.textContent=String(element.FirstSerialNo);
+//                 endChequeNumberAddEditEditEdit.textContent=String(element.EndSerialNo);
+//                 const option = document.createElement("option");
+//                 option.text = element.ChequeBookName;
+//                 option.value = String(element.SnChequeBook);
+//                 chequeBookSelectAddEditPayEditInput.add(option);
+//             });
+//         })
+//     })
+// }
 
 
 function changeChequeHisabNo(hisabNoInput:HTMLInputElement,chequeSelectId:string,startCheqNoId:string,endChequeNoId:string){
-    //alert("Good")
     const hisabNoChequeInputAddPayAddInput=hisabNoInput;
     const chequeBookSelectAddPayAddInput=document.getElementById(chequeSelectId) as HTMLSelectElement;
     const startChequeNumberAdd=document.getElementById(startCheqNoId) as HTMLElement;
@@ -691,7 +687,6 @@ function addHawalaFromBoxAddPayAdd(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,bankSn,0,0,0,0,0,0,0,0,addHawalaFromBoxAddKarmozd,branchName,ownerName,hawalaNo,0);
     payBys.addPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBoxAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function addChequePayAdd(){
@@ -715,7 +710,6 @@ function addChequePayAdd(){
     const payBys = new PayBys(2,0,inVajhChequePerson,money,0,sayyadiNo,sarRasidDate,chequeNumber,hisabNo,0,snChequeBook,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addPayBys();
     closeAddPayPartAddModal('addPayChequeInfoAddModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 
@@ -776,6 +770,7 @@ class PayBys{
     }
 
     addPayBys(){
+        const paynetPriceHDSAdd=document.getElementById("paynetPriceHDSAdd") as HTMLInputElement;
         let tableBody : HTMLTableSectionElement = document.getElementById("paysAddTableBody") as HTMLTableSectionElement;
         let tableRow = document.createElement('tr');
         let rowNumber: number = tableBody.childElementCount;
@@ -952,9 +947,19 @@ class PayBys{
             tableRow.appendChild(tableData);
         }
         tableBody.appendChild(tableRow);
+        paynetPriceHDSAdd.value="0";
+        for (let i = 0; i < tableBody.rows.length; i++) {
+            const row = tableBody.rows[i];
+            const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
+            const inputValue:number = Number(input.value);
+            let totatValue:number=Number(paynetPriceHDSAdd.value);
+            totatValue+=inputValue;
+            paynetPriceHDSAdd.value=String(totatValue);
+        }
     }
 
     editPayBys(){
+        const paynetPriceHDSAdd=document.getElementById("paynetPriceHDSAdd") as HTMLInputElement;
         let tableBody : HTMLTableSectionElement = document.getElementById("paysAddTableBody") as HTMLTableSectionElement;
         const selectedRow : HTMLElement = tableBody.getElementsByClassName('selected')[0] as HTMLElement;
         let tableRow = document.createElement('tr');
@@ -974,7 +979,6 @@ class PayBys{
                     {
                         tableData.setAttribute("class", "text-center");
                         if(rowNumber!=0){
-
                             tableData.innerText = `${rowNumber}`;
                         }else{
                             tableData.innerText = `${rowNumber+1}`;
@@ -1139,14 +1143,23 @@ class PayBys{
         tableRow.classList.add("selected");
         tableBody.appendChild(tableRow);
         tableBody.replaceChild(tableRow, selectedRow);
+        tableBody.appendChild(tableRow);
+        paynetPriceHDSAdd.value="0";
+        for (let i = 0; i < tableBody.rows.length; i++) {
+            const row = tableBody.rows[i];
+            const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
+            const inputValue:number = Number(input.value);
+            let totatValue:number=Number(paynetPriceHDSAdd.value);
+            totatValue+=inputValue;
+            paynetPriceHDSAdd.value=String(totatValue);
+        }
     }
 
     editEditPayBys(){
         let tableBody : HTMLTableSectionElement = document.getElementById("payEditTableBodyBys") as HTMLTableSectionElement;
         const selectedRow : HTMLTableRowElement = tableBody.getElementsByClassName('selected')[0] as HTMLTableRowElement;
-        //let tableRow = document.createElement('tr');
+        
         let rowNumber : number = Number(selectedRow.rowIndex-1);
-        alert(rowNumber)
         let modalTypeFlag=0;
         if(this.snAccBank==0 && this.payBYSType==3){
             modalTypeFlag=5
@@ -1298,12 +1311,20 @@ class PayBys{
                     break;
             }
         }
-        // tableRow.classList.add("selected");
-        // tableBody.appendChild(tableRow);
-        // tableBody.replaceChild(tableRow, selectedRow);
+        const netPriceHDSInput:HTMLInputElement=document.getElementById("editNetPriceHDSEdit") as HTMLInputElement;
+        netPriceHDSInput.value="0";
+        for (let i = 0; i < tableBody.rows.length; i++) {
+            const row = tableBody.rows[i];
+            const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
+            const inputValue:number = Number(input.value);
+            let totatValue:number=Number(netPriceHDSInput.value);
+            totatValue+=inputValue;
+            netPriceHDSInput.value=String(totatValue);
+        }
     }
 
     addEditEditPayBys(){
+        const netPriceHDSInput:HTMLInputElement=document.getElementById("editNetPriceHDSEdit") as HTMLInputElement;
         let tableBody : HTMLTableSectionElement = document.getElementById("payEditTableBodyBys") as HTMLTableSectionElement;
         let tableRow = document.createElement('tr');
         let rowNumber: number = tableBody.childElementCount;
@@ -1479,6 +1500,15 @@ class PayBys{
             tableRow.appendChild(tableData);
         }
         tableBody.appendChild(tableRow);
+        netPriceHDSInput.value="0";
+        for (let i = 0; i < tableBody.rows.length; i++) {
+            const row = tableBody.rows[i];
+            const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
+            const inputValue:number = Number(input.value);
+            let totatValue:number=Number(netPriceHDSInput.value);
+            totatValue+=inputValue;
+            netPriceHDSInput.value=String(totatValue);
+        }
     }
 
     deletePayBys(rowIndex:number){
@@ -1578,10 +1608,11 @@ if(editPayHDSForm){
             processData: false,
             contentType: false,
             success: function (data) {
-                console.info(data);
-                //window.location.reload();
+                window.location.reload();
             },
-            error:function(error){}
+            error:function(error){
+                alert("به علت مشکلی نتوانست ویرایش شود.")
+            }
         });
     });
 }
@@ -1602,7 +1633,7 @@ function deleteGetAndPays(getAndPayId:number){
                   "Content-Type": "application/json",
                   "X-CSRF-TOKEN": ""+csrf,
                 }}).then(res=>res.json()).then(res=>{
-                if(res.result){
+                if(res.success){
                     swal({
                         text:"حذف شد",
                         icon:"success",
@@ -1625,7 +1656,6 @@ function addNaghdMoneyPayEdit(){
     const payBys = new PayBys(1,0,description,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editPayBys();
     closeAddPayPartAddModal('addPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 
@@ -1648,7 +1678,6 @@ function addChequePayEdit(){
     const payBys = new PayBys(2,0,inVajhChequeName,money,radifInCheque,sayyadiNo,sarRasidDate,chequeNumber,hisabNo,0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editPayBys();
     closeAddPayPartAddModal('addPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function addHawalaFromBoxAddPayEdit(){
@@ -1673,7 +1702,6 @@ function addHawalaFromBoxAddPayEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,bankSn,0,0,0,0,0,0,0,0,addHawalaFromBoxAddKarmozd,branchName,ownerName,hawalaNo,0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function addTakhfifAddPayEdit(){
     const takhfifMoneyInputAddPayAdd:HTMLInputElement=document.getElementById("takhfifMoneyInputAddPayEdit") as HTMLInputElement;
@@ -1683,7 +1711,6 @@ function addTakhfifAddPayEdit(){
     const payBys = new PayBys(4,0,descTakhfif,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function addPayHawalaFromBankEdit(){
     const addPayHawalaFromBankAddSelectHisabSnInput:HTMLSelectElement=document.getElementById("addFromHisabNoEditSelect") as HTMLSelectElement;
@@ -1710,7 +1737,6 @@ function addPayHawalaFromBankEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,snBank,0,bankHisabSn,0,0,0,0,0,0,karmozd,addShobeName,malikName,hawalaNo,0);
     payBys.editPayBys();
     closeAddPayPartAddModal('AddPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function editEditNaghdMoneyPayEdit(){
@@ -1721,7 +1747,6 @@ function editEditNaghdMoneyPayEdit(){
     const payBys = new PayBys(1,0,description,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function addEditNaghdMoneyPayEdit(){
     const monyInput: HTMLInputElement = document.getElementById("rialNaghdPayAddEditInputEdit") as HTMLInputElement;
@@ -1731,7 +1756,6 @@ function addEditNaghdMoneyPayEdit(){
     const payBys = new PayBys(1,0,description,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayVajhNaghdEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function editChequePayEdit(){
@@ -1752,7 +1776,6 @@ function editChequePayEdit(){
     const payBys = new PayBys(2,0,inVajhChequeName,money,radifInCheque,sayyadiNo,sarRasidDate,chequeNumber,hisabNo,0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function addEditChequePayEdit(){
     const chequeNumberInput: HTMLInputElement = document.getElementById("chequeNoCheqeInputAddEditPayEdit") as HTMLInputElement;
@@ -1772,7 +1795,6 @@ function addEditChequePayEdit(){
     const payBys = new PayBys(2,0,inVajhChequeName,money,radifInCheque,sayyadiNo,sarRasidDate,chequeNumber,hisabNo,0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayChequeInfoEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function editHawalaFromBoxEditPayEdit(){
@@ -1797,7 +1819,6 @@ function editHawalaFromBoxEditPayEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,bankSn,0,0,0,0,0,0,0,0,addHawalaFromBoxAddKarmozd,branchName,ownerName,hawalaNo,0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function addEditHawalaFromBoxPayEdit(){
     const hawalaNoInput:HTMLInputElement=document.getElementById("addHawalaFromBoxHawalaNoEditInputEdit") as HTMLInputElement;
@@ -1821,7 +1842,6 @@ function addEditHawalaFromBoxPayEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,bankSn,0,0,0,0,0,0,0,0,addHawalaFromBoxAddKarmozd,branchName,ownerName,hawalaNo,0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBoxEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 function editTakhfifPayEdit(){
     const takhfifMoneyInputAddPayAdd:HTMLInputElement=document.getElementById("takhfifMoneyInputEditEditPayEdit") as HTMLInputElement;
@@ -1831,7 +1851,6 @@ function editTakhfifPayEdit(){
     const payBys = new PayBys(4,0,descTakhfif,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function addEditTakhfifPayEdit(){
@@ -1842,7 +1861,6 @@ function addEditTakhfifPayEdit(){
     const payBys = new PayBys(4,0,descTakhfif,money,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayTakhfifEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function editPayHawalaFromBankEdit(){
@@ -1869,7 +1887,6 @@ function editPayHawalaFromBankEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,snBank,0,bankHisabSn,0,0,0,0,0,0,karmozd,addShobeName,malikName,hawalaNo,0);
     payBys.editEditPayBys();
     closeAddPayPartAddModal('editEditPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 const bankSnSelects=document.querySelectorAll(".banksn");
@@ -1919,7 +1936,6 @@ function addEditPayHawalaFromBankEdit(){
     const payBys = new PayBys(3,0,description,money,0,0,hawalaDate,0,hisabNo,snBank,0,bankHisabSn,0,0,0,0,0,0,karmozd,addShobeName,malikName,hawalaNo,0);
     payBys.addEditEditPayBys();
     closeAddPayPartAddModal('addEditPayHawalaFromBankEditModal');
-    paynetPriceHDSAdd.value = String(Number(paynetPriceHDSAdd.value)+money);
 }
 
 function deleteSelectedBysItem(){

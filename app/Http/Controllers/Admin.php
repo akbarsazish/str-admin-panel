@@ -22,7 +22,8 @@ class Admin extends Controller{
     }
     public function listKarbaran(Request $request){
         $admins=DB::select("SELECT * FROM NewStarfood.dbo.admin");
-        return view('admin.listKarbaran',['admins'=>$admins]);
+        $shopAdmins=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5 AND SnUser!=0");
+        return view('admin.listKarbaran',['admins'=>$admins,'shopAdmins'=>$shopAdmins]);
     }
 
     public function doAddAdmin(Request $request){
@@ -37,6 +38,8 @@ class Admin extends Controller{
         $adminType=$request->post("AdminTypeN");
 
         $sex=$request->post("gender");
+
+        $shopAdmin=$request->input("shopAdmin");
 
         // اگر اطلاعات پایه روشن بود
         $baseInfoN = $request->post("baseInfoN");
@@ -592,9 +595,9 @@ class Admin extends Controller{
 
    
         
-        DB::insert("INSERT INTO NewStarfood.dbo.admin (name,lastName,userName,password,activeState,sex,address,adminType)
+        DB::insert("INSERT INTO NewStarfood.dbo.admin (name,lastName,userName,password,activeState,sex,address,adminType,ShopAdminSn)
 
-        VALUES('".$name."','".$lastname."','".$username."','".$password."',1,'$sex','','$adminType')");
+        VALUES('".$name."','".$lastname."','".$username."','".$password."',1,'$sex','','$adminType',$shopAdmin)");
         
         $lastId=DB::table("NewStarfood.dbo.admin")->max('id');
 
@@ -1298,7 +1301,7 @@ class Admin extends Controller{
     {
            $this->validate($request,[
                 'username'=>'string|required|max:2000|min:3',
-                'password'=>'required|min:3|max:54',
+                'password'=>'required|string|min:3|max:54',
             ],
             [
                 'required' => 'فیلد نباید خالی بماند',
@@ -1313,17 +1316,19 @@ class Admin extends Controller{
         $exist=0;
         $adminName="";
         $adminId="";
+        $shopUserSn=0;
         foreach ($admins as $admin) {
             $adminName=$admin->userName;
             $adminId=$admin->id;
+            $shopUserSn=$admin->ShopAdminSn;
+            
         }
         if(count($admins)>0){
-            
             $fiscallYear=DB::select("SELECT FiscallYear FROM NewStarfood.dbo.star_webSpecialSetting")[0]->FiscallYear;
                 Session::put('adminName',$adminName);
                 Session::put('adminId',$adminId);
                 Session::put('FiscallYear',$fiscallYear);
-
+                Session::put('ShopUserSn',$shopUserSn);
             $alarmStuff=DB::select("SELECT * FROM(
                                 SELECT * FROM(
                                 SELECT GoodSn FROM Shop.dbo.PubGoods WHERE GoodSn

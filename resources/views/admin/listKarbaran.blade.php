@@ -621,28 +621,40 @@
                                  </div>
                                  
                           </div>
-                          <div class="row">
-                                <div class="col-sm-3">
-                                    <div class="input-group input-group-sm mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default"> رمز </span>
-                                        <input type="password" class="form-control" placeholder="رمز" name="password">
-                                     </div>
-                                 </div>
-                                 <div class="col-sm-3">
-                                    <div class="input-group input-group-sm mb-3"> 
-                                        <input type="file" class="form-control" id="userPic" placeholder="تصویر">
-                                     </div>
-                                 </div>
-                                 <div class="col-sm-3">
-                                    <div class="form-check d-flex flex-end mt-1">
-                                        <input class="form-check-input p-2" type="radio" value="male" name="gender" id="manGender" checked> &nbsp;
-                                        <label class="form-check-label mx-4 karbar-label fs-6" for="flexRadioDefault1">مرد </label> &nbsp; &nbsp;
-                                        <input class="form-check-input p-2" type="radio" value="female" name="gender" id="womanGender"> &nbsp;
-                                        <label class="form-check-label mx-4 karbar-label fs-6" for="flexRadioDefault2">زن</label>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-default"> رمز </span>
+                                    <input type="password" class="form-control" placeholder="رمز" name="password">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group input-group-sm mb-3"> 
+                                    <input type="file" class="form-control" id="userPic" placeholder="تصویر">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-check d-flex flex-end mt-1">
+                                    <input class="form-check-input p-2" type="radio" value="male" name="gender" id="manGender" checked> &nbsp;
+                                    <label class="form-check-label mx-4 karbar-label fs-6" for="flexRadioDefault1">مرد </label> &nbsp; &nbsp;
+                                    <input class="form-check-input p-2" type="radio" value="female" name="gender" id="womanGender"> &nbsp;
+                                    <label class="form-check-label mx-4 karbar-label fs-6" for="flexRadioDefault2">زن</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-check d-flex flex-end mt-1">
+                                    <div class="input-group">
+                                        <span class="input-group-text"> در دفترحساب </span>
+                                        <select name="shopAdmin" class="form-select">
+                                            @foreach($shopAdmins as $admin)
+                                                <option value="{{$admin->SnUser}}"> {{$admin->NameUser}} </option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                 </div>
-                          </div>
-                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="container" style="background-color:#43bfa3; border-radius:5px 5px 2px 2px;">
                         <ul class="header-list nav nav-tabs" data-tabs="tabs">
                             <li><a class="active" data-toggle="tab" style="color:black;" href="#webManagementN"> اطلاعات پایه  </a></li>

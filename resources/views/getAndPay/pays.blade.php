@@ -1235,6 +1235,7 @@
                         </div>
                         <div class="flex-fill justify-content-start">
                             <span class="bordered"> 5000 مجموع </span>
+                            <input type="text" id="editNetPriceHDSEdit" name="NetPriceHDS"/>
                         </div>
                         <div class="flex-fill justify-content-start">
                             <div class="form-check">
