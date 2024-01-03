@@ -320,7 +320,6 @@ class Box extends Controller{
     }
 
     public function editGetAndPay(Request $request){
-        
         $allSerialNoBYSs=array();
         $snHDS;
         try {
@@ -335,33 +334,28 @@ class Box extends Controller{
             $daryaftHds=$request->daryaftHds;
             $snHDS=$request->SerialNoHDS;
             $byss=$request->BYSS??array();
-            
             GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$daryaftDate,"DocDescHDS"=>$daryaftHdsDesc,"PeopelHDS"=>$customerIdEdit
             ,"NetPriceHDS"=>$netPriceHDS]);
             if(count($byss)>0){
-            // return $request->BYSS;
-        foreach ($request->BYSS as $index) {
-            $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
-            $cachNo=$request->{'CashNo'.$index} ?? 0;
-            $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
-            $chequeDate=$request->{'ChequeDate'.$index} ?? '';
-            $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
-            $docDescBys=$request->{'DocDescBys'.$index} ?? '';
-            $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
-            $Owner=$request->{'Owner'.$index} ?? '';
-            $price=$request->{'Price'.$index} ?? 0;
-            $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
-            $snBank=$request->{'SnBank'.$index} ?? 0;
-            $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
-            $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
-            $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
-            $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
-         
-            array_push($allSerialNoBYSs,$serialNoBYS);
-            $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
-
-            if($countEditables>0){
-                        // // is editable?
+                foreach ($request->BYSS as $index) {
+                    $accBankNo=$request->{'AccBankNo'.$index} ?? 0;
+                    $cachNo=$request->{'CashNo'.$index} ?? 0;
+                    $chequeNo=$request->{'ChequeNo'.$index} ?? 0;
+                    $chequeDate=$request->{'ChequeDate'.$index} ?? '';
+                    $docTypeBys=$request->{'DocTypeBys'.$index} ?? 0;
+                    $docDescBys=$request->{'DocDescBys'.$index} ?? '';
+                    $noPayanehKartKhanBYS=$request->{'NoPayanehKartKhanBYS'.$index}?? '';
+                    $Owner=$request->{'Owner'.$index} ?? '';
+                    $price=$request->{'Price'.$index} ?? 0;
+                    $snAccBank=$request->{'SnAccBank'.$index} ?? 0;
+                    $snBank=$request->{'SnBank'.$index} ?? 0;
+                    $snChequeBook=$request->{'SnChequeBook'.$index} ?? '';
+                    $snPeopelPay=$request->{'SnPeopelPay'.$index} ?? 0;
+                    $serialNoBYS=$request->{'SerialNoBYS'.$index} ?? 0;
+                    $NameSabtShode=$request->{'NameSabtShode'.$index} ?? 0;
+                    array_push($allSerialNoBYSs,$serialNoBYS);
+                    $countEditables=DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->count();
+                    if($countEditables>0){
                         try{
                             DB::table('Shop.dbo.GetAndPayBYS')->WHERE("SnHDS",$snHDS)->WHERE("SerialNoBYS",$serialNoBYS)->UPDATE([
                                 "DocTypeBYS"=>$docTypeBys
@@ -389,11 +383,7 @@ class Box extends Controller{
                         }catch(\Exception $e){
                             return $e->getMessage();
                         }
-                        
                     }else{
-                        // return 'جدیدا اضافه شده است';
-                        // return $request->BYSS;
-                        
                         DB::table('Shop.dbo.GetAndPayBYS')->insert([
                             "CompanyNo"=>5
                             ,"DocTypeBYS"=>$docTypeBys
@@ -418,7 +408,6 @@ class Box extends Controller{
                             ,'NameSabtShode'=>''
                             ,'SnPeopelPay'=>$snPeopelPay
                         ]);
-
                         array_push($allSerialNoBYSs,GetAndPayBYS::where("SnHDS",$snHDS)->max("SerialNoBYS"));
                     }
                 }
@@ -442,10 +431,8 @@ class Box extends Controller{
                 }catch(\Exception $e){
                     return $e->getMessage();
                 }
-            }
-                
+            }  
             } catch (\Exception $e) {
-                // Handle the exception and return an error response
                 return response()->json(['error' => $e->getMessage()], 500);
             }
             

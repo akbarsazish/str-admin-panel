@@ -83,7 +83,7 @@ class Factor extends Controller{
                 ,"NetPriceHDS"=>$netPriceHDS
                 ,"InforPriceHDS"=>$inforPriceHDS
                 ,"SnStockIn"=>$stockId
-                ,"SnUser1"=>21
+                ,"SnUser1"=>Session::get("ShopUserSn")
                 ,"FactTime"=>"$factTime"
                 ,"OtherAddress"=>"$otherAddress"
                 ,"ErsalTime"=>$ersalTime
@@ -131,7 +131,7 @@ class Factor extends Controller{
                 ,"IsExport"=>0
                 ,"AmanatiOrZemanati"=>0
                 ,"PriceMaliat"=>0
-                ,"SnUser"=>0
+                ,"SnUser"=>Session::get("ShopUserSn")
                 ,"SnFactBuy"=>0
                 ,"SnTafHazineh"=>0
                 ,"SnNamayeshgah2"=>0

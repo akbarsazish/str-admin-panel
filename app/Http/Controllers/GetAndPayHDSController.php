@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\GetAndPayHDS;
+use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\GetAndPayBYS;
@@ -38,6 +38,7 @@ class GetAndPayHDSController extends Controller
      */
     public function store(Request $request)
     {
+        $saveTime = now()->format('H:i:s');
         try{
             $lastDocNo = GetAndPayHDS::where("GetOrPayHDS",$request->getOrPayHDS)->where('FiscalYear',1402)->where("CompanyNo",5)->max('DocNoHDS');
             $getAndPayHDS = new GetAndPayHDS;
@@ -46,16 +47,22 @@ class GetAndPayHDSController extends Controller
             $getAndPayHDS->DocNoHDS=($lastDocNo+1);
             $getAndPayHDS->DocDate=$request->docDateHDS;
             $getAndPayHDS->DocDescHDS=$request->docDescHDS;
-            $getAndPayHDS->PeopelHDS=$request->PeopelHDS;
+            
+            $getAndPayHDS->PeopelHDS=$request->PeopelHDS??0;
+            
             $getAndPayHDS->FiscalYear=1402;
             $getAndPayHDS->SnFactor=0;
+            $getAndPayHDS->SaveTime=$saveTime;
+            $getAndPayHDS->SnUser=Session::get("ShopUserSn");
             $getAndPayHDS->InForHDS=$request->InforHDS;
             $getAndPayHDS->NetPriceHDS=$request->netPriceHDS;
             $getAndPayHDS->DocTypeHDS=$request->payType;
             $getAndPayHDS->SnCashMaster=$request->SnCashMaster;
+            
             $savedHds = $getAndPayHDS->save();
             $lastHDS=GetAndPayHDS::WHERE("GetOrPayHDS",$request->getOrPayHDS)->max('SerialNoHDS');
             $byss=$request->input('BYSs');
+            
             
             if($savedHds){
                 foreach($byss as $bys){
@@ -81,6 +88,7 @@ class GetAndPayHDSController extends Controller
                     $getAndPayBYS->SnChequeBook=$request->{'SnChequeBook'.$bys} ?? 0;
                     $getAndPayBYS->KarMozdPriceBys=$request->{'Karmozd'.$bys} ?? 0;
                     $getAndPayBYS->save();
+                    
                 }
             }
             return \response()->json(['success' => $savedHds]);
@@ -131,9 +139,10 @@ class GetAndPayHDSController extends Controller
             $docdescHDS=$request->DocDescHDS;
             $snHDS=$request->HDS;
             $inforHDS=$request->InforHDS;
+            $priceHDS=$request->NetPriceHDS;
             $byss=$request->BYSs??array();
             
-            GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$docDateHDS,"DocDescHDS"=>$docdescHDS,"PeopelHDS"=>$peopelHDS,"InForHDS"=>$inforHDS,"NetPriceHDS"=>$inforHDS]);
+            GetAndPayHDS::where("SerialNoHDS",$snHDS)->update(["DocDate"=>$docDateHDS,"DocDescHDS"=>$docdescHDS,"PeopelHDS"=>$peopelHDS,"InForHDS"=>$inforHDS]);
             if(count($byss)>0){
                 foreach($byss as $bys){
                     $accBankNoBYS=$request->{'AccBankNo'.$bys} ?? 0;
