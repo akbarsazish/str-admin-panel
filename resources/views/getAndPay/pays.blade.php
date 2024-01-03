@@ -80,13 +80,11 @@
                                 </div>
                         </form>
                         <div class="btn-group" role="group" aria-label="Basic mixed">
-                            <button type="button" class="btn btn-sm ms-1 rounded btn-success"
-                                onclick="openAddPayPartAddModal('selectBoxPaysModal')"> افزودن </button>
-                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning" id="EditPayInput"
-                                onclick="openEditPayModal(this.value)"> ویرایش </button>
+                            <button type="button" class="btn btn-sm ms-1 rounded btn-success" onclick="openAddPayPartAddModal('selectBoxPaysModal')"> افزودن </button>
+                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning" id="EditPayInput" onclick="openEditPayModal(this.value)"> ویرایش </button>
                             <button type="button" id="deletePaysHDSBtn" onclick="deleteGetAndPays(this.value)" class="btn btn-sm ms-1 rounded btn-danger"> حذف </button>
                         </div>
-            </div>
+                </div>
             </span>
             </fieldset>
         </div>
@@ -499,10 +497,10 @@
     <div class="modal" id="searchCustomerForPayModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerPaysModal()"> <i
-                            class="fa-times fa"></i> </button>
-                    <h5 class="modal-title"> جستجوی طرف حساب </h5>
+                <div class="modal-header bg-success py-1">
+                    <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerPaysModal()">
+                     <i class="fa-times fa"></i> </button>
+                     <h5 class="modal-title"> جستجوی طرف حساب </h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -1140,8 +1138,7 @@
                             <div class="d-flex justify-content-start">
                                 <div class="btn-group mt-2" role="group">
                                     <button type="button" class="btn btn-sm btn-success rounded ms-1"> راس آیتم های پرداختی </button>
-                                    <button type="button" class="btn btn-sm btn-success rounded ms-1"
-                                        onclick="openCustomerGardishModal(document.querySelector('#editPayPSN').value)">
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openCustomerGardishModal(document.querySelector('#editPayPSN').value)">
                                         گردش حساب </button>
                                     <button type="submit" class="btn btn-sm btn-success rounded ms-1"> ثبت </button>
                                     <button type="button" class="btn btn-sm btn-danger rounded ms-1"> انصراف </button>
@@ -1259,10 +1256,10 @@
     <div class="modal" id="searchCustomerForPayEditModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success">
+                <div class="modal-header bg-success py-1">
                     <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerForPayEditModal()">
                         <i class="fa-times fa"></i> </button>
-                    <h5 class="modal-title"> جستجوی طرف حساب </h5>
+                        <h5 class="modal-title"> جستجوی طرف حساب </h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -1277,6 +1274,7 @@
                                     <input type="text" class="form-control" id="customerNameSearchPayEdit">
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="text-start mb-2">
                                     <button class="btn-sm btn-success btn text-warning"> فراخوانی همه اشخاص <i
@@ -1290,6 +1288,7 @@
                                         شود. </label>
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="text-end mb-2">
                                     <button class="btn-sm btn btn-success text-warning"
@@ -2754,4 +2753,9 @@
     </div>
 
     @include('repititiveparts/customerGardishModal')
+    <script>
+        window.onload = (event) => {
+            makeTableColumnsResizable('paymentTable')
+        };
+    </script>
 @endsection

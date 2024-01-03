@@ -120,10 +120,10 @@
                             <button type="submit" class="btn btn-success btn-sm text-warning mb-2" style="width: 100px;"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
                         </form>
                         <div class="row">
-                            <div>
-                                <button class="btn btn-sm text-warning btn-success mb-2" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
-                                <button class="btn btn-sm text-warning btn-info mb-2"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
-                                <button class="btn btn-sm text-warning btn-danger mb-2"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
+                            <div class="btn-group" role="group" aria-label="Basic mixed">
+                                <button class="btn btn-sm text-warning btn-success ms-1 rounded" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن </button>
+                                <button class="btn btn-sm text-warning btn-info ms-1 rounded"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش </button>
+                                <button class="btn btn-sm text-warning btn-danger ms-1 rounded"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف  </button>
                             </div>
                             <div class="text-end">
                             </div>
@@ -140,7 +140,7 @@
                 </div>
             </div>
             <div class="row mainContent">
-                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveTable" style="height:222px; overflow-y:scroll; width: 100%;">
+                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveTable"  style="height:calc(100vh - px); overflow:auto; width: 100%;">
                     <thead class="tableHeader">
                         <tr>
                             <th id="receiveTd-1"> ردیف </th>
@@ -173,7 +173,7 @@
                     </tbody>
                 </table>
             
-                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveDetialsTable" style="height:calc(100vh - 388px); overflow:auto; width: 100%;">
+                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveDetialsTable" style="height:200px; overflow-y:scroll; width: 100%;">
                     <thead class="tableHeader">
                         <tr>
                          <th id="receiveDetailsTd-1" style="width:122px"> ردیف </th>
@@ -344,12 +344,10 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="m-2">
-                                    <button type="button" class="btn-sm btn-info text-warning w-100" disabled id="editDaryaftItemBtn" onclick="editDaryaftItemType(this.value)"> ویرایش <i class="fa fa-edit"></i></button>
-                                </div>
-                                <div class="m-2">
-                                    <button type="button" class="btn-sm btn-danger text-white w-100" disabled id="deleteDaryaftItemBtn" onclick="deleteRow(this.value)"> حذف <i class="fa fa-trash"></i></button>
+                            <div class="col-md-2 m-1">
+                            <div class="btn-group" role="group" aria-label="Basic mixed">
+                                    <button type="button" class="btn-sm ms-1 rounded btn-info text-warning" disabled id="editDaryaftItemBtn" onclick="editDaryaftItemType(this.value)"> ویرایش </button>
+                                    <button type="button" class="btn-sm ms-1 rounded btn-danger text-white" disabled id="deleteDaryaftItemBtn" onclick="deleteRow(this.value)"> حذف </button>
                                 </div>
                             </div>
                             <div class="col-md-9">
@@ -503,9 +501,13 @@
                                         <button class="btn-sm btn btn-success text-warning  w-100" type="button" onclick="openReceiveModals('editAddVarizeBeHesabDegaran')"> واریز به حساب دیگری <i class="fa fa-plus"></i> </button>
                                     </div>
                                 </fieldset>
+                                <div class="btn-group mt-1" role="group" aria-label="Basic mixed">
+                                    <button class="btn-sm m-1 rounded btn-info text-warning" type="button" onclick="openEditAddedGetAndPay(this.value)" id="editaddedGetAndPayBtn" > ویرایش </button>
+                                    <button class="btn-sm m-1 rounded btn-danger text-white" type="button" onclick="deleteEditAddedGetAndPay(this.value)" id="deleteReceiveItemBtn" disabled> حذف </button>
+                                </div>
                             </div>
                             <div class="col-md-10 border border-1 rounded border-secondary px-0">
-                                <table class="resizableTable table table-bordered table-striped" id="addedEditDaryaftable" style="height:333px">
+                                <table class="resizableTable table table-bordered table-striped" id="addedEditDaryaftable" style="height:300px">
                                     <thead class="tableHeader">
                                         <tr>
                                             <th id="addEditVagheNaqd-1">  ردیف  </th>
@@ -522,14 +524,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-2">
-                                <div class="m-2">
-                                    <button class="btn-sm btn-info text-warning w-100" type="button" onclick="openEditAddedGetAndPay(this.value)" id="editaddedGetAndPayBtn" > ویرایش <i class="fa fa-edit"></i></button>
-                                </div>
-                                <div class="m-2">
-                                    <button class="btn-sm btn-danger text-white w-100" type="button" onclick="deleteEditAddedGetAndPay(this.value)" id="deleteReceiveItemBtn" disabled> حذف <i class="fa fa-trash"></i></button>
-                                </div>
-                            </div>
+                            <div class="col-md-2"> </div>
                             <div class="col-md-10">
                                 <div class="row border border-1 rounded border-secondary mt-2">
                                     <div class="col-sm-9">
@@ -615,7 +610,6 @@
                     <div class="text-end m-2">
                         <button class="btn btn-sm btn-success" onclick="addNaghdMoneyDar()"> ذخیره  <i class="fa-save fa"></i></button>
                     </div>
-
                 </div>
             </div>
           </div>

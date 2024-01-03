@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.26:8080";
+    var baseUrl = "http://192.168.10.21:8000";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
@@ -2766,19 +2766,21 @@ $("#filterPaysForm").on("submit",function(e){
             $("#paysListBody").empty();
             respond.forEach((element,index) => {
                 $("#paysListBody").append(`
-                    <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'paysDetailsBody',${element.SerialNoHDS})"  class="factorTablRow">
-                        <td> ${index+1} </td>
-                        <td> ${element.DocNoHDS}  </td>
-                        <td> ${element.DocDate} </td>
-                        <td> ${element.Name}</td>
-                        <td> ${element.DocDescHDS} </td>
-                        <td > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
-                        <td> ${element.SaveTime}</td>
-                        <td> ${element.userName}  </td>
-                        <td > ${element.cashName} </td>
-                        <td> ${element.DocDescHDS} </td>
+                    <tr onclick="getGetAndPayBYS(this,'paysDetailsBody',${element.SerialNoHDS})"  class="factorTablRow">
+                        <td class="pardakhtTd-1"> ${index+1} </td>
+                        <td class="pardakhtTd-2"> ${element.DocNoHDS}  </td>
+                        <td class="pardakhtTd-3"> ${element.DocDate} </td>
+                        <td class="pardakhtTd-4"> ${element.Name}</td>
+                        <td class="pardakhtTd-5"> ${element.DocDescHDS} </td>
+                        <td class="pardakhtTd-6" > ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                        <td class="pardakhtTd-7"> ${element.SaveTime}</td>
+                        <td class="pardakhtTd-8"> ${element.userName}  </td>
+                        <td class="pardakhtTd-9" > ${element.cashName} </td>
+                        <td class="pardakhtTd-10"> ${element.DocDescHDS} </td>
                     </tr>`);
             })
+
+            makeTableColumnsResizable('paymentTable')
         },
         error:function(error){
         }
@@ -3146,18 +3148,19 @@ function getAndPayHistory(historyFlag,tableBodyId,bysTableBodyId,getOrPay){
         data.forEach((element,index) => {
             $("#"+tableBodyId).append(`
                 <tr class="factorTablRow" onclick="getGetAndPayBYS(this,'`+bysTableBodyId+`',${element.SerialNoHDS})"  class="factorTablRow">
-                    <td> ${index+1} </td>
-                    <td> ${element.DocNoHDS}  </td>
-                    <td> ${element.DocDate} </td>
-                    <td> ${element.Name}</td>
-                    <td> ${element.DocDescHDS} </td>
-                    <td> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
-                    <td> ${element.SaveTime}</td>
-                    <td> ${element.userName}  </td>
-                    <td> ${element.cashName} </td>
-                    <td> ${element.DocDescHDS} </td>
+                    <td class="receiveTd-1"> ${index+1} </td>
+                    <td class="receiveTd-2"> ${element.DocNoHDS}  </td>
+                    <td class="receiveTd-3"> ${element.DocDate} </td>
+                    <td class="receiveTd-4"> ${element.Name}</td>
+                    <td class="receiveTd-5"> ${element.DocDescHDS} </td>
+                    <td class="receiveTd-6"> ${parseInt(element.NetPriceHDS).toLocaleString("en-us")}  </td>
+                    <td class="receiveTd-7"> ${element.SaveTime}</td>
+                    <td class="receiveTd-8"> ${element.userName}  </td>
+                    <td class="receiveTd-9"> ${element.cashName} </td>
+                    <td class="receiveTd-10"> ${element.DocDescHDS} </td>
                 </tr>`);
         })
+        makeTableColumnsResizable('paymentTable')
     })
 }
 function openEditPayModal(snGetAndPayHDS){
@@ -3513,14 +3516,11 @@ function checkEditEditPayEditModal(docTypeBYS){
                                     addFromHisabNoEditSelect.innerHTML=`<option value="0">انتخاب کنید</option>`;
                                     data.bankKarts.forEach(hisab=>{
                                         if(hisab.SerialNoAcc==String(td.children.item(0)?.getAttribute('value'))){
-                                        
                                             addFromHisabNoEditSelect.innerHTML+=`<option selected value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
                                             addFromHisabNoEditInput.value=String(hisab.AccNo);
     
                                         }else{
-    
                                             addFromHisabNoEditSelect.innerHTML+=`<option value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
-                                        
                                         }
                                     })
                                 })
@@ -3592,7 +3592,6 @@ function checkEditEditPayEditModal(docTypeBYS){
                                     addHawalaFromBankKarmozdInput.value=String(td.children.item(0)?.getAttribute('value'));
                                 }
                                 break;
-                            
                         }
                     }
                 })
