@@ -83,7 +83,7 @@
                                 onclick="openEditPayModal(this.value)"> ویرایش </button>
                             <button type="button" id="deletePaysHDSBtn" onclick="deleteGetAndPays(this.value)" class="btn btn-sm ms-1 rounded btn-danger"> حذف </button>
                         </div>
-            </div>
+                </div>
             </span>
             </fieldset>
         </div>
@@ -496,10 +496,10 @@
     <div class="modal" id="searchCustomerForPayModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerPaysModal()"> <i
-                            class="fa-times fa"></i> </button>
-                    <h5 class="modal-title"> جستجوی طرف حساب </h5>
+                <div class="modal-header bg-success py-1">
+                    <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerPaysModal()">
+                     <i class="fa-times fa"></i> </button>
+                     <h5 class="modal-title"> جستجوی طرف حساب </h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -2750,4 +2750,9 @@
     </div>
 
     @include('repititiveparts/customerGardishModal')
+    <script>
+        window.onload = (event) => {
+            makeTableColumnsResizable('paymentTable')
+        };
+    </script>
 @endsection

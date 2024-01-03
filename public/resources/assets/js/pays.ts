@@ -162,7 +162,6 @@ function addTakhfifAddPayAdd(){
 }
 
 
-
 function deletePayBys(payBysIndex: number){
     let rowIndex:number=Number(payBysIndex);
     let payBys: PayBys = new PayBys(0,rowIndex,'',0,0,0,'',0,'',0,0,0,0,0,0,0,0,0,0,'','',0,0);
