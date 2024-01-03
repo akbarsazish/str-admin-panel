@@ -534,7 +534,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <table class="table">
+                            <table class="table table-sm table-bordered table-striped" style="height: 222px; overflow-y:scroll">
                                 <thead class="bg-success">
                                     <tr>
                                         <th> کد </th>
@@ -1288,9 +1288,7 @@
 
                             <div class="col-md-4">
                                 <div class="text-end mb-2">
-                                    <button class="btn-sm btn btn-success text-warning"
-                                        onclick="chooseCustomerForPayEdit(this.value)"
-                                        id="selectCustomerForPaysEditBtn"> انتخاب </button>
+                                    <button class="btn-sm btn btn-success text-warning" onclick="chooseCustomerForPayEdit(this.value)" id="selectCustomerForPaysEditBtn"> انتخاب </button>
                                 </div>
                             </div>
                         </div>

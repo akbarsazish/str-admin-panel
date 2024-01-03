@@ -2883,6 +2883,7 @@ if(hazinaPaysRadio){
 }
 
 const sadirDatePaysInput=document.getElementById("sadirDatePaysInput");
+
 if(sadirDatePaysInput){
     $("#sadirDatePaysInput").persianDatepicker({
         cellWidth: 32,
@@ -2892,8 +2893,8 @@ if(sadirDatePaysInput){
         endDate: "1440/5/5",});
 }
 
-
 const customerNamePayInput=document.getElementById("customerNamePayInput");
+
 if(customerNamePayInput){
     customerNamePayInput.addEventListener('keyup', function(e) {
         let customerName = customerNamePayInput.value;
@@ -2938,7 +2939,7 @@ if(customerNameSearchPayInput){
                     console.log(data)
                     let customers = data;
                     let customersHtml = "";
-                    customers.forEach((customer,index) => {
+                    customers.forEach((customer, index) => {
                         customersHtml += `
                         <tr onclick="selectCustomerForPay('${customer.PSN}',this)">
                             <td>  ${customer.PCode}  </td>
@@ -2982,6 +2983,7 @@ function chooseCustomerForPay(customerId) {
         }
     });
 }
+
 
 function openAddEditPayChequeInfoEditModal(){
     const modal = new bootstrap.Modal(document.getElementById('addEditPayChequeInfoEditModal'));

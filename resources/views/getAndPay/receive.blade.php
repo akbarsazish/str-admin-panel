@@ -141,7 +141,7 @@
                 </div>
             </div>
             <div class="row mainContent">
-                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveTable"  style="height:calc(100vh - px); overflow:auto; width: 100%;">
+                <table class="resizableTable table table-hover table-bordered table-sm" id="receiveTable"  style="height:calc(100vh - 400px); overflow:auto; width: 100%;">
                     <thead class="tableHeader">
                         <tr>
                             <th id="receiveTd-1"> ردیف </th>
