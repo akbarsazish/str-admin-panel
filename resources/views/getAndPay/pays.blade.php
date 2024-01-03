@@ -23,38 +23,38 @@
                                 </div>
 
                                 <div class="input-group input-group-sm mb-1 filterItems">
-                                    <span class="input-group-text" id="inputGroup-sizing-sm">تاریخ </span>
+                                    <span class="input-group-text" id="inputGroup-sizing-sm mt-2">تاریخ </span>
                                     <input type="text" name="firstDate" class="form-control form-control-sm"
                                         id="sefFirstDate">
                                 </div>
                                 <input type="text" name="getOrPay" value="2" class="d-none">
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                <div class="input-group input-group-sm mb-1 filterItems mt-2">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
                                     <input type="text" name="secondDate" class="form-control form-control-sm"
                                         id="sefSecondDate">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">شماره </span>
                                     <input type="text" name="firstNum" class="form-control form-control-sm">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
                                     <input type="text" name="secondNum" class="form-control form-control-sm">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                </div> --}}
+                                <div class="input-group input-group-sm mb-1 filterItems mt-2">
                                     <span class="input-group-text"> طرف حساب </span>
                                     <input class="form-control form-control-sm" name="pCode" id="customerCode">
-                                    <div class="input-group input-group-sm mb-1 filterItems">
+                                    <div class="input-group input-group-sm mb-1 filterItems mt-2">
                                         <input type="text" name="name" id="customerName"
                                             class="form-control form-control-sm">
                                     </div>
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> توضحیات </span>
                                     <input type="text" name="description" class="form-control form-control-sm"
                                         placeholder="نام ">
-                                </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                </div> --}}
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> گروه اشخاص </span>
                                     <select name="groupId" id="groupId" class="form-select">
                                         <option></option>
@@ -64,11 +64,14 @@
                                         <option>آنلاین</option>
                                         <option>حضوری</option>
                                     </select>
-                                </div>
+                                </div> --}}
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> تنظیم کننده </span>
                                     <select name="setterSn" id="setterSn" class="form-select">
-                                        <option> </option>
+                                        <option>  </option>
+                                        @foreach($users as $user)
+                                        <option value="{{$user->SnUser}}"> {{$user->NameUser}} </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="text-center">
@@ -308,7 +311,7 @@
                                             onclick="openCustomerGardishModal(document.querySelector('#customerIdPayInput').value)">
                                             گردش حساب </button>
                                         <button type="submit" class="btn btn-sm btn-success rounded ms-1"> ثبت </button>
-                                        <button type="button" class="btn btn-sm btn-danger rounded ms-1"> انصراف </button>
+                                        <button type="button" onclick="closeModalWithQuestion('payModal')" class="btn btn-sm btn-danger rounded ms-1"> انصراف </button>
                                     </div>
                                 </div>
                                 <table class="resizableTable table table-hover table-bordered table-sm mt-1"
@@ -393,12 +396,12 @@
                                 <span class="ras-result"> جمع کل: </span>
                             </div>
                             <div class="flex-fill justify-content-start">
-                                <span class="bordered"> 0 مبلغ فاکتور </span>
-                                <span class="bordered"> مانده (50000) </span>
+                                <span class="bordered"> مبلغ فاکتور : </span>
+                                <span class="bordered"> مانده : </span>
                             </div>
                             <div class="flex-fill justify-content-start">
-                                <span class="bordered"> 5000 مجموع </span>
-                                <input type="text" name="netPriceHDS" id="paynetPriceHDSAdd">
+                                <span class="bordered"> مجموع  :<span id="totalPriceHDSAdd"></span> </span>
+                                <input type="text" name="netPriceHDS" class="d-none" id="paynetPriceHDSAdd">
                                 <input type="text" name="getOrPayHDS" value="2" class="d-none">
                             </div>
                             <div class="flex-fill justify-content-start">
@@ -1107,7 +1110,7 @@
                                         <span class="input-group-text d-inline"> بابت </span>
                                         <input type="text" id="editBabatCodePay"
                                             class="form-control form-control-sm">
-                                            <input type="text" name="HDS" id="editPaySerialNoHDS">
+                                            <input type="text" class="d-none" name="HDS" id="editPaySerialNoHDS">
                                         <input type="text" id="editBabatIdPay" class="d-none">
                                         <select class="form-select form-select-sm" id="editBabatIdPaySelect"
                                             name="InforHDS" aria-label=".form-select-sm example">
@@ -1227,12 +1230,12 @@
                             <span class="ras-result"> جمع کل: </span>
                         </div>
                         <div class="flex-fill justify-content-start">
-                            <span class="bordered"> 0 مبلغ فاکتور </span>
-                            <span class="bordered"> مانده (50000) </span>
+                            <span class="bordered"> مبلغ فاکتور <span id="editAllFactorPriceHDSEditText">0</span> </span>
+                            <span class="bordered"> مانده <span id="editRemainedPriceHDSEditText"> 0 </span> </span>
                         </div>
                         <div class="flex-fill justify-content-start">
-                            <span class="bordered"> 5000 مجموع </span>
-                            <input type="text" id="editNetPriceHDSEdit" name="NetPriceHDS"/>
+                            <span class="bordered"> مجموع <span id="editAllPriceHDSEditText" class> 0 </span> </span>
+                            <input type="text" class="d-none" id="editNetPriceHDSEdit" name="NetPriceHDS"/>
                         </div>
                         <div class="flex-fill justify-content-start">
                             <div class="form-check">

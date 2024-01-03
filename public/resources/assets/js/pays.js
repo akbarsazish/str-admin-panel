@@ -19,7 +19,6 @@ if (accSelects) {
         });
     });
 }
-
 function changeHisabNo(element, hisabNoId) {
     var hisabNoInput = document.getElementById(hisabNoId);
     var hisabSN = Number(element.value);
@@ -702,6 +701,7 @@ var PayBys = /** @class */ (function () {
         this.SerialNoBYS = serialNoBYS;
     }
     PayBys.prototype.addPayBys = function () {
+        var totalPriceHDSAdd = document.getElementById("totalPriceHDSAdd");
         var paynetPriceHDSAdd = document.getElementById("paynetPriceHDSAdd");
         var tableBody = document.getElementById("paysAddTableBody");
         var tableRow = document.createElement('tr');
@@ -878,14 +878,15 @@ var PayBys = /** @class */ (function () {
         }
         tableBody.appendChild(tableRow);
         paynetPriceHDSAdd.value = "0";
+        var totatValue = Number(paynetPriceHDSAdd.value);
         for (var i = 0; i < tableBody.rows.length; i++) {
             var row = tableBody.rows[i];
             var input = row.cells[19].querySelector('input[type="text"]');
             var inputValue = Number(input.value);
-            var totatValue = Number(paynetPriceHDSAdd.value);
             totatValue += inputValue;
-            paynetPriceHDSAdd.value = String(totatValue);
         }
+        paynetPriceHDSAdd.value = String(totatValue);
+        totalPriceHDSAdd.textContent = String(totatValue.toLocaleString("en-us"));
     };
     PayBys.prototype.editPayBys = function () {
         var paynetPriceHDSAdd = document.getElementById("paynetPriceHDSAdd");
@@ -1084,6 +1085,7 @@ var PayBys = /** @class */ (function () {
     };
     PayBys.prototype.editEditPayBys = function () {
         var tableBody = document.getElementById("payEditTableBodyBys");
+        var allPriceHDSEditText = document.getElementById("editAllPriceHDSEditText");
         var selectedRow = tableBody.getElementsByClassName('selected')[0];
         var rowNumber = Number(selectedRow.rowIndex - 1);
         var modalTypeFlag = 0;
@@ -1239,17 +1241,19 @@ var PayBys = /** @class */ (function () {
         }
         var netPriceHDSInput = document.getElementById("editNetPriceHDSEdit");
         netPriceHDSInput.value = "0";
+        var totatValue = Number(netPriceHDSInput.value);
         for (var i = 0; i < tableBody.rows.length; i++) {
             var row = tableBody.rows[i];
             var input = row.cells[19].querySelector('input[type="text"]');
             var inputValue = Number(input.value);
-            var totatValue = Number(netPriceHDSInput.value);
             totatValue += inputValue;
-            netPriceHDSInput.value = String(totatValue);
         }
+        netPriceHDSInput.value = String(totatValue);
+        allPriceHDSEditText.textContent = String(totatValue.toLocaleString("en-us"));
     };
     PayBys.prototype.addEditEditPayBys = function () {
         var netPriceHDSInput = document.getElementById("editNetPriceHDSEdit");
+        var allPriceHDSEditText = document.getElementById("editAllPriceHDSEditText");
         var tableBody = document.getElementById("payEditTableBodyBys");
         var tableRow = document.createElement('tr');
         var rowNumber = tableBody.childElementCount;
@@ -1425,14 +1429,15 @@ var PayBys = /** @class */ (function () {
         }
         tableBody.appendChild(tableRow);
         netPriceHDSInput.value = "0";
+        var totatValue = Number(netPriceHDSInput.value);
         for (var i = 0; i < tableBody.rows.length; i++) {
             var row = tableBody.rows[i];
             var input = row.cells[19].querySelector('input[type="text"]');
             var inputValue = Number(input.value);
-            var totatValue = Number(netPriceHDSInput.value);
             totatValue += inputValue;
-            netPriceHDSInput.value = String(totatValue);
         }
+        netPriceHDSInput.value = String(totatValue);
+        allPriceHDSEditText.textContent = String(totatValue.toLocaleString("en-us"));
     };
     PayBys.prototype.deletePayBys = function (rowIndex) {
         var tableBody = document.getElementById("paysAddTableBody");
@@ -1844,5 +1849,17 @@ function addEditPayHawalaFromBankEdit() {
 function deleteSelectedBysItem() {
     var selectedRow = document.querySelectorAll(".selected");
     selectedRow.forEach(function (element) {
+    });
+}
+function closeModalWithQuestion(modalId) {
+    swal({
+        text: "میخواهید بدون ذخیره خارج شوید؟",
+        buttons: ['خیر', 'بله'],
+        dangerMode: true,
+        icon: 'warning'
+    }).then(function (willDelete) {
+        if (willDelete) {
+            $("#" + modalId).hide();
+        }
     });
 }

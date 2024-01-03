@@ -763,6 +763,7 @@ class PayBys{
     }
 
     addPayBys(){
+        const totalPriceHDSAdd:HTMLElement=document.getElementById("totalPriceHDSAdd") as HTMLElement;
         const paynetPriceHDSAdd=document.getElementById("paynetPriceHDSAdd") as HTMLInputElement;
         let tableBody : HTMLTableSectionElement = document.getElementById("paysAddTableBody") as HTMLTableSectionElement;
         let tableRow = document.createElement('tr');
@@ -941,14 +942,16 @@ class PayBys{
         }
         tableBody.appendChild(tableRow);
         paynetPriceHDSAdd.value="0";
+        let totatValue:number=Number(paynetPriceHDSAdd.value);
         for (let i = 0; i < tableBody.rows.length; i++) {
             const row = tableBody.rows[i];
             const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
             const inputValue:number = Number(input.value);
-            let totatValue:number=Number(paynetPriceHDSAdd.value);
             totatValue+=inputValue;
-            paynetPriceHDSAdd.value=String(totatValue);
+            
         }
+        paynetPriceHDSAdd.value=String(totatValue);
+        totalPriceHDSAdd.textContent=String(totatValue.toLocaleString("en-us"))
     }
 
     editPayBys(){
@@ -1150,6 +1153,7 @@ class PayBys{
 
     editEditPayBys(){
         let tableBody : HTMLTableSectionElement = document.getElementById("payEditTableBodyBys") as HTMLTableSectionElement;
+        const allPriceHDSEditText:HTMLElement=document.getElementById("editAllPriceHDSEditText") as HTMLElement;
         const selectedRow : HTMLTableRowElement = tableBody.getElementsByClassName('selected')[0] as HTMLTableRowElement;
         
         let rowNumber : number = Number(selectedRow.rowIndex-1);
@@ -1306,18 +1310,20 @@ class PayBys{
         }
         const netPriceHDSInput:HTMLInputElement=document.getElementById("editNetPriceHDSEdit") as HTMLInputElement;
         netPriceHDSInput.value="0";
+        let totatValue:number=Number(netPriceHDSInput.value);
         for (let i = 0; i < tableBody.rows.length; i++) {
             const row = tableBody.rows[i];
             const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
             const inputValue:number = Number(input.value);
-            let totatValue:number=Number(netPriceHDSInput.value);
             totatValue+=inputValue;
-            netPriceHDSInput.value=String(totatValue);
         }
+        netPriceHDSInput.value=String(totatValue);
+        allPriceHDSEditText.textContent=String(totatValue.toLocaleString("en-us"));
     }
 
     addEditEditPayBys(){
         const netPriceHDSInput:HTMLInputElement=document.getElementById("editNetPriceHDSEdit") as HTMLInputElement;
+        const allPriceHDSEditText:HTMLElement=document.getElementById("editAllPriceHDSEditText") as HTMLElement;
         let tableBody : HTMLTableSectionElement = document.getElementById("payEditTableBodyBys") as HTMLTableSectionElement;
         let tableRow = document.createElement('tr');
         let rowNumber: number = tableBody.childElementCount;
@@ -1494,14 +1500,15 @@ class PayBys{
         }
         tableBody.appendChild(tableRow);
         netPriceHDSInput.value="0";
+        let totatValue:number=Number(netPriceHDSInput.value);
         for (let i = 0; i < tableBody.rows.length; i++) {
             const row = tableBody.rows[i];
             const input = row.cells[19].querySelector('input[type="text"]') as HTMLInputElement;
             const inputValue:number = Number(input.value);
-            let totatValue:number=Number(netPriceHDSInput.value);
             totatValue+=inputValue;
-            netPriceHDSInput.value=String(totatValue);
         }
+        netPriceHDSInput.value=String(totatValue);
+        allPriceHDSEditText.textContent=String(totatValue.toLocaleString("en-us"));
     }
 
     deletePayBys(rowIndex:number){
@@ -1936,6 +1943,19 @@ function deleteSelectedBysItem(){
     selectedRow.forEach(element => {
         
     });
+}
+
+function closeModalWithQuestion(modalId){
+    swal({
+        text:"میخواهید بدون ذخیره خارج شوید؟",
+        buttons: ['خیر', 'بله'],
+        dangerMode: true,
+        icon: 'warning'
+    }).then((willDelete)=>{
+        if(willDelete){
+            $("#"+modalId).hide();
+        }
+    })
 }
 
 

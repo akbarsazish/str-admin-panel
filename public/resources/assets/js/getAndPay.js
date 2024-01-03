@@ -66,6 +66,7 @@
             processData: false,
             contentType: false,
             success: function (respond) {
+                console.info(respond)
                 $("#receiveListBody").empty();
                 respond.forEach((element,index) => {
                     $("#receiveListBody").append(`
@@ -3176,6 +3177,7 @@ function openEditPayModal(snGetAndPayHDS){
         const editPayPSN=document.getElementById("editPayPSN");
         editPayPSN.value=payOrGet.PeopelHDS;
         $("#editPayModal").find("#editPayNetPriceHDS").val(payOrGet.NetPriceHDS);
+        $("#editAllPriceHDSEditText").text(parseInt(payOrGet.NetPriceHDS).toLocaleString("en-us"))
         $("#editPayModal").find("#editPayDocDescHDS").val(payOrGet.DocDescHDS);
         $("#editPayModal").find("#editPaySerialNoHDS").val(payOrGet.SerialNoHDS);
         $("#editPayModal").find("#editPayCashName").val(payOrGet.cashName);
@@ -3212,7 +3214,6 @@ function openEditPayModal(snGetAndPayHDS){
         let rowNumber=0;
         console.log(bys)
         for (const element of bys) {
-            
             bysTableTr+=`<tr onclick="setPayBYSStuff(this,${element.DocTypeBYS})"><td>${rowNumber}</td><td>${element.DocDescBYS}</td><td>${element.Price}</td><td>${element.RadifInDaftarCheque}</td><td>${element.NoSayyadi}</td>
             <td class="d-none" ><input type="checkbox" checked class="form-check-input" value="${rowNumber}" name="BYSs[]"/></td>
             <td class="d-none" ><input type="text" class="form-check-input" value="${element.DocTypeBYS}" name="BysType${rowNumber}"/></td>
