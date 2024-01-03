@@ -74,14 +74,14 @@
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
                                     <input type="text" name="secondDate" class="form-control form-control-sm" id="sefSecondDate">
                                 </div>
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm">شماره   </span>
                                     <input type="text" name="firstNum" class="form-control form-control-sm">
                                 </div>
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text" id="inputGroup-sizing-sm"> الی </span>
                                     <input type="text" name="secondNum" class="form-control form-control-sm" >
-                                </div>
+                                </div> --}}
                                 <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  طرف حساب </span>
                                     <input  class="form-control form-control-sm" name="pCode" id="customerCode"  placeholder="کد ">
@@ -101,12 +101,11 @@
                                     </select>
                                 </div>
 
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text">  توضحیات </span>
                                     <input type="text" name="description" class="form-control form-control-sm"  placeholder="نام ">
-                                </div>
-
-                                <div class="input-group input-group-sm mb-1 filterItems">
+                                </div> --}}
+                                {{-- <div class="input-group input-group-sm mb-1 filterItems">
                                     <span class="input-group-text"> گروه مشتری </span>
                                     <select name="groupId" id="groupId" class="form-select">
                                         <option></option>
@@ -116,7 +115,7 @@
                                         <option>آنلاین</option>
                                         <option>حضوری</option>
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             <button type="submit" class="btn btn-success btn-sm text-warning mb-2" style="width: 100px;"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
                         </form>

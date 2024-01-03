@@ -15,7 +15,7 @@ class Box extends Controller{
 
     public function index() {
         $receives=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=1 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
-        $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
+        $users=DB::select("SELECT * FROM Shop.dbo.Users");
         $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 and InforName!=''");
         $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
         $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
@@ -25,7 +25,7 @@ class Box extends Controller{
   public function pays() {
     $sandoghes=DB::select("SELECT * FROM Shop.dbo.Cashes WHERE CompanyNo=5 AND CashName!=''");
     $pays=DB::select("SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS WHERE GetOrPayHDS=2 AND FiscalYear=1402 AND CompanyNo=5 AND DocDate=FORMAT(dateadd(DAY,-1,GETDATE()),'yyyy/MM/dd','fa-ir')");
-    $users=DB::select("SELECT * FROM Shop.dbo.Users WHERE CompanyNo=5");
+    $users=DB::select("SELECT * FROM Shop.dbo.Users ");
     $infors=DB::select("SELECT * FROM Shop.dbo.Infors WHERE CompanyNo=5 and InforName!=''");
     $fiscallYears=DB::select("SELECT * FROM Shop.dbo.FiscalYearList WHERE CompanyNo=5");
     $banks=DB::select("SELECT * FROM Shop.dbo.PubBanks WHERE CompanyNo=5 AND NameBsn!=''");
@@ -47,14 +47,23 @@ class Box extends Controller{
         $secondDate='1500/01/01';
         $QUERYPART='';
         $SETTERQUERY='';
+        $getOrPay=$request->input("getOrPay");
         if($request->input("darAmad") and $request->input("daryaft")){
-            $QUERYPART.='AND (DocTypeHDS=1 or DocTypeHDS=0)';
+            $QUERYPART.='AND (DocTypeHDS=1 OR DocTypeHDS=0)';
         }
         if(! $request->input("darAmad") and $request->input("daryaft")){
-            $QUERYPART.='AND DocTypeHDS=1';
+            if($getOrPay==1){
+                $QUERYPART.='AND DocTypeHDS=0';
+            }else{
+                $QUERYPART.='AND DocTypeHDS=1';
+            }
         }
         if($request->input("darAmad") and !$request->input("daryaft")){
-            $QUERYPART.='AND DocTypeHDS=0';
+            if($getOrPay==1){
+                $QUERYPART.='AND DocTypeHDS=1';
+            }else{
+                $QUERYPART.='AND DocTypeHDS=0';
+            }
         }
         if(strlen($request->input("firstDate"))>3){
             $firstDate=$request->input("firstDate");
@@ -62,13 +71,20 @@ class Box extends Controller{
         if(strlen($request->input("secondDate"))>3){
             $secondDate=$request->input("secondDate");
         }
-        $getOrPay=$request->input("getOrPay");
-        if(strlen($request->input("firstNum"))>0){
-            $firstNum=$request->input("firstNum");
-        }
-        if(strlen($request->input("secondNum"))>0){
-            $secondNum=$request->input("secondNum");
-        }
+
+
+        // if(strlen($request->input("firstNum"))>0){
+
+        //     $firstNum=$request->input("firstNum");
+
+        // }
+
+        // if(strlen($request->input("secondNum"))>0){
+
+        //     $secondNum=$request->input("secondNum");
+
+        // }
+
         $PCODEQUERY='';
         $pCode=$request->input("pCode");
         if(strlen($pCode)>0){
@@ -79,9 +95,11 @@ class Box extends Controller{
         if(strlen($setterSn)>0){
             $SETTERQUERY="AND SnUser=$setterSn";
         }
-        $groupId=$request->input("groupId");
+        //$groupId=$request->input("groupId");
 
-        $receives=DB::select("SELECT * FROM (SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a WHERE  DocNoHDS>=$firstNum AND DocNoHDS<=$secondNum $SETTERQUERY AND FiscalYear=1402 AND GetOrPayHDS=$getOrPay AND CompanyNo=5 $QUERYPART $PCODEQUERY AND DocDate>='$firstDate' AND DocDate<='$secondDate' AND Name LIKE '%$name%'");
+        $receives=DB::select("SELECT * FROM (
+                                SELECT *,NewStarfood.dbo.getCashName(SnCashMaster)cashName,Shop.dbo.FuncPeopelCode(PeopelHDS,5)PCode,Shop.dbo.FuncUserName(SnUser)userName,Shop.dbo.FuncPeopelName(PeopelHDS,5)Name FROM SHop.dbo.GetAndPayHDS)a
+                                WHERE FiscalYear=1402 $SETTERQUERY AND GetOrPayHDS=$getOrPay AND CompanyNo=5 $QUERYPART $PCODEQUERY AND DocDate>='$firstDate' AND DocDate<='$secondDate' AND Name LIKE '%$name%'");
         return Response::json($receives);
     }
 
