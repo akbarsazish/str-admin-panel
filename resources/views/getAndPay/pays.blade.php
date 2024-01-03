@@ -77,10 +77,8 @@
                                 </div>
                         </form>
                         <div class="btn-group" role="group" aria-label="Basic mixed">
-                            <button type="button" class="btn btn-sm ms-1 rounded btn-success"
-                                onclick="openAddPayPartAddModal('selectBoxPaysModal')"> افزودن </button>
-                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning" id="EditPayInput"
-                                onclick="openEditPayModal(this.value)"> ویرایش </button>
+                            <button type="button" class="btn btn-sm ms-1 rounded btn-success" onclick="openAddPayPartAddModal('selectBoxPaysModal')"> افزودن </button>
+                            <button type="button" class="btn btn-sm ms-1 rounded btn-warning" id="EditPayInput" onclick="openEditPayModal(this.value)"> ویرایش </button>
                             <button type="button" id="deletePaysHDSBtn" onclick="deleteGetAndPays(this.value)" class="btn btn-sm ms-1 rounded btn-danger"> حذف </button>
                         </div>
                 </div>
@@ -1137,8 +1135,7 @@
                             <div class="d-flex justify-content-start">
                                 <div class="btn-group mt-2" role="group">
                                     <button type="button" class="btn btn-sm btn-success rounded ms-1"> راس آیتم های پرداختی </button>
-                                    <button type="button" class="btn btn-sm btn-success rounded ms-1"
-                                        onclick="openCustomerGardishModal(document.querySelector('#editPayPSN').value)">
+                                    <button type="button" class="btn btn-sm btn-success rounded ms-1" onclick="openCustomerGardishModal(document.querySelector('#editPayPSN').value)">
                                         گردش حساب </button>
                                     <button type="submit" class="btn btn-sm btn-success rounded ms-1"> ثبت </button>
                                     <button type="button" class="btn btn-sm btn-danger rounded ms-1"> انصراف </button>
@@ -1288,7 +1285,7 @@
                                         شود. </label>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-4">
                                 <div class="text-end mb-2">
                                     <button class="btn-sm btn btn-success text-warning"
