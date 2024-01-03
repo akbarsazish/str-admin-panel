@@ -50,11 +50,11 @@ function openAddPayPartAddModal(modalId: string) {
     const modal = document.getElementById(modalId) as HTMLElement;
     modal.style.display = "block";
     if(modalId=='addPayChequeInfoAddModal'){
-       const customerNamePayHDSInput=document.getElementById('customerNamePayInput') as HTMLInputElement ;
-       const inVajhChequeNameInput=document.getElementById('inVajhChequeInputAddPayAdd') as HTMLInputElement ;
+       const customerNamePayHDSInput=document.getElementById('customerNamePayInput') as HTMLInputElement;
+       const inVajhChequeNameInput=document.getElementById('inVajhChequeInputAddPayAdd') as HTMLInputElement;
        inVajhChequeNameInput.value=customerNamePayHDSInput.value;
-       const customerIdPayHDSInput=document.getElementById('customerIdPayInput') as HTMLInputElement ;
-       const inVajhChequePSN=document.getElementById('inVajhChequePSNInputAddPayAdd') as HTMLInputElement ;
+       const customerIdPayHDSInput=document.getElementById('customerIdPayInput') as HTMLInputElement;
+       const inVajhChequePSN=document.getElementById('inVajhChequePSNInputAddPayAdd') as HTMLInputElement;
        inVajhChequePSN.value=customerIdPayHDSInput.value;
     }
 
@@ -116,8 +116,6 @@ function openPaysModal(modalId: string) {
         boxModal.style.display = "none";
     }
 }
-
-
 
 function addPayHawalaFromBankAdd(){
     const addPayHawalaFromBankAddInputInfoInput:HTMLInputElement=document.getElementById("addPayHawalaFromBankAddInputInfo") as HTMLInputElement;
@@ -361,14 +359,10 @@ function openSelectedBysModal(type:number){
                                 addFromHisabNoEditSelect.innerHTML=`<option value="0">انتخاب کنید</option>`;
                                 data.bankKarts.forEach(hisab=>{
                                     if(hisab.SerialNoAcc==String(td.children.item(0)?.getAttribute('value'))){
-                                    
                                         addFromHisabNoEditSelect.innerHTML+=`<option selected value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
                                         addFromHisabNoEditInput.value=String(hisab.AccNo);
-
                                     }else{
-
                                         addFromHisabNoEditSelect.innerHTML+=`<option value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
-                                    
                                     }
                                 })
                             })

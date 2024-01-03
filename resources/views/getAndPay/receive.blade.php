@@ -121,10 +121,11 @@
                             <button type="submit" class="btn btn-success btn-sm text-warning mb-2" style="width: 100px;"> بازخوانی &nbsp; <i class="fa fa-refresh"></i> </button>
                         </form>
                         <div class="row">
-                            <div>
-                                <button class="btn btn-sm text-warning btn-success mb-2" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن <i class="fa fa-add"></i></button>
-                                <button class="btn btn-sm text-warning btn-info mb-2"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش <i class="fa fa-edit"></i> </button>
-                                <button class="btn btn-sm text-warning btn-danger mb-2"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف <i class="fa fa-delete"></i> </button>
+                            
+                            <div class="btn-group" role="group" aria-label="Basic mixed">
+                                <button class="btn btn-sm text-warning btn-success ms-1 rounded" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن </button>
+                                <button class="btn btn-sm text-warning btn-info ms-1 rounded"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش </button>
+                                <button class="btn btn-sm text-warning btn-danger ms-1 rounded"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف  </button>
                             </div>
                             <div class="text-end">
                             </div>

@@ -3515,14 +3515,11 @@ function checkEditEditPayEditModal(docTypeBYS){
                                     addFromHisabNoEditSelect.innerHTML=`<option value="0">انتخاب کنید</option>`;
                                     data.bankKarts.forEach(hisab=>{
                                         if(hisab.SerialNoAcc==String(td.children.item(0)?.getAttribute('value'))){
-                                        
                                             addFromHisabNoEditSelect.innerHTML+=`<option selected value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
                                             addFromHisabNoEditInput.value=String(hisab.AccNo);
     
                                         }else{
-    
                                             addFromHisabNoEditSelect.innerHTML+=`<option value="${hisab.SerialNoAcc}">${hisab.bsn}</option>`;
-                                        
                                         }
                                     })
                                 })
@@ -3594,7 +3591,6 @@ function checkEditEditPayEditModal(docTypeBYS){
                                     addHawalaFromBankKarmozdInput.value=String(td.children.item(0)?.getAttribute('value'));
                                 }
                                 break;
-                            
                         }
                     }
                 })

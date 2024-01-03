@@ -1256,10 +1256,10 @@
     <div class="modal" id="searchCustomerForPayEditModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success">
+                <div class="modal-header bg-success py-1">
                     <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerForPayEditModal()">
                         <i class="fa-times fa"></i> </button>
-                    <h5 class="modal-title"> جستجوی طرف حساب </h5>
+                        <h5 class="modal-title"> جستجوی طرف حساب </h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -1274,6 +1274,7 @@
                                     <input type="text" class="form-control" id="customerNameSearchPayEdit">
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="text-start mb-2">
                                     <button class="btn-sm btn-success btn text-warning"> فراخوانی همه اشخاص <i
@@ -1287,6 +1288,7 @@
                                         شود. </label>
                                 </div>
                             </div>
+                            
                             <div class="col-md-4">
                                 <div class="text-end mb-2">
                                     <button class="btn-sm btn btn-success text-warning"
