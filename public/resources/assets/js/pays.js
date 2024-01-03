@@ -19,7 +19,6 @@ if (accSelects) {
         });
     });
 }
-
 function changeHisabNo(element, hisabNoId) {
     var hisabNoInput = document.getElementById(hisabNoId);
     var hisabSN = Number(element.value);
