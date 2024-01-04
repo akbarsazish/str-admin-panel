@@ -1,10 +1,14 @@
-    var baseUrl = "http://192.168.10.21:8000";
+    var baseUrl = "http://192.168.10.26:8080";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
         $("tr").removeClass("selected");
         $(element).addClass("selected");
         const editPayInput=document.getElementById("EditPayInput");
+        const deletePayButton=document.getElementById("deleteGetAndPayBYSBtn");
+        if(deletePayButton){
+            deletePayButton.value=snGetAndPay;
+        }
         if(editPayInput){
             editPayInput.value=snGetAndPay;
         }
@@ -54,7 +58,6 @@
         $("#editGetAndPayBYSBtn").prop("disabled",false);
         $("#deleteGetAndPayBYSBtn").prop("disabled",false);
         $("#editGetAndPayBYSBtn").val(snGetAndPay);
-        $("#deletePaysHDSBtn").val(snGetAndPay);
     }
 
     $("#filterReceivesForm").on("submit",function(e){
@@ -2246,7 +2249,6 @@ function openEditAddedGetAndPay(recordTypeValue){
 
 $("#editDaryaftForm").on("submit",function(e){
     e.preventDefault();
-
     $.ajax({
         method:"POST",
         url: $(this).attr('action'),
@@ -2254,8 +2256,8 @@ $("#editDaryaftForm").on("submit",function(e){
         processData: false,
         contentType: false,
         success: function (data) {
-            console.log("stay focus", data)
-        //   window.location.reload();
+        //console.log("stay focus", data)
+           window.location.reload();
         },
         error: function (error) {
             console.error("There are some error:", error);

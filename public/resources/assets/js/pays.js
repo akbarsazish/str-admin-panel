@@ -1559,14 +1559,24 @@ function deleteGetAndPays(getAndPayId) {
                 }
             }).then(function (res) { return res.json(); }).then(function (res) {
                 if (res.success) {
-                    swal({
-                        text: "حذف شد",
-                        icon: "success",
-                        button: false,
-                        timer: 1500
-                    }).then(function () {
-                        window.location.reload();
-                    });
+                    if (res.success == "Factor Exist") {
+                        swal({
+                            text: " ابتدا فاکتور حذف شود.",
+                            icon: "success",
+                            button: true
+                        }).then(function () {
+                        });
+                    }
+                    else {
+                        swal({
+                            text: "حذف شد",
+                            icon: "success",
+                            button: false,
+                            timer: 500
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    }
                 }
             });
         }

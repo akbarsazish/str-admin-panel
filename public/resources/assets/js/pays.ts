@@ -1618,6 +1618,7 @@ if(editPayHDSForm){
 }
 
 function deleteGetAndPays(getAndPayId:number){
+    
     swal({
         text:"آیا می خواهید حذف شود؟",
         icon:"warning",
@@ -1634,14 +1635,23 @@ function deleteGetAndPays(getAndPayId:number){
                   "X-CSRF-TOKEN": ""+csrf,
                 }}).then(res=>res.json()).then(res=>{
                 if(res.success){
-                    swal({
-                        text:"حذف شد",
-                        icon:"success",
-                        button:false,
-                        timer:1500
-                    }).then(()=>{
-                        window.location.reload();
-                    })
+                    if(res.success=="Factor Exist"){
+                        swal({
+                            text:" ابتدا فاکتور حذف شود.",
+                            icon:"success",
+                            button:true
+                        }).then(()=>{
+                        })
+                    }else{
+                        swal({
+                            text:"حذف شد",
+                            icon:"success",
+                            button:false,
+                            timer:500
+                        }).then(()=>{
+                          window.location.reload();
+                        })
+                    }
                 }
             })
         }

@@ -224,6 +224,9 @@ class GetAndPayHDSController extends Controller
     {
         try{
             $getAndPayHDS = GetAndPayHDS::find($getAndPayHDSId);
+            if($getAndPayHDS->SnFactForTasviyeh>0){
+                return \response()->json(['success'=> "Factor Exist"]);
+            }
             GetAndPayBYS::where('SnHDS',$getAndPayHDSId)->delete();
             $getAndPayHDS->delete();
             return \response()->json(['success' => $getAndPayHDS]);
