@@ -123,7 +123,7 @@
                             <div class="btn-group" role="group" aria-label="Basic mixed">
                                 <button class="btn btn-sm text-warning btn-success ms-1 rounded" onclick="openSandoghModalDar()"  style="width: 100px;"> افزودن </button>
                                 <button class="btn btn-sm text-warning btn-info ms-1 rounded"  disabled type="button" onclick="openDaryaftEditModal(this.value)" id="editGetAndPayBYSBtn" style="width: 100px;"> ویرایش </button>
-                                <button class="btn btn-sm text-warning btn-danger ms-1 rounded"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف  </button>
+                                <button class="btn btn-sm text-warning btn-danger ms-1 rounded" onclick="deleteGetAndPays(this.value)"  disabled type="button" id="deleteGetAndPayBYSBtn" style="width: 100px;"> حذف  </button>
                             </div>
                             <div class="text-end">
                             </div>
@@ -436,9 +436,9 @@
                                         <span class="input-group-text"> مشتری </span>
                                         <input type="text" name="pCode" id="customerCodeDaryaftEdit" class="form-control" required>
                                         <input type="text" name="name" id="customerNameDaryaftEdit" class="form-control" required>
-                                        <input type="text" name="customerId" id="customerIdDaryaftEdit">
-                                        <input type="text" name="SerialNoHDS" id="SerialNoHDSDaryaftEdit">
-                                        <input type="text" name="sandoghIdDar" id="sandoghIdDarEdit">
+                                        <input type="text" class="d-none" name="customerId" id="customerIdDaryaftEdit">
+                                        <input type="text" class="d-none" name="SerialNoHDS" id="SerialNoHDSDaryaftEdit">
+                                        <input type="text" class="d-none" name="sandoghIdDar" id="sandoghIdDarEdit">
                                     </div>
                                     <div class="input-group pt-2">
                                         <span class="input-group-text"> بابت </span>
