@@ -50,19 +50,15 @@
                                 <input type="hidden" name="getOrPay" value="1"/>
                             <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="row">
                                         <div class="form-check">
                                             <input class="form-check-input float-start" type="checkbox" name="darAmad" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio"> در آمد </label>
+                                            <label class="form-check-label ms-4" for="sefNewOrderRadio"> در آمد </label> 
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="row">
                                         <div class="form-check">
                                             <input class="form-check-input float-start" type="checkbox" name="daryaft" id="sefNewOrderRadio" checked>
-                                            <label class="form-check-label ms-3" for="sefNewOrderRadio">  دریافت از شخص </label>
+                                            <label class="form-check-label ms-4" for="sefNewOrderRadio">  دریافت از شخص </label> 
                                         </div>
                                     </div>
                                 </div>
