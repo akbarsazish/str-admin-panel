@@ -1,4 +1,4 @@
-    var baseUrl = "http://192.168.10.26:8080";
+    var baseUrl = "http://192.168.10.21:8000";
     var csrf = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 
     function getGetAndPayBYS(element,tableBodyId,snGetAndPay){
@@ -3534,7 +3534,6 @@ function checkEditEditPayEditModal(docTypeBYS){
                                 addFromHisabNoEditSelect.value=String(td.children.item(0)?.getAttribute('value'));
                                 break;
                             case 9://
-                            
                                 addHawalaNoEditInput.value=String(td.children.item(0)?.getAttribute('value'));
                                 break;
                             case 8://
@@ -3755,7 +3754,6 @@ if(customerNameSearchPayInputEdit){
 }
 
 function chooseCustomerForPayEdit(customerId) {
-    alert(customerId)
     params = new URLSearchParams();
     params.append('PSN', customerId);
     fetch(baseUrl+`/getCustomerByID?${params.toString()}`, {
@@ -3776,3 +3774,65 @@ function selectCustomerForPayEdit(customerId,element){
     $("tr").removeClass("selected");
     $(element).addClass("selected");
 }
+
+const customerNameInputEdit = document.getElementById("customerNameDaryaftEdit");
+if(customerNameInputEdit){
+    customerNameInputEdit.addEventListener("keyup", function(e){
+        let customerName = customerNameInputEdit.value;
+        openCustomerSearchModalForPay(customerName)
+    })
+}
+
+
+function openCustomerSearchModalForPay(customerName){
+    let customerNameEdit = document.getElementById("customerNameDaryaftEdit")
+    customerNameEdit.value = customerName
+    $("#searchCustomerDaryaftModalEdit").modal("show")
+    let inputSearch = document.getElementById("customerNameSearchDar");
+        inputSearch.focus();
+}
+
+let inputSearchCustomerName = document.getElementById("customerNameSearchDar");
+if(inputSearchCustomerName){
+    inputSearchCustomerName.addEventListener("keyup", (e)=> {
+    let customerName = inputSearchCustomerName.value;
+     parameter = new URLSearchParams();
+     parameter.append("namePhone", customerName)
+     let serachBuyPhone = document.getElementById("byPhoneSearchEdit")
+     if(serachBuyPhone.checked === true){
+        params.append('searchByPhone', 'on');
+     }else {
+        params.append('searchByPhone', '');
+     }
+
+     if(customerName.length>0){
+        fetch(baseUrl+`/getCustomerForOrder?${params.toString()}`, {
+            method: 'GET',
+          }).then(response => response.json()).then(data => {
+            if(data.length>0){
+                let customers = data;
+                let customersHtml = "";
+                customers.forEach((customer, index) => {
+                customersHtml += `
+                      <tr onclick="selectCustomerForPayEdit('${customer.PSN}',this)">
+                        <td>  ${customer.PCode}  </td>
+                        <td>  ${customer.Name}  </td>
+                        <td>  </td>
+                        <td>  </td>
+                        <td>  </td>
+                        <td>  </td>
+                    </tr>
+                    `;
+                });
+                $("#customerForDaryaftListBodyEdit").html(customersHtml);
+            }else{
+                 $("#customerForDaryaftListBodyEdit").html("");
+            }
+          });
+    }else{
+        $("#customersForPay").html("");
+    }
+
+    })
+}
+

@@ -1866,7 +1866,7 @@
 <div class="modal" id="searchCustomerDaryaftModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header bg-success">
+            <div class="modal-header bg-success py-1">
                 <button class="btn-sm btn btn-danger text-warning" onclick="closeReceiveModals('searchCustomerDaryaftModal')"> <i class="fa-times fa"></i> </button>
                 <h5 class="modal-title"> جستجوی طرف حساب </h5>
             </div>
@@ -1910,23 +1910,70 @@
                                     <th>  مبلغ چک برگشتی  </th>
                                 </tr>
                             </thead>
-                            <tbody id="customerForDaryaftListBody">
-                                <tr>
-                                    <td>    </td>
-                                    <td>    </td>
-                                    <td>    </td>
-                                    <td>    </td>
-                                    <td>    </td>
-                                    <td>    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="customerForDaryaftListBody"> </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"> </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="modal" id="searchCustomerDaryaftModalEdit" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success py-1">
+                <button class="btn-sm btn btn-danger text-warning" onclick="closeReceiveModals('searchCustomerDaryaftModalEdit')"> <i class="fa-times fa"></i> </button>
+                <h5 class="modal-title">  جستجوی طرف حساب ویرایش </h5>
             </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-start mb-2">
+                                <button class="btn-sm btn-success btn text-warning"> افزودن مشتری جدید <i class="fa-plus fa"></i> </button>
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> نام شخص </span>
+                                <input type="text" class="form-control" id="customerNameSearchEdit">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-start mb-2">
+                                <button class="btn-sm btn-success btn text-warning"> فراخوانی همه اشخاص <i class="fa-history fa"></i> </button>
+                            </div>
+                            
+                            <div class="text-start mb-2">
+                                <input type="checkbox" name="" id="byPhoneSearchEdit" class="form-check-input">
+                                <label for="" class="form-label"> جستجو بر اساس شماره تلفن های فرد انجام شود. </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-end mb-2">
+                                <button class="btn-sm btn btn-success text-warning" onclick="chooseCustomerForDaryaftEdit(this.value)" id="selectCustomerForDaryaftBtn"> انتخاب </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead class="bg-success">
+                                <tr>
+                                    <th>  کد  </th>
+                                    <th>  نام  </th>
+                                    <th>  خرید  </th>
+                                    <th>  فروش  </th>
+                                    <th> تعداد چک برگشتی </th>
+                                    <th>  مبلغ چک برگشتی  </th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerForDaryaftListBodyEdit"> </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> </div>
         </div>
     </div>
 </div>
