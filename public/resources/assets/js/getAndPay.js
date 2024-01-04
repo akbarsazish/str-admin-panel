@@ -2894,24 +2894,24 @@ if(sadirDatePaysInput){
         endDate: "1440/5/5",});
 }
 
-const customerNamePayInput=document.getElementById("customerNamePayInput");
+// const customerNamePayInput=document.getElementById("customerNamePayInput");
 
-if(customerNamePayInput){
-    customerNamePayInput.addEventListener('keyup', function(e) {
-        let customerName = customerNamePayInput.value;
-        if(customerName.length>0){
-            openSearchCustomerForPayModal(customerName);
-        }
-    })
-}
+// if(customerNamePayInput){
+//     customerNamePayInput.addEventListener('keyup', function(e) {
+//         let customerName = customerNamePayInput.value;
+//         if(customerName.length>0){
+//             openSearchCustomerForPayModal(customerName);
+//         }
+//     })
+// }
 
-function openSearchCustomerForPayModal(customerName){
-    const customerNameSearchPayInput=document.getElementById("customerNameSearchPay");
-    customerNameSearchPayInput.value=customerName;
-    const modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayModal'));
-    modal.show();
-    customerNameSearchPayInput.focus();
-}
+// function openSearchCustomerForPayModal(customerName){
+//     const customerNameSearchPayInput=document.getElementById("customerNameSearchPay");
+//     customerNameSearchPayInput.value=customerName;
+//     const modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayModal'));
+//     modal.show();
+//     customerNameSearchPayInput.focus();
+// }
 
 function closeSearchCustomerPaysModal(){
     if($("#searchCustomerForPayModal")){
@@ -3686,4 +3686,91 @@ if(editBabatIdPaySelect){
 
 function closEditPayChequeInfoEditModal(){
     $("#editEditPayChequeInfoEditModal").modal("hide");
+}
+
+
+const customerNamePayEdit=document.getElementById("customerNameSearchPayEdit");
+
+if(customerNamePayEdit){
+    customerNamePayEdit.addEventListener('keyup', function(e) {
+        let customerName = customerNamePayEdit.value;
+        if(customerName.length>0){
+            openSearchCustomerForPayModal(customerName);
+        }
+    })
+}
+
+function openSearchCustomerForPayModal(customerName){
+    const customerNameSearchPayInput=document.getElementById("customerNameSearchPayEdit");
+    customerNameSearchPayInput.value=customerName;
+    const modal = new bootstrap.Modal(document.getElementById('searchCustomerForPayEditModal'));
+    modal.show();
+    customerNameSearchPayInput.focus();
+}
+
+const customerNameSearchPayInputEdit=document.getElementById("customerNameSearchPayEdit");
+
+if(customerNameSearchPayInputEdit){
+    customerNameSearchPayInputEdit.addEventListener('keyup', function(e) {
+        let customerName = customerNameSearchPayInputEdit.value;
+        const params = new URLSearchParams();
+        params.append('namePhone', customerName);
+        const byPhoneSearchPayInput=document.getElementById("byPhoneSearchPayEdit");
+        if(byPhoneSearchPayInput.checked==true){
+            params.append('searchByPhone', 'on');
+        }else{
+            params.append('searchByPhone', '');
+        }
+        
+        if(customerName.length>0){
+            fetch(baseUrl+`/getCustomerForOrder?${params.toString()}`, {
+                method: 'GET',
+              }).then(response => response.json()).then(data => {
+                if(data.length>0){
+                    let customers = data;
+                    let customersHtml = "";
+                    customers.forEach((customer, index) => {
+                    customersHtml += `
+                          <tr onclick="selectCustomerForPayEdit('${customer.PSN}',this)">
+                            <td>  ${customer.PCode}  </td>
+                            <td>  ${customer.Name}  </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                            <td>   </td>
+                        </tr>
+                        `;
+                    });
+                    $("#customerForPaysEditListBody").html(customersHtml);
+                }else{
+                     $("#customerForPaysEditListBody").html("");
+                }
+              });
+        }else{
+            $("#customersForPay").html("");
+        }
+    })
+}
+
+function chooseCustomerForPayEdit(customerId) {
+    alert(customerId)
+    params = new URLSearchParams();
+    params.append('PSN', customerId);
+    fetch(baseUrl+`/getCustomerByID?${params.toString()}`, {
+        method: 'GET',
+      }).then(response => response.json()).then(data => {
+        if(data.length>0){
+            let customer = data[0];
+            $("#editPayCode").val(customer.PCode);
+            $("#editPayName").val(customer.Name);
+            $("#editPayPSN").val(customer.PSN);
+            $("#searchCustomerForPayEditModal").hide();
+        }
+    });
+}
+
+function selectCustomerForPayEdit(customerId,element){
+    $("#selectCustomerForPaysEditBtn").val(customerId);
+    $("tr").removeClass("selected");
+    $(element).addClass("selected");
 }

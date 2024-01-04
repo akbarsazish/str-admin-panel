@@ -268,11 +268,9 @@
                                             <span class="input-group-text d-inline"> طرف حساب </span>
                                             <input type="text" id="customerCodePayInput"
                                                 class="form-control form-control-sm">
-                                            <input type="text" id="customerNamePayInput"
-                                                class="form-control form-control-sm"> <span class="border px-2 pe-auto">
-                                                ... </span>
-                                            <input type="text" name="PeopelHDS" id="customerIdPayInput"
-                                                class="form-control form-control-sm d-none">
+                                            <input type="text" id="customerNamePayInput" class="form-control form-control-sm">
+                                             <span class="border px-2 pe-auto"> ... </span>
+                                            <input type="text" name="PeopelHDS" id="customerIdPayInput" class="form-control form-control-sm d-none">
                                         </div>
                                     </div>
                                     <div class="p-1 flex-fill">
@@ -530,9 +528,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="text-end mb-2">
-                                    <button class="btn-sm btn btn-success text-warning"
-                                        onclick="chooseCustomerForPay(this.value)" id="selectCustomerForPaysBtn"> انتخاب
-                                    </button>
+                                    <button class="btn-sm btn btn-success text-warning" onclick="chooseCustomerForPay(this.value)" id="selectCustomerForPaysBtn"> انتخاب </button>
                                 </div>
                             </div>
                         </div>
@@ -1191,7 +1187,7 @@
                             <fieldset class="border rounded">
                                 <legend class="float-none w-auto legendLabel"> </legend>
                                 <table class="resizableTable table table-hover table-bordered table-sm" id=""
-                                    style="height: 222px">
+                                    style="height: 244px">
                                     <thead class="tableHeader">
                                         <tr>
                                             <th> ردیف </th>
@@ -1259,7 +1255,7 @@
                 <div class="modal-header bg-success py-1">
                     <button class="btn-sm btn btn-danger text-warning" onclick="closeSearchCustomerForPayEditModal()">
                         <i class="fa-times fa"></i> </button>
-                        <h5 class="modal-title"> جستجوی طرف حساب </h5>
+                        <h5 class="modal-title"> 1 جستجوی طرف حساب </h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -1277,8 +1273,7 @@
 
                             <div class="col-md-4">
                                 <div class="text-start mb-2">
-                                    <button class="btn-sm btn-success btn text-warning"> فراخوانی همه اشخاص <i
-                                            class="fa-history fa"></i> </button>
+                                    <button class="btn-sm btn-success btn text-warning"> فراخوانی همه اشخاص <i class="fa-history fa"></i> </button>
                                 </div>
 
                                 <div class="text-start mb-2">
