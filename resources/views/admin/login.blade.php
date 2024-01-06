@@ -188,10 +188,10 @@ span {
         <div class="content">
                 <img class="logo-img" src="{{url('/resources/assets/images/starfood.png')}}" alt="logo">
                  <h3 class="login-label">ورود به استار فود </h3>
-                <form action="{{url('/checkAdmin')}}" method="post">
+                <form action="{{url('/checkAdmin')}}" method="post" data-parsley-validate="">
                     @csrf
                     <label class="label" for="mobtel"> شماره موبایل</label>
-                    <input name="username" type="text" id="username" placeholder="09120000000" required>
+                    <input name="username" type="text" required data-parsley-type="number" id="username" placeholder="09120000000"  data-parsley-trigger="change" required="">
 
                     <label class="label" for="password">کلمه عبور</label>
                     <input name="password" type="password" asp-for="Password" placeholder="کلمه عبور خود را وارد نمایید" required>
@@ -224,6 +224,6 @@ span {
     <script src="{{ url('/resources/assets/js/jquery.min.js') }}"></script>
     <script src="{{ url('/resources/assets/js/script.js') }}"></script>
     <script src="{{ url('/resources/assets/js/jquery.min.js') }}"></script>
- 
+   
 </body>
 </html>

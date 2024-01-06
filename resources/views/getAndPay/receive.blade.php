@@ -45,7 +45,7 @@
                     @endif
                     <span class="situation">
                         <fieldset class="border rounded">
-                            <form action="{{url("/filterGetPays")}}" method="get" id="filterReceivesForm">
+                            <form action="{{url("/filterGetPays")}}" method="get" id="filterReceivesForm" data-parsley-validate="">
                                 @csrf
                                 <input type="hidden" name="getOrPay" value="1"/>
                             <legend  class="float-none w-auto legendLabel mb-0">وضعیت</legend>
@@ -214,7 +214,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/addDaryaft')}}" method="POST" id="addDaryaftForm">
+                    <form action="{{url('/addDaryaft')}}" method="POST" id="addDaryaftForm" data-parsley-validate="">
                         @csrf
                         <div class="row">
                             <div class="col-md-7">  
@@ -401,7 +401,7 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form action="{{url('/editGetAndPay')}}" method="POST" id="editDaryaftForm">
+                    <form action="{{url('/editGetAndPay')}}" method="POST" id="editDaryaftForm" data-parsley-validate="">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8 border-1 rounded"> 
@@ -414,6 +414,7 @@
                                             <input type="text" name="addDaryaftDate" id="editDaryaftDate" class="form-control" placeholder="" required>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 border">
                                         <div class="row pt-2">
                                             <div class="col-md-6">
@@ -424,9 +425,10 @@
                                                 <label class="form-check-label" for="income"> درآمد </label>
                                                 <input name="daryaftType" id="DocTypeDarAmadHDSStateDarEdit" type="radio" value="1" class="form-check-input">
                                             </div>
-                                        </div>       
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
                                     <div class="input-group pt-2">
                                         <span class="input-group-text"> مشتری </span>
@@ -565,6 +567,8 @@
     </div>
 </div>
 
+
+
 <div class="modal" id="addDaryaftVajhNaghdModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -586,11 +590,11 @@
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> مبلغ ریال: </span>
-                        <input type="text" id="rialNaghdDar" class="form-control">
+                        <input type="text" required="" id="rialNaghdDar" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> شرح: </span>
-                        <input type="text" id="descNaghdDar" class="form-control">
+                        <input type="text" id="descNaghdDar" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -640,7 +644,7 @@
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> مبلغ ریال: </span>
-                        <input type="text" id="rialNaghdDarEd" class="form-control">
+                        <input type="text"  id="rialNaghdDarEd" class="form-control">
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> شرح: </span>
@@ -858,7 +862,7 @@
                             </div>
                             <div class="input-group input-group-sm  mb-2">
                                 <span class="input-group-text"> مبلغ به ریال </span>
-                                <input type="text" id="moneyChequeDar" class="form-control">
+                                <input type="text" id="moneyChequeDar" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -966,7 +970,7 @@
                             </div>
                             <div class="input-group  mb-2">
                                 <span class="input-group-text"> مبلغ به ریال </span>
-                                <input type="text" id="editMoneyChequeDar" class="form-control">
+                                <input type="text" id="editMoneyChequeDar" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1076,7 +1080,7 @@
                         </div>
                         <div class="input-group  mb-2">
                             <span class="input-group-text"> مبلغ به ریال </span>
-                            <input type="text" id="moneyChequeDarEdit" class="form-control">
+                            <input type="text" id="moneyChequeDarEdit" class="form-control" onkeyup="checkNumberInput(event)">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -1197,7 +1201,7 @@
                 <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-2">
                         <span class="input-group-text"> مبلغ </span>
-                        <input type="text" id="monyAmountHawalaDar" class="form-control">
+                        <input type="text" id="monyAmountHawalaDar" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                 </div>
             </div>
@@ -1261,7 +1265,7 @@
                 <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-2">
                         <span class="input-group-text"> مبلغ </span>
-                        <input type="text" id="monyAmountHawalaDarEd" class="form-control">
+                        <input type="text" id="monyAmountHawalaDarEd" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                 </div>
             </div>
@@ -1440,11 +1444,11 @@
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ارز: </span>
-                                <input type="text" disabled class="form-control">
+                                <input type="text" disabled class="form-control" onkeyup="checkNumberInput(event)">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ریال: </span>
-                                <input type="text" id="takhfifMoneyDar" class="form-control">
+                                <input type="text" id="takhfifMoneyDar" class="form-control" onkeyup="checkNumberInput(event)">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شرح: </span>
@@ -1492,11 +1496,11 @@
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ارز: </span>
-                                <input type="text" disabled class="form-control">
+                                <input type="text" disabled class="form-control" onkeyup="checkNumberInput(event)">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ریال: </span>
-                                <input type="text" id="takhfifMoneyDarEdit" value="" class="form-control">
+                                <input type="text" id="takhfifMoneyDarEdit" value="" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شرح: </span>
@@ -1547,7 +1551,7 @@
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
-                                <input type="text" id="moneyVarizToOtherHisabDar" class="form-control">
+                                <input type="text" id="moneyVarizToOtherHisabDar" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>    
                         </div>    
 
@@ -1620,7 +1624,7 @@
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
-                                <input type="text" id="moneyVarizToOtherHisabDarEdit" class="form-control">
+                                <input type="text" id="moneyVarizToOtherHisabDarEdit" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>    
                         </div>
                             
@@ -2108,7 +2112,7 @@
                             </div>
                             <div class="input-group input-group-sm  mb-2">
                                 <span class="input-group-text"> مبلغ به ریال </span>
-                                <input type="text" id="editAddMoneyChequeDar" class="form-control">
+                                <input type="text" id="editAddMoneyChequeDar" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -2273,7 +2277,7 @@
                 <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-2">
                         <span class="input-group-text"> مبلغ </span>
-                        <input type="text" id="editAddMonyAmountHawalaDar" class="form-control">
+                        <input type="text" id="editAddMonyAmountHawalaDar" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                 </div>
             </div>
@@ -2313,11 +2317,11 @@
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ارز: </span>
-                                <input type="text" disabled class="form-control">
+                                <input type="text" disabled onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ریال: </span>
-                                <input type="text" id="editAddtakhfifMoneyDar" class="form-control">
+                                <input type="text" id="editAddtakhfifMoneyDar" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شرح: </span>
@@ -2368,7 +2372,7 @@
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
-                                <input type="text" id="editAddVarizeBeHesabMoney" class="form-control">
+                                <input type="text" onkeyup="checkNumberInput(event)" id="editAddVarizeBeHesabMoney" class="form-control">
                             </div>    
                         </div>    
 
@@ -2445,7 +2449,7 @@
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> مبلغ ریال: </span>
-                        <input type="text" id="editAddEditRialNaghdDar" class="form-control">
+                        <input type="text" id="editAddEditRialNaghdDar" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                     <div class="input-group mb-2">
                         <span class="input-group-text"> شرح: </span>
@@ -2502,7 +2506,7 @@
                             </div>
                             <div class="input-group  mb-2">
                                 <span class="input-group-text"> مبلغ به ریال </span>
-                                <input type="text" id="editAddEditMoneyCheque" class="form-control">
+                                <input type="text" id="editAddEditMoneyCheque" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -2601,7 +2605,7 @@
                 <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-2">
                         <span class="input-group-text"> مبلغ </span>
-                        <input type="text" id="editAddEditMonyAmountHawalaDar" class="form-control">
+                        <input type="text" id="editAddEditMonyAmountHawalaDar" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                 </div>
             </div>
@@ -2663,7 +2667,7 @@
                 <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-2">
                         <span class="input-group-text"> مبلغ </span>
-                        <input type="text" id="editAddEditMonyAmountHawalaEdit" class="form-control">
+                        <input type="text" id="editAddEditMonyAmountHawalaEdit" onkeyup="checkNumberInput(event)" class="form-control">
                     </div>
                 </div>
             </div>
@@ -2703,11 +2707,11 @@
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ارز: </span>
-                                <input type="text" disabled class="form-control">
+                                <input type="text" disabled onkeyup="checkNumberInput(event)" class="form-control">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ ریال: </span>
-                                <input type="text" id="takhfifMoneyEdit" value="" class="form-control">
+                                <input type="text" id="takhfifMoneyEdit" onkeyup="checkNumberInput(event)" value="" class="form-control">
                             </div>
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> شرح: </span>
@@ -2757,7 +2761,7 @@
                         <div class="col-md-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text"> مبلغ (ریال) </span>
-                                <input type="text" id="moneyVarizToOtherHisabEdit" class="form-control">
+                                <input type="text" id="moneyVarizToOtherHisabEdit" onkeyup="checkNumberInput(event)" class="form-control">
                             </div>    
                         </div>    
 

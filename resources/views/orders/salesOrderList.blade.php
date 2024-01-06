@@ -191,6 +191,8 @@
         </div>
     </div>
 </div>
+
+
 <!-- send to sales factors -->
 <div class='modal fade dragAbleModal' id='sentTosalesFactor' data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class='modal-dialog modal-dialog-scrollable modal-fullscreen'>

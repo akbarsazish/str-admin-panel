@@ -1657,6 +1657,8 @@ function EditaddNaghdMoneyDar() {
 
     for (let index = 1; index <= currentIndex; index++) {
         let element = document.querySelector(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`);
+
+        console.log("which element is this", element)
         if (element) {
             netPriceHDS += parseInt(element.textContent.replace(/,/g, ''), 10) || 0;
         }
@@ -1665,6 +1667,8 @@ function EditaddNaghdMoneyDar() {
    document.getElementById("editAddEditDaryafMoblagh").textContent = parseInt(reials).toLocaleString("en-us");
    document.getElementById("editAddEditDaryafTotal").textContent  = netPriceHDS;
 }
+
+
 
 
 $("#editAddDaysAfterChequeDateDar").on("keyup",function(e){
@@ -3835,4 +3839,4 @@ if(inputSearchCustomerName){
 
     })
 }
-
+  
