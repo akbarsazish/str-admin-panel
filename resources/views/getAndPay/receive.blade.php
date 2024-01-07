@@ -247,7 +247,6 @@
                                     <input type="text" name="name" id="customerNameDaryaft" class="form-control form-control-sm" required>
                                     <input type="text" name="customerId" id="customerIdDaryaft" class="d-none">
                                     <input type="text" name="sandoghIdDar" id="sandoghIdDar" class="d-none">
-                                   
                                 </div>
 
                                 <div class="input-group input-group-sm pt-2">
@@ -271,7 +270,7 @@
                             <div class="col-md-4">
                                 <div class="row text-end">
                                     <div>
-                                        <button class="btn btn-success btn-sm" type="submit"> ذخیره <i class="fa fa-save"></i></button>
+                                        <button class="btn btn-success btn-sm" id="addDaryaftSaveBtn" type="submit" disabled> ثبت  <i class="fa fa-save"></i></button>
                                     </div>
                                 </div>
                                 <div class="row border border-1 border-secondary mt-2 rounded">

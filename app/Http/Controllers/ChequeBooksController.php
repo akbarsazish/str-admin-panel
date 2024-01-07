@@ -90,6 +90,7 @@ class ChequeBooksController extends Controller
     public function getChequesByAcc($snAcc){
         return response()->json(ChequeBooks::where("CompanyNo",5)->where("SnAccBank",$snAcc)->get());
     }
+
     public function checkChequeNo($sNCheque,$chequeNo){
         
         $isChequeNoExist=ChequeBooks::where("CompanyNo",5)->where("SnChequeBook",$sNCheque)->where("FirstSerialNo",'<=',$chequeNo)->where("EndSerialNo",'>=',$chequeNo)->first();
@@ -105,5 +106,9 @@ class ChequeBooksController extends Controller
             return response()->json(['result'=>"Not Exist"]);
         }
 
+    }
+
+    public function chequeOperation(){
+        return view("chequOperation.chequeOperation");
     }
 }

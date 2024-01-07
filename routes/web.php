@@ -417,6 +417,7 @@ Route::prefix("/cheque")->group(function(){
     Route::get("/getChequesByAcc/{accId}",[ChequeBooksController::class,"getChequesByAcc"]);
     Route::get("/checkChequeNo/{sNCheque}/{chequeNo}",[ChequeBooksController::class,"checkChequeNo"]);
 });
+Route::get("/chequeOperation",[ChequeBooksController::class,"chequeOperation"]);
 
 Route::prefix("/getAndPayHDS")->group(function(){
     Route::get("/index",[GetAndPayHDSController::class,"index"]);
@@ -430,3 +431,4 @@ Route::prefix("/getAndPayHDS")->group(function(){
     Route::get("/getGetAndPayHDSByDocNoHDS/{docNoHDS}",[GetAndPayHDSController::class,"getGetAndPayHDSByDocNoHDS"]);
     Route::get("/getGetAndPayHDSByDocDate/{docDate}",[GetAndPayHDSController::class,"getGetAndPayHDSByDocDate"]);
 });
+

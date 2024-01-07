@@ -15,6 +15,7 @@
     <!-- <link rel="stylesheet" href="{{ url('/resources/assets/vendor/swiper/css/swiper.min.css') }}"> -->
     <link rel="stylesheet" href="{{ url('/resources/assets/slicknav/slicknav.min.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mainAdmin.css')}}">
+    <link rel="stylesheet" href="{{ url('/resources/assets/css/chequeOperation.scss')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.scss')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/mediaq.css')}}">
     <link rel="stylesheet" href="{{ url('/resources/assets/css/admin.framework7.bundle.min.css')}}">
@@ -144,6 +145,15 @@
                                                 </a>
                                             </li>
                                           @endif
+
+                                          <li class="sidebarLi">
+                                              <a class="mySidenav__item" href="{{url('/chequeOperation')}}"> &nbsp;&nbsp; 
+                                                <span class="position-absolute top-2 start-5 translate-middle badge rounded-pill bg-success imediatNotification1" id="countNewMessages"> </span>
+                                                <i class="far fa-envelope"></i>  عملیات چک 
+                                              </a>
+                                          </li>
+
+                                    
                                             @if(hasPermission(Session::get("adminId"),"messageN") > -1)
                                             <li class="sidebarLi">
                                                 <a class="mySidenav__item" href="{{url('/messages')}}"> &nbsp;&nbsp; 

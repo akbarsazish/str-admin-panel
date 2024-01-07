@@ -4937,3 +4937,7 @@ table tfoot{display:none;}
     display: none !important;
   }
   
+
+  .chequBtn {
+    font-size: 11px;
+  }

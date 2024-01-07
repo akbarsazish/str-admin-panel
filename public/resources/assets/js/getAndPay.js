@@ -299,7 +299,8 @@
         $.get(baseUrl+"/getCustomerInfoByCode",{pcode:$("#customerCodeDaryaft").val()},function(respond,status){
             $("#customerNameDaryaft").val(respond[0].Name);
             $("#customerIdDaryaft").val(respond[0].PSN);
-        })
+        });
+        enableOrdisabelBtn();
     })
 
     $("#customerCodeDaryaftEdit").on("keyup",function(e){
@@ -309,6 +310,8 @@
         })
     })
 
+
+   
     $("#customerNameDaryaft").on("keyup",function(respond,status){
         $("#searchCustomerDaryaftModal").modal("show")
     })
@@ -435,8 +438,8 @@
                 <td class="dayaftAddTd-1"> <input class="d-none" type="checkbox" checked value="${rowCount}" name="BYSS[]"/> ${(rowCount+1)}  </td>
                 <td class="dayaftAddTd-2"> </td>
                 <td class="dayaftAddTd-3"> ${description}  </td>
-                <td class="dayaftAddTd-4"> ${parseInt(rials).toLocaleString("en-us")} </td>
-                <td class="dayaftAddTd-5"> </td>
+                <td class="dayaftAddTd-4"> </td>
+                <td class="dayaftAddTd-5"> ${parseInt(rials).toLocaleString("en-us")} </td>
                 <td class="dayaftAddTd-6"> </td> 
                 <td class="dayaftAddTd-7"> </td> 
                 <td class="d-none"> <input type="text" value="1" name="DocTypeBys${rowCount}"/> </td>
@@ -455,6 +458,8 @@
             </tr>`);
             
             rowCount = $("#addedDaryaftListBody tr").length;
+
+            enableOrdisabelBtn();
             $("#addDaryaftVajhNaghdModal").modal("hide");
             makeTableColumnsResizable("addHawalaTable")
             document.getElementById("rialNaghdDar").value = "";
@@ -462,7 +467,7 @@
 
         let netPriceHDS=0;
         for (let index = 1; index <= rowCount; index++) {
-            netPriceHDS+= parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(4)`).text().replace(/,/g, ''));
+            netPriceHDS += parseInt($(`#addedDaryaftListBody tr:nth-child(${index}) td:nth-child(5)`).text().replace(/,/g, ''));
         }
         
         $("#netPriceDar").text(parseInt(netPriceHDS).toLocaleString("en-us"));
@@ -723,6 +728,7 @@ function addEditVagheNaghd() {
                 </tr>`);
                 rowCount = $("#addedDaryaftListBody tr").length;
             }
+              enableOrdisabelBtn()
             $("#daryafAddChequeInfo").modal("hide");
             
             makeTableColumnsResizable("addHawalaTable")
@@ -781,6 +787,7 @@ function addEditVagheNaghd() {
             </tr>`);
 
             rowCount=$("#addedDaryaftListBody tr").length;
+            enableOrdisabelBtn()
             $("#daryafAddHawalaInfoModal").modal("hide");
 
             // empty the input fields
@@ -903,6 +910,7 @@ function addEditVagheNaghd() {
                     <td class="d-none"> <input type="text" value="0" name="NameSabtShode${rowCount}"> </td>
                 </tr>`);
                 rowCount=$("#addedDaryaftListBody tr").length;
+                enableOrdisabelBtn()
         $("#daryaftAddTakhfifModal").modal("hide");
         $("#takhfifMoneyDar").val('');
         $("#discriptionTakhfifDar").val('');
@@ -3840,3 +3848,11 @@ if(inputSearchCustomerName){
     })
 }
   
+function enableOrdisabelBtn(){
+    const rowLength = $("#addedDaryaftListBody tr").length;
+    let tarafHesab = $("#customerNameDaryaft").val();
+    console.log(rowLength, tarafHesab)
+    if(rowLength && tarafHesab){
+       $("#addDaryaftSaveBtn").prop("disabled", false);
+    }
+}
